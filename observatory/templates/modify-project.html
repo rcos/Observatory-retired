@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Modify a Project</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="/dashboard/update/{{ project.id }}" method="post">
+    {% csrf_token %}
+    
+    <p>
+        <label for="id_title">Project Title</label>
+        <input type="text" id="id_title" name="title" value="{{ project.title }}" />
+    </p>
+    
+    <input type="submit" value="Save" />
+</form>
+{% endblock %}

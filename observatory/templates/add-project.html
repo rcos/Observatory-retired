@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Add a Project</h2>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="/dashboard/create" method="post">
+    {% csrf_token %}
+    
+    {{ form.as_p }}
+    
+    <!-- Custom Form Fields for Blog/Repo -->
+    <p>
+        <label for="id_blog">Blog Address:</label>
+        <input id="id_blog" type="text" name="blog" maxlength="64" />
+    </p>
+    <p>
+        <label for="id_repo">Repository:</label>
+        <input id="id_repo" type="text" name="repo" maxlength="64" />
+    </p>
+    
+    <input type="submit" value="Save" />
+</form>
+{% endblock %}
