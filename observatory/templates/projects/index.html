@@ -10,19 +10,24 @@
             <h3><a href="{% url dashboard.views.projects.show project.id %}">
                 {{ project.title }}
             </a></h3>
+            <ul>
             {% if project.website %}
-                <a href="{{ project.website|urlencode }}">Website</a>
+                <li><a href="{{ project.website|urlencode }}">Website</a></li>
             {% endif %}
             {% if project.blog.url %}
-                <a href="{{ project.blog.url|urlencode }}">Blog</a>
+                <li><a href="{{ project.blog.url|urlencode }}">Blog</a></li>
             {% endif %}
             {% if project.repository.url %}
-                <a href="{{ project.repository.url|urlencode }}">Repository</a>
+                <li><a href="{{ project.repository.url|urlencode }}">
+                    Repository
+                </a></li>
             {% endif %}
             {% if user in project.authors.all %}
+                <li>
                 <a href="{% url dashboard.views.projects.modify project.id %}">
                     Modify
                 </a>
+                </li>
             {% endif %}
         </div>
         {% endfor %}
