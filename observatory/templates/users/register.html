@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="{% url dashboard.users.create %}" method="post">
+    {% csrf_token %}
+    
+    <div style="display:none">
+        <!-- The next page to go to (by default the home page) -->
+        <input type="hidden" name="next" value="{{ next }}">
+    </div>
+    
+    <p>
+        <label for="id_email">Email Address</label>
+        <input type="text" id="id_email" name="email" />
+    </p>
+    
+    <p>
+        <label for="id_first">First Name</label>
+        <input type="text" id="id_first" name="first" />
+    </p>
+    
+    <p>
+        <label for="id_last">Last Name</label>
+        <input type="text" id="id_last" name="last" />
+    </p>
+    
+    <p>
+        <label for="id_password">Password</label>
+        <input type="password" id="id_confirm" name="password"  />
+    </p>
+    
+    <p>
+        <label for="id_password_confirm">Confirm Password</label>
+        <input type="password" id="id_password_confirm" name="password_confirm" />
+    </p>
+    
+    <input type="submit" value="Register" />
+</form>
+
+{% endblock %}

@@ -1,11 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="style.css" />
+    <style>
+    label {
+        display: block;
+    }
+    </style>
     <title>{% block title %}Dashboard{% endblock %}</title>
 </head>
 <body>
-    <h1>Dashboard</h1>
+    <div id="top">
+        <h1><a href="{% url dashboard.views.index %}">Dashboard</a></h1>
+        <ul>
+            {% if user.is_authenticated %}
+                <li>{{ user.first_name }} {{ user.last_name }}</li>
+                <li><a href="{% url dashboard.users.logout %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url dashboard.users.login %}">Login</a></li>
+                <li><a href="{% url dashboard.users.register %}">Register</a></li>
+            {% endif %}
+            <li><a href="{% url dashboard.views.list_projects %}">Projects</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url dashboard.views.add_project %}">Add a Project</a></li>
+            {% endif %}
+        </ul>
+    </div>
     <div id="content">
         {% block content %}{% endblock %}
     </div>
