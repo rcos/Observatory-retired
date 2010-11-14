@@ -4,6 +4,28 @@
 
 {% block content %}
 <h2>{{ project.title }}</h2>
+
+<ul>
+    {% if project.website %}
+        <li><a href="{{ project.website }}">Website</a></li>
+    {% endif %}
+    {% if project.blog.url %}
+        <li><a href="{{ project.blog.url }}">Blog</a></li>
+    {% endif %}
+    {% if project.repository.url %}
+        <li><a href="{{ project.repository.url }}">
+            Repository
+        </a></li>
+    {% endif %}
+    {% if user in project.authors.all %}
+        <li>
+        <a href="{% url dashboard.views.projects.modify project.id %}">
+            Modify
+        </a>
+        </li>
+    {% endif %}
+</ul>
+
 <p id="project-description">
     {{ project.description }}
 </p>
