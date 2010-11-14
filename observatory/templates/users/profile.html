@@ -5,6 +5,8 @@
 {% block content %}
 <h2>{{ user.get_full_name }}</h2>
 
+<img src="{{ gravatar }}" alt="{{ user.get_full_name }}" />
+
 {% if user.project_set.all %}
 <h3>Projects</h3>
 <ul>
