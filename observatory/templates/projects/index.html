@@ -12,13 +12,13 @@
             </a></h3>
             <ul>
             {% if project.website %}
-                <li><a href="{{ project.website|urlencode }}">Website</a></li>
+                <li><a href="{{ project.website }}">Website</a></li>
             {% endif %}
             {% if project.blog.url %}
-                <li><a href="{{ project.blog.url|urlencode }}">Blog</a></li>
+                <li><a href="{{ project.blog.url }}">Blog</a></li>
             {% endif %}
             {% if project.repository.url %}
-                <li><a href="{{ project.repository.url|urlencode }}">
+                <li><a href="{{ project.repository.url }}">
                     Repository
                 </a></li>
             {% endif %}
