@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard • Posts{% endblock %}
+
+{% block content %}
+{% if posts %}
+    {% autoescape off %}
+    <div id="posts-list">
+        {% for post in posts %}
+        <div class="post" id="post-{{ post.id }}">
+            <h3><a href="{% url dashboard.views.blogs.show_post post.id %}">
+                {{ post.title }}
+            </a></h3>
+            
+            <a href=
+                "{% url dashboard.views.projects.show post.blog.project.id %}">
+                {{ post.blog.project.title }}
+            </a>
+            
+            <div class="post-date">{{ post.date }}</div>
+            {{ post.summary }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endautoescape %}
+{% else %}
+    <h2>No posts found.</h2>
+{% endif %}
+{% endblock %}

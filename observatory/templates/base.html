@@ -35,11 +35,14 @@
                     </a>
                 </li>
             {% endif %}
-                <li>
-                    <a href="{% url dashboard.views.projects.list %}">
-                        Projects
-                    </a>
-                </li>
+            <li>
+                <a href="{% url dashboard.views.projects.list %}">
+                    Projects
+                </a>
+            </li>
+            <li>
+                <a href="{% url dashboard.views.blogs.posts %}">Posts</a>
+            </li>
             {% if user.is_authenticated %}
                 <li>
                     <a href="{% url dashboard.views.projects.add %}">

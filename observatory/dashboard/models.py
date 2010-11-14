@@ -12,13 +12,34 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
+from lib import feedparser, dateutil
 
 # a blog for a project
 class Blog(models.Model):
   url = models.URLField(max_length = 64)
   rss = models.URLField("Blog RSS Feed", max_length = 64)
+  
+  # fetches the posts from the rss feed, also saves the Blog to ensure it has
+  # a key before attempting to add BlogPosts to it
+  def fetch(self):
+    self.save()
+    
+    # parse and iterate the feed
+    for post in feedparser.parse(self.rss).entries:
+      # time manipation is fun
+      date = dateutil.parser.parse(post.date)
+      date = (date - date.utcoffset()).replace(tzinfo=None)
+      
+      post = BlogPost(title = post.title,
+                      content = post.description,
+                      summary = post.description,
+                      date = date)
+      post.blog = self
+      post.save()
+    self.save()
   
 # a post in a blog
 class BlogPost(models.Model):

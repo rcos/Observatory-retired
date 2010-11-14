@@ -14,6 +14,10 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     (r'^admin', include(admin.site.urls)),
     
+    # blog posts
+    (r'^post/(\d+)', 'dashboard.views.blogs.show_post'),
+    (r'^posts', 'dashboard.views.blogs.posts'),
+    
     # users
     (r'^register', 'dashboard.views.users.register'),
     (r'^login', 'dashboard.views.users.login'),
@@ -24,7 +28,8 @@ urlpatterns = patterns('',
     
     # projects
     (r'^projects/(\d+)/add-user/(\d+)', 'dashboard.views.projects.add_user'),
-    (r'^projects/(\d+)/remove-user/(\d+)', 'dashboard.views.projects.remove_user'),
+    (r'^projects/(\d+)/remove-user/(\d+)',
+      'dashboard.views.projects.remove_user'),
     (r'^projects/add', 'dashboard.views.projects.add'),
     (r'^projects/create', 'dashboard.views.projects.create'),
     (r'^projects/modify/(\d+)', 'dashboard.views.projects.modify'),

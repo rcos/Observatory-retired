@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard • {{ post.title }}{% endblock %}
+
+{% block content %}
+{% autoescape off %}
+<h2>{{ post.title }}</h2>
+{{ post.content }}
+{% endautoescape %}
+{% endblock %}

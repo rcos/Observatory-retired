@@ -75,7 +75,7 @@ def create(request):
   # create the blog object
   blog = Blog(url = request.POST['blog'],
               rss = blog_rss)
-  blog.save()
+  blog.fetch()
   
   # create the repo object
   repo = Repository(url = request.POST['repository'],

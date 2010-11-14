@@ -54,4 +54,16 @@
     </a>
 {% endif %}
 
+{% if project.blog.blogpost_set.all %}
+    <h3>Blog Posts</h3>
+    <ul>
+        {% for post in project.blog.blogpost_set.all %}
+        <li>
+            <a href="{% url dashboard.views.blogs.show_post post.id %}">
+                {% autoescape off %}{{ post.title }}{% endautoescape %}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endif %}
 {%  endblock %}
