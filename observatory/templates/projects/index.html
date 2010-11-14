@@ -7,7 +7,9 @@
     <div id="projects-list">
         {% for project in projects %}
         <div class="project" id="project-{{ project.id }}">
-            <h3><a href="{% url dashboard.views.projects.show project.id %}">{{ project.title }}</a></h3>
+            <h3><a href="{% url dashboard.views.projects.show project.id %}">
+                {{ project.title }}
+            </a></h3>
             {% if project.website %}
                 <a href="{{ project.website|urlencode }}">Website</a>
             {% endif %}
@@ -16,6 +18,11 @@
             {% endif %}
             {% if project.repository.url %}
                 <a href="{{ project.repository.url|urlencode }}">Repository</a>
+            {% endif %}
+            {% if user in project.authors.all %}
+                <a href="{% url dashboard.views.projects.modify project.id %}">
+                    Modify
+                </a>
             {% endif %}
         </div>
         {% endfor %}

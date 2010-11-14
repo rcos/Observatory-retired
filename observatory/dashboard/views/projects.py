@@ -48,6 +48,12 @@ def add(request):
 def modify(request, project_id):
   project = get_object_or_404(Project, id = int(project_id))
   
+  # if someone tries to edit a project they shouldn't, send them to the
+  # the default project view page
+  if request.user not in project.authors.all():
+    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+                                        args = (project.id,)))
+  
   return render_to_response('projects/modify.html', {
     'project': project,
     'form': ProjectForm(project)
@@ -90,6 +96,12 @@ def create(request):
 @login_required
 def update(request, project_id):
   project = get_object_or_404(Project, id = int(project_id))
+  
+  # if someone tries to edit a project they shouldn't, send them to the
+  # the default project view page
+  if request.user not in project.authors.all():
+    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+                                        args = (project.id,)))
   
   # update the project
   project.title = request.POST['title']

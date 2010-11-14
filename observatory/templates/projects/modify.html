@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
+{% block title %}Dashboard • Modifying {{ project.title }}{% endblock %}
+
 {% block content %}
-<h1>Modify a Project</h1>
+<h1>Modifying {{ project.title }}</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 

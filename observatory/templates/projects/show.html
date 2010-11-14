@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}Dashboard • {{ project.title }}{% endblock %}
+
 {% block content %}
 <h2>{{ project.title }}</h2>
 <p id="project-description">
@@ -12,7 +14,7 @@
     {% for author in project.authors.all %}
         <li>
             <a href="{% url dashboard.views.users.profile author.id %}">
-                {{ author.first_name }} {{ author.last_name }}
+                {{ author.get_full_name }}
             </a>
         </li>
     {% endfor %}

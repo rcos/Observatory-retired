@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
+{% block title %}Dashboard • {{ user.get_full_name }}{% endblock %}
+
 {% block content %}
-<h2>{{ user.first_name }} {{ user.last_name }}</h2>
+<h2>{{ user.get_full_name }}</h2>
 
 {% if user.project_set.all %}
 <h3>Projects</h3>
