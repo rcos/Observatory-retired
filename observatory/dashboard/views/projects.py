@@ -20,7 +20,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from dashboard.models import Blog, Project, Repository
 from dashboard.forms import ProjectForm
-from dashboard.util import find_rss
+from dashboard.util import find_feeds
 
 # index and list are temporarily the same
 def index(request):
@@ -64,18 +64,22 @@ def modify(request, project_id):
 # saves a new project and redirects to its information page
 @login_required
 def create(request):
-  # attempt to find the project's blog rss feed
-  blog_rss = find_rss(request.POST['blog'])
+  # find the RSS feeds
+  response, blog_rss, repo_rss = find_feeds(request,
+                                            'dashboard.views.projects.create')
   
-  # attempt to find the project's repo rss feed
-  repo_rss = find_rss(request.POST['repository'])
+  # if a response was created, return it
+  if response is not None:
+    return response
   
   # create the blog object
-  blog = Blog(url = request.POST['blog'])
+  blog = Blog(url = request.POST['blog'],
+              rss = blog_rss)
   blog.save()
   
   # create the repo object
-  repo = Repository(url = request.POST['repository'])
+  repo = Repository(url = request.POST['repository'],
+                    rss = repo_rss)
   repo.save()
   
   # create the project object
@@ -110,6 +114,15 @@ def update(request, project_id):
   if request.user not in project.authors.all():
     return HttpResponseRedirect(reverse('dashboard.views.projects.show',
                                         args = (project.id,)))
+  
+  # find the RSS feeds
+  response, blog_rss, repo_rss = find_feeds(request,
+                                            'dashboard.views.projects.update',
+                                            args = (project.id,))
+
+  # if a response was created, return it
+  if response is not None:
+    return response
   
   # update the project
   project.title = request.POST['title']

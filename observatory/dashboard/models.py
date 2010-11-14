@@ -40,6 +40,9 @@ class Repository(models.Model):
   # version control
   url = models.URLField("Source URL", max_length = 64)
   checkout = models.URLField("Source Checkout URL", max_length = 64)
+  
+  # rss feed (for now, won't work with branches so fundamentally broken)
+  rss = models.URLField("Repository RSS Feed", max_length = 64)
 
 # a commit in a repository
 class Commit(models.Model):
@@ -73,18 +76,13 @@ class Project(models.Model):
   blog = models.OneToOneField(Blog)
   
   # wiki
-  wiki = models.CharField(max_length = 64)
+  wiki = models.URLField(max_length = 64)
   
   # authors of the project
   authors = models.ManyToManyField(User)
   
   # if the project is currently active
   active = models.BooleanField("Currently Active")
-  
-  # updates the project
-  def update():
-    repository.update()
-    blog.update()
   
   # string representation of the project
   def __unicode__(self):

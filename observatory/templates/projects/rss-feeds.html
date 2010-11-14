@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard • Feeds for {{ post.title }}{% endblock %}
+
+{% block content %}
+{% if single %}
+    {% if repo_rss %}
+        <h2>We couldn't find your blog feed.</h2>
+    {% else %}
+        <h2>We couldn't find your repository feed.</h2>
+    {% endif %}
+{% else %}
+    <h2>We couldn't find your feeds.</h2>
+{% endif %}
+
+<form action="{{ next }}" method="post">
+    {% csrf_token %}
+    
+    <div style="display:none">
+        <input type="hidden" id="id_title"
+            name="title" value="{{ post.title }}" />
+        <input type="hidden" id="id_description"
+            name="description"value="{{ post.description }}" />
+        <input type="hidden" id="id_website"
+            name="website" value="{{ post.website }}" />
+        <input type="hidden" id="id_repository"
+            name="repository" value="{{ post.repository }}" />
+        <input type="hidden" id="id_blog"
+            name="blog" value="{{ post.blog }}" />
+        <input type="hidden" id="id_wiki"
+            name="wiki" value="{{ post.wiki }}" />
+        {% if 'active' in post %}
+            <input type="hidden" id="id_active"
+                name="active" value="active" />
+        {% endif %}
+    </div>
+    
+    {% if blog_rss %}
+        <div style="display:none">
+            <input type="hidden" id="id_repo_rss"
+                name="repo_rss" value="{{ repo_rss }}" />
+        </div>
+    {% else %}
+        <p>
+            {% if not single %}
+                <label for="id_blog_rss">Blog Feed</label>
+            {% endif %}
+            <input type="text" id="id_blog_rss" name="blog_rss" value="" />
+        </p>
+    {% endif %}
+    
+    {% if repo_rss %}
+        <div style="display:none">
+            <input type="hidden" id="id_repo_rss"
+                name="repo_rss" value="{{ repo_rss }}" />
+        </div>
+    {% else %}
+        <p>
+            {% if not single %}
+                <label for="id_blog_rss">Repository Feed</label>
+            {% endif %}
+            <input type="text" id="id_repo_rss" name="repo_rss" value="" />
+        </p>
+    {% endif %}
+    
+    <input type="submit" value="Save" />
+</form>
+{% endblock %}

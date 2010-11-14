@@ -13,6 +13,9 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 from collections import defaultdict
+from django.core.urlresolvers import reverse
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 from hashlib import md5
 from HTMLParser import HTMLParser
 from urllib import urlopen
@@ -25,16 +28,45 @@ def gravatar(user, size):
   url = 'http://www.gravatar.com/avatar/{0}?d=retro&r=pg&s={1}'
   return url.format(hash, size)
 
-def find_rss(url):
-  # try to find an rss feed
-  try:
-    return RSSFinder().find(urlopen(url).read())
-    
-  # alright, this is a silent failure. is it good to show potentially complex
-  # error message to the user or is it better to just say "hey, we can't find
-  # your feed, can you just give it to us literally?"
-  except:
-    return None
+# finds the feeds for blog and repo, or make the user input them
+def find_feeds(request, next, args = None):
+  def find_rss(url):
+    # try to find an rss feed
+    try:
+      return RSSFinder().find(urlopen(url).read())
+
+    # alright, this is a silent failure. is it good to show potentially complex
+    # error message to the user or is it better to just say "hey, we can't find
+    # your feed, can you just give it to us?"
+    except:
+      return None
+  
+  # if the user manually entered the blog feed, use that URL
+  if 'blog_rss' in request.POST:
+    blog_rss = request.POST['blog_rss']
+  else:
+    # attempt to find the project's blog rss feed
+    blog_rss = find_rss(request.POST['blog'])
+  
+  # if the user manually entered the repo feed, use that URL
+  if 'repo_rss' in request.POST:
+    repo_rss = request.POST['repo_rss']
+  else:
+    # attempt to find the project's repo rss feed
+    repo_rss = find_rss(request.POST['repository'])
+  
+  # if the automatic finding didn't work, require the user to input the feeds
+  if repo_rss is None or blog_rss is None:
+    return render_to_response('projects/rss-feeds.html', {
+        'post': request.POST,
+        'repo_rss': repo_rss,
+        'blog_rss': blog_rss,
+        'next': reverse(next, args = args),
+        'single': not (repo_rss is None and blog_rss is None)
+      }, context_instance = RequestContext(request)), blog_rss, repo_rss;
+  
+  # otherwise, return None and the located feeds
+  return None, blog_rss, repo_rss
 
 # an HTMLParser subclass for locating RSS feeds in HTML files
 class RSSFinder(HTMLParser):
