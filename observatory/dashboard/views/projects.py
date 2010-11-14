@@ -13,12 +13,14 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from dashboard.models import Blog, Project, Repository
 from dashboard.forms import ProjectForm
+from dashboard.util import find_rss
 
 # index and list are temporarily the same
 def index(request):
@@ -62,6 +64,12 @@ def modify(request, project_id):
 # saves a new project and redirects to its information page
 @login_required
 def create(request):
+  # attempt to find the project's blog rss feed
+  blog_rss = find_rss(request.POST['blog'])
+  
+  # attempt to find the project's repo rss feed
+  repo_rss = find_rss(request.POST['repository'])
+  
   # create the blog object
   blog = Blog(url = request.POST['blog'])
   blog.save()
@@ -119,3 +127,49 @@ def update(request, project_id):
   
   return HttpResponseRedirect(reverse('dashboard.views.projects.show',
                                       args = (project.id,)))
+
+# adds a user as an author of a project
+def add_user(request, project_id, user_id):
+  # don't let people add other users
+  if int(request.user.id) is not int(user_id):
+    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+                                        args = project_id))
+  
+  # get the project and user
+  project = get_object_or_404(Project, id = int(project_id))
+  user = get_object_or_404(User, id = int(user_id))
+  
+  # add the user to the project
+  if user not in project.authors.all():
+    project.authors.add(user)
+  
+  # save
+  project.save()
+  
+  # redirect back to the show page
+  return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+                                      args = project_id))
+
+# removes a user as an author of a project
+def remove_user(request, project_id, user_id):
+  # don't let people delete other users
+  if int(request.user.id) is not int(user_id):
+    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+                                        args = project_id))
+  
+  # get the project and user
+  project = get_object_or_404(Project, id = int(project_id))
+  user = get_object_or_404(User, id = int(user_id))
+  
+  # removes the user from the project
+  if user in project.authors.all():
+    project.authors.remove(user)
+  
+  # save
+  project.save()
+  
+  # redirect back to the show page
+  return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+                                      args = project_id))
+  """docstring for delete_user"""
+  pass

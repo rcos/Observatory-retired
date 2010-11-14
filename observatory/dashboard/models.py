@@ -81,6 +81,11 @@ class Project(models.Model):
   # if the project is currently active
   active = models.BooleanField("Currently Active")
   
+  # updates the project
+  def update():
+    repository.update()
+    blog.update()
+  
   # string representation of the project
   def __unicode__(self):
     return self.title
