@@ -18,8 +18,9 @@ urlpatterns = patterns('',
     (r'^register', 'dashboard.views.users.register'),
     (r'^login', 'dashboard.views.users.login'),
     (r'^logout', 'dashboard.views.users.logout'),
-    (r'^users/create', 'dashboard.views.users.create'),
-    (r'^users/authenticate', 'dashboard.views.users.authenticate'),
+    (r'^user/create', 'dashboard.views.users.create'),
+    (r'^user/authenticate', 'dashboard.views.users.authenticate'),
+    (r'^user/(\d+)', 'dashboard.views.users.profile'),
     
     # projects
     (r'^projects/add', 'dashboard.views.projects.add'),

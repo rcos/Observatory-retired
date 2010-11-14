@@ -5,9 +5,19 @@
 <p id="project-description">
     {{ project.description }}
 </p>
+
+{% if project.authors.all %}
+<h3>Authors</h3>
 <ul>
     {% for author in project.authors.all %}
-        <li>{{ author.first_name }} {{ author.last_name }}</li>
+        <li>
+            <a href="{% url dashboard.views.users.profile author.id %}">
+                {{ author.first_name }} {{ author.last_name }}
+            </a>
+        </li>
     {% endfor %}
 </ul>
+{% else %}
+    <h3>No authors.</h3>
+{% endif %}
 {%  endblock %}

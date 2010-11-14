@@ -19,6 +19,12 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 
+# display's the user's profile
+def profile(request, user_id):
+  return render_to_response('users/profile.html', {
+      'user': get_object_or_404(User, id = int(user_id))
+    })
+
 # displays a registration form
 def register(request):
   return render_to_response('users/register.html', {
