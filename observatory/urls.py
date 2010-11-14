@@ -15,21 +15,20 @@ urlpatterns = patterns('',
     (r'^admin', include(admin.site.urls)),
     
     # users
-    (r'^register', 'dashboard.users.register'),
-    (r'^login', 'dashboard.users.login'),
-    (r'^logout', 'dashboard.users.logout'),
-    (r'^users/create', 'dashboard.users.create'),
-    (r'^users/authenticate', 'dashboard.users.authenticate'),
-    
+    (r'^register', 'dashboard.views.users.register'),
+    (r'^login', 'dashboard.views.users.login'),
+    (r'^logout', 'dashboard.views.users.logout'),
+    (r'^users/create', 'dashboard.views.users.create'),
+    (r'^users/authenticate', 'dashboard.views.users.authenticate'),
     
     # projects
-    (r'^projects/add', 'dashboard.views.add_project'),
-    (r'^projects/create', 'dashboard.views.create_project'),
-    (r'^projects/modify/(\d+)', 'dashboard.views.modify_project'),
-    (r'^projects/update/(\d+)', 'dashboard.views.update_project'),
-    (r'^projects/(\d+)', 'dashboard.views.show_project'),
-    (r'^projects/list', 'dashboard.views.list_projects'),
+    (r'^projects/add', 'dashboard.views.projects.add'),
+    (r'^projects/create', 'dashboard.views.projects.create'),
+    (r'^projects/modify/(\d+)', 'dashboard.views.projects.modify'),
+    (r'^projects/update/(\d+)', 'dashboard.views.projects.update'),
+    (r'^projects/(\d+)', 'dashboard.views.projects.show'),
+    (r'^projects/list', 'dashboard.views.projects.list'),
     
     # default to showing the dashboard view (for now)
-    (r'', 'dashboard.views.index')
+    (r'', 'dashboard.views.projects.index')
 )

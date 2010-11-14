@@ -7,7 +7,7 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url dashboard.views.create_project %}" method="post">
+<form action="{% url dashboard.views.projects.create %}" method="post">
     {% csrf_token %}
     
     <p>

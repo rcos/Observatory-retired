@@ -5,4 +5,9 @@
 <p id="project-description">
     {{ project.description }}
 </p>
+<ul>
+    {% for author in project.authors.all %}
+        <li>{{ author.first_name }} {{ author.last_name }}</li>
+    {% endfor %}
+</ul>
 {%  endblock %}

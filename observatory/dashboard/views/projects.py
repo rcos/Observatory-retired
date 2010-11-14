@@ -22,30 +22,30 @@ from dashboard.forms import ProjectForm
 
 # index and list are temporarily the same
 def index(request):
-  return list_projects(request)
+  return list(request)
 
 # the classic "dashboard" view, with rankings
-def list_projects(request):
+def list(request):
   return render_to_response('projects/index.html', {
       'projects': Project.objects.all()
     }, context_instance = RequestContext(request))
 
 # information about a specific project
-def show_project(request, project_id):
+def show(request, project_id):
   return render_to_response('projects/show.html', {
       'project': get_object_or_404(Project, id = int(project_id))
     }, context_instance = RequestContext(request))
 
 # a view for adding a new project
 @login_required
-def add_project(request):  
+def add(request):  
   return render_to_response('projects/add.html', {
     'form': ProjectForm()
   }, context_instance = RequestContext(request))
 
 # a view for modifying an existing project
 @login_required
-def modify_project(request, project_id):
+def modify(request, project_id):
   project = get_object_or_404(Project, id = int(project_id))
   
   return render_to_response('projects/modify.html', {
@@ -55,7 +55,7 @@ def modify_project(request, project_id):
 
 # saves a new project and redirects to its information page
 @login_required
-def create_project(request):
+def create(request):
   # create the blog object
   blog = Blog(url = request.POST['blog'])
   blog.save()
@@ -72,15 +72,23 @@ def create_project(request):
                     description = request.POST['description'],
                     repository_id = repo.id,
                     blog_id = blog.id)
+  
+  # get the project a primary key
+  project.save()
+  
+  # associate the current user with the project as an author
+  project.authors.add(request.user)
+  
+  # save the project again
   project.save()
   
   # redirect to the show page for the new project
-  return HttpResponseRedirect(reverse('dashboard.views.show_project',
+  return HttpResponseRedirect(reverse('dashboard.views.projects.show',
                                       args = (project.id,)))
 
 # saves an existing project and redirects to its information page
 @login_required
-def update_project(request, project_id):
+def update(request, project_id):
   project = get_object_or_404(Project, id = int(project_id))
   
   # update the project
@@ -97,5 +105,5 @@ def update_project(request, project_id):
   project.blog.save()
   project.repository.save()
   
-  return HttpResponseRedirect(reverse('dashboard.views.show_project',
+  return HttpResponseRedirect(reverse('dashboard.views.projects.show',
                                       args = (project.id,)))

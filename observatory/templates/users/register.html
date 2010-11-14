@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form action="{% url dashboard.users.create %}" method="post">
+<form action="{% url dashboard.views.users.create %}" method="post">
     {% csrf_token %}
     
     <div style="display:none">
