@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     (r'^admin', include(admin.site.urls)),
     
     # blog posts
+    (r'^posts/page/(\d+)', 'dashboard.views.blogs.posts_page'),
     (r'^post/(\d+)', 'dashboard.views.blogs.show_post'),
     (r'^posts', 'dashboard.views.blogs.posts'),
     

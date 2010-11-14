@@ -3,10 +3,10 @@
 {% block title %}Dashboard • Posts{% endblock %}
 
 {% block content %}
-{% if posts %}
+{% if page %}
     {% autoescape off %}
     <div id="posts-list">
-        {% for post in posts %}
+        {% for post in page.object_list %}
         <div class="post" id="post-{{ post.id }}">
             <h3><a href="{% url dashboard.views.blogs.show_post post.id %}">
                 {{ post.title }}
@@ -23,6 +23,21 @@
         {% endfor %}
     </div>
     {% endautoescape %}
+    
+    <div id="pagination-buttons">
+        {% if page.has_previous %}
+            <a id="pagination-previous"
+               href="{% url dashboard.views.blogs.posts_page page.previous_page_number %}">
+                Previous Page
+            </a>
+        {% endif %}
+        
+        {% if page.has_next %}
+            <a id="pagination-next"
+               href="{% url dashboard.views.blogs.posts_page page.next_page_number %}">
+                Next Page
+            </a>
+        {% endif %}
 {% else %}
     <h2>No posts found.</h2>
 {% endif %}
