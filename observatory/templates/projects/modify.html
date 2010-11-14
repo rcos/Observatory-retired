@@ -7,40 +7,48 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url dashboard.views.projects.update project.id %}" method="post">
+<form action="{% url dashboard.views.projects.update project.id %}"
+    method="post">
     {% csrf_token %}
     
     <p>
         <label for="id_title">Project Title</label>
-        <input type="text" id="id_title" name="title" value="{{ project.title }}" />
+        <input type="text" id="id_title" name="title"
+            value="{{ project.title }}" />
     </p>
     
     <p>
         <label for="id_description">Description</label>
-        <textarea id="id_description" rows="10" cols="40" name="description">{{ project.description }}</textarea>
+        <textarea id="id_description" rows="10" cols="40"
+            name="description">{{ project.description }}</textarea>
     <p>
         <label for="id_website">Website</label>
-        <input type="text" id="id_website" name="website" value="{{ project.website }}" />
+        <input type="text" id="id_website" name="website"
+            value="{{ project.website }}" />
     </p>
     
     <p>
         <label for="id_repository">Repository</label>
-        <input type="text" id="id_repository" name="repository" value="{{ project.repository.url }}" />
+        <input type="text" id="id_repository" name="repository"
+            value="{{ project.repository.url }}" />
     </p>
     
     <p>
         <label for="id_blog">Blog</label>
-        <input type="text" id="id_blog" name="blog" value="{{ project.blog.url }}" />
+        <input type="text" id="id_blog" name="blog"
+            value="{{ project.blog.url }}" />
     </p>
     
     <p>
         <label for="id_wiki">Wiki</label>
-        <input type="text" id="id_wiki" name="wiki" value="{{ project.wiki }}" />
+        <input type="text" id="id_wiki" name="wiki"
+            value="{{ project.wiki }}" />
     </p>
     
     <p>
         <label for="id_active">Active</label>
-        <input type="checkbox" id="id_active" name="active" value="{{ project.active }}" />
+        <input type="checkbox" id="id_active" name="active"
+            value="{{ project.active }}" />
     </p>
     
     <input type="submit" value="Save" />
