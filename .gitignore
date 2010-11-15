@@ -1,3 +1,4 @@
 *.pyc
 *.sqlite
 *.DS_Store
+*.psd

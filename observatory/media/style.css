@@ -231,3 +231,63 @@ input:focus, textarea:focus {
     float: right;
     width: 360px;
 }
+
+/* Pagination buttons */
+.pagination-buttons {
+	padding: 20px 0px;
+}
+
+.pagination-buttons a, input[type='submit'] {
+	text-decoration: none;
+	font-size: 13pt;
+	line-height: 40px;
+	color: #444;
+	font-weight: bold;
+	height: 40px;
+	
+	border: 1px solid #aaa;
+	padding: 0px 15px;
+	margin: 0px;
+	
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+	background: url('/site-media/pixels/button-nohover.gif') repeat-x;
+	background-color: rgb(140, 140, 140);
+	
+	-moz-box-shadow: 0px 0px 20px #ccc;
+    -webkit-box-shadow: 0px 0px 20px #ccc;
+    box-shadow: 0px 0px 20px #ccc;
+
+	-moz-text-shadow: 0px 1px 1px #fff;
+    -webkit-text-shadow: 0px 1px 1px #fff;
+    text-shadow: 0px 1px 1px #fff;
+}
+
+.pagination-buttons a:hover,input[type='submit']:hover {
+	background-image: url('/site-media/pixels/button-hover.gif');
+	color: rgb(51, 56, 80);
+	border-color: rgb(62, 92, 252);
+	
+	-moz-text-shadow: 0px 1px 1px rgb(163, 178, 255);
+    -webkit-text-shadow: 0px 1px 1px rgb(163, 178, 255);
+    text-shadow: 0px 1px 1px rgb(163, 178, 255);
+}
+
+.pagination-buttons a:active,input[type='submit']:active {
+	background-image: url('/site-media/pixels/button-active.gif');
+	color: black;
+	border-color: black;
+	
+	-moz-text-shadow: 0px 1px 1px #888;
+    -webkit-text-shadow: 0px 1px 1px #888;
+    text-shadow: 0px 1px 1px #888;
+}
+
+.pagination-previous {
+	float: left;
+}
+
+.pagination-next {
+	float: right;
+}

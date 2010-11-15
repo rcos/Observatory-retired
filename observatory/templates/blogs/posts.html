@@ -24,20 +24,22 @@
     </div>
     {% endautoescape %}
     
-    <div id="pagination-buttons">
+    <div class="pagination-buttons">
         {% if page.has_previous %}
-            <a id="pagination-previous"
+            <a class="pagination-previous"
                href="{% url dashboard.views.blogs.posts_page page.previous_page_number %}">
                 Previous Page
             </a>
         {% endif %}
         
         {% if page.has_next %}
-            <a id="pagination-next"
+            <a class="pagination-next"
                href="{% url dashboard.views.blogs.posts_page page.next_page_number %}">
                 Next Page
             </a>
         {% endif %}
+    </div>
+    <div style="clear:both"></div>
 {% else %}
     <h2>No posts found.</h2>
 {% endif %}
