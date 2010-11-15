@@ -43,6 +43,16 @@
         {% endfor %}
     </div>
 {% else %}
-    <h2>No projects found.</h2>
+    <h2 style="float:left">No projects found.</h2>
+    {% if user.is_authenticated %}
+    <ul class='project-info'>
+        <li>
+            <a href="{% url dashboard.views.projects.add %}">
+                Add a Project
+            </a>
+        </li>
+    </ul>
+    {% endif %}
+    <div style="clear:both"></div>
 {% endif %}
 {% endblock %}
