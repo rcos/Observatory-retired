@@ -8,9 +8,9 @@
     <div id="posts-list">
         {% for post in page.object_list %}
         <div class="post" id="post-{{ post.id }}">
-            <h3><a href="{% url dashboard.views.blogs.show_post post.id %}">
+            <h2><a href="{% url dashboard.views.blogs.show_post post.id %}">
                 {{ post.title }}
-            </a></h3>
+            </a></h2>
             
             <a href=
                 "{% url dashboard.views.projects.show post.blog.project.id %}">

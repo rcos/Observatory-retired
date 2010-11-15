@@ -3,23 +3,26 @@
 {% block title %}Dashboard • {{ user.get_full_name }}{% endblock %}
 
 {% block content %}
-<h2>{{ user.get_full_name }}</h2>
+<div id="profile-left">
+    <h2>{{ user.get_full_name }}</h2>
 
-<img src="{{ gravatar }}" alt="{{ user.get_full_name }}" />
+    {% if user.project_set.all %}
+    <h3>Projects</h3>
+    <ul>
+        {% for project in user.project_set.all %}
+            <li>
+                <a href="{% url dashboard.views.projects.show project.id %}">
+                    {{ project.title }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <h3>No Projects.</h3>
+    {% endif %}
+</div>
 
-{% if user.project_set.all %}
-<h3>Projects</h3>
-<ul>
-    {% for project in user.project_set.all %}
-        <li>
-            <a href="{% url dashboard.views.projects.show project.id %}">
-                {{ project.title }}
-            </a>
-        </li>
-    {% endfor %}
-</ul>
-{% else %}
-    <h3>No authors.</h3>
-{% endif %}
-
+<img src="{{ gravatar }}" alt="{{ user.get_full_name }}"
+    id="profile-gravatar" />
+<div style="clear:both">
 {%  endblock %}

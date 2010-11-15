@@ -3,9 +3,16 @@
 {% block title %}Dashboard • {{ project.title }}{% endblock %}
 
 {% block content %}
-<h2>{{ project.title }}</h2>
+<h2 style='float:left'>{{ project.title }}</h2>
 
-<ul>
+<ul class="project-info">
+    {% if user in project.authors.all %}
+        <li>
+            <a href="{% url dashboard.views.projects.modify project.id %}">
+                Modify
+            </a>
+        </li>
+    {% endif %}
     {% if project.website %}
         <li><a href="{{ project.website }}">Website</a></li>
     {% endif %}
@@ -16,13 +23,6 @@
         <li><a href="{{ project.repository.url }}">
             Repository
         </a></li>
-    {% endif %}
-    {% if user in project.authors.all %}
-        <li>
-        <a href="{% url dashboard.views.projects.modify project.id %}">
-            Modify
-        </a>
-        </li>
     {% endif %}
 </ul>
 
@@ -44,14 +44,16 @@
 {% else %}
     <h3>No authors.</h3>
 {% endif %}
-{% if user.is_authenticated and user not in project.authors.all %}
+{% if user.is_authenticated %}
+{% if user not in project.authors.all %}
     <a href="{% url dashboard.views.projects.add_user project.id user.id %}">
         I work on this!
     </a>
 {% else %}
-    <a href="{% url dashboard.views.projects.remove_user project.id user.id%}">
+    <a href="{% url dashboard.views.projects.remove_user project.id user.id %}">
         I'm not working on this anymore.
     </a>
+{% endif %}
 {% endif %}
 
 {% if project.blog.blogpost_set.all %}

@@ -3,7 +3,16 @@
 {% block content %}
 <!-- List the projects -->
 {% if projects %}
-    <h2>Projects</h2>
+    <h2 style='float: left'>Projects</h2>
+    {% if user.is_authenticated %}
+    <ul class='project-info'>
+        <li>
+            <a href="{% url dashboard.views.projects.add %}">
+                Add a Project
+            </a>
+        </li>
+    </ul>
+    {% endif %}
     <div id="projects-list">
         {% for project in projects %}
         <div class="project" id="project-{{ project.id }}">

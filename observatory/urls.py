@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+import settings
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -37,6 +38,10 @@ urlpatterns = patterns('',
     (r'^projects/update/(\d+)', 'dashboard.views.projects.update'),
     (r'^projects/(\d+)', 'dashboard.views.projects.show'),
     (r'^projects/list', 'dashboard.views.projects.list'),
+    
+    # serve media (for now)
+    (r'^site-media/(?P<path>.*)$', 'django.views.static.serve',
+        {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
     
     # default to showing the dashboard view (for now)
     (r'', 'dashboard.views.projects.index')
