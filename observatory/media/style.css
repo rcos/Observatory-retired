@@ -232,15 +232,10 @@ input:focus, textarea:focus {
     width: 360px;
 }
 
-/* Pagination buttons */
-.pagination-buttons {
-	padding: 20px 0px;
-}
-
-.pagination-buttons a, input[type='submit'] {
+/* stylish buttons, works for submit inputs and <a> tags */
+.button {
 	text-decoration: none;
 	font-size: 13pt;
-	line-height: 40px;
 	color: #444;
 	font-weight: bold;
 	height: 40px;
@@ -264,7 +259,11 @@ input:focus, textarea:focus {
     text-shadow: 0px 1px 1px #fff;
 }
 
-.pagination-buttons a:hover,input[type='submit']:hover {
+a.button {
+	line-height: 40px;
+}
+
+.button:hover {
 	background-image: url('/site-media/pixels/button-hover.gif');
 	color: rgb(51, 56, 80);
 	border-color: rgb(62, 92, 252);
@@ -274,7 +273,7 @@ input:focus, textarea:focus {
     text-shadow: 0px 1px 1px rgb(163, 178, 255);
 }
 
-.pagination-buttons a:active,input[type='submit']:active {
+.button:active {
 	background-image: url('/site-media/pixels/button-active.gif');
 	color: black;
 	border-color: black;
@@ -282,6 +281,11 @@ input:focus, textarea:focus {
 	-moz-text-shadow: 0px 1px 1px #888;
     -webkit-text-shadow: 0px 1px 1px #888;
     text-shadow: 0px 1px 1px #888;
+}
+
+/* Pagination buttons */
+.pagination-buttons {
+	padding: 20px 0px;
 }
 
 .pagination-previous {
