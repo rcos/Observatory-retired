@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     (r'^posts', 'dashboard.views.blogs.posts'),
     
     # users
+    (r'^register-or-login', 'dashboard.views.users.login_or_reg'),
     (r'^register', 'dashboard.views.users.register'),
     (r'^login', 'dashboard.views.users.login'),
     (r'^logout', 'dashboard.views.users.logout'),

@@ -34,11 +34,8 @@
                 </li>
                 {% else %}
                 <li>
-                    <a href="{% url dashboard.views.users.login %}">Login</a>
-                </li>
-                <li>
-                    <a href="{% url dashboard.views.users.register %}">
-                        Register
+                    <a href="{% url dashboard.views.users.login_or_reg %}">
+                        Register or Login
                     </a>
                 </li>
                 {% endif %}

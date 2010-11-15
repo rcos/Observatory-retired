@@ -29,6 +29,18 @@ def profile(request, user_id):
       'gravatar': gravatar(user, 200)
     })
 
+# displays both the login and registration forms. If there is an error with the
+# selected form, the user is redirected to a page with only that form.
+def login_or_reg(request):
+  next = reverse('dashboard.views.projects.index')
+  
+  if 'next' in request.GET:
+    next = request.GET['next']
+  
+  return render_to_response('users/login-register.html', {
+      'next': next
+    }, context_instance = RequestContext(request))
+
 # displays a registration form
 def register(request):
   return render_to_response('users/register.html', {
