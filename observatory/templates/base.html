@@ -43,6 +43,11 @@
         </div>
     </div>
     <div id="content">
+        {% if error_header %}
+            <div id='error-header'>
+                <h2>{{ error_header }}</h2>
+            </div>
+        {% endif %}
         {% block content %}{% endblock %}
     </div>
 </body>

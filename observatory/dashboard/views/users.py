@@ -44,7 +44,8 @@ def login_or_reg(request):
 # displays a registration form
 def register(request):
   return render_to_response('users/register.html', {
-      'next': reverse('dashboard.views.projects.index')
+      'next': reverse('dashboard.views.projects.index'),
+      'error_header': "Something isn't quite right."
     }, context_instance = RequestContext(request))
   
 # creates a user, submitted from register
@@ -75,7 +76,8 @@ def login(request):
     next = request.GET['next']
   
   return render_to_response('users/login.html', {
-      'next': next
+      'next': next,
+      'error_header': "Something isn't quite right."
     }, context_instance = RequestContext(request))
 
 # logins in a user, submitted from login

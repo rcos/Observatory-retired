@@ -100,6 +100,34 @@ body {
    color: black;
 }
 
+/* errors */
+#error-header {
+	background: url('/site-media/pixels/bad-news-bears.gif') repeat-x;
+	background-color: rgb(123, 21, 21);
+	margin: -20px -20px 0px -20px;
+	border-bottom: 1px solid white;
+	
+	-webkit-border-top-left-radius: 15px;
+	-webkit-border-top-right-radius: 15px;
+	-moz-border-radius-topleft: 15px;
+	-moz-border-radius-topright: 15px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+
+#error-header h2 {
+	font-size: 20pt;
+    margin: 0px;
+    color: rgb(66, 11, 11);
+	height: 70px;
+	padding: 0px 20px;
+	line-height: 70px;
+
+    -moz-text-shadow: 0px 1px 1px rgb(251, 104, 75);
+    -webkit-text-shadow: 0px 1px 1px rgb(251, 104, 75);
+    text-shadow: 0px 1px 1px rgb(251, 104, 75);
+}
+
 /* project buttons */
 ul.project-info {
     margin: 0px;
