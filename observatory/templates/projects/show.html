@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load gravatar %}
 
 {% block title %}Dashboard • {{ project.title }}{% endblock %}
 
@@ -27,38 +28,45 @@
 </ul>
 
 <p id="project-description">
-    {{ project.description }}
+    {{ project.description|linebreaks }}
 </p>
 
 {% if project.authors.all %}
-    <h3>Authors</h3>
-    <ul>
+    <h2 style="float: left">Authors</h2>
+    {% if user.is_authenticated %}
+    <div class="project-info">
+    {% if user not in project.authors.all %}
+        <a href="{% url dashboard.views.projects.add_user project.id user.id %}">
+            I work on this!
+        </a>
+    {% else %}
+        <a href="{% url dashboard.views.projects.remove_user project.id user.id %}">
+            I'm not working on this anymore
+        </a>
+    {% endif %}
+    </div>
+    {% endif %}
+    
+    <ul class="project-authors">
         {% for author in project.authors.all %}
             <li>
                 <a href="{% url dashboard.views.users.profile author.id %}">
-                    {{ author.get_full_name }}
+                    <div class="gloss-100"></div>
+                    <img src="{{ author|gravatar:100 }}"
+                         alt="{{ author.get_full_name }}" />
+                    <p>{{ author.get_full_name }}</p>
                 </a>
             </li>
         {% endfor %}
+        <div style="clear: both"></div>
     </ul>
 {% else %}
-    <h3>No authors.</h3>
-{% endif %}
-{% if user.is_authenticated %}
-{% if user not in project.authors.all %}
-    <a href="{% url dashboard.views.projects.add_user project.id user.id %}">
-        I work on this!
-    </a>
-{% else %}
-    <a href="{% url dashboard.views.projects.remove_user project.id user.id %}">
-        I'm not working on this anymore.
-    </a>
-{% endif %}
+    <h2>No current authors.</h2>
 {% endif %}
 
 {% if project.blog.blogpost_set.all %}
-    <h3>Blog Posts</h3>
-    <ul>
+    <h2>Blog Posts</h2>
+    <ul class="project-posts">
         {% for post in project.blog.blogpost_set.all %}
         <li>
             <a href="{% url dashboard.views.blogs.show_post post.id %}">

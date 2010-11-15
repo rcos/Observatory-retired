@@ -18,15 +18,11 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
-from dashboard.util import gravatar
 
 # display's the user's profile
 def profile(request, user_id):
-  user = get_object_or_404(User, id = int(user_id))
-  
   return render_to_response('users/profile.html', {
-      'user': user,
-      'gravatar': gravatar(user, 200)
+      'user': get_object_or_404(User, id = int(user_id))
     })
 
 # displays both the login and registration forms. If there is an error with the

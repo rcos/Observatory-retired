@@ -16,17 +16,8 @@ from collections import defaultdict
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from hashlib import md5
 from HTMLParser import HTMLParser
 from urllib import urlopen
-
-def gravatar(user, size):
-  # get an md5 hash of the user (with gravatar's parameters)
-  m = md5()
-  m.update(user.email.strip().lower())
-  hash = m.hexdigest()
-  url = 'http://www.gravatar.com/avatar/{0}?d=retro&r=pg&s={1}'
-  return url.format(hash, size)
 
 # finds the feeds for blog and repo, or make the user input them
 def find_feeds(request, next, args = None):

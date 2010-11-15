@@ -129,7 +129,7 @@ body {
 }
 
 /* project buttons */
-ul.project-info {
+.project-info {
     margin: 0px;
     font-size: 12pt;
     float: right;
@@ -142,17 +142,17 @@ ul.project-info {
     text-shadow: 0px 1px 1px #fff;
 }
 
-ul.project-info li {
+.project-info li {
     margin-left: 10px;
     float: left;
 }
 
-ul.project-info a {
+.project-info a {
     color: inherit;
     text-decoration: none;
 }
 
-ul.project-info a:hover {
+.project-info a:hover {
     color: black;
 }
 
@@ -161,9 +161,99 @@ ul.project-info a:hover {
     clear: both;
 }
 
+.project-authors {
+	list-style: none;
+	padding: 15px 20px;
+	margin: 0px -20px 30px -20px;
+	clear: both;
+	
+	background: url('/site-media/pixels/dark-bar-tiled.gif');
+	background-color: #333;
+	border-top: 1px solid #444;
+	border-bottom: 1px solid black;
+}
+
+.project-authors img {
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+
+	-moz-box-shadow: 0px 0px 20px #000;
+    -webkit-box-shadow: 0px 0px 20px #000;
+    box-shadow: 0px 0px 20px #000;
+}
+
+.gloss-100 {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	width: 100px;
+	height: 100px;
+	background-image: url('/site-media/pixels/gloss-100.png');
+	
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.project-authors p {
+	padding: 0px;
+	margin: 5px 0px 0px 0px;
+}
+
+.project-authors a {
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	color: #ddd;
+	
+	-moz-text-shadow: 0px -1px 1px #000;
+    -webkit-text-shadow: 0px -1px 1px #000;
+    text-shadow: 0px -1px 1px #000;
+}
+
+.project-authors a:hover {
+	color:#fff;
+}
+
+.project-authors li {
+	position: relative;
+	float: left;
+	margin-right: 20px;
+}
+
+.project-posts li {
+	margin-bottom: 3px;
+}
+
+.project-posts a {
+	font-size: 12pt;
+	text-decoration: none;
+	color: #333;
+}
+
+.project-posts a:hover {
+	color: #000;
+	text-decoration: underline;
+}
+
 /* project pages */
 #project-description {
     clear: both;
+}
+
+.project-gravatar {
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 0px 5px 20px #bbb;
+    -webkit-box-shadow: 0px 5px 20px #bbb;
+    box-shadow: 0px 5px 20px #bbb;
+}
+
+.project-author {
+	text-align: center;
 }
 
 /* user profiles */

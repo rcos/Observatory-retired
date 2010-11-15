@@ -33,14 +33,14 @@ def list(request):
     }, context_instance = RequestContext(request))
 
 # information about a specific project
-def show(request, project_id):
+def show(request, project_id):  
   return render_to_response('projects/show.html', {
       'project': get_object_or_404(Project, id = int(project_id))
     }, context_instance = RequestContext(request))
 
 # a view for adding a new project
 @login_required
-def add(request):  
+def add(request):
   return render_to_response('projects/add.html', {
     'form': ProjectForm()
   }, context_instance = RequestContext(request))
