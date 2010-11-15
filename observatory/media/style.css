@@ -203,6 +203,19 @@ input, textarea {
     border-radius: 5px;
 }
 
+.submitbutton {
+	width: auto;
+	text-align: center;
+	clear: both;
+}
+
+input[type='submit'] {
+	float: none;
+	margin: 0px;
+	width: auto;
+	padding: 5px;
+}
+
 input:focus, textarea:focus {
     outline: none;
     background: #fff;

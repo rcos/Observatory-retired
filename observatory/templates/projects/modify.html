@@ -3,7 +3,7 @@
 {% block title %}Dashboard • Modifying {{ project.title }}{% endblock %}
 
 {% block content %}
-<h1>Modifying {{ project.title }}</h1>
+<h2>Modifying {{ project.title }}</h2>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
@@ -57,6 +57,8 @@
         </p>
     </div>
     
-    <input type="submit" value="Save" />
+    <div class="submitbutton">
+        <input type="submit" value="Save Changes" />
+    </div>
 </form>
 {% endblock %}
