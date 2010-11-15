@@ -11,8 +11,19 @@
                 Dashboard
             </a>
         </h1>
-        <ul>
-            {% if user.is_authenticated %}
+        <div id="navigation-right">
+            <ul id="navigation-main">
+                <li>
+                    <a href="{% url dashboard.views.projects.list %}">
+                        Projects
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url dashboard.views.blogs.posts %}">Posts</a>
+                </li>
+            </ul>
+            <ul id="navigation-account">
+                {% if user.is_authenticated %}
                 <li>
                     <a href="{% url dashboard.views.users.profile user.id%}">
                         {{ user.first_name }} {{ user.last_name }}
@@ -21,7 +32,7 @@
                 <li>
                     <a href="{% url dashboard.views.users.logout %}">Logout</a>
                 </li>
-            {% else %}
+                {% else %}
                 <li>
                     <a href="{% url dashboard.views.users.login %}">Login</a>
                 </li>
@@ -30,16 +41,9 @@
                         Register
                     </a>
                 </li>
-            {% endif %}
-            <li>
-                <a href="{% url dashboard.views.projects.list %}">
-                    Projects
-                </a>
-            </li>
-            <li>
-                <a href="{% url dashboard.views.blogs.posts %}">Posts</a>
-            </li>
-        </ul>
+                {% endif %}
+            </ul>
+        </div>
     </div>
     <div id="content">
         {% block content %}{% endblock %}

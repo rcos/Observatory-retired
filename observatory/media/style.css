@@ -2,7 +2,7 @@ html {
     background-image: url('/site-media/pixels/html-top.gif');
     background-repeat: repeat-x;
     background-color: rgb(32, 32, 32);
-    font-family: 'Helvetica Neue';
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
     font-size: 10pt;
     color: rgb(30, 30, 30);
     text-align: justify;
@@ -20,6 +20,8 @@ body {
 #top h1 {
     float: left;
     line-height: 40px;
+	padding: 0px;
+	margin: 20px 0px;
 }
 
 #top a {
@@ -36,14 +38,30 @@ body {
 }
 
 #top ul {
-    float: right;
-    line-height: 40px;
+	margin: 0px;
+	padding: 0px;
     list-style: none;
+	float: right;
+	clear: both;
 }
 
 #top li {
     float: left;
     margin-left: 10px;
+}
+
+#navigation-main {
+	font-size: 20pt;
+}
+
+#navigation-account {
+	font-size: 7.5pt;
+	line-height: 18px;
+}
+
+#navigation-right {
+	margin-top: 20px;
+	float: right;
 }
 
 /* Main content */
