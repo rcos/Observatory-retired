@@ -3,16 +3,6 @@
 {% block title %}Dashboard • Feeds for {{ post.title }}{% endblock %}
 
 {% block content %}
-{% if single %}
-    {% if repo_rss %}
-        <h2>We couldn't find your blog feed.</h2>
-    {% else %}
-        <h2>We couldn't find your repository feed.</h2>
-    {% endif %}
-{% else %}
-    <h2>We couldn't find your feeds.</h2>
-{% endif %}
-
 <form action="{{ next }}" method="post">
     {% csrf_token %}
     
@@ -63,6 +53,8 @@
         </p>
     {% endif %}
     
-    <input type="submit" class="button" value="Save" />
+    <div class="submitbutton">
+        <input type="submit" class="button" value="Save" />
+    </div>
 </form>
 {% endblock %}

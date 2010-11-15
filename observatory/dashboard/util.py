@@ -57,12 +57,22 @@ def find_feeds(request, next, args = None):
   
   # if the automatic finding didn't work, require the user to input the feeds
   if repo_rss is None or blog_rss is None:
+    single = not (repo_rss is None and blog_rss is None)
+    
+    error_header = "We couldn't find your feeds."
+    if single:
+      if repo_rss:
+        error_header = "We couldn't find your blog feed."
+      else:
+        error_header = "We couldn't find your repository feed."
+    
     return render_to_response('projects/rss-feeds.html', {
         'post': request.POST,
         'repo_rss': repo_rss,
         'blog_rss': blog_rss,
         'next': reverse(next, args = args),
-        'single': not (repo_rss is None and blog_rss is None)
+        'single': single,
+        'error_header': error_header
       }, context_instance = RequestContext(request)), blog_rss, repo_rss;
   
   # otherwise, return None and the located feeds
