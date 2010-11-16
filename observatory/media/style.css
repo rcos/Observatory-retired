@@ -293,6 +293,10 @@ input, textarea {
     border-radius: 5px;
 }
 
+textarea {
+	font-size: 9pt;
+}
+
 .submitbutton {
 	width: auto;
 	text-align: center;
