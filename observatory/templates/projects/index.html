@@ -7,7 +7,8 @@
     {% if user.is_authenticated %}
     <ul class='project-info'>
         <li>
-            <a href="{% url dashboard.views.projects.add %}">
+            <a href="{% url dashboard.views.projects.add %}"
+               class="button-small">
                 Add a Project
             </a>
         </li>

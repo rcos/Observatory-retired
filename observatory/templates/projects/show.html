@@ -36,14 +36,21 @@
     {% if user.is_authenticated %}
     <div class="project-info">
     {% if user not in project.authors.all %}
-        <a href="{% url dashboard.views.projects.add_user project.id user.id %}">
-            I work on this!
+        <form action="{% url dashboard.views.projects.add_user %}"
+              method="post">
+            <input type="submit" value="I work on this!"
+                   class="button-small" />
         </a>
     {% else %}
-        <a href="{% url dashboard.views.projects.remove_user project.id user.id %}">
-            I'm not working on this anymore
-        </a>
+        <form action="{% url dashboard.views.projects.remove_user %}"
+              method="post">
+        <input type="submit" value="I'm not working on this anymore"
+               class="button-small" />
     {% endif %}
+        {% csrf_token %}
+        <input type="hidden" value="{{ project.id }}" name="project_id" />
+        <input type="hidden" value="{{ user.id }}" name="user_id" />
+    </form>
     </div>
     {% endif %}
     

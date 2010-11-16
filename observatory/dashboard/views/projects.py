@@ -142,15 +142,15 @@ def update(request, project_id):
                                       args = (project.id,)))
 
 # adds a user as an author of a project
-def add_user(request, project_id, user_id):
-  # don't let people add other users
-  if int(request.user.id) is not int(user_id):
-    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                        args = project_id))
+def add_user(request):
+  # get the user and project
+  user = get_object_or_404(User, id = int(request.POST["user_id"]))
+  project = get_object_or_404(Project, id = int(request.POST["project_id"]))
   
-  # get the project and user
-  project = get_object_or_404(Project, id = int(project_id))
-  user = get_object_or_404(User, id = int(user_id))
+  # don't let people add other users
+  if int(request.user.id) is not user.id:
+    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+                                        args = (project.id,)))
   
   # add the user to the project
   if user not in project.authors.all():
@@ -161,18 +161,18 @@ def add_user(request, project_id, user_id):
   
   # redirect back to the show page
   return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                      args = project_id))
+                                      args = (project.id,)))
 
 # removes a user as an author of a project
-def remove_user(request, project_id, user_id):
-  # don't let people delete other users
-  if int(request.user.id) is not int(user_id):
-    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                        args = project_id))
+def remove_user(request):
+  # get the user and project
+  user = get_object_or_404(User, id = int(request.POST["user_id"]))
+  project = get_object_or_404(Project, id = int(request.POST["project_id"]))
   
-  # get the project and user
-  project = get_object_or_404(Project, id = int(project_id))
-  user = get_object_or_404(User, id = int(user_id))
+  # don't let people delete other users
+  if int(request.user.id) is not int(user.id):
+    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+                                        args = (project.id,)))
   
   # removes the user from the project
   if user in project.authors.all():
@@ -183,6 +183,6 @@ def remove_user(request, project_id, user_id):
   
   # redirect back to the show page
   return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                      args = project_id))
+                                      args = (project.id,)))
   """docstring for delete_user"""
   pass

@@ -30,9 +30,8 @@ urlpatterns = patterns('',
     (r'^user/(\d+)', 'dashboard.views.users.profile'),
     
     # projects
-    (r'^projects/(\d+)/add-user/(\d+)', 'dashboard.views.projects.add_user'),
-    (r'^projects/(\d+)/remove-user/(\d+)',
-      'dashboard.views.projects.remove_user'),
+    (r'^projects/add-user', 'dashboard.views.projects.add_user'),
+    (r'^projects/remove-user', 'dashboard.views.projects.remove_user'),
     (r'^projects/add', 'dashboard.views.projects.add'),
     (r'^projects/create', 'dashboard.views.projects.create'),
     (r'^projects/modify/(\d+)', 'dashboard.views.projects.modify'),

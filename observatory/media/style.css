@@ -301,7 +301,6 @@ input, textarea {
 
 input[type='submit'] {
 	float: none;
-	margin: 0px;
 	width: auto;
 	padding: 5px;
 }
@@ -323,16 +322,36 @@ input:focus, textarea:focus {
 }
 
 /* stylish buttons, works for submit inputs and <a> tags */
+.button-small {
+	font-size: 8pt;
+	height: 26px;
+	margin: 7px 0px;
+	background-size: auto 100%;
+}
+
+a.button-small {
+	line-height: 26px;
+	display: block;
+}
+
 .button {
-	text-decoration: none;
 	font-size: 13pt;
-	color: #444;
-	font-weight: bold;
 	height: 40px;
-	
+	margin: 0px;
+}
+
+a.button {
+	line-height: 40px;
+	display: block;
+}
+
+.button, .button-small {
+	text-decoration: none;
 	border: 1px solid #aaa;
 	padding: 0px 15px;
-	margin: 0px;
+	
+	color: #444;
+	font-weight: bold;
 	
 	-webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -349,11 +368,7 @@ input:focus, textarea:focus {
     text-shadow: 0px 1px 1px #fff;
 }
 
-a.button {
-	line-height: 40px;
-}
-
-.button:hover {
+.button:hover, .button-small:hover {
 	background-image: url('/site-media/pixels/button-hover.gif');
 	color: rgb(51, 56, 80);
 	border-color: rgb(62, 92, 252);
@@ -363,7 +378,7 @@ a.button {
     text-shadow: 0px 1px 1px rgb(163, 178, 255);
 }
 
-.button:active {
+.button:active, .button-small:active {
 	background-image: url('/site-media/pixels/button-active.gif');
 	color: black;
 	border-color: black;
