@@ -13,11 +13,17 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 from collections import defaultdict
+from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from HTMLParser import HTMLParser
 from urllib import urlopen
+
+# adds a "pages" method to paginator, which returns a list of the pages
+class ListPaginator(Paginator):
+  def pages(self):
+    return [self.page(i) for i in range(1, self.num_pages + 1)]
 
 # finds the feeds for blog and repo, or make the user input them
 def find_feeds(request, next, args = None):

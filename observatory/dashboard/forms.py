@@ -12,10 +12,15 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-from django.forms import ModelForm
+from django import forms
 from dashboard.models import *
 
-class ProjectForm(ModelForm):
+class ProjectForm(forms.ModelForm):
   class Meta:
     model = Project
     fields = ('title', 'website', 'wiki', 'active', 'description')
+
+class UploadScreenshotForm(forms.Form):
+  title = forms.CharField(max_length = 32)
+  description = forms.CharField(max_length = 100)
+  file = forms.ImageField()

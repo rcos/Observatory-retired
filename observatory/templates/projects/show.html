@@ -1,5 +1,32 @@
 {% extends "base.html" %}
 {% load gravatar %}
+{% load javascript %}
+
+{% block head %}
+<script type="text/javascript" src="{% jquery %}"></script> 
+<script>
+    $(document).ready(function() {
+        var current = "#screenshot-page-{{ default_page }}"
+        var current_switcher = "#screenshot-switcher-{{ default_page }}"
+        var animating = false
+        $("a.screenshot-switcher").click(function() {
+            if (current != $($(this).attr("rel")) && !animating) {
+                animating = true
+                $(current).hide("fast", function() {
+                   $(current).show("fast")
+                   animating = false
+                });
+                current = $(this).attr("rel")
+                
+                $(current_switcher).animate({ opacity: "0.5" }, 400);
+                current_switcher = this
+                $(current_switcher).animate({ opacity: "1" }, 400);
+            }
+        });
+    });
+    {% lightbox %}
+</script>
+{% endblock %}
 
 {% block title %}Dashboard • {{ project.title }}{% endblock %}
 
@@ -27,9 +54,49 @@
     {% endif %}
 </ul>
 
-<p id="project-description">
+{% if paginator %}
+    <ul class="project-authors">
+        {% for page in paginator.pages %}
+            <div id="screenshot-page-{{page.number}}"
+                 {% if page.number != default_page %}
+                      style="display:none"
+                 {% endif %}>
+                {% for screen in page.object_list %}
+                    <li>
+                        <a href="{{ screen.url }}"
+                           rel="lightbox"
+                           title="{{ screen.title }}">
+                            <img src="{{ screen.thumb_url }}"
+                                 alt="{{ screen.title }}"
+                                 class="screenshot-thumb" />
+                        </a>
+                    </li>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        
+        {% if paginator.num_pages > 1 %}
+            <div class="screenshot-buttons">
+                {% for page in paginator.pages %}
+                    <a class="screenshot-switcher"
+                       rel="#screenshot-page-{{page.number}}"
+                       id="screenshot-switcher-{{page.number}}"
+                       {% if page.number != default_page %}
+                           style="opacity: 0.5"
+                       {% endif %}>
+                        •
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <div style="clear: both"></div>
+    </ul>
+{% endif %}
+
+<div id="project-description">
     {{ project.description|linebreaks }}
-</p>
+</div>
 
 {% if project.authors.all %}
     <h2 style="float: left">Authors</h2>

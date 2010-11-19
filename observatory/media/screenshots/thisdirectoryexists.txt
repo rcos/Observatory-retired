@@ -1,0 +1,1 @@
+This file ensures that this directory exists in all checkouts of observatory.

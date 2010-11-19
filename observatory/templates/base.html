@@ -1,8 +1,11 @@
+{% load javascript %}
+
 <!DOCTYPE html>
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="/site-media/style.css" />
     <title>{% block title %}Dashboard{% endblock %}</title>
+    {% block head %}{% endblock %}
 </head>
 <body>
     <div id="top">

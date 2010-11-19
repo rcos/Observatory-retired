@@ -12,5 +12,34 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-import gravatar
-import javascript
+from django import template
+from settings import JQUERY
+import os
+
+register = template.Library()
+
+# returns the url to the jquery version being used
+def jquery(parser, token):
+  class JqueryNode(template.Node):
+    def render(self, context):
+      return JQUERY
+  
+  return JqueryNode()
+
+LIGHTBOX = '''
+$(document).ready(function() {
+  $("a[rel=^lightbox]").click(function() {
+    alert("asdf!")
+  });
+});
+'''
+
+# returns the js required to create a lightbox
+def lightbox(parser, token):
+  class LightboxNode(template.Node):
+    def render(self, context):
+      return LIGHTBOX
+  return LightboxNode()
+
+register.tag('jquery', jquery)
+register.tag('lightbox', lightbox)

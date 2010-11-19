@@ -16,6 +16,8 @@ import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from lib import feedparser, dateutil
+from settings import SCREENSHOT_URL
+import os
 
 # a blog for a project
 class Blog(models.Model):
@@ -108,3 +110,34 @@ class Project(models.Model):
   # string representation of the project
   def __unicode__(self):
     return self.title
+
+# a screenshot for a project, display on its page. its filename is derived from
+# its ID, so it is not required as a field
+class Screenshot(models.Model):
+  # the title of the screenshot
+  title = models.CharField(max_length = 32)
+
+  # a short description of the screenshot
+  description = models.CharField(max_length = 100)
+  
+  # what project is this a screenshot of?
+  project = models.ForeignKey(Project)
+  
+  # file extension
+  extension = models.CharField(max_length = 8)
+  
+  # the filename for this file. just the last part, no directory specified.
+  def filename(self):
+    return "{0}{1}".format(str(self.id), self.extension)
+  
+  # the thumbnail filename for this file, no directory specified.
+  def thumbnail(self):
+    return str(self.id) + "_t.png"
+  
+  # the url of a screenshot
+  def url(self):
+    return os.path.join(SCREENSHOT_URL, self.filename())
+  
+  # the thumbnail url of a screenshot
+  def thumb_url(self):
+    return os.path.join(SCREENSHOT_URL, self.thumbnail())

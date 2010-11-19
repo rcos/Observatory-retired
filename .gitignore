@@ -2,3 +2,6 @@
 *.sqlite
 *.DS_Store
 *.psd
+
+observatory/media/screenshots/
+!observatory/media/screenshots/thisdirectoryexists.txt

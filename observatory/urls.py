@@ -30,12 +30,14 @@ urlpatterns = patterns('',
     (r'^user/(\d+)', 'dashboard.views.users.profile'),
     
     # projects
+    (r'^projects/(\d+)/upload-screenshot',
+      'dashboard.views.projects.upload_screenshot'),
     (r'^projects/add-user', 'dashboard.views.projects.add_user'),
     (r'^projects/remove-user', 'dashboard.views.projects.remove_user'),
     (r'^projects/add', 'dashboard.views.projects.add'),
     (r'^projects/create', 'dashboard.views.projects.create'),
-    (r'^projects/modify/(\d+)', 'dashboard.views.projects.modify'),
-    (r'^projects/update/(\d+)', 'dashboard.views.projects.update'),
+    (r'^projects/(\d+)/modify', 'dashboard.views.projects.modify'),
+    (r'^projects/(\d+)/update', 'dashboard.views.projects.update'),
     (r'^projects/(\d+)', 'dashboard.views.projects.show'),
     (r'^projects/list', 'dashboard.views.projects.list'),
     

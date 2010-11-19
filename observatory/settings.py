@@ -55,12 +55,22 @@ MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/site-media/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = '/media/'
+
+# Path where screenshots and thumbnails should be placed
+SCREENSHOT_PATH = os.path.join(MEDIA_ROOT, 'screenshots')
+
+# Root URL for screenshots
+SCREENSHOT_URL = "/site-media/screenshots/"
+
+# use production jquery for production, debug for debug
+JQUERY = [os.path.join(MEDIA_URL, "js", "jquery-1.4.4.min.js"),
+          os.path.join(MEDIA_URL, "js", "jquery-1.4.4.js")][DEBUG]
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'j+e*h2ket2cf2w##m2fzjp392%68!a^xcjo+_lr_-(^d8c3ea5'

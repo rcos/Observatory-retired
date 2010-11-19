@@ -18,9 +18,12 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
-from dashboard.models import Blog, Project, Repository
-from dashboard.forms import ProjectForm
-from dashboard.util import find_feeds
+from dashboard.models import *
+from dashboard.forms import *
+from dashboard.util import find_feeds, ListPaginator
+from settings import SCREENSHOT_PATH
+import Image
+import os
 
 # index and list are temporarily the same
 def index(request):
@@ -34,8 +37,19 @@ def list(request):
 
 # information about a specific project
 def show(request, project_id):  
+  # get the project
+  project = get_object_or_404(Project, id = int(project_id))
+  
+  # create a paginated list of the screenshots of the project
+  paginator = None
+  screenshots = Screenshot.objects.filter(project = project)
+  if screenshots.count > 0:
+    paginator = ListPaginator(screenshots.order_by('id').reverse(), 3)
+  
   return render_to_response('projects/show.html', {
-      'project': get_object_or_404(Project, id = int(project_id))
+      'project': project,
+      'paginator': paginator,
+      'default_page': 1
     }, context_instance = RequestContext(request))
 
 # a view for adding a new project
@@ -184,5 +198,56 @@ def remove_user(request):
   # redirect back to the show page
   return HttpResponseRedirect(reverse('dashboard.views.projects.show',
                                       args = (project.id,)))
-  """docstring for delete_user"""
-  pass
+
+# displays the screenshot upload form
+def upload_screenshot(request, project_id):
+  form = None
+  project = get_object_or_404(Project, id = project_id)
+  
+  # if the user has submitted the form and is uploading a screenshot
+  if request.method == 'POST':
+    form = UploadScreenshotForm(request.POST, request.FILES)
+    
+    # if the form is valid, save the image and associate it with the project
+    if form.is_valid():
+      file = request.FILES["file"]
+      
+      # create a screenshot object in the database
+      screen = Screenshot(title = request.POST["title"],
+                          description = request.POST["description"],
+                          project = project,
+                          extension = os.path.splitext(file.name)[1])
+      screen.save()
+    
+      # write the screenshot to a file
+      path = os.path.join(SCREENSHOT_PATH, screen.filename())
+      write = open(path, 'wb+')
+      
+      # write the chunks
+      for chunk in file.chunks():
+        write.write(chunk)
+      write.close()
+      
+      # create a thumbnail of the file
+      img = Image.open(path)
+      
+      # convert to a thumbnail
+      img.thumbnail((240, 240), Image.ANTIALIAS)
+      
+      # save the thumbnail
+      path = os.path.join(SCREENSHOT_PATH,
+                          "{0}_t.png".format(str(screen.id)))
+      img.save(path, "PNG")
+      
+      return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+                                          args = (project.id,)))
+  
+  # otherwise, create a new form
+  else:
+    form = UploadScreenshotForm()
+  
+  return render_to_response('projects/upload-screenshot.html', {
+      'project': project,
+      'form': form
+    }, context_instance = RequestContext(request))
+
