@@ -49,7 +49,8 @@ def show(request, project_id):
   return render_to_response('projects/show.html', {
       'project': project,
       'paginator': paginator,
-      'default_page': 1
+      'default_page': 1,
+      'has_screenshots': len(screenshots) > 0
     }, context_instance = RequestContext(request))
 
 # a view for adding a new project

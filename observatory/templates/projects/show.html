@@ -54,7 +54,7 @@
     {% endif %}
 </ul>
 
-{% if paginator %}
+{% if has_screenshots %}
     <ul class="project-authors">
         {% for page in paginator.pages %}
             <div id="screenshot-page-{{page.number}}"
