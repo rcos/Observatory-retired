@@ -28,9 +28,12 @@ class Blog(models.Model):
   # external (from an rss feed)? or hosted by dashboard?
   external = models.BooleanField()
   
-  # fetches the posts from the rss feed, also saves the Blog to ensure it has
-  # a key before attempting to add BlogPosts to it
+  # fetches the posts from the rss feed
   def fetch(self):
+    # don't fetch internally hosted blogs
+    if not external: return
+    
+    # make sure we can add blogposts to the blog
     self.save()
     
     # parse and iterate the feed
@@ -88,6 +91,41 @@ class Repository(models.Model):
   # whether the repo uses cloning or just an rss feed
   cloned = models.BooleanField()
   
+  def fetch(self):
+    if self.cloned:
+      pass
+    else:
+      for commit in feedparser.parse(self.repo_rss).entries:
+        date = dateutil.parser.parse(commit.date)
+        date = (date - date.utcoffset()).replace(tzinfo=None)
+        
+        # can we find an author for this commit?
+        author_name = commit.author_detail['name']
+        print author_name
+        try:
+          author_firstlast = author_name.split(' ')
+          print author_firstlast
+          authors = User.objects.filter(first_name = author_firstlast[0],
+                                        last_name = author_firstlast[1])
+          print authors
+          if len(authors) is 1:
+            author = authors[0]
+          else:
+            author = None
+        except:
+          author = None
+        
+        # create and save the commit object
+        commit = Commit(author_name = author_name,
+                        title = commit.title,
+                        log = commit.description,
+                        url = commit.link,
+                        date = date)
+        commit.repository = self
+        if author is not None:
+          commit.author = author
+        commit.save()
+  
   def clone_cmd(self):
     if self.cloned:
       cmds = { 'git': 'clone', 'svn': 'co', 'hg': 'clone', 'bzr': 'branch' }
@@ -96,21 +134,33 @@ class Repository(models.Model):
       return self.cmd
   
   def __unicode__(self):
-    return self.url
+    return self.web_url
 
 # a commit in a repository
 class Commit(models.Model):
   # the url to the commit (in cgit, etc.)
-  url = models.URLField("Commit URL", max_length = 200)
+  url = models.URLField("Commit URL", max_length = 200, blank = True)
 
   # the author of the commit, if he/she is in dashboard
-  author = models.ForeignKey(User)
+  author = models.ForeignKey(User, blank = True, null = True)
 
   # the author's name, if he/she isn't in dashboard
-  author_name = models.CharField(max_length = 64)
+  author_name = models.CharField(max_length = 64, blank = True, null = True)
+  
+  # the title of the commit
+  title = models.TextField()
+  
+  # the log of the commit
+  log = models.TextField()
+  
+  # the diff for the commit. This won't exist for RSS commits
+  diff = models.TextField(blank = True, null = True)
 
   # the repository the commit is part of
-  respository = models.ForeignKey(Repository)
+  repository = models.ForeignKey(Repository)
+  
+  # when the commit was made
+  date = models.DateTimeField()
 
 # an RCOS project
 class Project(models.Model):  
