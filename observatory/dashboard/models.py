@@ -42,7 +42,8 @@ class Blog(models.Model):
       post = BlogPost(title = post.title,
                       content = post.description,
                       summary = post.description,
-                      date = date)
+                      date = date,
+                      external = True)
       post.blog = self
       post.save()
     self.save()
@@ -59,6 +60,9 @@ class BlogPost(models.Model):
   
   # when the post was made
   date = models.DateTimeField(auto_now_add = True)
+  
+  # posts can be internal on external blogs (vice versa) if the blog switches
+  external = models.BooleanField()
   
   # what blog the post is associated with
   blog = models.ForeignKey(Blog)

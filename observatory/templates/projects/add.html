@@ -67,24 +67,7 @@
             {% for key, value in previous_data.items %}
                 <input type="hidden" name="{{ key }}" value="{{ value }}" />
             {% endfor %}
-            
-            <p>
-                {{ repo_form.web_url.label_tag }}
-                {{ repo_form.web_url }}
-                {{ repo_form.web_url.errors }}
-            </p>
-            
-            <p>
-                {{ repo_form.clone_url.label_tag }}
-                {{ repo_form.clone_url }}
-                {{ repo_form.clone_url.errors }}
-            </p>
-            
-            <p>
-                {{ repo_form.vcs.label_tag }}
-                {{ repo_form.vcs }}
-                {{ repo_form.vcs.errors }}
-            </p>
+            {{ cloned_repo_form.as_p }}
             <div class="submitbutton">
                 <input type="submit" class="button" value="Clone it!" />
             </div>
@@ -105,25 +88,7 @@
             {% for key, value in previous_data.items %}
                 <input type="hidden" name="{{ key }}" value="{{ value }}" />
             {% endfor %}
-            
-            <p>
-                {{ repo_form.web_url.label_tag }}
-                {{ repo_form.web_url }}
-                {{ repo_form.web_url.errors }}
-            </p>
-            
-            <p>
-                {{ repo_form.repo_rss.label_tag }}
-                {{ repo_form.repo_rss }}
-                {{ repo_form.repo_rss.errors }}
-            </p>
-            
-            <p>
-                {{ repo_form.cmd.label_tag }}
-                {{ repo_form.cmd }}
-                {{ repo_form.cmd.errors }}
-            </p>
-            
+			{{ feed_repo_form.as_p }}
             <div class="submitbutton">
                 <input type="submit" class="button" value="Use my feed" />
             </div>
@@ -144,17 +109,7 @@
             {% for key, value in previous_data.items %}
                 <input type="hidden" name="{{ key }}" value="{{ value }}" />
             {% endfor %}
-
-            <p>
-                {{ blog_form.url.label_tag }}
-                {{ blog_form.url }}
-                {{ blog_form.url.errors }}
-            </p>
-            <p>
-                {{ blog_form.rss.label_tag }}
-                {{ blog_form.rss }}
-                {{ blog_form.rss.errors }}
-            </p>
+			{{ blog_form.as_p }}
             <div class="submitbutton">
                 <input type="submit" class="button" value="Use my feed" />
             </div>

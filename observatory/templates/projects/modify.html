@@ -1,64 +1,235 @@
 {% extends "base.html" %}
+{% load javascript %}
+
+{% block head %}
+	<script type="text/javascript" src="{% jquery %}"></script> 
+	<script>
+		FADE_TIME = 350
+		FADE_INITIALIZED = false
+		
+		current_tab = "{{ tab }}"
+		function tabclicked(tab) {
+			// ignore if it's the active tab
+			new_index = tab.href[tab.href.length - 1]
+			if (new_index.toString() == current_tab.toString()) return;
+			current_tab = new_index
+			
+			// current and new content
+			current = $(".active-content")
+			new_content = $("#content-" + new_index)
+			
+			// initialize if required
+			if (!FADE_INITIALIZED) {
+				FADE_INITIALIZED = false
+				$("#content-container").height(current.height())
+				$(".tab-content").css('position', 'absolute')
+			}
+			
+			// hide the current content
+			current.animate({ opacity: 0 }, FADE_TIME,
+							function() { current.css('display', 'none') })
+			current.removeClass("active-content")
+			
+			// show the new content
+			new_content.css('display', 'block')
+			new_content.animate({ opacity: 1 }, FADE_TIME)
+			new_content.addClass("active-content")
+			
+			// set the height of the container
+			$("#content-container").animate({ height: new_content.height() },
+											FADE_TIME)
+			
+			// switch the tabs
+			$(".active").removeClass("active")
+			$("#tab-" + new_index).addClass("active")
+		}
+	</script>
+		
+{% endblock %}
 
 {% block title %}Dashboard • Modifying {{ project.title }}{% endblock %}
 
 {% block content %}
-<h2>Modifying {{ project.title }}</h2>
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<ul class="three-tab">
+	<a href="#1" onClick="tabclicked(this)">
+		<li id="tab-1" {% if tab == 1 %} class="active" {% endif %}>
+			Information
+		</li>
+	</a>
+	<a href="#2" onClick="tabclicked(this)">
+		<li id="tab-2" {% if tab == 2 %} class="active" {% endif %}>
+			Blog
+		</li>
+	</a>
+	<a href="#3" onClick="tabclicked(this)">
+		<li id="tab-3" {% if tab == 3 %} class="active" {% endif %} 
+		 style="width:264px">
+			Repository
+		</li>
+	</a>
+</ul>
 
-<form action="{% url dashboard.views.projects.update project.id %}"
-    method="post">
-    {% csrf_token %}
-    
-    <div class="form-col-left">
-        <p>
-            <label for="id_title">Project Title</label>
-            <input type="text" id="id_title" name="title"
-                value="{{ project.title }}" />
-        </p>
-    
-        <p>
-            <label for="id_description">Description</label>
-            <textarea id="id_description" rows="17" cols="40"
-                name="description">{{ project.description }}</textarea>
-        </p>
-    </div>
-    
-    <div class="form-col-right">
-        <p>
-            <label for="id_website">Website</label>
-            <input type="text" id="id_website" name="website"
-                value="{{ project.website }}" />
-        </p>
-    
-        <p>
-            <label for="id_repository">Repository</label>
-            <input type="text" id="id_repository" name="repository"
-                value="{{ project.repository.url }}" />
-        </p>
-    
-        <p>
-            <label for="id_blog">Blog</label>
-            <input type="text" id="id_blog" name="blog"
-                value="{{ project.blog.url }}" />
-        </p>
-    
-        <p>
-            <label for="id_wiki">Wiki</label>
-            <input type="text" id="id_wiki" name="wiki"
-                value="{{ project.wiki }}" />
-        </p>
-    
-        <p>
-            <label for="id_active">Active</label>
-            <input type="checkbox" id="id_active" name="active"
-                value="{{ project.active }}" />
-        </p>
-    </div>
-    
-    <div class="submitbutton">
-        <input type="submit" class="button" value="Save Changes" />
-    </div>
-</form>
+<div style="clear:both"></div>
+
+<div id="content-container">
+	<div id="content-1"
+	 {% if tab == 1 %} class="active-content tab-content"
+	 {% else %} style="display:none;opacity:0" class="tab-content" {% endif %}>
+		<form method="post"
+		 action="{% url dashboard.views.projects.modify project.id 1 %}">
+		    {% csrf_token %}
+			<div class="form-col-left">
+				<p>
+					{{ project_form.title.label_tag }}
+					{{ project_form.title }}
+					{{ project_form.title.errors }}
+				</p>
+				<p>
+					{{ project_form.website.label_tag }}
+					{{ project_form.website }}
+					{{ project_form.website.errors }}
+				</p>
+				<p>
+					{{ project_form.wiki.label_tag }}
+					{{ project_form.wiki }}
+					{{ project_form.wiki.errors }}
+				</p>
+			</div>
+			<div class="form-col-right">
+				<p>
+					{{ project_form.description.label_tag }}
+					{{ project_form.description }}
+					{{ project_form.description.errors }}
+				</p>
+			</div>
+
+			<div class="submitbutton">
+				<input type="submit" class="button" value="Save Changes" />
+			</div>
+		</form>
+	</div>
+	
+	<div id="content-2"
+	 {% if tab == 2 %} class="active-content tab-content"
+	 {% else %} style="display:none;opacity:0" class="tab-content" {% endif %}>
+		<div class="form-col-left">
+			<h2>Blog Feed Settings</h2>
+			<p>
+				If you have an existing blog for your project, Observatory will
+				track and automatically mirror it.
+			</p>
+			<form method="post"
+			 action="{% url dashboard.views.projects.modify project.id 2 %}">
+				{% csrf_token %}
+				{{ blog_form.as_p }}
+				<div class="submitbutton">
+					{% if project.blog.external %}
+						<input type="submit" class="button"
+							   value="Save Changes" />
+					{% else %}
+						<input type="submit" class="button"
+							   value="Switch to a Feed" />
+					{% endif %}
+				</div>
+			</form>
+		</div>
+
+		<div class="form-col-right">
+			<h2>Hosted Blog Settings</h2>
+			<p>
+				If you don't have an existing blog for your project, you can use
+				Observatory's simple blog system.
+			</p>
+			{% if project.blog.blogpost_set.all %}
+				<ul class="modify-post-list">
+				{% for post in project.blog.blogpost_set.all %}
+					<li>
+						<div>{{ post.title }}</div>
+						<a class="button-small" href="{% url dashboard.views.blogs.delete_post post.id %}">
+							Delete
+						</a>
+						<a class="button-small" href="{% url dashboard.views.blogs.edit_post post.id %}">
+							Modify
+						</a>
+					</li>
+				{% endfor %}
+				</ul>
+			{% endif %}
+			<div style="clear:both"></div>
+			{% if project.blog.external %}
+			<form method="post"
+			 action="{% url dashboard.views.projects.modify project.id 2 %}">
+				{% csrf_token %}
+				<div class="submitbutton">
+					<input type="submit" class="button"
+						   value="Switch to Hosted" />
+				</div>
+			</form>
+			{% else %}
+			<div style="margin: 0px auto">
+				<a href="{% url dashboard.views.blogs.write_post project.id %}"
+				 class="button" style="text-align:center">
+					Write a Post
+				</a>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	
+	<div id="content-3"
+	 {% if tab == 3 %} class="active-content tab-content"
+	 {% else %} style="display:none;opacity:0" class="tab-content" {% endif %}>
+		<div class="form-col-left">
+			<h2>Cloned Repository Settings</h2>
+			<p>
+				Observatory can directly access git, Mercurial, Bazaar, and
+				Subversion repositories. This allows us to build an archive,
+				and fetch the maximum amount of information about your
+				repository, so this method should be used if possible.
+			</p>
+			<form method="post"
+			 action="{% url dashboard.views.projects.modify project.id 3 %}">
+				{% csrf_token %}
+				{{ cloned_repo_form.as_p }}
+				<div class="submitbutton">
+					{% if repo.cloned %}
+						<input type="submit" class="button"
+							   value="Save Changes" />
+					{% else %}
+						<input type="submit" class="button"
+							   value="Switch to Cloned" />
+					{% endif %}
+				</div>
+			</form>
+		</div>
+
+		<div class="form-col-right">
+			<h2>Feed Repository Settings</h2>
+			<p>
+				If Observatory doesn't support your version control system, an
+				RSS or Atom feed can be used to track changes. This is less
+				powerful, and doesn't allow us to automatically archive your
+				project and your project's history.
+			</p>
+			<form method="post"
+			 action="{% url dashboard.views.projects.modify project.id 3 %}">
+				{% csrf_token %}
+				{{ feed_repo_form.as_p }}
+				<div class="submitbutton">
+					{% if not repo.cloned %}
+						<input type="submit" class="button"
+							   value="Save Changes" />
+					{% else %}
+						<input type="submit" class="button"
+							   value="Switch to a Feed" />
+					{% endif %}
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div style="clear:both">
+
 {% endblock %}

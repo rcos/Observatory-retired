@@ -18,15 +18,26 @@ from dashboard.models import *
 class ProjectForm(forms.ModelForm):
   class Meta:
     model = Project
-    fields = ('title', 'website', 'wiki', 'active', 'description')
+    fields = ('title', 'website', 'wiki', 'description')
 
 class RepositoryForm(forms.ModelForm):
   class Meta:
     model = Repository
 
+class ClonedRepositoryForm(forms.ModelForm):
+  class Meta:
+    model = Repository
+    fields = ('web_url', 'clone_url', 'vcs')
+
+class FeedRepositoryForm(forms.ModelForm):
+  class Meta:
+    model = Repository
+    fields = ('web_url', 'repo_rss', 'cmd')
+
 class BlogForm(forms.ModelForm):
   class Meta:
     model = Blog
+    fields = ('url', 'rss')
 
 class BlogPostForm(forms.ModelForm):
   class Meta:

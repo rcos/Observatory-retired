@@ -61,18 +61,16 @@ def show_post(request, post_id):
       'post': get_object_or_404(BlogPost, id = int(post_id))
     }, context_instance = RequestContext(request))
 
-# allows management of blogs hosted on dashboard
-@login_required
-def manage(request, project_id):
-  return render_to_response('blogs/manage.html', {
-      'project': get_object_or_404(Project, id = int(project_id))
-    }, context_instance = RequestContext(request))
-
 # write a new post
 @login_required
 def write_post(request, project_id):
+  project = get_object_or_404(Project, id = int(project_id))
+  if request.user not in project.authors.all():
+    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+                                        args = (project.id,)))
+  
   return render_to_response('blogs/edit.html', {
-      'project': get_object_or_404(Project, id = int(project_id)),
+      'project': project,
       'form': BlogPostForm()
     }, context_instance = RequestContext(request))
 
@@ -80,6 +78,11 @@ def write_post(request, project_id):
 @login_required
 def edit_post(request, post_id):
   post = get_object_or_404(BlogPost, id = int(post_id))
+  
+  if request.user not in post.blog.project.authors.all():
+    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+                                        args = (project.id,)))
+  
   return render_to_response('blogs/edit.html', {
       'project': post.blog.project,
       'post': post,
@@ -92,13 +95,18 @@ def create_post(request, project_id):
   form = BlogPostForm(request.POST)
   project = get_object_or_404(Project, id = int(project_id))
   
+  if request.user not in project.authors.all():
+    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+                                        args = (project.id,)))
+  
   # validate the form
   if form.is_valid():
     html = markdown(request.POST['markdown'])
     post = BlogPost(title = request.POST['title'],
                     markdown = request.POST['markdown'],
                     content = html,
-                    summary = html)
+                    summary = html,
+                    external = False)
     post.blog = project.blog
     post.save()
     
@@ -133,3 +141,16 @@ def update_post(request, post_id):
         'project': post.blog.project,
         'form': form
       }, context_instance = RequestContext(request))
+
+# deletes a post
+@login_required
+def delete_post(request, post_id):
+  post = get_object_or_404(BlogPost, id = int(post_id))
+  blog = post.blog
+  
+  if request.user not in post.blog.project.authors.all():
+    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+                                        args = (project.id,)))
+  post.delete()
+  return HttpResponseRedirect(reverse('dashboard.views.blogs.show_blog',
+                                      args = (blog.id,)))

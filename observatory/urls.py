@@ -1,3 +1,4 @@
+from dashboard.models import *
 from django.conf.urls.defaults import *
 import settings
 
@@ -18,6 +19,7 @@ urlpatterns = patterns('',
     # blog posts
     (r'^post/(\d+)/modify', 'dashboard.views.blogs.edit_post'),
     (r'^post/(\d+)/update', 'dashboard.views.blogs.update_post'),
+    (r'^post/(\d+)/delete', 'dashboard.views.blogs.delete_post'),
     (r'^post/(\d+)', 'dashboard.views.blogs.show_post'),
     (r'^posts/add/(\d+)', 'dashboard.views.blogs.write_post'),
     (r'^posts/create/(\d+)', 'dashboard.views.blogs.create_post'),
@@ -36,8 +38,8 @@ urlpatterns = patterns('',
     # projects
     (r'^projects/(\d+)/upload-screenshot',
       'dashboard.views.projects.upload_screenshot'),
+    (r'^projects/(\d+)/modify/(\d+)', 'dashboard.views.projects.modify'),
     (r'^projects/(\d+)/modify', 'dashboard.views.projects.modify'),
-    (r'^projects/(\d+)/update', 'dashboard.views.projects.update'),
     (r'^projects/(\d+)/blog', 'dashboard.views.blogs.show_blog'),
     (r'^projects/(\d+)', 'dashboard.views.projects.show'),
     (r'^projects/add-user', 'dashboard.views.projects.add_user'),
@@ -50,5 +52,5 @@ urlpatterns = patterns('',
         {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
     
     # default to showing the dashboard view (for now)
-    (r'', 'dashboard.views.projects.index')
+    (r'', 'dashboard.views.projects.index'),
 )

@@ -56,22 +56,10 @@ def show(request, project_id):
 # a view for adding a new project
 @login_required
 def add(request):
-  form_parts = {
-    0: lambda: True,
-    1: lambda: len(request.POST['wiki']) > 0 and
-               len(request.POST['website']) > 0 and
-               len(request.POST['title']) > 0 and
-               len(request.POST['description']) > 0,
-    2: lambda: len(request.POST['web_url']) > 0 and
-                (('clone_url' in request.POST and
-                  len(request.POST['clone_url']) > 0) or
-                 ('repo_rss' in request.POST and
-                  len(request.POST['repo_rss']) > 0 and
-                  len(request.POST['cmd']) > 0)),
-    3: lambda: 'rss' not in request.POST or
-               (len(request.POST['rss']) > 0 and
-                len(request.POST['url']) > 0)
-  }
+  feed_repo_form = FeedRepositoryForm()
+  cloned_repo_form = ClonedRepositoryForm()
+  project_form = ProjectForm()
+  blog_form = BlogForm()
   
   form_keys = {
     1: ('title', 'description', 'website', 'wiki'),
@@ -80,23 +68,35 @@ def add(request):
   }
   
   if 'current' in request.POST:
-    current = int(request.POST['current']) + 1
+    current = int(request.POST['current'])
   else:
-    current = 1
+    current = 0
   
-  # validate the previous form and return to it with errors if needed
-  if form_parts[current - 1]():
-    repo_form = RepositoryForm()
-    project_form = ProjectForm()
-    blog_form = BlogForm()
-  else:
-    repo_form = RepositoryForm(request.POST)
+  if current == 1:
     project_form = ProjectForm(request.POST)
+    if not project_form.is_valid():
+      current -= 1
+  
+  elif current == 2:
+    if 'clone_url' in request.POST:
+      cloned_repo_form = ClonedRepositoryForm(request.POST)
+      if not cloned_repo_form.is_valid():
+        current -= 1
+    elif 'repo_rss' in request.POST:
+      feed_repo_form = FeedRepositoryForm(request.POST)
+      if not feed_repo_form.is_valid():
+        current -= 1
+  
+  elif current == 3:
     blog_form = BlogForm(request.POST)
-    current -= 1
+    if not ('url' not in request.POST or blog_form.is_valid()):
+      current -= 1
+  
+  # go to the next form
+  current += 1
   
   # if there are more parts to the form
-  if current < len(form_parts):
+  if current < 4:
     # remove the csrf token and current from a copy of the POST data
     post = request.POST.copy()
     if 'csrfmiddlewaretoken' in post:
@@ -111,20 +111,30 @@ def add(request):
           pass
     
     return render_to_response('projects/add.html', {
-        'parts': form_parts,
+        'parts': [1, 2, 3],
         'current': current,
         'previous_data': post,
-        'repo_form': repo_form,
+        'cloned_repo_form': cloned_repo_form,
+        'feed_repo_form': feed_repo_form,
         'project_form': project_form,
         'blog_form': blog_form
       }, context_instance = RequestContext(request))
   
   # otherwise, if the form is complete, create the project
   else:
+    # validate and clean all forms
+    project_form = ProjectForm(request.POST)
+    cloned_repo_form = ClonedRepositoryForm(request.POST)
+    feed_repo_form = FeedRepositoryForm(request.POST)
+    blog_form = BlogForm(request.POST)
+    
+    for form in [project_form, cloned_repo_form, feed_repo_form, blog_form]:
+      form.is_valid()
+    
     # create the blog object
     if 'rss' in request.POST:
-      blog = Blog(url = request.POST['url'],
-                  rss = request.POST['rss'],
+      blog = Blog(url = blog_form.cleaned_data['url'],
+                  rss = blog_form.cleaned_data['rss'],
                   external = True)
       blog.fetch()
     else:
@@ -133,20 +143,20 @@ def add(request):
 
     # create the repository object
     if 'clone_url' in request.POST:
-      repo = Repository(web_url = request.POST['web_url'],
-                        clone_url = request.POST['clone_url'],
+      repo = Repository(web_url = cloned_repo_form.cleaned_data['web_url'],
+                        clone_url = cloned_repo_form.cleaned_data['clone_url'],
                         cloned = True)
     else:
-      repo = Repository(web_url = request.POST['web_url'],
-                        repo_rss = request.POST['repo_rss'],
+      repo = Repository(web_url = feed_repo_form.cleaned_data['web_url'],
+                        repo_rss = feed_repo_form.cleaned_data['repo_rss'],
                         cloned = False)
     repo.save()
 
     # create the project object
-    project = Project(title = request.POST['title'],
-                      website = request.POST['website'],
-                      wiki = request.POST['wiki'],
-                      description = request.POST['description'],
+    project = Project(title = project_form.cleaned_data['title'],
+                      website = project_form.cleaned_data['website'],
+                      wiki = project_form.cleaned_data['wiki'],
+                      description = project_form.cleaned_data['description'],
                       active = True,
                       repository_id = repo.id,
                       blog_id = blog.id)
@@ -166,56 +176,86 @@ def add(request):
 
 # a view for modifying an existing project
 @login_required
-def modify(request, project_id):
+def modify(request, project_id, tab_id = 1):
   project = get_object_or_404(Project, id = int(project_id))
   
-  # if someone tries to edit a project they shouldn't, send them to the
-  # the default project view page
+  # if someone tries to edit a project they shouldn't be able to
   if request.user not in project.authors.all():
     return HttpResponseRedirect(reverse('dashboard.views.projects.show',
                                         args = (project.id,)))
+  # default forms
+  project_form = ProjectForm(instance = project)
+  cloned_repo_form = ClonedRepositoryForm(instance = project.repository)
+  feed_repo_form = FeedRepositoryForm(instance = project.repository)
+  blog_form = BlogForm(instance = project.blog)
   
+  # if changes should be saved or rejected
+  if request.POST:
+    # editing the project's information
+    if 'title' in request.POST:
+      form = ProjectForm(request.POST)
+      
+      # if the form is valid, save
+      if form.is_valid():
+        project.title = form.cleaned_data['title']
+        project.website = form.cleaned_data['website']
+        project.wiki = form.cleaned_data['wiki']
+        project.description = form.cleaned_data['description']
+        project.save()
+        project_form = ProjectForm(instance = project)
+      
+      # otherwise, display the errors
+      else:
+        project_form = form
+    
+  # editing a cloned repository
+  if 'clone_url' in request.POST:
+    form = ClonedRepositoryForm(request.POST)
+    
+    if form.is_valid():
+      project.repository.web_url = form.cleaned_data['web_url']
+      project.repository.clone_url = form.cleaned_data['clone_url']
+      project.repository.vcs = form.cleaned_data['vcs']
+      project.repository.cloned = True
+      project.repository.save()
+      cloned_repo_form = ClonedRepositoryForm(instance = project.repository)
+    else:
+      cloned_repo_form = form
+  
+  # editing a feed repository
+  if 'repo_rss' in request.POST:
+    form = FeedRepositoryForm(request.POST)
+    
+    if form.is_valid():
+      project.repository.repo_rss = form.cleaned_data['repo_rss']
+      project.repository.cmd = form.cleaned_data['cmd']
+      project.repository.web_url = form.cleaned_data['web_url']
+      project.repository.cloned = False
+      project.repository.save()
+      feed_repo_form = FeedRepositoryForm(instance = project.repository)
+    else:
+      feed_repo_form = form
+  
+  # editing a feed-based blog
+  if 'url' in request.POST:
+    form = BlogForm(request.POST)
+    
+    if form.is_valid():
+      project.blog.url = form.cleaned_data['url']
+      project.blog.rss = form.cleaned_data['rss']
+      blog_form = BlogForm(instance = project.blog)
+    else:
+      blog_form = form
+      
   return render_to_response('projects/modify.html', {
     'project': project,
-    'form': ProjectForm(project)
+    'project_form': project_form,
+    'cloned_repo_form': cloned_repo_form,
+    'feed_repo_form': feed_repo_form,
+    'blog_form': blog_form,
+    'repo': project.repository,
+    'tab': int(tab_id)
   }, context_instance = RequestContext(request))
-
-# saves an existing project and redirects to its information page
-@login_required
-def update(request, project_id):
-  project = get_object_or_404(Project, id = int(project_id))
-  
-  # if someone tries to edit a project they shouldn't, send them to the
-  # the default project view page
-  if request.user not in project.authors.all():
-    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                        args = (project.id,)))
-  
-  # find the RSS feeds
-  response, blog_rss, repo_rss = find_feeds(request,
-                                            'dashboard.views.projects.update',
-                                            args = (project.id,))
-
-  # if a response was created, return it
-  if response is not None:
-    return response
-  
-  # update the project
-  project.title = request.POST['title']
-  project.website = request.POST['website']
-  project.blog.url = request.POST['blog']
-  project.repository.url = request.POST['repository']
-  project.wiki = request.POST['wiki']
-  project.active = 'active' in request.POST
-  project.description = request.POST['description']
-  
-  # save the project
-  project.save()
-  project.blog.save()
-  project.repository.save()
-  
-  return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                      args = (project.id,)))
 
 # adds a user as an author of a project
 def add_user(request):
@@ -275,8 +315,8 @@ def upload_screenshot(request, project_id):
       file = request.FILES["file"]
       
       # create a screenshot object in the database
-      screen = Screenshot(title = request.POST["title"],
-                          description = request.POST["description"],
+      screen = Screenshot(title = form.cleaned_data["title"],
+                          description = form.cleaned_data["description"],
                           project = project,
                           extension = os.path.splitext(file.name)[1])
       screen.save()
