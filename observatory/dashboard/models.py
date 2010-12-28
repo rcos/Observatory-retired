@@ -19,6 +19,17 @@ from django.contrib.auth.models import User
 from lib import feedparser, dateutil
 from settings import SCREENSHOT_URL
 
+# an event is currently either a blog post or a commit
+class Event(models.Model):
+  # title of the event
+  title = models.CharField("Title", max_length = 128)
+  
+  # when the event occured
+  date = models.DateTimeField()
+  
+  # the description is the main content for the event
+  description = models.TextField()
+
 # a blog for a project
 class Blog(models.Model):
   # link to the blog, if it isn't hosted on dashboard
@@ -43,7 +54,7 @@ class Blog(models.Model):
       date = (date - date.utcoffset()).replace(tzinfo=None)
       
       post = BlogPost(title = post.title,
-                      content = post.description,
+                      description = post.description,
                       summary = post.description,
                       date = date,
                       external = True)
@@ -52,17 +63,10 @@ class Blog(models.Model):
     self.save()
   
 # a post in a blog
-class BlogPost(models.Model):
-  # title of the post
-  title = models.CharField("Title", max_length = 128)
-  
+class BlogPost(Event):
   # the text of the post
   markdown = models.TextField("Content")
-  content = models.TextField()
   summary = models.TextField()
-  
-  # when the post was made
-  date = models.DateTimeField(auto_now_add = True)
   
   # posts can be internal on external blogs (vice versa) if the blog switches
   external = models.BooleanField()
@@ -118,7 +122,7 @@ class Repository(models.Model):
         # create and save the commit object
         commit = Commit(author_name = author_name,
                         title = commit.title,
-                        log = commit.description,
+                        description = commit.description,
                         url = commit.link,
                         date = date)
         commit.repository = self
@@ -137,7 +141,7 @@ class Repository(models.Model):
     return self.web_url
 
 # a commit in a repository
-class Commit(models.Model):
+class Commit(Event):
   # the url to the commit (in cgit, etc.)
   url = models.URLField("Commit URL", max_length = 200, blank = True)
 
@@ -147,20 +151,11 @@ class Commit(models.Model):
   # the author's name, if he/she isn't in dashboard
   author_name = models.CharField(max_length = 64, blank = True, null = True)
   
-  # the title of the commit
-  title = models.TextField()
-  
-  # the log of the commit
-  log = models.TextField()
-  
   # the diff for the commit. This won't exist for RSS commits
   diff = models.TextField(blank = True, null = True)
 
   # the repository the commit is part of
   repository = models.ForeignKey(Repository)
-  
-  # when the commit was made
-  date = models.DateTimeField()
 
 # an RCOS project
 class Project(models.Model):  

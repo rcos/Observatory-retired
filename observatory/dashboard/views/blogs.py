@@ -12,6 +12,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+import datetime
 from dashboard.forms import BlogPostForm
 from dashboard.models import BlogPost, Blog, Project
 from django.contrib.auth.decorators import login_required
@@ -104,9 +105,10 @@ def create_post(request, project_id):
     html = markdown(request.POST['markdown'])
     post = BlogPost(title = request.POST['title'],
                     markdown = request.POST['markdown'],
-                    content = html,
+                    description = html,
                     summary = html,
-                    external = False)
+                    external = False,
+                    date = datetime.datetime.now())
     post.blog = project.blog
     post.save()
     
@@ -130,7 +132,7 @@ def update_post(request, post_id):
     html = markdown(request.POST['markdown'])
     post.title = request.POST['title']
     post.markdown = request.POST['markdown']
-    post.content = html
+    post.description = html
     post.summary = html
     post.save()
     
