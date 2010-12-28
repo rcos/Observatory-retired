@@ -16,7 +16,7 @@ from dashboard.models import BlogPost
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 
@@ -46,3 +46,32 @@ def show_post(request, post_id):
   return render_to_response('blogs/show-post.html', {
       'post': get_object_or_404(BlogPost, id = int(post_id))
     }, context_instance = RequestContext(request))
+
+# allows management of blogs hosted on dashboard
+def manage(request, blog_id):
+  return render_to_response('blogs/manage.html', {
+      'blog': get_object_or_404(Blog, id = int(blog_id))
+    }, context_index = RequestContext(request))
+
+# write a new post
+def write_post(request, blog_id):
+  return render_to_response('blogs/edit.html', {
+      'blog': get_object_or_404(Blog, id = int(blog_id))
+    }, context_index = RequestContext(request))
+
+# edit an existing post
+def edit_post(request, post_id):
+  post = get_object_or_404(Post, id = int(post_id))
+  return render_to_response('blogs/edit.html', {
+      'blog': post.blog,
+      'post': post
+    }, context_index = RequestContext(request))
+
+# creates a new post
+def create_post(request, blog_id):
+  return HttpReponseRedirect('dashboard.views.blogs.show_post',
+                             args = (post.id,))
+
+# updates a previously posted post, and redirects to the management page
+def update_post(request, post_id):
+  return HttpResponseRedirect(reverse('dashboard.views.blogs.manage'))

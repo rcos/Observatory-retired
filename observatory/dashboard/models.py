@@ -13,16 +13,20 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import datetime
+import os
 from django.db import models
 from django.contrib.auth.models import User
 from lib import feedparser, dateutil
 from settings import SCREENSHOT_URL
-import os
 
 # a blog for a project
 class Blog(models.Model):
-  url = models.URLField(max_length = 64)
-  rss = models.URLField("Blog RSS Feed", max_length = 64)
+  # link to the blog, if it isn't hosted on dashboard
+  url = models.URLField("Blog Web Address", max_length = 64)
+  rss = models.URLField("Blog Feed", max_length = 64)
+  
+  # external (from an rss feed)? or hosted by dashboard?
+  external = models.BooleanField()
   
   # fetches the posts from the rss feed, also saves the Blog to ensure it has
   # a key before attempting to add BlogPosts to it
@@ -49,6 +53,7 @@ class BlogPost(models.Model):
   title = models.CharField(max_length = 128)
   
   # the text of the post
+  markdown = models.TextField()
   content = models.TextField()
   summary = models.TextField()
   
@@ -60,12 +65,34 @@ class BlogPost(models.Model):
   
 # a version control repository
 class Repository(models.Model):
-  # version control
-  url = models.URLField("Source URL", max_length = 64)
-  checkout = models.URLField("Source Checkout URL", max_length = 64)
+  # web access to the repository
+  web_url = models.URLField("Repository Web Address", max_length = 128)
   
-  # rss feed (for now, won't work with branches so fundamentally broken)
-  rss = models.URLField("Repository RSS Feed", max_length = 64)
+  # cloned repository fields
+  clone_url = models.URLField("Repository Clone Address", max_length = 128)
+  vcs = models.CharField("Version Control System", max_length = 3,
+                         default = 'git',
+                         choices = (('git', 'git'),
+                                    ('svn', 'Subversion'),
+                                    ('hg',  'Mercurial'),
+                                    ('bzr', 'Bazaar')))
+  
+  # non-cloned repository fields
+  repo_rss = models.URLField("Repository RSS Feed", max_length = 128)
+  cmd = models.CharField("Clone Command", max_length = 128)
+  
+  # whether the repo uses cloning or just an rss feed
+  cloned = models.BooleanField()
+  
+  def clone_cmd(self):
+    if self.cloned:
+      cmds = { 'git': 'clone', 'svn': 'co', 'hg': 'clone', 'bzr': 'branch' }
+      return '{0} {1} {2}'.format(self.vcs, cmds[self.vcs], self.clone_url)
+    else:
+      return self.cmd
+  
+  def __unicode__(self):
+    return self.url
 
 # a commit in a repository
 class Commit(models.Model):

@@ -20,7 +20,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from dashboard.models import *
 from dashboard.forms import *
-from dashboard.util import find_feeds, ListPaginator
+from dashboard.util import ListPaginator
 from settings import SCREENSHOT_PATH
 import Image
 import os
@@ -56,9 +56,113 @@ def show(request, project_id):
 # a view for adding a new project
 @login_required
 def add(request):
-  return render_to_response('projects/add.html', {
-    'form': ProjectForm()
-  }, context_instance = RequestContext(request))
+  form_parts = {
+    0: lambda: True,
+    1: lambda: len(request.POST['wiki']) > 0 and
+               len(request.POST['website']) > 0 and
+               len(request.POST['title']) > 0 and
+               len(request.POST['description']) > 0,
+    2: lambda: len(request.POST['web_url']) > 0 and
+                (('clone_url' in request.POST and
+                  len(request.POST['clone_url']) > 0) or
+                 ('repo_rss' in request.POST and
+                  len(request.POST['repo_rss']) > 0 and
+                  len(request.POST['cmd']) > 0)),
+    3: lambda: 'rss' not in request.POST or
+               (len(request.POST['rss']) > 0 and
+                len(request.POST['url']) > 0)
+  }
+  
+  form_keys = {
+    1: ('title', 'description', 'website', 'wiki'),
+    2: ('web_url', 'clone_url', 'vcs', 'repo_rss', 'cmd'),
+    3: ('url', 'rss')
+  }
+  
+  if 'current' in request.POST:
+    current = int(request.POST['current']) + 1
+  else:
+    current = 1
+  
+  # validate the previous form and return to it with errors if needed
+  if form_parts[current - 1]():
+    repo_form = RepositoryForm()
+    project_form = ProjectForm()
+    blog_form = BlogForm()
+  else:
+    repo_form = RepositoryForm(request.POST)
+    project_form = ProjectForm(request.POST)
+    blog_form = BlogForm(request.POST)
+    current -= 1
+  
+  # if there are more parts to the form
+  if current < len(form_parts):
+    # remove the csrf token and current from a copy of the POST data
+    post = request.POST.copy()
+    if 'csrfmiddlewaretoken' in post:
+      post.pop('csrfmiddlewaretoken')
+      post.pop('current')
+
+      # remove any of the keys that should be set on this form page
+      for key in form_keys[current]:
+        try:
+          post.pop(key)
+        except:
+          pass
+    
+    return render_to_response('projects/add.html', {
+        'parts': form_parts,
+        'current': current,
+        'previous_data': post,
+        'repo_form': repo_form,
+        'project_form': project_form,
+        'blog_form': blog_form
+      }, context_instance = RequestContext(request))
+  
+  # otherwise, if the form is complete, create the project
+  else:
+    # create the blog object
+    if 'rss' in request.POST:
+      blog = Blog(url = request.POST['url'],
+                  rss = request.POST['rss'],
+                  external = True)
+      blog.fetch()
+    else:
+      blog = Blog(external = False)
+    blog.save()
+
+    # create the repository object
+    if 'clone_url' in request.POST:
+      repo = Repository(web_url = request.POST['web_url'],
+                        clone_url = request.POST['clone_url'],
+                        cloned = True)
+    else:
+      repo = Repository(web_url = request.POST['web_url'],
+                        repo_rss = request.POST['repo_rss'],
+                        cloned = False)
+    repo.save()
+
+    # create the project object
+    project = Project(title = request.POST['title'],
+                      website = request.POST['website'],
+                      wiki = request.POST['wiki'],
+                      description = request.POST['description'],
+                      active = True,
+                      repository_id = repo.id,
+                      blog_id = blog.id)
+
+    # get the project a primary key
+    project.save()
+
+    # associate the current user with the project as an author
+    project.authors.add(request.user)
+
+    # save the project again
+    project.save()
+
+    # redirect to the show page for the new project
+    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+                                        args = (project.id,)))
 
 # a view for modifying an existing project
 @login_required
@@ -75,49 +179,6 @@ def modify(request, project_id):
     'project': project,
     'form': ProjectForm(project)
   }, context_instance = RequestContext(request))
-
-# saves a new project and redirects to its information page
-@login_required
-def create(request):
-  # find the RSS feeds
-  response, blog_rss, repo_rss = find_feeds(request,
-                                            'dashboard.views.projects.create')
-  
-  # if a response was created, return it
-  if response is not None:
-    return response
-  
-  # create the blog object
-  blog = Blog(url = request.POST['blog'],
-              rss = blog_rss)
-  blog.fetch()
-  
-  # create the repo object
-  repo = Repository(url = request.POST['repository'],
-                    rss = repo_rss)
-  repo.save()
-  
-  # create the project object
-  project = Project(title = request.POST['title'],
-                    website = request.POST['website'],
-                    wiki = request.POST['wiki'],
-                    active = 'active' in request.POST,
-                    description = request.POST['description'],
-                    repository_id = repo.id,
-                    blog_id = blog.id)
-  
-  # get the project a primary key
-  project.save()
-  
-  # associate the current user with the project as an author
-  project.authors.add(request.user)
-  
-  # save the project again
-  project.save()
-  
-  # redirect to the show page for the new project
-  return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                      args = (project.id,)))
 
 # saves an existing project and redirects to its information page
 @login_required

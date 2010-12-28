@@ -16,8 +16,12 @@ urlpatterns = patterns('',
     (r'^admin', include(admin.site.urls)),
     
     # blog posts
-    (r'^posts/page/(\d+)', 'dashboard.views.blogs.posts_page'),
+    (r'^post/(\d+)/modify', 'dashboard.views.blogs.edit_post'),
+    (r'^post/(\d+)/update', 'dashboard.views.blogs.update_post'),
     (r'^post/(\d+)', 'dashboard.views.blogs.show_post'),
+    (r'^posts/add/(\d+)', 'dashboard.views.blogs.write_post'),
+    (r'^posts/create/(\d+)', 'dashboard.views.blogs.create_post'),
+    (r'^posts/page/(\d+)', 'dashboard.views.blogs.posts_page'),
     (r'^posts', 'dashboard.views.blogs.posts'),
     
     # users
@@ -35,7 +39,6 @@ urlpatterns = patterns('',
     (r'^projects/add-user', 'dashboard.views.projects.add_user'),
     (r'^projects/remove-user', 'dashboard.views.projects.remove_user'),
     (r'^projects/add', 'dashboard.views.projects.add'),
-    (r'^projects/create', 'dashboard.views.projects.create'),
     (r'^projects/(\d+)/modify', 'dashboard.views.projects.modify'),
     (r'^projects/(\d+)/update', 'dashboard.views.projects.update'),
     (r'^projects/(\d+)', 'dashboard.views.projects.show'),

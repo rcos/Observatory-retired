@@ -94,6 +94,10 @@
     </ul>
 {% endif %}
 
+<div id="project-clone">
+    {{ project.repository.clone_cmd }}
+</div>
+
 <div id="project-description">
     {{ project.description|linebreaks }}
 </div>

@@ -20,6 +20,14 @@ class ProjectForm(forms.ModelForm):
     model = Project
     fields = ('title', 'website', 'wiki', 'active', 'description')
 
+class RepositoryForm(forms.ModelForm):
+  class Meta:
+    model = Repository
+
+class BlogForm(forms.ModelForm):
+  class Meta:
+    model = Blog
+
 class UploadScreenshotForm(forms.Form):
   title = forms.CharField(max_length = 32)
   description = forms.CharField(max_length = 100)

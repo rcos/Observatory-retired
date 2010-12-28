@@ -2,61 +2,184 @@
 
 {% block title %}Dashboard • Add Project{% endblock %}
 
+{% block head %}
+<style>
+    {% for part in parts %}
+        {% if part != current %}
+            #part-{{ part }} { display: none; }
+        {% endif %}
+    {% endfor %}
+</style>
+{% endblock %}
+
 {% block content %}
-<h2>Add a Project</h2>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url dashboard.views.projects.create %}" method="post">
+<form action="{% url dashboard.views.projects.add %}"
+ id="part-1" method="post">
     {% csrf_token %}
+    <input type="hidden" name="current" value="{{ current }}" />
     
+    <h2>Add a Project</h2>
     <div class="form-col-left">
         <p>
-            <label for="id_title">Project Title</label>
-            <input type="text" id="id_title" name="title"
-                value="{{ project.title }}" />
+            {{ project_form.title.label_tag }}
+            {{ project_form.title }}
+            {{ project_form.title.errors }}
         </p>
-    
         <p>
-            <label for="id_description">Description</label>
-            <textarea id="id_description" rows="17" cols="40"
-                name="description">{{ project.description }}</textarea>
+            {{ project_form.website.label_tag }}
+            {{ project_form.website }}
+            {{ project_form.website.errors }}
+        </p>
+        <p>
+            {{ project_form.wiki.label_tag }}
+            {{ project_form.wiki }}
+            {{ project_form.wiki.errors }}
         </p>
     </div>
     <div class="form-col-right">
         <p>
-            <label for="id_website">Website</label>
-            <input type="text" id="id_website" name="website"
-                value="{{ project.website }}" />
-        </p>
-    
-        <p>
-            <label for="id_repository">Repository</label>
-            <input type="text" id="id_repository" name="repository"
-                value="{{ project.repository.url }}" />
-        </p>
-    
-        <p>
-            <label for="id_blog">Blog</label>
-            <input type="text" id="id_blog" name="blog"
-                value="{{ project.blog.url }}" />
-        </p>
-    
-        <p>
-            <label for="id_wiki">Wiki</label>
-            <input type="text" id="id_wiki" name="wiki"
-                value="{{ project.wiki }}" />
-        </p>
-    
-        <p>
-            <label for="id_active">Active</label>
-            <input type="checkbox" id="id_active" name="active"
-                value="{{ project.active }}" />
+            {{ project_form.description.label_tag }}
+            {{ project_form.description }}
+            {{ project_form.description.errors }}
         </p>
     </div>
     
     <div class="submitbutton">
-        <input type="submit" class="button" value="Create Project" />
+        <input type="submit" class="button" value="Next Step" />
     </div>
 </form>
+
+<div id="part-2">
+    <div class="form-col-left">
+        <h2>Clone my repository!</h2>
+        <p>
+            Observatory can directly access git, Mercurial, Bazaar, and
+            Subversion repositories. This allows us to build an archive,
+            and fetch the maximum amount of information about your
+            repository, so this method should be used if possible.
+        </p>
+        <form action="{% url dashboard.views.projects.add %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="current" value="{{ current }}" />
+            {% for key, value in previous_data.items %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}" />
+            {% endfor %}
+            
+            <p>
+                {{ repo_form.web_url.label_tag }}
+                {{ repo_form.web_url }}
+                {{ repo_form.web_url.errors }}
+            </p>
+            
+            <p>
+                {{ repo_form.clone_url.label_tag }}
+                {{ repo_form.clone_url }}
+                {{ repo_form.clone_url.errors }}
+            </p>
+            
+            <p>
+                {{ repo_form.vcs.label_tag }}
+                {{ repo_form.vcs }}
+                {{ repo_form.vcs.errors }}
+            </p>
+            <div class="submitbutton">
+                <input type="submit" class="button" value="Clone it!" />
+            </div>
+        </form>
+    </div>
+    
+    <div class="form-col-right">
+        <h2>Use a feed.</h2>
+        <p>
+            If Observatory doesn't support your version control system, an
+            RSS or Atom feed can be used to track changes. This is less
+            powerful, and doesn't allow us to automatically archive your
+            project and your project's history.
+        </p>
+        <form action="{% url dashboard.views.projects.add %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="current" value="{{ current }}">
+            {% for key, value in previous_data.items %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}" />
+            {% endfor %}
+            
+            <p>
+                {{ repo_form.web_url.label_tag }}
+                {{ repo_form.web_url }}
+                {{ repo_form.web_url.errors }}
+            </p>
+            
+            <p>
+                {{ repo_form.repo_rss.label_tag }}
+                {{ repo_form.repo_rss }}
+                {{ repo_form.repo_rss.errors }}
+            </p>
+            
+            <p>
+                {{ repo_form.cmd.label_tag }}
+                {{ repo_form.cmd }}
+                {{ repo_form.cmd.errors }}
+            </p>
+            
+            <div class="submitbutton">
+                <input type="submit" class="button" value="Use my feed" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="part-3">
+    <div class="form-col-left">
+        <h2>Use a blog RSS feed.</h2>
+        <p>
+            If you have an existing blog for your project, Observatory will
+            track and automatically mirror it.
+        </p>
+        <form action="{% url dashboard.views.projects.add %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="current" value="{{ current }}" />
+            {% for key, value in previous_data.items %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}" />
+            {% endfor %}
+
+            <p>
+                {{ blog_form.url.label_tag }}
+                {{ blog_form.url }}
+                {{ blog_form.url.errors }}
+            </p>
+            <p>
+                {{ blog_form.rss.label_tag }}
+                {{ blog_form.rss }}
+                {{ blog_form.rss.errors }}
+            </p>
+            <div class="submitbutton">
+                <input type="submit" class="button" value="Use my feed" />
+            </div>
+        </form>
+    </div>
+
+    <div class="form-col-right">
+        <h2>Host my blog!</h2>
+        <p>
+            If you don't have an existing blog for your project, you can use
+            Observatory's simple blog system.
+        </p>
+        <form action="{% url dashboard.views.projects.add %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="current" value="{{ current }}" />
+            {% for key, value in previous_data.items %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}" />
+            {% endfor %}
+            
+            <div class="submitbutton">
+                <input type="submit" class="button" value="Create a blog" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div style="clear:both"></div>
 {% endblock %}

@@ -239,6 +239,15 @@ body {
 }
 
 /* project pages */
+#project-clone {
+	clear: both;
+	font-family: monospace;
+	background: #ccc;
+	text-shadow: 0px 1px 1px white;
+	margin: 0px -20px;
+	padding: 3px 20px;
+}
+
 #project-description {
   clear: both;
   padding: 0px 0px 30px 0px;
@@ -293,7 +302,7 @@ label {
   display: block;
 }
 
-input, textarea {
+input, textarea, select {
   width: 100%;
   font-family: inherit;
   font-size: 16pt;
@@ -363,7 +372,7 @@ a.button {
   display: block;
 }
 
-.button, .button-small {
+.button, .button-small, select {
   text-decoration: none;
   border: 1px solid #aaa;
   padding: 0px 15px;
@@ -386,17 +395,20 @@ a.button {
   text-shadow: 0px 1px 1px #fff;
 }
 
-.button:hover, .button-small:hover {
+.button:hover, .button:focus,
+.button-small:hover, .button-small:focus
+select:hover, select:focus {
   background-image: url('/site-media/pixels/button-hover.gif');
   color: rgb(51, 56, 80);
   border-color: rgb(62, 92, 252);
+  outline: none;
   
   -moz-text-shadow: 0px 1px 1px rgb(163, 178, 255);
   -webkit-text-shadow: 0px 1px 1px rgb(163, 178, 255);
   text-shadow: 0px 1px 1px rgb(163, 178, 255);
 }
 
-.button:active, .button-small:active {
+.button:active, .button-small:active, select:active {
   background-image: url('/site-media/pixels/button-active.gif');
   color: black;
   border-color: black;
