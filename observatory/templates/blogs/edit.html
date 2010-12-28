@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if post %}
+        <h2>Editing "{{ post.title }}"</h2>
+        <form action="{% url dashboard.views.blogs.update_post post.id %}"
+              method="post">
+    {% else %}
+        <h2>Write a post about {{ project.title }}</h2>
+        <form action="{% url dashboard.views.blogs.create_post project.id %}"
+              method="post">
+    {% endif %}
+    
+    {% csrf_token %}
+    {{ form }}
+    
+    <div class="submitbutton">
+        <input type="submit" class="button" value="Save Post" />
+    </div>
+    </form>
+{% endblock %}

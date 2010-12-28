@@ -28,6 +28,11 @@ class BlogForm(forms.ModelForm):
   class Meta:
     model = Blog
 
+class BlogPostForm(forms.ModelForm):
+  class Meta:
+    model = BlogPost
+    fields = ('title', 'markdown')
+
 class UploadScreenshotForm(forms.Form):
   title = forms.CharField(max_length = 32)
   description = forms.CharField(max_length = 100)

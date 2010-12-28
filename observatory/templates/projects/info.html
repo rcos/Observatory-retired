@@ -1,0 +1,14 @@
+<ul class="project-info">
+    {% if user in project.authors.all %}
+        <li>
+            <a href="{% url dashboard.views.projects.modify project.id %}">
+                Modify
+            </a>
+        </li>
+    {% endif %}
+    <li><a href="{{ project.website }}">Website</a></li>
+    <li><a href="{% url dashboard.views.blogs.show_blog project.id %}">
+        Blog
+    </a></li>
+    <li><a href="{{ project.repository.web_url }}">Repository</a></li>
+</ul>

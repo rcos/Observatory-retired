@@ -4,7 +4,16 @@
 
 {% block content %}
 {% autoescape off %}
-<h2>{{ post.title }}</h2>
-{{ post.content }}
+    <h2 style="float:left">{{ post.title }}</h2>
+    {% if user in post.blog.project.authors.all %}
+        <div style="float:right">
+            <a href="{% url dashboard.views.blogs.edit_post post.id %}"
+               class="button-small">
+                Edit Post
+            </a>
+        </div>
+    {% endif %}
+    <div style="clear:both"></div>
+    {{ post.content }}
 {% endautoescape %}
 {% endblock %}

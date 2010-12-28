@@ -36,12 +36,13 @@ urlpatterns = patterns('',
     # projects
     (r'^projects/(\d+)/upload-screenshot',
       'dashboard.views.projects.upload_screenshot'),
+    (r'^projects/(\d+)/modify', 'dashboard.views.projects.modify'),
+    (r'^projects/(\d+)/update', 'dashboard.views.projects.update'),
+    (r'^projects/(\d+)/blog', 'dashboard.views.blogs.show_blog'),
+    (r'^projects/(\d+)', 'dashboard.views.projects.show'),
     (r'^projects/add-user', 'dashboard.views.projects.add_user'),
     (r'^projects/remove-user', 'dashboard.views.projects.remove_user'),
     (r'^projects/add', 'dashboard.views.projects.add'),
-    (r'^projects/(\d+)/modify', 'dashboard.views.projects.modify'),
-    (r'^projects/(\d+)/update', 'dashboard.views.projects.update'),
-    (r'^projects/(\d+)', 'dashboard.views.projects.show'),
     (r'^projects/list', 'dashboard.views.projects.list'),
     
     # serve media (for now)

@@ -12,13 +12,16 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-from dashboard.models import BlogPost
+from dashboard.forms import BlogPostForm
+from dashboard.models import BlogPost, Blog, Project
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
+from lib.markdown import markdown
 
 # the number of posts per page
 POSTS_PER_PAGE = 5
@@ -41,6 +44,17 @@ def posts_page(request, page_num):
       'page': paginator.page(page_num)
     }, context_instance = RequestContext(request))
 
+# shows a project's internally hosted blog, or redirects to an external one
+def show_blog(request, project_id):
+  project = get_object_or_404(Project, id = project_id)
+  if project.blog.external:
+    return HttpResponseRedirect(project.blog.url)
+  else:
+    return render_to_response('blogs/show-blog.html', {
+        'project': project,
+        'posts': project.blog.blogpost_set.all()
+      }, context_instance = RequestContext(request))
+
 # shows a specific blog post
 def show_post(request, post_id):
   return render_to_response('blogs/show-post.html', {
@@ -48,30 +62,74 @@ def show_post(request, post_id):
     }, context_instance = RequestContext(request))
 
 # allows management of blogs hosted on dashboard
-def manage(request, blog_id):
+@login_required
+def manage(request, project_id):
   return render_to_response('blogs/manage.html', {
-      'blog': get_object_or_404(Blog, id = int(blog_id))
-    }, context_index = RequestContext(request))
+      'project': get_object_or_404(Project, id = int(project_id))
+    }, context_instance = RequestContext(request))
 
 # write a new post
-def write_post(request, blog_id):
+@login_required
+def write_post(request, project_id):
   return render_to_response('blogs/edit.html', {
-      'blog': get_object_or_404(Blog, id = int(blog_id))
-    }, context_index = RequestContext(request))
+      'project': get_object_or_404(Project, id = int(project_id)),
+      'form': BlogPostForm()
+    }, context_instance = RequestContext(request))
 
 # edit an existing post
+@login_required
 def edit_post(request, post_id):
-  post = get_object_or_404(Post, id = int(post_id))
+  post = get_object_or_404(BlogPost, id = int(post_id))
   return render_to_response('blogs/edit.html', {
-      'blog': post.blog,
-      'post': post
-    }, context_index = RequestContext(request))
+      'project': post.blog.project,
+      'post': post,
+      'form': BlogPostForm(instance = post)
+    }, context_instance = RequestContext(request))
 
 # creates a new post
-def create_post(request, blog_id):
-  return HttpReponseRedirect('dashboard.views.blogs.show_post',
-                             args = (post.id,))
+@login_required
+def create_post(request, project_id):
+  form = BlogPostForm(request.POST)
+  project = get_object_or_404(Project, id = int(project_id))
+  
+  # validate the form
+  if form.is_valid():
+    html = markdown(request.POST['markdown'])
+    post = BlogPost(title = request.POST['title'],
+                    markdown = request.POST['markdown'],
+                    content = html,
+                    summary = html)
+    post.blog = project.blog
+    post.save()
+    
+    return HttpResponseRedirect(reverse('dashboard.views.blogs.show_post',
+                                        args = (post.id,)))
+  else:
+    return render_to_response('blogs/edit.html', {
+        'project': project,
+        'form': form
+      }, context_instance = RequestContext(request)) 
 
 # updates a previously posted post, and redirects to the management page
+@login_required
 def update_post(request, post_id):
-  return HttpResponseRedirect(reverse('dashboard.views.blogs.manage'))
+  form = BlogPostForm(request.POST)
+  post = get_object_or_404(BlogPost, id = int(post_id))
+  
+  # validate the form
+  if form.is_valid():
+    # update the post
+    html = markdown(request.POST['markdown'])
+    post.title = request.POST['title']
+    post.markdown = request.POST['markdown']
+    post.content = html
+    post.summary = html
+    post.save()
+    
+    return HttpResponseRedirect(reverse('dashboard.views.blogs.show_post',
+                                        args = (post.id,)))
+  else:
+    return render_to_response('blogs/edit.html', {
+        'project': post.blog.project,
+        'form': form
+      }, context_instance = RequestContext(request))

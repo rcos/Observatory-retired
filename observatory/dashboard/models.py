@@ -50,15 +50,15 @@ class Blog(models.Model):
 # a post in a blog
 class BlogPost(models.Model):
   # title of the post
-  title = models.CharField(max_length = 128)
+  title = models.CharField("Title", max_length = 128)
   
   # the text of the post
-  markdown = models.TextField()
+  markdown = models.TextField("Content")
   content = models.TextField()
   summary = models.TextField()
   
   # when the post was made
-  date = models.DateTimeField()
+  date = models.DateTimeField(auto_now_add = True)
   
   # what blog the post is associated with
   blog = models.ForeignKey(Blog)
