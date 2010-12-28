@@ -5,12 +5,21 @@ html {
   font-family: 'Helvetica Neue', Helvetica, sans-serif;
   font-size: 10pt;
   color: rgb(30, 30, 30);
-  text-align: justify;
 }
 
 body {
   width: 790px;
   margin: 0px auto;
+}
+
+p {
+  text-align: justify;
+}
+
+pre {
+  font-family: 'Monaco', monospace;
+  font-size: 12px;
+  overflow: hidden;
 }
 
 /* Navigation bar */
@@ -65,7 +74,7 @@ body {
 }
 
 /* Main content */
-#content {
+#content, .extra-content {
    background: url('/site-media/pixels/content-top.gif');
    background-repeat: repeat-x;
    background-color: #fff;
@@ -81,22 +90,33 @@ body {
    box-shadow: 0px 5px 20px #000;
 }
 
-#content h2 {
-  font-size: 20pt;
-  margin: 0px 0px 10px 0px;
+#content h2, .extra-content h2, #content h3, .extra-content h3 {
   color: rgb(50, 50, 50);
-
+  text-overflow: ellipsis;
   -moz-text-shadow: 0px 1px 1px #fff;
   -webkit-text-shadow: 0px 1px 1px #fff;
   text-shadow: 0px 1px 1px #fff;
 }
 
-#content h2 a {
+#content h2, .extra-content h2 {
+    font-size: 20pt;
+    margin: 0px 0px 10px 0px;
+}
+
+#content h3, .extra-content h3 {
+    font-size: 14px;
+    line-height: 16px;
+    padding: 0px;
+    margin: -5px 0px 0px 0px;
+}
+
+#content h2 a, .extra-content h2 a, #content h3 a, .extra-content h3 a {
    color: inherit;
    text-decoration: none;
 }
 
-#content h2 a:hover {
+#content h2 a:hover, .extra-content h2 a:hover,
+#content h3 a:hover, .extra-content h3 a:hover {
    color: black;
 }
 
@@ -154,6 +174,22 @@ body {
 
 .project-info a:hover {
   color: black;
+}
+
+/* events */
+.event-gravatar {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  float: left;
+  margin: -2px 5px 0px 0px;
+}
+
+h3.event-author {
+  float:right;
+  font-size: 12px;
+  padding: 20px 0px 0px 0px;
+  margin: 0px;
 }
 
 /* project listing */

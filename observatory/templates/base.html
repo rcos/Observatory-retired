@@ -1,5 +1,7 @@
 {% load javascript %}
 
+{% spaceless %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +12,7 @@
 <body>
     <div id="top">
         <h1>
-            <a href="{% url dashboard.views.projects.index %}">
+            <a href="{% url dashboard.views.main.index %}">
                 Dashboard
             </a>
         </h1>
@@ -53,5 +55,9 @@
         {% endif %}
         {% block content %}{% endblock %}
     </div>
+    {% block extracontent %}
+    {% endblock %}
 </body>
 </html>
+
+{% endspaceless %}

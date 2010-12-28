@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load gravatar %}
+
+{% block content %}
+This is where we should put some basic information about the dashboard, I suppose.
+{% endblock %}
+
+{% block extracontent %}
+    {% if events %}
+        {% for event in events %}
+            <div class="extra-content">
+                {% if event.link %}
+                    <h3><a href="{{ event.link }}">{{ event.title }}</a></h3>
+                {% else %}
+                    <h3>{{ event.title }}</h3>
+                {% endif %}
+                
+                {# this has to be no spaces because of <pre> #}
+                {% if event.wrap_tags %}
+{% for tag in event.wrap_tags %} <{{ tag }}>{% endfor %}{% endif %}{% if not event.autoescape %}{% autoescape off %}{{ event.description }}{% endautoescape %}{% else %}{{ event.description }}{% endif %}{% if event.wrap_tags %}{% for tag in event.wrap_tags_rev %}</{{ tag }}>{% endfor %}{% endif %}
+                
+                <h3 class="event-author">
+                    {% if event.author %}
+                        <a href="{% url dashboard.views.users.profile event.author.id %}">
+                            <img src="{{ event.author|gravatar:20 }}"
+                             alt="{{ event.author.get_full_name }}"
+                             class="event-gravatar" />
+                            {{ event.author.get_full_name }} •
+                        </a>
+                    {% else %}
+                        {% if event.author_name %}
+                            {{ event.author_name }} •
+                        {% endif %}
+                    {% endif %}
+                    {{ event.type_name }} •
+                    <a href="{% url dashboard.views.projects.show event.project.id %}">
+                        {{ event.project.title }}
+                    </a>
+                </h3>
+                <div style="clear:both"></div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="extra-content">
+            <h3>No events yet.</h3>
+        </div>
+    {% endif %}
+{% endblock %}

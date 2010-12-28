@@ -14,6 +14,7 @@
 
 import datetime
 import os
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.contrib.auth.models import User
 from lib import feedparser, dateutil
@@ -29,6 +30,22 @@ class Event(models.Model):
   
   # the description is the main content for the event
   description = models.TextField()
+  
+  # whether or not the description should be autoescaped
+  def autoescape(self):
+    return True
+  
+  # the tags that should wrap the description when displayed
+  def wrap_tags(self):
+    return None
+  
+  # the name of the event type, by default this is just the class name
+  def type_name(self):
+    return self.__class__.__name__
+  
+  # a link to more details on the event
+  def link(self):
+    return None
 
 # a blog for a project
 class Blog(models.Model):
@@ -73,6 +90,18 @@ class BlogPost(Event):
   
   # what blog the post is associated with
   blog = models.ForeignKey(Blog)
+  
+  def project(self):
+    return self.blog.project
+    
+  def autoescape(self):
+    return False
+  
+  def type_name(self):
+    return "Post"
+  
+  def link(self):
+    return reverse('dashboard.views.blogs.show_post', args = (self.id,))
   
 # a version control repository
 class Repository(models.Model):
@@ -156,7 +185,30 @@ class Commit(Event):
 
   # the repository the commit is part of
   repository = models.ForeignKey(Repository)
-
+  
+  def autoescape(self):
+    return False
+  
+  def project(self):
+    return self.repository.project
+    
+  def wrap_tags(self):
+    if self.description.find('<pre>') is -1:
+      return ['p', 'pre']
+    else:
+      return ['p']
+  
+  def wrap_tags_rev(self):
+    tags = self.wrap_tags()
+    tags.reverse()
+    return tags
+  
+  def link(self):
+    if self.repository.cloned:
+      return None
+    else:
+      return self.url
+    
 # an RCOS project
 class Project(models.Model):  
   # basic things

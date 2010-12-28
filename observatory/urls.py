@@ -46,11 +46,11 @@ urlpatterns = patterns('',
     (r'^projects/remove-user', 'dashboard.views.projects.remove_user'),
     (r'^projects/add', 'dashboard.views.projects.add'),
     (r'^projects/list', 'dashboard.views.projects.list'),
+    (r'^projects', 'dashboard.views.projects.index'),
     
     # serve media (for now)
     (r'^site-media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
     
-    # default to showing the dashboard view (for now)
-    (r'', 'dashboard.views.projects.index'),
+    (r'', 'dashboard.views.main.index'),
 )

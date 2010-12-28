@@ -7,14 +7,14 @@ Dashboard • Upload a screenshot for {{ project.title }}
 {% block content %}
 <h2>Upload a screenshot for {{ project.title }}</h2>
 <form method="post"
-	action="{% url dashboard.views.projects.upload_screenshot project.id %}"
-	enctype="multipart/form-data">
-		{% csrf_token %}
-		
-		{{ form }}
-		
+    action="{% url dashboard.views.projects.upload_screenshot project.id %}"
+    enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {{ form }}
+        
     <div class="submitbutton">
-    		<input type="submit" value="Upload Screenshot" />
+            <input type="submit" value="Upload Screenshot" />
     </div>
 </form>
 {% endblock %}
