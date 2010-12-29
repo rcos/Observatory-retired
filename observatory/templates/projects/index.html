@@ -32,6 +32,15 @@
             {% include "projects/info.html" %}
             <div style="clear:both"></div>
             {{ project.description }}
+            <div class="project-updated">
+                <div style="float:left">
+                    {{ project.repository.when_updated }}
+                </div>
+                <div style="float:right">
+                    {{ project.blog.when_updated }}
+                </div>
+                <div style="clear:both"></div>
+            </div>
         </div>
     {% endfor %}
 </div>

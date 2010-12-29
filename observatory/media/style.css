@@ -265,6 +265,26 @@ h3.event-author {
   text-decoration: underline;
 }
 
+.project-updated {
+  background-image: url('/site-media/pixels/button-active.gif');
+  margin: 20px -20px -20px -20px;
+  padding: 5px 20px;
+  color: #AAA;
+  font-size: smaller;
+  font-weight: bold;
+  
+  -webkit-border-bottom-right-radius: 12px;
+  -webkit-border-bottom-left-radius: 12px;
+  -moz-border-radius-bottomright: 12px;
+  -moz-border-radius-bottomleft: 12px;
+  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+  
+  -moz-text-shadow: 0px -1px 1px #000;
+  -webkit-text-shadow: 0px -1px 1px #000;
+  text-shadow: 0px -1px 1px #000;
+}
+
 /* project pages */
 #project-clone {
 	clear: both;

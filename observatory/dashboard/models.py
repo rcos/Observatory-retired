@@ -19,6 +19,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from lib import feedparser, dateutil
 from settings import SCREENSHOT_URL
+from util import time_ago
 
 # an event is currently either a blog post or a commit
 class Event(models.Model):
@@ -51,30 +52,34 @@ class Event(models.Model):
   
   # how old the event is (relative to now by default)
   def age(self, time = datetime.datetime.now()):
-    delta = time - self.date
-    
-    def plural(number, descriptor):
-      if number == 1:
-        return "{0} {1} ago".format(number, descriptor)
-      else:
-        return "{0} {1}s ago".format(number, descriptor)
-    
-    if delta.days >= 7:
-      return plural(int(delta.days / 7), "week")
-    if delta.days > 0:
-      return plural(delta.days, "day")
-    if delta.seconds >= 60 * 60:
-      return plural(int(delta.seconds / (60 * 60)), "hour")
-    if delta.seconds >= 60:
-      return plural(int(delta.seconds / 60), "minute")
-    return plural(delta.seconds, "second")
+    return time_ago(self.date, time)
   
   # a link to more details on the event
   def link(self):
     return None
 
+# a set of events (a blog or repository)
+class EventSet(models.Model):
+  # most recent time to add new events for
+  most_recent_date = models.DateTimeField(default = datetime.datetime(1, 1, 1))
+  
+  # how recent was the last update?
+  def age_ago(self, time = datetime.datetime.now()):
+    return time_ago(self.most_recent_date, time)
+  
+  # when was this eventset last updated?
+  def when_updated(self):
+    if self.most_recent_date != datetime.datetime(1, 1, 1):
+      return "{0} updated {1}".format(self.__class__.__name__, self.age_ago())
+    else:
+      return "{0} never updated".format(self.__class__.__name__,
+                                        self.age_ago())
+  
+  class Meta:
+    abstract = True
+
 # a blog for a project
-class Blog(models.Model):
+class Blog(EventSet):
   # link to the blog, if it isn't hosted on dashboard
   url = models.URLField("Blog Web Address", max_length = 64)
   rss = models.URLField("Blog Feed", max_length = 64)
@@ -82,8 +87,9 @@ class Blog(models.Model):
   # external (from an rss feed)? or hosted by dashboard?
   external = models.BooleanField()
   
-  # most recent time to add new posts for
-  most_recent_date = models.DateTimeField(default = datetime.datetime(1, 1, 1))
+  # how recent was the last post?
+  def age_ago(self, time = datetime.datetime.now()):
+    return time_ago(self.most_recent_date, time)
   
   # fetches the posts from the rss feed
   def fetch(self):
@@ -164,7 +170,7 @@ class BlogPost(Event):
     return reverse('dashboard.views.blogs.show_post', args = (self.id,))
   
 # a version control repository
-class Repository(models.Model):
+class Repository(EventSet):
   # web access to the repository
   web_url = models.URLField("Repository Web Address", max_length = 128)
   
@@ -183,9 +189,6 @@ class Repository(models.Model):
   
   # whether the repo uses cloning or just an rss feed
   cloned = models.BooleanField()
-  
-  # most recent time to add new commits for
-  most_recent_date = models.DateTimeField(default = datetime.datetime(1, 1, 1))
   
   def fetch(self):
     if self.cloned:
