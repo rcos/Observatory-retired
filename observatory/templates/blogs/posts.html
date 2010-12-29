@@ -7,6 +7,7 @@
 {% if page %}
     {% autoescape off %}
     <div id="posts-list">
+        {% if page.object_list %}
         {% for post in page.object_list %}
         <div class="post extra-content" id="post-{{ post.id }}">
             <h2><a href="{% url dashboard.views.blogs.show_post post.id %}">
@@ -38,6 +39,11 @@
         </div>
         
         {% endfor %}
+        {% else %}
+            <div id="content">
+                <h2>No posts found.</h2>
+            </div>
+        {% endif %}
     </div>
     {% endautoescape %}
     
