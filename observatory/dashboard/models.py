@@ -31,6 +31,12 @@ class Event(models.Model):
   # the description is the main content for the event
   description = models.TextField()
   
+  # the author of the event, if he/she is in dashboard
+  author = models.ForeignKey(User, blank = True, null = True)
+
+  # the author's name, if he/she isn't in dashboard
+  author_name = models.CharField(max_length = 64, blank = True, null = True)
+  
   # whether or not the description should be autoescaped
   def autoescape(self):
     return True
@@ -76,27 +82,61 @@ class Blog(models.Model):
   # external (from an rss feed)? or hosted by dashboard?
   external = models.BooleanField()
   
+  # most recent time to add new posts for
+  most_recent_date = models.DateTimeField(default = datetime.datetime(1, 1, 1))
+  
   # fetches the posts from the rss feed
   def fetch(self):
     # don't fetch internally hosted blogs
-    if not external: return
+    if not self.external: return
     
     # make sure we can add blogposts to the blog
     self.save()
     
     # parse and iterate the feed
+    max_date = self.most_recent_date
     for post in feedparser.parse(self.rss).entries:
       # time manipation is fun
       date = dateutil.parser.parse(post.date)
       date = (date - date.utcoffset()).replace(tzinfo=None)
       
-      post = BlogPost(title = post.title,
+      # find the new most recently updated date
+      if max_date < date:
+        max_date = date
+      
+      # don't re-add old posts
+      if self.most_recent_date >= date:
+        continue
+      
+      # can we find an author for this blog post?
+      author_name = post.author_detail['name']
+      try:
+        author_firstlast = author_name.split(' ')
+        authors = User.objects.filter(first_name = author_firstlast[0],
+                                      last_name = author_firstlast[1])
+        if len(authors) is 1:
+          author = authors[0]
+        else:
+          author = None
+      except:
+        author = None
+      
+      post = BlogPost(author_name = author_name,
+                      title = post.title,
                       description = post.description,
                       summary = post.description,
                       date = date,
                       external = True)
       post.blog = self
+      if author is not None:
+        post.author = author
       post.save()
+      
+      # print out results
+      print "Post by {0} in {1} at {2}".format(author_name,
+                                               self.project.title,
+                                               date)
+    self.most_recent_date = max_date
     self.save()
   
 # a post in a blog
@@ -144,23 +184,32 @@ class Repository(models.Model):
   # whether the repo uses cloning or just an rss feed
   cloned = models.BooleanField()
   
+  # most recent time to add new commits for
+  most_recent_date = models.DateTimeField(default = datetime.datetime(1, 1, 1))
+  
   def fetch(self):
     if self.cloned:
       pass
     else:
+      max_date = self.most_recent_date
       for commit in feedparser.parse(self.repo_rss).entries:
         date = dateutil.parser.parse(commit.date)
         date = (date - date.utcoffset()).replace(tzinfo=None)
+
+        # find the new most recently updated date
+        if max_date < date:
+          max_date = date
+        
+        # don't re-add old commits
+        if self.most_recent_date >= date:
+          continue
         
         # can we find an author for this commit?
         author_name = commit.author_detail['name']
-        print author_name
         try:
           author_firstlast = author_name.split(' ')
-          print author_firstlast
           authors = User.objects.filter(first_name = author_firstlast[0],
                                         last_name = author_firstlast[1])
-          print authors
           if len(authors) is 1:
             author = authors[0]
           else:
@@ -178,6 +227,14 @@ class Repository(models.Model):
         if author is not None:
           commit.author = author
         commit.save()
+        
+        # print out results
+        print "Commit by {0} in {1} at {2}".format(author_name,
+                                                   self.project.title,
+                                                   date)
+        
+      self.most_recent_date = max_date
+      self.save()
   
   def clone_cmd(self):
     if self.cloned:
@@ -193,12 +250,6 @@ class Repository(models.Model):
 class Commit(Event):
   # the url to the commit (in cgit, etc.)
   url = models.URLField("Commit URL", max_length = 200, blank = True)
-
-  # the author of the commit, if he/she is in dashboard
-  author = models.ForeignKey(User, blank = True, null = True)
-
-  # the author's name, if he/she isn't in dashboard
-  author_name = models.CharField(max_length = 64, blank = True, null = True)
   
   # the diff for the commit. This won't exist for RSS commits
   diff = models.TextField(blank = True, null = True)
@@ -254,6 +305,11 @@ class Project(models.Model):
   
   # if the project is currently active
   active = models.BooleanField("Currently Active")
+  
+  # fetch and update the project's blog and repository
+  def fetch(self):
+    self.blog.fetch()
+    self.repository.fetch()
   
   # string representation of the project
   def __unicode__(self):
