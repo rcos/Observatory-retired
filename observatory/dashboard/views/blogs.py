@@ -109,6 +109,7 @@ def create_post(request, project_id):
                     description = html,
                     summary = html,
                     external = False,
+                    author = request.user,
                     date = datetime.datetime.now())
     post.blog = project.blog
     post.save()
