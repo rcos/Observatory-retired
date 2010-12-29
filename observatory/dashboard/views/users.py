@@ -23,7 +23,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 def profile(request, user_id):
   return render_to_response('users/profile.html', {
       'user_page': get_object_or_404(User, id = int(user_id))
-    })
+    }, context_instance = RequestContext(request))
 
 # displays both the login and registration forms. If there is an error with the
 # selected form, the user is redirected to a page with only that form.
