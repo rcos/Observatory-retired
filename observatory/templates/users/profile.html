@@ -5,12 +5,12 @@
 
 {% block content %}
 <div id="profile-left">
-    <h2>{{ user.get_full_name }}</h2>
+    <h2>{{ user_page.get_full_name }}</h2>
 
-    {% if user.project_set.all %}
+    {% if user_page.project_set.all %}
     <h3>Projects</h3>
     <ul>
-        {% for project in user.project_set.all %}
+        {% for project in user_page.project_set.all %}
             <li>
                 <a href="{% url dashboard.views.projects.show project.id %}">
                     {{ project.title }}
@@ -23,7 +23,7 @@
     {% endif %}
 </div>
 
-<img src="{{ user|gravatar:200 }}" alt="{{ user.get_full_name }}"
+<img src="{{ user_page|gravatar:200 }}" alt="{{ user_page.get_full_name }}"
     id="profile-gravatar" />
 <div style="clear:both">
 {%  endblock %}

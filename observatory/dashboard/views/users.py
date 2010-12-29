@@ -22,7 +22,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 # display's the user's profile
 def profile(request, user_id):
   return render_to_response('users/profile.html', {
-      'user': get_object_or_404(User, id = int(user_id))
+      'user_page': get_object_or_404(User, id = int(user_id))
     })
 
 # displays both the login and registration forms. If there is an error with the
