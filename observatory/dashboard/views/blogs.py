@@ -42,7 +42,8 @@ def posts_page(request, page_num):
   
   # otherwise, render
   return render_to_response('blogs/posts.html', {
-      'page': paginator.page(page_num)
+      'page': paginator.page(page_num),
+      'disable_content': True
     }, context_instance = RequestContext(request))
 
 # shows a project's internally hosted blog, or redirects to an external one
@@ -53,7 +54,7 @@ def show_blog(request, project_id):
   else:
     return render_to_response('blogs/show-blog.html', {
         'project': project,
-        'posts': project.blog.blogpost_set.all()
+        'posts': project.blog.blogpost_set.all(),
       }, context_instance = RequestContext(request))
 
 # shows a specific blog post
