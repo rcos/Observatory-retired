@@ -161,6 +161,7 @@
             <form method="post"
              action="{% url dashboard.views.projects.modify project.id 2 %}">
                 {% csrf_token %}
+                <input type="hidden" name="switch-to-hosted" value="yes" />
                 <div class="submitbutton">
                     <input type="submit" class="button"
                            value="Switch to Hosted" />

@@ -136,7 +136,6 @@ def add(request):
       blog = Blog(url = blog_form.cleaned_data['url'],
                   rss = blog_form.cleaned_data['rss'],
                   external = True)
-      blog.fetch()
     else:
       blog = Blog(external = False)
     blog.save()
@@ -243,9 +242,16 @@ def modify(request, project_id, tab_id = 1):
     if form.is_valid():
       project.blog.url = form.cleaned_data['url']
       project.blog.rss = form.cleaned_data['rss']
+      project.blog.external = True
+      project.blog.save()
       blog_form = BlogForm(instance = project.blog)
     else:
       blog_form = form
+  
+  # switching to hosted blog
+  if 'switch-to-hosted' in request.POST:
+    project.blog.external = False
+    project.blog.save()
       
   return render_to_response('projects/modify.html', {
     'project': project,
