@@ -105,7 +105,10 @@ class Blog(EventSet):
     for post in feedparser.parse(self.rss).entries:
       # time manipation is fun
       date = dateutil.parser.parse(post.date)
-      date = (date - date.utcoffset()).replace(tzinfo=None)
+      try:
+        date = (date - date.utcoffset()).replace(tzinfo=None)
+      except:
+        pass
       
       # find the new most recently updated date
       if max_date < date:
@@ -199,7 +202,10 @@ class Repository(EventSet):
       max_date = self.most_recent_date
       for commit in feedparser.parse(self.repo_rss).entries:
         date = dateutil.parser.parse(commit.date)
-        date = (date - date.utcoffset()).replace(tzinfo=None)
+        try:
+          date = (date - date.utcoffset()).replace(tzinfo=None)
+        except:
+          pass
 
         # find the new most recently updated date
         if max_date < date:
