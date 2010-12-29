@@ -338,18 +338,19 @@ class Project(models.Model):
     # a bit inefficient?
     count = float(len(Project.objects.all()))
     hue = self.rank / count
-    mainbg = colorsys.hsv_to_rgb(0.3 - hue * 0.3, 0.9, 0.9)
+    mainbg = colorsys.hsv_to_rgb(0.3 - hue * 0.3, 0.9, 0.75)
+    lightbg = colorsys.hsv_to_rgb(0.3 - hue * 0.3, 0.9, 0.9)
     darkbg = colorsys.hsv_to_rgb(0.3 - hue * 0.3, 0.9, 0.6)
     inset = colorsys.hsv_to_rgb(0.3 - hue * 0.3, 0.5, 0.2)
     
     return """
       background:rgb({0},{1},{2});
       background-image: -webkit-gradient(linear, left bottom, left top,
-        color-stop(1, rgb({0},{1},{2})),
-        color-stop(0, rgb({3},{4},{5})));
-      background-image: -moz-linear-gradient(center bottom,
-        rgb({0},{1},{2}) 100%,
-        rgb({3},{4},{5}) 0%,
+        from(rgb({0},{1},{2})),
+        to(rgb({9},{10},{11})));
+      background-image: -moz-linear-gradient(100% 100% 90deg,
+        rgb({0},{1},{2}),
+        rgb({9},{10},{11})
       );
       -moz-text-shadow: 0px -1px 1px rgb({6},{7},{8});
       -webkit-text-shadow: 0px -1px 1px rgb({6},{7},{8});
@@ -362,7 +363,10 @@ class Project(models.Model):
                  int(darkbg[2] * 255),
                  int(inset[0] * 255),
                  int(inset[1] * 255),
-                 int(inset[2] * 255))
+                 int(inset[2] * 255),
+                 int(lightbg[0] * 255),
+                 int(lightbg[1] * 255),
+                 int(lightbg[2] * 255))
 
 # a screenshot for a project, display on its page. its filename is derived from
 # its ID, so it is not required as a field
