@@ -35,7 +35,8 @@ This is where we should put some basic information about the dashboard, I suppos
                     {{ event.type_name }} •
                     <a href="{% url dashboard.views.projects.show event.project.id %}">
                         {{ event.project.title }}
-                    </a>
+                    </a> •
+                    {{ event.age }}
                 </h3>
                 <div style="clear:both"></div>
             </div>

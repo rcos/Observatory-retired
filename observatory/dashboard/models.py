@@ -43,6 +43,26 @@ class Event(models.Model):
   def type_name(self):
     return self.__class__.__name__
   
+  # how old the event is (relative to now by default)
+  def age(self, time = datetime.datetime.now()):
+    delta = time - self.date
+    
+    def plural(number, descriptor):
+      if number == 1:
+        return "{0} {1} ago".format(number, descriptor)
+      else:
+        return "{0} {1}s ago".format(number, descriptor)
+    
+    if delta.days >= 7:
+      return plural(int(delta.days / 7), "week")
+    if delta.days > 0:
+      return plural(delta.days, "day")
+    if delta.seconds >= 60 * 60:
+      return plural(int(delta.seconds / (60 * 60)), "hour")
+    if delta.seconds >= 60:
+      return plural(int(delta.seconds / 60), "minute")
+    return plural(delta.seconds, "second")
+  
   # a link to more details on the event
   def link(self):
     return None
