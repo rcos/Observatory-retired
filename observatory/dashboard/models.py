@@ -137,6 +137,7 @@ class Blog(EventSet):
                       description = post.description,
                       summary = post.description,
                       date = date,
+                      external_link = post.link,
                       external = True)
       post.blog = self
       if author is not None:
@@ -161,6 +162,9 @@ class BlogPost(Event):
   
   # what blog the post is associated with
   blog = models.ForeignKey(Blog)
+  
+  # the external link for a post, if applicable
+  external_link = models.URLField(blank = True, null = True)
   
   def project(self):
     return self.blog.project

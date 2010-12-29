@@ -59,9 +59,13 @@ def show_blog(request, project_id):
 
 # shows a specific blog post
 def show_post(request, post_id):
-  return render_to_response('blogs/show-post.html', {
-      'post': get_object_or_404(BlogPost, id = int(post_id))
-    }, context_instance = RequestContext(request))
+  post = get_object_or_404(BlogPost, id = int(post_id))
+  if post.external:
+    return HttpResponseRedirect(post.external_link)
+  else:
+    return render_to_response('blogs/show-post.html', {
+        'post': post
+      }, context_instance = RequestContext(request))
 
 # write a new post
 @login_required
