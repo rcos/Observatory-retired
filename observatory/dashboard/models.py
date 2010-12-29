@@ -310,6 +310,12 @@ class Project(models.Model):
   # if the project is currently active
   active = models.BooleanField("Currently Active")
   
+  # the score of the project, computed after each fetch
+  score = models.FloatField(blank = True, null = True)
+  
+  # the rank of the project, computed after each fetch
+  rank = models.IntegerField(blank = True, null = True)
+  
   # fetch and update the project's blog and repository
   def fetch(self):
     self.blog.fetch()
