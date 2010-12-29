@@ -115,8 +115,8 @@ class Blog(EventSet):
         continue
       
       # can we find an author for this blog post?
-      author_name = post.author_detail['name']
       try:
+        author_name = post.author_details['name']
         author_firstlast = author_name.split(' ')
         authors = User.objects.filter(first_name = author_firstlast[0],
                                       last_name = author_firstlast[1])
@@ -125,6 +125,7 @@ class Blog(EventSet):
         else:
           author = None
       except:
+        author_name = None
         author = None
       
       post = BlogPost(author_name = author_name,
