@@ -144,15 +144,21 @@
             {% if project.blog.blogpost_set.all %}
                 <ul class="modify-post-list">
                 {% for post in project.blog.blogpost_set.all %}
-                    <li>
-                        <div>{{ post.title }}</div>
-                        <a class="button-small" href="{% url dashboard.views.blogs.delete_post post.id %}">
-                            Delete
-                        </a>
-                        <a class="button-small" href="{% url dashboard.views.blogs.edit_post post.id %}">
-                            Modify
-                        </a>
-                    </li>
+                    {% if not post.external %}
+                        <li>
+                            <div>{{ post.title }}</div>
+                            <a class="button-small"
+                               href="{% url dashboard.views.blogs.delete_post
+                                        post.id %}">
+                                Delete
+                            </a>
+                            <a class="button-small"
+                               href="{% url dashboard.views.blogs.edit_post
+                                        post.id %}">
+                                Modify
+                            </a>
+                        </li>
+                    {% endif %}
                 {% endfor %}
                 </ul>
             {% endif %}
