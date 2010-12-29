@@ -226,6 +226,7 @@ h3.event-author {
 .project-authors p {
   padding: 0px;
   margin: 5px 0px 0px 0px;
+  text-align: center;
 }
 
 .project-authors a {
