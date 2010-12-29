@@ -4,7 +4,10 @@
 
 {% if projects %}
     <h2 style='float: left'>Projects</h2>
-    {% if user.is_authenticated %}
+{% else %}
+    <h2 style="float:left">No projects found.</h2>
+{% endif %}
+{% if user.is_authenticated %}
     <ul class='project-info'>
         <li>
             <a href="{% url dashboard.views.projects.add %}"
@@ -13,31 +16,23 @@
             </a>
         </li>
     </ul>
-    {% endif %}
-    <div id="projects-list">
-        {% for project in projects %}
-        <div class="project" id="project-{{ project.id }}">
+{% endif %}
+<div style="clear:both"></div>
+{% endblock %}
+
+{% block extracontent %}
+<div id="projects-list">    
+    {% for project in projects %}
+        <div class="extra-content" id="project-{{ project.id }}">
             <h2 style="float:left; clear:both">
                 <a href="{% url dashboard.views.projects.show project.id %}">
                     {{ project.title }}
                 </a>
             </h2>
             {% include "projects/info.html" %}
+            <div style="clear:both"></div>
+            {{ project.description }}
         </div>
-        {% endfor %}
-    </div>
-    <div style="clear:both"></div>
-{% else %}
-    <h2 style="float:left">No projects found.</h2>
-    {% if user.is_authenticated %}
-    <ul class='project-info'>
-        <li>
-            <a href="{% url dashboard.views.projects.add %}">
-                Add a Project
-            </a>
-        </li>
-    </ul>
-    {% endif %}
-    <div style="clear:both"></div>
-{% endif %}
+    {% endfor %}
+</div>
 {% endblock %}
