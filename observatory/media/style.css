@@ -2,6 +2,17 @@ html {
   background-image: url('/site-media/pixels/html-top.gif');
   background-repeat: repeat-x;
   background-color: rgb(32, 32, 32);
+  
+	background-image: -webkit-gradient(linear, left bottom, left top,
+		from(rgb(32, 32, 32)),
+		to(rgb(81, 81, 81)));
+	background-image: -moz-linear-gradient(100% 100% 90deg,
+	  rgb(32, 32, 32) 0%,
+		rgb(81, 81, 81) 100%);
+	-webkit-background-size: 1px 200px;
+	-moz-background-size: 1px 200px;
+	background-size: 1px 200px;
+  
   font-family: 'Helvetica Neue', Helvetica, sans-serif;
   font-size: 10pt;
   color: rgb(30, 30, 30);
@@ -79,19 +90,28 @@ a img {
 
 /* Main content */
 #content, .extra-content {
-   background: url('/site-media/pixels/content-top.gif');
-   background-repeat: repeat-x;
-   background-color: #fff;
-   clear: both;
-   padding: 20px;
-   margin-bottom: 20px;
+  background-image: url('/site-media/pixels/content-top.gif');
+  background-image: -webkit-gradient(linear, left bottom, left top,
+    from(rgb(255, 255, 255)),
+    to(rgb(202, 198, 193)));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+    rgb(255, 255, 255) 0%,
+    rgb(202, 198, 193) 100%);
+  -webkit-background-size: 1px 200px;
+  -moz-background-size: 1px 200px;
+  background-size: 1px 200px;
+  background-repeat: repeat-x;
+  background-color: #fff;
+  clear: both;
+  padding: 20px;
+  margin-bottom: 20px;
 
-   -webkit-border-radius: 15px;
-   -moz-border-radius: 15px;
-   border-radius: 15px;
-   -moz-box-shadow: 0px 5px 20px #000;
-   -webkit-box-shadow: 0px 5px 20px #000;
-   box-shadow: 0px 5px 20px #000;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  -moz-box-shadow: 0px 5px 20px #000;
+  -webkit-box-shadow: 0px 5px 20px #000;
+  box-shadow: 0px 5px 20px #000;
 }
 
 #content h2, .extra-content h2, #content h3, .extra-content h3 {
@@ -267,6 +287,13 @@ h3.event-author {
 
 .project-updated {
   background-image: url('/site-media/pixels/button-active.gif');
+  background-image: -webkit-gradient(linear, left bottom, left top,
+		from(rgb(44, 44, 44)),
+		to(rgb(64, 64, 64)));
+	background-image: -moz-linear-gradient(100% 100% 90deg,
+	  rgb(44, 44, 44) 0%,
+		rgb(64, 64, 64) 100%);
+  
   margin: 20px -20px -20px -20px;
   padding: 5px 20px;
   color: #AAA;
@@ -452,7 +479,14 @@ a.button {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  background: url('/site-media/pixels/button-nohover.gif') repeat-x;
+  background-image: url('/site-media/pixels/button-nohover.gif');
+  background-image: -webkit-gradient(linear, left bottom, left top,
+		from(rgb(171, 171, 171)),
+		to(rgb(216, 216, 216)));
+	background-image: -moz-linear-gradient(100% 100% 90deg,
+	  rgb(171, 171, 171) 0%,
+		rgb(216, 216, 216) 100%);
+  background-repeat: repeat-x;
   background-color: rgb(140, 140, 140);
   
   -moz-box-shadow: 0px 0px 20px #ccc;
@@ -479,6 +513,13 @@ select:hover, select:focus {
 
 .button:active, .button-small:active, select:active {
   background-image: url('/site-media/pixels/button-active.gif');
+  background-image: -webkit-gradient(linear, left bottom, left top,
+		from(rgb(80, 80, 80)),
+		to(rgb(44, 44, 44)));
+	background-image: -moz-linear-gradient(100% 100% 90deg,
+	  rgb(80, 80, 80) 0%,
+		rgb(44, 44, 44) 100%);
+	
   color: black;
   border-color: black;
   
@@ -522,12 +563,12 @@ select:hover, select:focus {
   text-shadow: 0px 1px 1px #888;
   font-weight: bold;
   
-  -webkit-border-top-left-radius: 15px;
-  -webkit-border-top-right-radius: 15px;
-  -moz-border-radius-topleft: 15px;
-  -moz-border-radius-topright: 15px;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  -webkit-border-top-left-radius: 13px;
+  -webkit-border-top-right-radius: 13px;
+  -moz-border-radius-topleft: 13px;
+  -moz-border-radius-topright: 13px;
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px;
   
   font-size: 12pt;
 }
@@ -549,6 +590,13 @@ select:hover, select:focus {
 }
 .three-tab li.active {
   background-image: url('/site-media/pixels/tab-active.gif');
+  background-image: -webkit-gradient(linear, left bottom, left top,
+		from(rgb(213, 209, 205)),
+		to(rgb(183, 183, 183)));
+	background-image: -moz-linear-gradient(100% 100% 90deg,
+	  rgb(213, 209, 205) 0%,
+		rgb(183, 183, 183) 100%);
+	
   color: #444;
   
   -moz-text-shadow: 0px 1px 1px #eee;
