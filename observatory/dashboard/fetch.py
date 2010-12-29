@@ -28,5 +28,13 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'observatory.settings'
 
 from dashboard.models import *
 
+# fetch the projects and calculate their scores
 for project in Project.objects.all():
   project.fetch()
+
+# rank the projects
+rank = 1
+for project in Project.objects.order_by('score').reverse():
+  project.rank = rank
+  project.save()
+  rank += 1
