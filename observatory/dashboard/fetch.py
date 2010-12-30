@@ -34,7 +34,7 @@ for project in Project.objects.all():
 
 # rank the projects
 rank = 1
-for project in Project.objects.order_by('score').reverse():
+for project in Project.objects.order_by('score'):
   project.rank = rank
   project.save()
   rank += 1
