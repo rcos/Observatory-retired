@@ -3,5 +3,6 @@
 *.DS_Store
 *.psd
 
+observatory/settings_recaptcha.py
 observatory/media/screenshots/
 !observatory/media/screenshots/thisdirectoryexists.txt
