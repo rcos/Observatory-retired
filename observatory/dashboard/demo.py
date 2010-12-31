@@ -109,9 +109,9 @@ note_blog = Blog(external = True,
                  rss = "http://www.hortont.com/blog//feed/rss.xml")
 note_blog.save()
 note_repo = Repository(web_url = "https://github.com/hortont424/Notebook",
-                       repo_rss = "https://github.com/hortont424/Notebook/commits/master.atom",
+                       clone_url = "git://github.com/hortont424/notebook.git",
                        cmd = "git clone",
-                       cloned = False)
+                       cloned = True)
 note_repo.save()
 note = Project(title = "Notebook",
                description = "Mathematica? In my Python?",

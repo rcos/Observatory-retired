@@ -16,6 +16,7 @@ import colorsys
 import datetime
 import os
 import subprocess
+import lib.pyvcs.backends
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -191,8 +192,6 @@ def clone_git_repo(clone_url, destination_dir, fresh_clone=False):
   if clone_subprocess.wait() != 0:
     # TODO: handle this better
     print "failed to clone from {0}".format(clone_url)
-
-  # do something with the repos
   
 def clone_repo_function(vcs):
   clone_repo_functions = { 'git': clone_git_repo }
@@ -225,14 +224,51 @@ class Repository(EventSet):
   cloned = models.BooleanField()
   
   def fetch(self):
+    def add_commit(title, description, link, author_name, date, max_date):
+      # find the new most recently updated date
+      if max_date < date:
+        max_date = date
+
+      # don't re-add old commits
+      if self.most_recent_date >= date:
+        return
+        
+      # can we find an author for this commit?
+      try:
+        # TODO: this seems incredibly presumptive of name format
+        author_firstlast = author_name.split(' ')
+        authors = User.objects.filter(first_name = author_firstlast[0],
+                                      last_name = author_firstlast[1])
+        if len(authors) is 1:
+          author = authors[0]
+        else:
+          author = None
+      except:
+        author = None
+
+      # create and save the commit object
+      commit = Commit(author_name = author_name,
+                      title = title,
+                      description = description,
+                      url = link,
+                      date = date)
+      commit.repository = self
+      if author is not None:
+        commit.author = author
+      commit.save()
+
+      # print out results
+      print "Commit by {0} in {1} at {2}".format(author_name,
+                                                 self.project.title,
+                                                 date)
+
+      return max_date
+    
+    max_date = self.most_recent_date
+
     if self.cloned:
+      # this is a cloned repository
       fresh_clone = True
-      
-      # extract a canonical name from the repository URL
-      # TODO: this will probably not work reliably, we'll have to
-      # think about a better way to do this (at *least* make sure they're
-      # unique, and store them)
-      repo_name = os.path.basename(self.clone_url)
 
       # ensure that REPO_ROOT already exists
       try:
@@ -241,61 +277,49 @@ class Repository(EventSet):
         pass
       
       # construct the name of the directory into which to clone the repository
-      dest_dir = os.path.join(settings.REPO_ROOT, repo_name)
+      dest_dir = os.path.join(settings.REPO_ROOT, str(self.id))
 
       # check if we've already cloned this project
       if os.path.isdir(dest_dir):
         fresh_clone = False
 
+      # clone the repository, or update our copy
       clone_repo_function(self.vcs)(self.clone_url, dest_dir, fresh_clone)
+
+      # add the commits
+      backend = lib.pyvcs.backends.get_backend(self.vcs)
+      repository = backend.Repository(dest_dir)
+
+      # inspect the last five days of commits
+      for commit in repository.get_recent_commits():
+        date = commit.time
+        try:
+          date = (date - date.utcoffset()).replace(tzinfo=None)
+        except:
+          pass
+
+        new_max_date = add_commit(commit.message, commit.message, "what",
+                                  commit.author, date, max_date)
+
+        if new_max_date:
+          max_date = new_max_date
     else:
-      max_date = self.most_recent_date
+      # this is a feed-driven repository
       for commit in feedparser.parse(self.repo_rss).entries:
         date = dateutil.parser.parse(commit.date)
         try:
           date = (date - date.utcoffset()).replace(tzinfo=None)
         except:
           pass
+        
+        new_max_date = add_commit(commit.title, commit.description, commit.link,
+                                  commit.author_detail['name'], date, max_date)
 
-        # find the new most recently updated date
-        if max_date < date:
-          max_date = date
+        if new_max_date:
+          max_date = new_max_date
         
-        # don't re-add old commits
-        if self.most_recent_date >= date:
-          continue
-        
-        # can we find an author for this commit?
-        author_name = commit.author_detail['name']
-        try:
-          author_firstlast = author_name.split(' ')
-          authors = User.objects.filter(first_name = author_firstlast[0],
-                                        last_name = author_firstlast[1])
-          if len(authors) is 1:
-            author = authors[0]
-          else:
-            author = None
-        except:
-          author = None
-        
-        # create and save the commit object
-        commit = Commit(author_name = author_name,
-                        title = commit.title,
-                        description = commit.description,
-                        url = commit.link,
-                        date = date)
-        commit.repository = self
-        if author is not None:
-          commit.author = author
-        commit.save()
-        
-        # print out results
-        print "Commit by {0} in {1} at {2}".format(author_name,
-                                                   self.project.title,
-                                                   date)
-        
-      self.most_recent_date = max_date
-      self.save()
+    self.most_recent_date = max_date
+    self.save()
   
   def clone_cmd(self):
     if self.cloned:
