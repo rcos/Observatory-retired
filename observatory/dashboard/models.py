@@ -15,6 +15,8 @@
 import colorsys
 import datetime
 import os
+import subprocess
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.contrib.auth.models import User
@@ -177,7 +179,30 @@ class BlogPost(Event):
   
   def link(self):
     return reverse('dashboard.views.blogs.show_post', args = (self.id,))
+
+def clone_git_repo(clone_url, destination_dir, fresh_clone=False):
+  if fresh_clone:
+    clone_cmdline = ["git", "clone", "--mirror", "--bare", clone_url, destination_dir]
+  else:
+    clone_cmdline = ["git", "--git-dir", destination_dir, "fetch"]
+
+  clone_subprocess = subprocess.Popen(clone_cmdline)
+
+  if clone_subprocess.wait() != 0:
+    # TODO: handle this better
+    print "failed to clone from {0}".format(clone_url)
+
+  # do something with the repos
   
+def clone_repo_function(vcs):
+  clone_repo_functions = { 'git': clone_git_repo }
+
+  if not vcs in clone_repo_functions:
+    print "don't know how to clone {0}".format(vcs)
+    return None
+
+  return clone_repo_functions[vcs]
+
 # a version control repository
 class Repository(EventSet):
   # web access to the repository
@@ -201,7 +226,28 @@ class Repository(EventSet):
   
   def fetch(self):
     if self.cloned:
-      pass
+      fresh_clone = True
+      
+      # extract a canonical name from the repository URL
+      # TODO: this will probably not work reliably, we'll have to
+      # think about a better way to do this (at *least* make sure they're
+      # unique, and store them)
+      repo_name = os.path.basename(self.clone_url)
+
+      # ensure that REPO_ROOT already exists
+      try:
+        os.makedirs(settings.REPO_ROOT, 0770)
+      except OSError as e:
+        pass
+      
+      # construct the name of the directory into which to clone the repository
+      dest_dir = os.path.join(settings.REPO_ROOT, repo_name)
+
+      # check if we've already cloned this project
+      if os.path.isdir(dest_dir):
+        fresh_clone = False
+
+      clone_repo_function(self.vcs)(self.clone_url, dest_dir, fresh_clone)
     else:
       max_date = self.most_recent_date
       for commit in feedparser.parse(self.repo_rss).entries:
@@ -257,7 +303,7 @@ class Repository(EventSet):
       return '{0} {1} {2}'.format(self.vcs, cmds[self.vcs], self.clone_url)
     else:
       return self.cmd
-  
+
   def __unicode__(self):
     return self.web_url
 

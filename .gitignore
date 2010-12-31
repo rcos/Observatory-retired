@@ -5,4 +5,5 @@
 
 observatory/settings_recaptcha.py
 observatory/media/screenshots/
+observatory/clones/
 !observatory/media/screenshots/thisdirectoryexists.txt
