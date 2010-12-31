@@ -184,7 +184,7 @@ class Repository(EventSet):
   web_url = models.URLField("Repository Web Address", max_length = 128)
   
   # cloned repository fields
-  clone_url = models.URLField("Repository Clone Address", max_length = 128)
+  clone_url = models.CharField("Repository Clone Address", max_length = 128)
   vcs = models.CharField("Version Control System", max_length = 3,
                          default = 'git',
                          choices = (('git', 'git'),
