@@ -25,7 +25,8 @@ function initialize_page(js_page_id) {
     /* The page identifiers that we know of */
     var page_classes = {
         'login-register': observatory.LoginRegisterPage,
-        'add_project': observatory.AddProjectPage 
+        'add_project': observatory.AddProjectPage,
+        'show_project': observatory.ShowProjectPage
     };
     
     var page_class = page_classes[js_page_id];

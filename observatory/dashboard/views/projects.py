@@ -50,7 +50,8 @@ def show(request, project_id):
       'project': project,
       'paginator': paginator,
       'default_page': 1,
-      'has_screenshots': len(screenshots) > 0
+      'has_screenshots': len(screenshots) > 0,
+      'js_page_id': 'show_project', 
     }, context_instance = RequestContext(request))
 
 # a view for adding a new project
