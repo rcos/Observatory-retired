@@ -29,6 +29,55 @@ observatory.AddProjectPage.prototype = new observatory.Page();
 observatory.AddProjectPage.prototype.init = function(params) {
     observatory.Page.prototype.init.call(this, params);
     
-    console.log('adding a project!');
+    var $ = jQuery;
+    
+    /* Different parts of form */
+    var partOneElement = $('#part-1');
+    var partTwoLeftElement = $('#part-2-form-left');
+    var partTwoRightElement = $('#part-2-form-right');
+    var partThreeLeftElement = $('#part-3-form-left');
+    var partThreeRightElement = $('#part-3-form-right');
+
+
+    /* part one of the form */
+    var partOneForm = new observatory.Form({
+        el: partOneElement, 
+        container: $('#content'), 
+    });
+
+    /* part two of the form */
+    var partTwoLeftForm = new observatory.Form({
+        el: partTwoLeftElement, 
+        container: $('#part-2-form-left-container')
+    });
+    
+    var partTwoRightForm = new observatory.Form({
+        el: partTwoRightElement, 
+        container: $('#part-2-form-right-container')
+    });
+    
+    /* Make only one of the forms work */
+    new observatory.ExclusiveOrForms({
+        formA: partTwoLeftForm, 
+        formB: partTwoRightForm, 
+    });
+
+    /* If we are on part 3 of the form */
+    var partThreeLeftForm = new observatory.Form({
+        el: partThreeLeftElement, 
+        container: $('#part-3-form-left-container')
+    });
+    
+    var partThreeRightForm = new observatory.Form({
+        el: partThreeRightElement, 
+        container: $('#part-3-form-right-container')
+    });
+    
+    /* Make only one side work */
+    new observatory.ExclusiveOrForms({
+        formA: partThreeLeftForm, 
+        formB: partThreeRightForm
+    });
+    
     
 };
