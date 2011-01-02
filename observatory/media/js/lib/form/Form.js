@@ -28,5 +28,42 @@ observatory.Form = function(params) {
 
 observatory.Form.prototype.init = function(params) {
  
+    var el = params.el;
+    if(typeof(el) == 'undefined') {
+        throw new Error('params.el is undefined');
+    }
+    else if(el.length == 0) {
+        throw new Error('el not found');
+    }
+    this.el = el;
     
+    var container = params.container;
+    if(typeof(container) == 'undefined') {
+        throw new Error('params.container is undefined');
+    }
+    else if(container.length == 0) {
+        throw new Error('container not found');
+    }
+    this.container = container;
+
+    /* Enable client side validation */
+    el.html5form();
+    
+};
+
+observatory.Form.prototype.disable = function() {
+    /* make container look disabled */
+    this.container.addClass('disabled');
+    
+    /* Make all fields actually disabled */
+    var fields = this.el.attr('elements');
+    for(var i = 0, il = fields.length; i < il; i++) {
+        var field = fields[i];
+        
+        $(field).attr('disabled', 'true');
+    }
+};
+
+observatory.Form.prototype.enable = function() {
+    this.container.removeClass('disabled');
 };

@@ -33,10 +33,21 @@ observatory.LoginRegisterPage.prototype.init = function(params) {
     
     /* Create the login and register form objects */
     var loginFormElement = $('#login_form');
-    /* Enable client side validation */
-    loginFormElement.html5form();
+    var loginForm = new observatory.Form({
+        el: loginFormElement,
+        container: $('.form-col-left'), 
+    });
     
+        
     var registerFormElement = $('#register_form');
-    registerFormElement.html5form();
+    var registerForm = new observatory.Form({
+        el: registerFormElement,
+        container: $('.form-col-right'), 
+    });
+    
+    new observatory.ExclusiveOrForms({
+        formA: loginForm, 
+        formB: registerForm
+    });
     
 };
