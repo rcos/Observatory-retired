@@ -433,16 +433,31 @@ input:focus, textarea:focus {
   border: 1px solid #888;
 }
 
+/* Valid and invalid input fields */
+input:required:valid {
+  background-color: green;
+}
+input:required:invalid, input:focus:invalid {
+  background-color: red;
+}
+
 .form-col-left {
   float: left;
   width: 360px;
 }
+
 
 .form-col-right {
   float: left;
   padding-left: 30px;
   width: 360px;
 }
+
+/* When one side of a form is to be disabled */
+.form-disabled {
+  opacity: .3;
+}
+
 
 /* stylish buttons, works for submit inputs and <a> tags */
 .button-small {

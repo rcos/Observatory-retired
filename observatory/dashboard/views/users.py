@@ -34,7 +34,8 @@ def login_or_reg(request):
     next = request.GET['next']
   
   return render_to_response('users/login-register.html', {
-      'next': next
+      'next': next,
+      'js_page_id': 'login-register', 
     }, context_instance = RequestContext(request))
 
 # displays a registration form
