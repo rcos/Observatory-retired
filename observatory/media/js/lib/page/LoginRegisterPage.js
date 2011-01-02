@@ -29,6 +29,14 @@ observatory.LoginRegisterPage.prototype = new observatory.Page();
 observatory.LoginRegisterPage.prototype.init = function(params) {
     observatory.Page.prototype.init.call(this, params);
     
+    var $ = jQuery;
+    
     /* Create the login and register form objects */
+    var loginFormElement = $('#login_form');
+    /* Enable client side validation */
+    loginFormElement.html5form();
+    
+    var registerFormElement = $('#register_form');
+    registerFormElement.html5form();
     
 };
