@@ -61,6 +61,11 @@ observatory.ExclusiveOrForms.prototype.form_has_changed = function(changed, othe
     for(var i = 0, il = inputElements.length; i < il; i++) {
         var inputElement = $(inputElements[i]);
         
+        /* If this isn't an input element */
+        if(!inputElement.is('input')) {
+            continue;
+        }
+
         var defaultValue = inputElement.attr('defaultValue');
         var currentValue = inputElement.attr('value');
         
