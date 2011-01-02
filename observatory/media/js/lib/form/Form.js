@@ -45,12 +45,17 @@ observatory.Form.prototype.init = function(params) {
         throw new Error('container not found');
     }
     this.container = container;
+    
+    /* If we are disabled */
+    this.disabled = false;
 
     /* Enable client side validation */
     el.html5form();
-    
 };
 
+/**
+ *  When a form is to be disabled to the user.
+ **/
 observatory.Form.prototype.disable = function() {
     /* make container look disabled */
     this.container.addClass('disabled');
@@ -62,8 +67,23 @@ observatory.Form.prototype.disable = function() {
         
         $(field).attr('disabled', 'true');
     }
+    
+    this.disabled = true;
 };
 
+/**
+ *  When a form should be enabled.
+ **/
 observatory.Form.prototype.enable = function() {
     this.container.removeClass('disabled');
+    
+    /* Make all fields actually enabled */
+    var fields = this.el.attr('elements');
+    for(var i = 0, il = fields.length; i < il; i++) {
+        var field = fields[i];
+        
+        $(field).removeAttr('disabled');
+    }
+    
+    this.disabled = false;
 };

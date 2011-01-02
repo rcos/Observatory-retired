@@ -33,7 +33,7 @@ observatory.ExclusiveOrForms.prototype.init = function(params) {
         throw new Error('params.formA is undefined');
     }
     this.formA = formA;
-
+    
     /* The other form */
     var formB = params.formB;
     if(typeof(formB) == 'undefined') {
@@ -43,22 +43,46 @@ observatory.ExclusiveOrForms.prototype.init = function(params) {
     
     formA.el.bind('change', function(me){
         return function(e){
-            me.form_a_changed(e);
+            me.form_has_changed(me.formA, me.formB, e);
         };
     }(this));
     
     formB.el.bind('change', function(me){
         return function(e) {
-            me.form_b_changed(e);
+            me.form_has_changed(me.formB, me.formA, e);
         };
     }(this));
 };
 
-observatory.ExclusiveOrForms.prototype.form_a_changed = function(e) {
-    this.formB.disable();
-};
-
-observatory.ExclusiveOrForms.prototype.form_b_changed = function(e) {
-    this.formA.disable();
+observatory.ExclusiveOrForms.prototype.form_has_changed = function(changed, other, e) {
+    var inputElements = e.currentTarget.elements;
+    
+    var formIsEmpty = true;
+    for(var i = 0, il = inputElements.length; i < il; i++) {
+        var inputElement = $(inputElements[i]);
+        
+        var defaultValue = inputElement.attr('defaultValue');
+        var currentValue = inputElement.attr('value');
+        
+        if(defaultValue != currentValue) {
+            formIsEmpty = false;
+            break;
+        }
+    }
+    
+    /* If the form is not empty */
+    if(!formIsEmpty) {
+        /* If neither form is disabled */
+        if(!changed.disabled && !other.disabled) {
+            other.disable(); 
+        }
+    }
+    /* The form has been emptied, see if we need to bring other form back */
+    else {
+        /* If other form is disabled */
+        if(other.disabled) {
+            other.enable();
+        }
+    }
 };
 
