@@ -7,7 +7,6 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/site-media/style.css" />
     <title>{% block title %}Dashboard{% endblock %}</title>
-    {% block head %}{% endblock %}
     
     {# Vendor #}
     <script src="/site-media/js/lib/vendor/jquery-1.4.4.min.js"></script>
@@ -25,6 +24,9 @@
     <script src="/site-media/js/lib/page/AddProjectPage.js"></script>
     
     <script src="/site-media/js/init.js"></script>
+
+    {% block head %}{% endblock %}
+
 </head>
 <body>
     <div id="top">
