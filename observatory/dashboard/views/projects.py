@@ -117,7 +117,8 @@ def add(request):
         'cloned_repo_form': cloned_repo_form,
         'feed_repo_form': feed_repo_form,
         'project_form': project_form,
-        'blog_form': blog_form
+        'blog_form': blog_form,
+        'js_page_id': 'add_project'
       }, context_instance = RequestContext(request))
   
   # otherwise, if the form is complete, create the project

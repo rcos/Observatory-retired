@@ -15,29 +15,20 @@
  **/
 
 
-
 /**
- *  This should be called from the template to initialize any client-side code.
- *
- *  @param  {String}    js_page_id    -    The identifier so we know which page.
+ *  This contains the functionality for adding a project.
+ *  @class
  **/
-function initialize_page(js_page_id) {
-    /* The page identifiers that we know of */
-    var page_classes = {
-        'login-register': observatory.LoginRegisterPage,
-        'add_project': observatory.AddProjectPage 
-    };
-    
-    var page_class = page_classes[js_page_id];
-    
-    if(!page_class) {
-        throw new Error('No initializer found for page: '+js_page_id);
+observatory.AddProjectPage = function(params) {
+    if(params) {
+        this.init(params);
     }
-    
-    $(document).ready(function(page_class) {
-        return function() {
-            var page = new page_class({});
-        };
-    }(page_class));
-    
 }
+observatory.AddProjectPage.prototype = new observatory.Page();
+
+observatory.AddProjectPage.prototype.init = function(params) {
+    observatory.Page.prototype.init.call(this, params);
+    
+    console.log('adding a project!');
+    
+};

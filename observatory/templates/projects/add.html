@@ -24,29 +24,24 @@
     <h2>Add a Project</h2>
     <div class="form-col-left">
         <p>
-            {{ project_form.title.label_tag }}
-            {{ project_form.title }}
-            {{ project_form.title.errors }}
+            <label for="id_title">Title</label>
+            <input id="id_title" type="text" name="title" maxlength="32">
         </p>
         <p>
-            {{ project_form.website.label_tag }}
-            {{ project_form.website }}
-            {{ project_form.website.errors }}
+            <label for="id_website">Website</label>
+            <input id="id_website" type="text" name="website" maxlength="64">
         </p>
         <p>
-            {{ project_form.wiki.label_tag }}
-            {{ project_form.wiki }}
-            {{ project_form.wiki.errors }}
+            <label for="id_wiki">Wiki</label>
+            <input id="id_wiki" type="text" name="wiki" maxlength="64">
         </p>
     </div>
     <div class="form-col-right">
         <p>
-            {{ project_form.description.label_tag }}
-            {{ project_form.description }}
-            {{ project_form.description.errors }}
+            <label for="id_description">Description</label>
+            <textarea id="id_description" rows="10" cols="40" name="description"></textarea>
         </p>
-    </div>
-    
+    </div>    
     <div class="submitbutton">
         <input type="submit" class="button" value="Next Step" />
     </div>
