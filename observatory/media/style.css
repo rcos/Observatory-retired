@@ -28,8 +28,8 @@ p {
 }
 
 pre {
-  font-family: 'Monaco', monospace;
-  font-size: 12px;
+  font-family: 'Inconsolata', monospace;
+  font-size: 10pt;
   overflow: hidden;
 }
 
