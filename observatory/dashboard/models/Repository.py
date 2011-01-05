@@ -98,7 +98,7 @@ class Repository(EventSet):
         pass
       
       # construct the name of the directory into which to clone the repository
-      dest_dir = os.path.join(settings.REPO_ROOT, str(self.id))
+      dest_dir = os.path.join(settings.REPO_ROOT, self.project.url_path)
 
       # check if we've already cloned this project
       if os.path.isdir(dest_dir):
