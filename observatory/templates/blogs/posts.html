@@ -17,8 +17,7 @@
             
             <h3 class="event-author">
                 {% if post.author %}
-                    <a href="{% url dashboard.views.users.profile
-                                    post.author.id %}">
+                    <a href="{% url dashboard.views.users.profile post.author.id %}">
                         <img src="{{ post.author|gravatar:20 }}"
                          alt="{{ post.author.get_full_name }}"
                          class="event-gravatar" />
