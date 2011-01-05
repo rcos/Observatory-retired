@@ -54,7 +54,8 @@ def time_ago(date, time = datetime.datetime.now()):
     return plural(int(delta.seconds / 60), "minute")
   return plural(delta.seconds, "second")
 
-def url_pathify_safe(model, string, invalid_paths = INVALID_URL_PATHS):
+def url_pathify_safe(model, string, invalid_paths = INVALID_URL_PATHS,
+                     max_length = 32):
   url_path = url_pathify(string)
   final_url_path = url_path
   
@@ -64,7 +65,7 @@ def url_pathify_safe(model, string, invalid_paths = INVALID_URL_PATHS):
          final_url_path in invalid_paths):
     suffix_num += 1
     suffix = str(suffix_num)
-    while len(url_path) + len(suffix) > 32:
+    while len(url_path) + len(suffix) > max_length:
       url_path = url_path[:-1]
     final_url_path = url_path + suffix
   return final_url_path

@@ -15,7 +15,7 @@
 import datetime
 from django.db import models
 from django.contrib.auth.models import User
-from ..util import time_ago
+from ..util import time_ago, url_pathify_safe
 
 # an event is currently either a blog post or a commit
 class Event(models.Model):
@@ -36,6 +36,17 @@ class Event(models.Model):
 
   # the author's name, if he/she isn't in dashboard
   author_name = models.CharField(max_length = 64, blank = True, null = True)
+  
+  # the url path component that points to this event
+  url_path = models.CharField(max_length = 128, editable = True, null = True)
+  
+  # assign the url path when the event is first created
+  def save(self, *args, **kwargs):
+    if self.url_path is None:
+      self.url_path = url_pathify_safe(Event, self.title, max_length = 128)
+    
+    # call up to the default save
+    super(Event, self).save(*args, **kwargs)
   
   # whether or not the description should be autoescaped
   def autoescape(self):
