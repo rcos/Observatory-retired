@@ -202,12 +202,25 @@ a img {
 
 /* events */
 .event-gravatar {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  float: left;
-  margin: -2px 5px 0px 0px;
+  margin: 0px;
+  border: 0px;
+  padding: 0px;
+  -webkit-border-top-right-radius: 6px;
+  -webkit-border-bottom-left-radius: 5px;
+  -moz-border-radius-topright: 6px;
+  -moz-border-radius-bottomleft: 5px;
+  border-top-right-radius: 6px;
+  border-bottom-left-radius: 5px;
 }
+
+.event-author {
+  margin: -20px -20px 0px 0px;
+  float: right;
+  width: 40px;
+  height: 40px;
+  padding: 0px;
+}
+
 
 h3.event-author {
   float:right;
@@ -285,7 +298,7 @@ h3.event-author {
   text-decoration: underline;
 }
 
-.project-updated {
+.dark-bottom-bar {
   background-image: url('/site-media/pixels/button-active.gif');
   background-image: -webkit-gradient(linear, left bottom, left top,
 		from(rgb(44, 44, 44)),
@@ -310,6 +323,15 @@ h3.event-author {
   -moz-text-shadow: 0px -1px 1px #000;
   -webkit-text-shadow: 0px -1px 1px #000;
   text-shadow: 0px -1px 1px #000;
+}
+
+.dark-bottom-bar a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.dark-bottom-bar a:hover {
+  color: white;
 }
 
 .project-rank, .project-rank-1 {
