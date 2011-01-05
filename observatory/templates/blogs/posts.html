@@ -29,8 +29,7 @@
                         {{ post.author_name }} •
                     {% endif %}
                 {% endif %}
-                <a href="{% url dashboard.views.projects.show
-                                post.project.id %}">
+                <a href="{% url dashboard.views.projects.show post.project.url_path %}">
                     {{ post.project.title }}
                 </a> •
                 {{ post.age }}

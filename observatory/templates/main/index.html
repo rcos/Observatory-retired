@@ -40,7 +40,7 @@ This is where we should put some basic information about the dashboard, I suppos
                             {% endif %}
                         {% endif %}
                         {{ event.type_name }} •
-                        <a href="{% url dashboard.views.projects.show event.project.id %}">
+                        <a href="{% url dashboard.views.projects.show event.project.url_path %}">
                             {{ event.project.title }}
                         </a> •
                         {{ event.age }}

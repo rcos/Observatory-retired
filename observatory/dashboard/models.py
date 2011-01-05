@@ -15,12 +15,20 @@
 import colorsys
 import datetime
 import os
+import re
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.contrib.auth.models import User
 from lib import feedparser, dateutil
 from settings import SCREENSHOT_URL
 from util import time_ago
+
+INVALID_PROJECT_URL_PATHS = (
+  "add-user",
+  "remove-user",
+  "add",
+  "list"
+)
 
 # an event is currently either a blog post or a commit
 class Event(models.Model):
@@ -327,6 +335,29 @@ class Project(models.Model):
   
   # the rank of the project, computed after each fetch
   rank = models.IntegerField(blank = True, null = True)
+  
+  # the url path component that points to this project
+  url_path = models.CharField(max_length = 32, editable = False, null = True)
+  
+  # assign the url path when the project is first created
+  def save(self, *args, **kwargs):
+    if self.url_path is None:
+      # replace space with dash, lowercase, drop nonalphabeticals
+      url_path = re.sub(r"[^a-z-]", "", self.title.lower().replace(" ", "-"))
+      self.url_path = url_path
+      
+      # if the name is not unique, append a number (this shouldn't be an issue)
+      suffix_num = 0
+      while (len(Project.objects.filter(url_path = self.url_path)) is not 0 or
+             self.url_path in INVALID_PROJECT_URL_PATHS):
+        suffix_num += 1
+        suffix = str(suffix_num)
+        while len(url_path) + len(suffix) > 32:
+          url_path = url_path[:-1]
+        self.url_path = url_path + suffix
+    
+    # call up to the default save
+    super(Project, self).save(*args, **kwargs)
   
   # fetch and update the project's blog and repository
   def fetch(self):

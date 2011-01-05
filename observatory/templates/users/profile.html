@@ -12,7 +12,7 @@
     <ul>
         {% for project in user_page.project_set.all %}
             <li>
-                <a href="{% url dashboard.views.projects.show project.id %}">
+                <a href="{% url dashboard.views.projects.show project.url_path %}">
                     {{ project.title }}
                 </a>
             </li>
