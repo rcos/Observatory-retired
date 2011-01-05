@@ -15,25 +15,26 @@
             </a></h2>
             {{ post.summary }}
             
-            <h3 class="event-author">
-                {% if post.author %}
-                    <a href="{% url dashboard.views.users.profile post.author.id %}">
-                        <img src="{{ post.author|gravatar:20 }}"
-                         alt="{{ post.author.get_full_name }}"
-                         class="event-gravatar" />
-                        {{ post.author.get_full_name }} •
-                    </a>
-                {% else %}
-                    {% if post.author_name %}
-                        {{ post.author_name }} •
+            <div class="dark-bottom-bar">
+                <div style="float:left">
+                    {% if post.author %}
+                        <a href="{% url dashboard.views.users.profile post.author.id %}">
+                            {{ post.author.get_full_name }}
+                        </a>
+                    {% else %}
+                        {% if post.author_name %}
+                            {{ post.author_name }}
+                        {% endif %}
                     {% endif %}
-                {% endif %}
-                <a href="{% url dashboard.views.projects.show post.project.url_path %}">
-                    {{ post.project.title }}
-                </a> •
-                {{ post.age }}
-            </h3>
-            <div style="clear:both"></div>
+                </div>
+                <div style="float:right">
+                    <a href="{% url dashboard.views.projects.show post.project.url_path %}">
+                        {{ post.project.title }}
+                    </a> •
+                    {{ post.age }}
+                </div>
+                <div style="clear:both"></div>
+            </div>
         </div>
         
         {% endfor %}
