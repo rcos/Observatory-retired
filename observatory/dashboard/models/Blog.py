@@ -69,10 +69,15 @@ class Blog(EventSet):
         author_name = None
         author = None
       
+      try:
+        description = post.content[0].value
+      except:
+        description = post.description
+      
       import BlogPost
       post = BlogPost.BlogPost(author_name = author_name,
                                title = post.title,
-                               description = post.description,
+                               description = description,
                                summary = post.description,
                                date = date,
                                external_link = post.link,
