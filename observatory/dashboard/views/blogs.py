@@ -47,8 +47,8 @@ def posts_page(request, page_num):
     }, context_instance = RequestContext(request))
 
 # shows a project's internally hosted blog, or redirects to an external one
-def show_blog(request, project_id):
-  project = get_object_or_404(Project, id = project_id)
+def show_blog(request, project_url_path):
+  project = get_object_or_404(Project, url_path = project_url_path)
   if project.blog.external:
     return HttpResponseRedirect(project.blog.url)
   else:
@@ -73,7 +73,7 @@ def write_post(request, project_id):
   project = get_object_or_404(Project, id = int(project_id))
   if request.user not in project.authors.all():
     return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                        args = (project.id,)))
+                                        args = (project.url_path,)))
   
   return render_to_response('blogs/edit.html', {
       'project': project,
@@ -87,7 +87,7 @@ def edit_post(request, post_id):
   
   if request.user not in post.blog.project.authors.all():
     return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                        args = (project.id,)))
+                                        args = (project.url_path,)))
   
   return render_to_response('blogs/edit.html', {
       'project': post.blog.project,
@@ -103,7 +103,7 @@ def create_post(request, project_id):
   
   if request.user not in project.authors.all():
     return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                        args = (project.id,)))
+                                        args = (project.url_path,)))
   
   # validate the form
   if form.is_valid():
@@ -158,7 +158,7 @@ def delete_post(request, post_id):
   
   if request.user not in post.blog.project.authors.all():
     return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                        args = (project.id,)))
+                                        args = (project.url_path,)))
   post.delete()
   return HttpResponseRedirect(reverse('dashboard.views.blogs.show_blog',
                                       args = (blog.id,)))

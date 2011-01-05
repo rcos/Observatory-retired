@@ -433,16 +433,31 @@ input:focus, textarea:focus {
   border: 1px solid #888;
 }
 
+/* Valid and invalid input fields */
+input:required:valid {
+  border: 2px solid #23CC39;
+}
+input:required:invalid, input:focus:invalid {
+  border: 2px solid red;
+}
+
 .form-col-left {
   float: left;
   width: 360px;
 }
+
 
 .form-col-right {
   float: left;
   padding-left: 30px;
   width: 360px;
 }
+
+/* When one side of a form is to be disabled */
+.disabled {
+  opacity: .3;
+}
+
 
 /* stylish buttons, works for submit inputs and <a> tags */
 .button-small {
@@ -498,9 +513,9 @@ a.button {
   text-shadow: 0px 1px 1px #fff;
 }
 
-.button:hover, .button:focus,
-.button-small:hover, .button-small:focus
-select:hover, select:focus {
+.button:hover:not(:disabled), .button:focus:not(:disabled),
+.button-small:hover:not(:disabled), .button-small:focus:not(:disabled)
+select:hover:not(:disabled), select:focus:not(:disabled) {
   background-image: url('/site-media/pixels/button-hover.gif');
   color: rgb(51, 56, 80);
   border-color: rgb(62, 92, 252);
@@ -511,7 +526,7 @@ select:hover, select:focus {
   text-shadow: 0px 1px 1px rgb(163, 178, 255);
 }
 
-.button:active, .button-small:active, select:active {
+.button:active:not(:disabled), .button-small:active:not(:disabled), select:active:not(:disabled) {
   background-image: url('/site-media/pixels/button-active.gif');
   background-image: -webkit-gradient(linear, left bottom, left top,
 		from(rgb(80, 80, 80)),

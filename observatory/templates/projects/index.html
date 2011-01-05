@@ -31,7 +31,7 @@
                 </div>
             {% endif %}
             <h2 style="float:left; clear:both">
-                <a href="{% url dashboard.views.projects.show project.id %}">
+                <a href="{% url dashboard.views.projects.show project.url_path %}">
                     {{ project.title }}
                 </a>
             </h2>

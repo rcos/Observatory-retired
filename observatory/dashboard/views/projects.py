@@ -36,9 +36,9 @@ def list(request):
     }, context_instance = RequestContext(request))
 
 # information about a specific project
-def show(request, project_id):  
+def show(request, project_url_path):  
   # get the project
-  project = get_object_or_404(Project, id = int(project_id))
+  project = get_object_or_404(Project, url_path = project_url_path)
   
   # create a paginated list of the screenshots of the project
   paginator = None
@@ -50,7 +50,8 @@ def show(request, project_id):
       'project': project,
       'paginator': paginator,
       'default_page': 1,
-      'has_screenshots': len(screenshots) > 0
+      'has_screenshots': len(screenshots) > 0,
+      'js_page_id': 'show_project', 
     }, context_instance = RequestContext(request))
 
 # a view for adding a new project
@@ -117,7 +118,8 @@ def add(request):
         'cloned_repo_form': cloned_repo_form,
         'feed_repo_form': feed_repo_form,
         'project_form': project_form,
-        'blog_form': blog_form
+        'blog_form': blog_form,
+        'js_page_id': 'add_project'
       }, context_instance = RequestContext(request))
   
   # otherwise, if the form is complete, create the project
@@ -171,17 +173,17 @@ def add(request):
 
     # redirect to the show page for the new project
     return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                        args = (project.id,)))
+                                        args = (project.url_path,)))
 
 # a view for modifying an existing project
 @login_required
-def modify(request, project_id, tab_id = 1):
-  project = get_object_or_404(Project, id = int(project_id))
+def modify(request, project_url_path, tab_id = 1):
+  project = get_object_or_404(Project, url_path = project_url_path)
   
   # if someone tries to edit a project they shouldn't be able to
   if request.user not in project.authors.all():
     return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                        args = (project.id,)))
+                                        args = (project.url_path,)))
   # default forms
   project_form = ProjectForm(instance = project)
   cloned_repo_form = ClonedRepositoryForm(instance = project.repository)
@@ -272,7 +274,7 @@ def add_user(request):
   # don't let people add other users
   if int(request.user.id) is not user.id:
     return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                        args = (project.id,)))
+                                        args = (project.url_path,)))
   
   # add the user to the project
   if user not in project.authors.all():
@@ -283,7 +285,7 @@ def add_user(request):
   
   # redirect back to the show page
   return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                      args = (project.id,)))
+                                      args = (project.url_path,)))
 
 # removes a user as an author of a project
 def remove_user(request):
@@ -294,7 +296,7 @@ def remove_user(request):
   # don't let people delete other users
   if int(request.user.id) is not int(user.id):
     return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                        args = (project.id,)))
+                                        args = (project.url_path,)))
   
   # removes the user from the project
   if user in project.authors.all():
@@ -305,12 +307,12 @@ def remove_user(request):
   
   # redirect back to the show page
   return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                      args = (project.id,)))
+                                      args = (project.url_path,)))
 
 # displays the screenshot upload form
-def upload_screenshot(request, project_id):
+def upload_screenshot(request, project_url_path):
   form = None
-  project = get_object_or_404(Project, id = project_id)
+  project = get_object_or_404(Project, url_path = project_url_path)
   
   # if the user has submitted the form and is uploading a screenshot
   if request.method == 'POST':
@@ -348,7 +350,7 @@ def upload_screenshot(request, project_id):
       img.save(path, "PNG")
       
       return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                          args = (project.id,)))
+                                          args = (project.url_path,)))
   
   # otherwise, create a new form
   else:

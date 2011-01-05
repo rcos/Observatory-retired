@@ -3,29 +3,6 @@
 {% load javascript %}
 
 {% block head %}
-<script type="text/javascript" src="{% jquery %}"></script> 
-<script>
-    $(document).ready(function() {
-        var current = "#screenshot-page-{{ default_page }}"
-        var current_switcher = "#screenshot-switcher-{{ default_page }}"
-        var animating = false
-        $("a.screenshot-switcher").click(function() {
-            if (current != $($(this).attr("rel")) && !animating) {
-                animating = true
-                $(current).hide("fast", function() {
-                   $(current).show("fast")
-                   animating = false
-                });
-                current = $(this).attr("rel")
-                
-                $(current_switcher).animate({ opacity: "0.5" }, 400);
-                current_switcher = this
-                $(current_switcher).animate({ opacity: "1" }, 400);
-            }
-        });
-    });
-    {% lightbox %}
-</script>
 {% endblock %}
 
 {% block title %}Dashboard • {{ project.title }}{% endblock %}

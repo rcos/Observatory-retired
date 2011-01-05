@@ -6,8 +6,31 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="/site-media/style.css" />
+    <link rel="stylesheet" type="text/css" href="/site-media/jquery.lightbox-0.5.css" />
+    
     <title>{% block title %}Dashboard{% endblock %}</title>
+    
+    {# Vendor #}
+    <script src="/site-media/js/lib/vendor/jquery-1.4.4.min.js"></script>
+    <script src="/site-media/js/lib/vendor/jquery.html5form-1.2-min.js"></script>
+    <script src="/site-media/js/lib/vendor/jquery.lightbox-0.5.min.js"></script>
+    
+    <script src="/site-media/js/globals.js"></script>
+
+    {# Forms #}    
+    <script src="/site-media/js/lib/form/Form.js"></script>
+    <script src="/site-media/js/lib/form/ExclusiveOrForms.js"></script>
+    
+    {# Pages #}
+    <script src="/site-media/js/lib/page/Page.js"></script>
+    <script src="/site-media/js/lib/page/LoginRegisterPage.js"></script>
+    <script src="/site-media/js/lib/page/AddProjectPage.js"></script>
+    <script src="/site-media/js/lib/page/ShowProjectPage.js"></script>
+    
+    <script src="/site-media/js/init.js"></script>
+
     {% block head %}{% endblock %}
+
 </head>
 <body>
     <div id="top">
@@ -59,6 +82,13 @@
     {% endif %}
     {% block extracontent %}
     {% endblock %}
+    
+    {# If this page has some javascript, initialize the page. #}
+    {% if js_page_id %}
+        <script>
+            initialize_page('{{ js_page_id }}');
+        </script>
+    {% endif %}
 </body>
 </html>
 
