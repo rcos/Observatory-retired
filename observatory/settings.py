@@ -71,6 +71,9 @@ SCREENSHOT_PATH = os.path.join(MEDIA_ROOT, 'screenshots')
 # Root URL for screenshots
 SCREENSHOT_URL = "/site-media/screenshots/"
 
+# Number of threads to use when fetching projects
+FETCH_THREAD_COUNT = 5
+
 # use production jquery for production, debug for debug
 JQUERY = [os.path.join(MEDIA_URL, "js", "jquery-1.4.4.min.js"),
           os.path.join(MEDIA_URL, "js", "jquery-1.4.4.js")][DEBUG]

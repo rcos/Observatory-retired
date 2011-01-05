@@ -19,18 +19,39 @@
 
 import sys
 import os
+from threading import Thread
+from Queue import Queue
 
+# set django's required paths
 path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, path)
 sys.path.insert(0, os.path.abspath(os.path.join(path, '..')))
 sys.path.insert(0, os.path.abspath(os.path.join(path, '..', '..')))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'observatory.settings'
 
-from dashboard.models import *
+# now we can import from observatory's stuff
+from dashboard.models import Project
+from observatory.settings import FETCH_THREAD_COUNT
 
-# fetch the projects and calculate their scores
+def fetcher():
+  while True:
+    project = queue.get()
+    project.fetch()
+    queue.task_done()
+
+# build a queue
+queue = Queue()
 for project in Project.objects.all():
-  project.fetch()
+  queue.put(project)
+
+# run the threads
+for i in range(FETCH_THREAD_COUNT):
+  thread = Thread(target = fetcher)
+  thread.daemon = True
+  thread.start()
+
+# wait until we're finished
+queue.join()
 
 # rank the projects
 rank = 1
