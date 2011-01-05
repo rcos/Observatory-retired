@@ -13,19 +13,12 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import datetime
-import re
 from colorsys import hsv_to_rgb
 from django.db import models
 from django.contrib.auth.models import User
+from ..util import url_pathify_safe
 from Repository import Repository
 from Blog import Blog
-
-INVALID_PROJECT_URL_PATHS = (
-  "add-user",
-  "remove-user",
-  "add",
-  "list"
-)
 
 # an open source project tracked by observatory
 class Project(models.Model):
@@ -68,19 +61,7 @@ class Project(models.Model):
   # assign the url path when the project is first created
   def save(self, *args, **kwargs):
     if self.url_path is None:
-      # replace space with dash, lowercase, drop nonalphabeticals
-      url_path = re.sub(r"[^a-z-]", "", self.title.lower().replace(" ", "-"))
-      self.url_path = url_path
-      
-      # if the name is not unique, append a number (this shouldn't be an issue)
-      suffix_num = 0
-      while (len(Project.objects.filter(url_path = self.url_path)) is not 0 or
-             self.url_path in INVALID_PROJECT_URL_PATHS):
-        suffix_num += 1
-        suffix = str(suffix_num)
-        while len(url_path) + len(suffix) > 32:
-          url_path = url_path[:-1]
-        self.url_path = url_path + suffix
+      self.url_path = url_pathify_safe(Project, self.title)
     
     # call up to the default save
     super(Project, self).save(*args, **kwargs)

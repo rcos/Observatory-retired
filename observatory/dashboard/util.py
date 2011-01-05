@@ -13,6 +13,7 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import datetime
+import re
 from collections import defaultdict
 from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse
@@ -20,6 +21,13 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from HTMLParser import HTMLParser
 from urllib import urlopen
+
+INVALID_URL_PATHS = (
+  "add-user",
+  "remove-user",
+  "add",
+  "list"
+)
 
 # adds a "pages" method to paginator, which returns a list of the pages
 class ListPaginator(Paginator):
@@ -45,3 +53,23 @@ def time_ago(date, time = datetime.datetime.now()):
   if delta.seconds >= 60:
     return plural(int(delta.seconds / 60), "minute")
   return plural(delta.seconds, "second")
+
+def url_pathify_safe(model, string, invalid_paths = INVALID_URL_PATHS):
+  url_path = url_pathify(string)
+  final_url_path = url_path
+  
+  # if the name is not unique, append a number
+  suffix_num = 0
+  while (len(model.objects.filter(url_path = final_url_path)) is not 0 or
+         final_url_path in invalid_paths):
+    suffix_num += 1
+    suffix = str(suffix_num)
+    while len(url_path) + len(suffix) > 32:
+      url_path = url_path[:-1]
+    final_url_path = url_path + suffix
+  return final_url_path
+
+def url_pathify(string):
+  # replace space with dash, lowercase, drop nonalphabeticals
+  return re.sub(r"[^a-z-]", "", string.lower().replace(" ", "-"))
+  
