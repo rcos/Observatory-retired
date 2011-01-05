@@ -96,10 +96,6 @@ class Blog(EventSet):
   # external (from an rss feed)? or hosted by dashboard?
   external = models.BooleanField()
   
-  # how recent was the last post?
-  def age_ago(self, time = datetime.datetime.now()):
-    return time_ago(self.most_recent_date, time)
-  
   # fetches the posts from the rss feed
   def fetch(self):
     # don't fetch internally hosted blogs
