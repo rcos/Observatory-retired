@@ -15,7 +15,7 @@
     {% if posts %}
         {% for post in posts %}
             {% autoescape off %}
-                <a href="{% url dashboard.views.blogs.show_post post.id %}">
+                <a href="{% url dashboard.views.blogs.show_post post.url_path %}">
                     <h2>{{ post.title }}</h2>
                 </a>
                 {{ post.content }}
