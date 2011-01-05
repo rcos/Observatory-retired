@@ -20,7 +20,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from dashboard.models import *
 from dashboard.forms import *
-from dashboard.util import ListPaginator
+from dashboard.util import ListPaginator, url_pathify
 from settings import SCREENSHOT_PATH
 import Image
 import os
@@ -36,7 +36,13 @@ def list(request):
     }, context_instance = RequestContext(request))
 
 # information about a specific project
-def show(request, project_url_path):  
+def show(request, project_url_path):
+  # redirect if the url path is not in the correct format
+  pathified = url_pathify(project_url_path)
+  if pathified != project_url_path:
+    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+                                        args = (pathified,)))
+  
   # get the project
   project = get_object_or_404(Project, url_path = project_url_path)
   
