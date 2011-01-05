@@ -184,6 +184,12 @@ def add(request):
 # a view for modifying an existing project
 @login_required
 def modify(request, project_url_path, tab_id = 1):
+  # redirect if the url path is not in the correct format
+  pathified = url_pathify(project_url_path)
+  if pathified != project_url_path:
+    return HttpResponseRedirect(reverse('dashboard.views.projects.modify',
+                                        args = (pathified,)))
+  
   project = get_object_or_404(Project, url_path = project_url_path)
   
   # if someone tries to edit a project they shouldn't be able to

@@ -17,13 +17,13 @@ urlpatterns = patterns('',
     (r'^admin', include(admin.site.urls)),
     
     # blog posts
-    (r'^post/(\d+)/modify', 'dashboard.views.blogs.edit_post'),
-    (r'^post/(\d+)/update', 'dashboard.views.blogs.update_post'),
-    (r'^post/(\d+)/delete', 'dashboard.views.blogs.delete_post'),
-    (r'^post/(\d+)', 'dashboard.views.blogs.show_post'),
     (r'^posts/add/(\d+)', 'dashboard.views.blogs.write_post'),
     (r'^posts/create/(\d+)', 'dashboard.views.blogs.create_post'),
     (r'^posts/page/(\d+)', 'dashboard.views.blogs.posts_page'),
+    (r'^post/(.*)/modify', 'dashboard.views.blogs.edit_post'),
+    (r'^post/(.*)/update', 'dashboard.views.blogs.update_post'),
+    (r'^post/(.*)/delete', 'dashboard.views.blogs.delete_post'),
+    (r'^post/(.*)', 'dashboard.views.blogs.show_post'),
     (r'^posts', 'dashboard.views.blogs.posts'),
     
     # users

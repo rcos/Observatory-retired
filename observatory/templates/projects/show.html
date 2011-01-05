@@ -105,7 +105,7 @@
     <ul class="project-posts">
         {% for post in project.blog.blogpost_set.all %}
         <li>
-            <a href="{% url dashboard.views.blogs.show_post post.id %}">
+            <a href="{% url dashboard.views.blogs.show_post post.url_path %}">
                 {% autoescape off %}{{ post.title }}{% endautoescape %}
             </a>
         </li>
