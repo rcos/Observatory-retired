@@ -74,6 +74,13 @@ SCREENSHOT_URL = "/site-media/screenshots/"
 # Number of threads to use when fetching projects
 FETCH_THREAD_COUNT = 5
 
+# scoring thresholds
+GREEN_SCORE = 2000 # everything up to this score will be green
+RED_SCORE = 7000 # everything after this score will be red
+
+UNCERTAIN_SCORE = 3000 # everything after this score will be uncertain face
+UNHAPPY_SCORE = 5000 # everything after this score will be unhappy face
+
 # use production jquery for production, debug for debug
 JQUERY = [os.path.join(MEDIA_URL, "js", "jquery-1.4.4.min.js"),
           os.path.join(MEDIA_URL, "js", "jquery-1.4.4.js")][DEBUG]
