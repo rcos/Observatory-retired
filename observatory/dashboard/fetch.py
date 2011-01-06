@@ -33,29 +33,34 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'observatory.settings'
 from dashboard.models import Project
 from observatory.settings import FETCH_THREAD_COUNT
 
-def fetcher():
-  while True:
-    try:
-      project = queue.get()
-      project.fetch()
-      queue.task_done()
-    except:
-      queue.task_done()
-      raise
+if FETCH_THREAD_COUNT > 1:
+  def fetcher():
+    while True:
+      try:
+        project = queue.get()
+        project.fetch()
+        queue.task_done()
+      except:
+        queue.task_done()
+        raise
 
-# build a queue
-queue = Queue()
-for project in Project.objects.all():
-  queue.put(project)
+  # build a queue
+  queue = Queue()
+  for project in Project.objects.all():
+    queue.put(project)
 
-# run the threads
-for i in range(FETCH_THREAD_COUNT):
-  thread = Thread(target = fetcher)
-  thread.daemon = True
-  thread.start()
+  # run the threads
+  for i in range(FETCH_THREAD_COUNT):
+    thread = Thread(target = fetcher)
+    thread.daemon = True
+    thread.start()
 
-# wait until we're finished
-queue.join()
+  # wait until we're finished
+  queue.join()
+else:
+  for project in Project.objects.all():
+    print "Fetching {0}".format(project.title)
+    project.fetch()
 
 # rank the projects
 rank = 1
