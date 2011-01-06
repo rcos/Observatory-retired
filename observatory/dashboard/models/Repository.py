@@ -15,6 +15,7 @@
 import os
 import settings
 import subprocess
+from django.contrib.auth.models import User
 from django.db import models
 from lib import feedparser, dateutil, pyvcs
 from EventSet import EventSet
@@ -54,17 +55,14 @@ class Repository(EventSet):
         return
         
       # can we find an author for this commit?
-      try:
-        # TODO: this seems incredibly presumptive of name format
-        author_firstlast = author_name.split(' ')
+      # TODO: this seems incredibly presumptive of name format
+      author_firstlast = author_name.split(' ')
+      author = None
+      if len(author_firstlast) > 0:
         authors = User.objects.filter(first_name = author_firstlast[0],
                                       last_name = author_firstlast[1])
         if len(authors) is 1:
           author = authors[0]
-        else:
-          author = None
-      except:
-        author = None
 
       # create and save the commit object
       import Commit
