@@ -15,7 +15,10 @@
 {% block content %}
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-{% if project_form.errors %}<p><strong>{{ project_form.errors }}</string></p>{% endif %}
+{% if project_form.errors %}<p><strong>{{ project_form.errors }}</strong></p>{% endif %}
+{% if cloned_repo_form.errors %}<p><strong>{{ cloned_repo_form.errors }}</strong></p>{% endif %}
+{% if feed_repo_form.errors %}<p><strong>{{ feed_repo_form.errors }}</strong></p>{% endif %}
+
 
 <form action="{% url dashboard.views.projects.add %}"
  id="part-1" method="post">
@@ -27,24 +30,36 @@
         <p>
             <label for="id_title">Title</label>
             <input id="id_title" type="text" name="title" maxlength="32" required 
-                {% if project_form.data.title %}value="{{project_form.data.title}}"{% endif %}/>
+                {% if project_form.data.title %}
+                    value="{{project_form.data.title}}"
+                {% endif %}
+            />
         </p>
         <p>
             <label for="id_website">Website</label>
             <input placeholder="i.e. https://github.com/NateStedman/Observatory" id="id_website" type="url" name="website" maxlength="64" required 
-                {% if project_form.data.website %}value="{{project_form.data.website}}"{% endif %}/>
+                {% if project_form.data.website %}
+                    value="{{project_form.data.website}}"
+                {% endif %}
+            />
         </p>
         <p>
             <label for="id_wiki">Wiki</label>
             <input id="id_wiki" type="url" name="wiki" maxlength="64" required 
-                {% if project_form.data.wiki %}value="{{project_form.data.wiki}}"{% endif %}/>
+                {% if project_form.data.wiki %}
+                    value="{{project_form.data.wiki}}"
+                {% endif %}
+            />
         </p>
     </div>
     <div class="form-col-right">
         <p>
             <label for="id_description">Description</label>
             <textarea id="id_description" rows="10" cols="40" name="description" required 
-                {% if project_form.data.description %}value="{{project_form.data.description}}"{% endif %}></textarea>
+                {% if project_form.data.description %}
+                    value="{{project_form.data.description}}"
+                {% endif %}
+            ></textarea>
         </p>
     </div>    
     <div class="submitbutton">
@@ -70,21 +85,50 @@
 
             <p>
                 <label for="id_web_url">Repository Web Address:</label>
-                <input placeholder="i.e. https://github.com/NateStedman/Observatory/" id="id_web_url" type="url" name="web_url" maxlength="128" required />
+                <input placeholder="i.e. https://github.com/NateStedman/Observatory/" id="id_web_url" type="url" name="web_url" maxlength="128" required 
+                    {% if cloned_repo_form.data.web_url %}
+                        value="{{cloned_repo_form.data.web_url}}"
+                    {% endif %}
+                />
             </p>
             
             <p>
                 <label for="id_clone_url">Repository Clone Address:</label>
-                <input placeholder="i.e. git@github.com:NateStedman/Observatory.git" id="id_clone_url" type="url" name="clone_url" maxlength="128" required />
+                <input placeholder="i.e. git@github.com:NateStedman/Observatory.git" id="id_clone_url" type="text" name="clone_url" maxlength="128" required 
+                    {% if cloned_repo_form.data.clone_url %}
+                        value="{{ cloned_repo_form.data.clone_url }}"
+                    {% endif %}
+                />
             </p>
             
-            <p>
+            <p> 
                 <label for="id_vcs">Version Control System:</label>
                 <select name="vcs" id="id_vcs">
-                    <option value="git" selected="selected">git</option>
-                    <option value="svn">Subversion</option>
-                    <option value="hg">Mercurial</option>
-                    <option value="bzr">Bazaar</option>
+                    <option value="git" 
+                        {% if not cloned_repo_form.data.vcs %}
+                            selected="selected"
+                        {% else %}
+                            {% if cloned_repo_form.data.vcs == 'git' %}
+                                selected="selected"
+                            {% endif %}                            
+                        {% endif %}
+                    >git</option>
+                    <option value="svn"
+                        {% if cloned_repo_form.data.vcs and cloned_repo_form.data.vcs == 'svn' %}
+                            selected="selected"
+                        {% endif %}
+                    >Subversion</option>
+                    <option value="hg"
+                        {% if cloned_repo_form.data.vcs and cloned_repo_form.data.vcs == 'hg' %}
+                            selected="selected"
+                        {% endif %}
+                    >Mercurial</option>
+                    
+                    <option value="bzr"
+                        {% if cloned_repo_form.data.vcs and cloned_repo_form.data.vcs == 'bzr' %}
+                            selected="selected"
+                        {% endif %}                        
+                    >Bazaar</option>
                 </select>
             </p>
             
@@ -112,17 +156,29 @@
             
             <p>
                 <label for="id_web_url">Repository Web Address:</label>
-                <input id="id_web_url" type="url" name="web_url" maxlength="128" required />
+                <input id="id_web_url" type="url" name="web_url" maxlength="128" required 
+                    {% if feed_repo_form.data.web_url %}
+                        value="{{ feed_repo_form.data.web_url }}"
+                    {% endif %}
+                />
             </p>
             
             <p>
                 <label for="id_repo_rss">Repository RSS Feed:</label>
-                <input id="id_repo_rss" type="url" name="repo_rss" maxlength="128" required />
+                <input id="id_repo_rss" type="url" name="repo_rss" maxlength="128" required 
+                    {% if feed_repo_form.data.repo_rss %}
+                        value="{{ feed_repo_form.data.repo_rss }}"
+                    {% endif %}
+                />
             </p>
             
             <p>
                 <label for="id_cmd">Clone Command:</label>
-                <input id="id_cmd" type="text" name="cmd" maxlength="128" required />
+                <input id="id_cmd" type="text" name="cmd" maxlength="128" required 
+                    {% if feed_repo_form.data.cmd %}
+                        value="{{ feed_repo_form.data.cmd }}"
+                    {% endif %}
+                />
             </p>
             
             <div class="submitbutton">
