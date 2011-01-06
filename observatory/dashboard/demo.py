@@ -82,9 +82,7 @@ mnot.save()
 mnot.authors.add(User.objects.get(username = 'peterhajas@gmail.com'))
 mnot.save()
 
-obsv_blog = Blog(external = True,
-                 url = "http://nate.xen.prgmr.com",
-                 rss = "http://nate.xen.prgmr.com/feed")
+obsv_blog = Blog(external = False)
 obsv_blog.save()
 obsv_repo = Repository(web_url = "https://github.com/natestedman/Observatory",
                        repo_rss = "https://github.com/natestedman/Observatory/commits/master.atom",
