@@ -18,6 +18,7 @@
 {% if project_form.errors %}<p><strong>{{ project_form.errors }}</strong></p>{% endif %}
 {% if cloned_repo_form.errors %}<p><strong>{{ cloned_repo_form.errors }}</strong></p>{% endif %}
 {% if feed_repo_form.errors %}<p><strong>{{ feed_repo_form.errors }}</strong></p>{% endif %}
+{% if blog_form.errors %}<p><strong>{{ blog_form.errors }}</strong></p>{% endif %}
 
 
 <form action="{% url dashboard.views.projects.add %}"
@@ -204,12 +205,20 @@
 
             <p>
                 <label for="id_url">Blog Web Address:</label>
-                <input id="id_url" type="url" name="url" maxlength="64" required />
+                <input id="id_url" type="url" name="url" maxlength="64" required 
+                    {% if blog_form.data.url %}
+                        value="{{ blog_form.data.url }}"
+                    {% endif %}
+                />
             </p>
             
             <p>
                 <label for="id_rss">Blog Feed:</label>
-                <input id="id_rss" type="url" name="rss" maxlength="64" required />
+                <input id="id_rss" type="url" name="rss" maxlength="64" required 
+                    {% if blog_form.data.rss %}
+                        value="{{ blog_form.data.rss }}"
+                    {% endif %}
+                />
             </p>
             
             <div class="submitbutton">
