@@ -27,7 +27,8 @@
             {% if project.rank %}
                 <div class="project-rank"
                      style="{{ project.rank_emblem_css }}">
-                    {{ project.rank }}
+                    <img src="{{ project.rank_emblem_face }}"
+                         alt="Rank: {{ project.rank }}" />
                 </div>
             {% endif %}
             <h2 style="float:left; clear:both">

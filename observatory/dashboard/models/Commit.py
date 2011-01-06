@@ -12,6 +12,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+from django.core.urlresolvers import reverse
 from django.db import models
 from Event import Event
 from Repository import Repository
@@ -22,7 +23,8 @@ class Commit(Event):
     app_label = 'dashboard'
   
   # the url to the commit (in cgit, etc.)
-  url = models.URLField("Commit URL", max_length = 200, blank = True)
+  url = models.URLField("Commit URL", max_length = 200,
+                        blank = True, null = True)
   
   # the diff for the commit. This won't exist for RSS commits
   diff = models.TextField(blank = True, null = True)
@@ -48,7 +50,5 @@ class Commit(Event):
     return tags
   
   def link(self):
-    if self.repository.cloned:
-      return None
-    else:
-      return self.url
+    return reverse("dashboard.views.commits.show",
+                   args = (self.repository.project.url_path, self.url_path))

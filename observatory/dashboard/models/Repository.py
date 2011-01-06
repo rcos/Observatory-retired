@@ -15,6 +15,7 @@
 import os
 import settings
 import subprocess
+from dashboard.util import find_author
 from django.db import models
 from lib import feedparser, dateutil, pyvcs
 from EventSet import EventSet
@@ -44,7 +45,8 @@ class Repository(EventSet):
   cloned = models.BooleanField()
   
   def fetch(self):
-    def add_commit(title, description, link, author_name, date, max_date):
+    def add_commit(title, description, author_name, date, max_date,
+                   link = None, diff = None):
       # find the new most recently updated date
       if max_date < date:
         max_date = date
@@ -54,17 +56,8 @@ class Repository(EventSet):
         return
         
       # can we find an author for this commit?
-      try:
-        # TODO: this seems incredibly presumptive of name format
-        author_firstlast = author_name.split(' ')
-        authors = User.objects.filter(first_name = author_firstlast[0],
-                                      last_name = author_firstlast[1])
-        if len(authors) is 1:
-          author = authors[0]
-        else:
-          author = None
-      except:
-        author = None
+      # TODO: this seems incredibly presumptive of name format
+      author, author_name = find_author(author_name)
 
       # create and save the commit object
       import Commit
@@ -72,6 +65,7 @@ class Repository(EventSet):
                              title = title,
                              description = description,
                              url = link,
+                             diff = diff,
                              date = date)
       commit.repository = self
       if author is not None:
@@ -118,8 +112,14 @@ class Repository(EventSet):
           date = (date - date.utcoffset()).replace(tzinfo=None)
         except:
           pass
-
-        new_max_date = add_commit(commit.message, commit.message, "what",
+        
+        # extract the first line for the title of the commit
+        try:
+          commit_title = commit.message.split("\n")[0]
+        except:
+          commit_title = commit.message
+        
+        new_max_date = add_commit(commit_title, commit.message,
                                   commit.author, date, max_date)
 
         if new_max_date:
@@ -133,8 +133,9 @@ class Repository(EventSet):
         except:
           pass
         
-        new_max_date = add_commit(commit.title, commit.description, commit.link,
-                                  commit.author_detail['name'], date, max_date)
+        new_max_date = add_commit(commit.title, commit.description,
+                                  commit.author_detail['name'], date, max_date,
+                                  link = commit.link)
 
         if new_max_date:
           max_date = new_max_date

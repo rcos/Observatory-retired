@@ -87,7 +87,7 @@ class Repository(BaseRepository):
         commit = self._get_commit(commit_id)
         parent = commit.parents[0] if len(commit.parents) else 'NULL'
         files = self._diff_files(commit.id, parent)
-        return Commit(commit.id, commit.committer,
+        return Commit(commit.id, commit.author,
             datetime.fromtimestamp(commit.commit_time), commit.message, files,
             lambda: generate_unified_diff(self, files, parent, commit.id))
 

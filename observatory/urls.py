@@ -35,6 +35,9 @@ urlpatterns = patterns('',
     (r'^user/authenticate', 'dashboard.views.users.authenticate'),
     (r'^user/(\d+)', 'dashboard.views.users.profile'),
     
+    # commits
+    (r'^projects/(.*)/commit/(.*)', 'dashboard.views.commits.show'),
+    
     # projects
     (r'^projects/add-user', 'dashboard.views.projects.add_user'),
     (r'^projects/remove-user', 'dashboard.views.projects.remove_user'),

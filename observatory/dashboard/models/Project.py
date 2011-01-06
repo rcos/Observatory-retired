@@ -13,9 +13,12 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import datetime
+import os
 from colorsys import hsv_to_rgb
 from django.db import models
 from django.contrib.auth.models import User
+from settings import GREEN_SCORE, RED_SCORE, UNCERTAIN_SCORE, UNHAPPY_SCORE
+from settings import MEDIA_URL
 from ..util import url_pathify_safe
 from Repository import Repository
 from Blog import Blog
@@ -82,37 +85,37 @@ class Project(models.Model):
   def __unicode__(self):
     return self.title
   
+  # face image for rank emblem
+  def rank_emblem_face(self):
+    if self.score < UNCERTAIN_SCORE:
+      return os.path.join(MEDIA_URL, "pixels", "face-happy.png")
+    elif self.score < UNHAPPY_SCORE:
+      return os.path.join(MEDIA_URL, "pixels", "face-uncertain.png")
+    return os.path.join(MEDIA_URL, "pixels", "face-unhappy.png")
+  
   # CSS for background of ranking emblem
   def rank_emblem_css(self):
-    # a bit inefficient?
-    count = float(len(Project.objects.all()))
-    hue = self.rank / count
+    if self.score < GREEN_SCORE:
+      hue = 0
+    elif self.score > RED_SCORE:
+      hue = 1
+    hue = float(self.score - GREEN_SCORE) / (RED_SCORE - GREEN_SCORE)
+    
     mainbg = hsv_to_rgb(0.3 - hue * 0.3, 0.9, 0.75)
     lightbg = hsv_to_rgb(0.3 - hue * 0.3, 0.9, 0.9)
-    darkbg = hsv_to_rgb(0.3 - hue * 0.3, 0.9, 0.6)
-    inset = hsv_to_rgb(0.3 - hue * 0.3, 0.5, 0.2)
     
     return """
       background:rgb({0},{1},{2});
       background-image: -webkit-gradient(linear, left bottom, left top,
         from(rgb({0},{1},{2})),
-        to(rgb({9},{10},{11})));
+        to(rgb({3},{4},{5})));
       background-image: -moz-linear-gradient(100% 100% 90deg,
         rgb({0},{1},{2}),
-        rgb({9},{10},{11})
+        rgb({3},{4},{5})
       );
-      -moz-text-shadow: 0px -1px 1px rgb({6},{7},{8});
-      -webkit-text-shadow: 0px -1px 1px rgb({6},{7},{8});
-      text-shadow: 0px -1px 1px rgb({6},{7},{8});
       """.format(int(mainbg[0] * 255),
                  int(mainbg[1] * 255),
                  int(mainbg[2] * 255),
-                 int(darkbg[0] * 255),
-                 int(darkbg[1] * 255),
-                 int(darkbg[2] * 255),
-                 int(inset[0] * 255),
-                 int(inset[1] * 255),
-                 int(inset[2] * 255),
                  int(lightbg[0] * 255),
                  int(lightbg[1] * 255),
                  int(lightbg[2] * 255))

@@ -15,6 +15,7 @@
 import datetime
 import re
 from collections import defaultdict
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
@@ -73,4 +74,13 @@ def url_pathify_safe(model, string, invalid_paths = INVALID_URL_PATHS,
 def url_pathify(string):
   # replace space with dash, lowercase, drop nonalphabeticals
   return re.sub(r"[^a-z-]", "", string.lower().replace(" ", "-"))
-  
+
+def find_author(author_name):
+  author_firstlast = author_name.split(' ')
+  author = None
+  if len(author_firstlast) > 2:
+    authors = User.objects.filter(first_name = author_firstlast[0],
+                                  last_name = author_firstlast[1])
+    if len(authors) is 1:
+      author = authors[0]
+  return author, author_name

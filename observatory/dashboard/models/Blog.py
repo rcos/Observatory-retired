@@ -12,8 +12,8 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+from dashboard.util import find_author
 from django.db import models
-from django.contrib.auth.models import User
 from lib import feedparser, dateutil
 from EventSet import EventSet
 
@@ -57,17 +57,10 @@ class Blog(EventSet):
       
       # can we find an author for this blog post?
       try:
-        author_name = post.author_details['name']
-        author_firstlast = author_name.split(' ')
-        authors = User.objects.filter(first_name = author_firstlast[0],
-                                      last_name = author_firstlast[1])
-        if len(authors) is 1:
-          author = authors[0]
-        else:
-          author = None
+        author, author_name = find_author(post.author_details["name"])
       except:
-        author_name = None
         author = None
+        author_name = None
       
       try:
         description = post.content[0].value
