@@ -52,6 +52,37 @@ observatory.ExclusiveOrForms.prototype.init = function(params) {
             me.form_has_changed(me.formB, me.formA, e);
         };
     }(this));
+    
+    /*  On initialization, we will check to see if any fields have been injected
+        into the form from the backend */
+        
+    var were_fields_injected = function(fields) {
+        for(var i = 0, il = fields.length; i < il; i++) {
+            var field = fields[i];
+            
+            /* for the fields that the user can modify */
+            if(field.type != 'hidden' && field.type != 'submit') {
+                
+                /* If there is no default value and the field has been modified */
+                if(!$(field).is('select') && field.value) {
+                    return true;
+                }
+            }
+        }
+    }
+    
+    /* If either of the forms had their values injected by the server, disable other form */
+    if(were_fields_injected(formA.fields)) {
+        formB.disable();
+    }
+    else if(were_fields_injected(formB.fields)) {
+        formA.disable();
+    }
+    
+    
+    
+    
+    
 };
 
 observatory.ExclusiveOrForms.prototype.form_has_changed = function(changed, other, e) {
@@ -61,15 +92,17 @@ observatory.ExclusiveOrForms.prototype.form_has_changed = function(changed, othe
     for(var i = 0, il = inputElements.length; i < il; i++) {
         var inputElement = $(inputElements[i]);
         
-        /* If this isn't an input element */
-        if(!inputElement.is('input')) {
+        /* If this isn't an input element, or it is hidden from the user, ignore */
+        if(!inputElement.is('input') 
+            || inputElement.attr('type') == 'hidden' 
+            || inputElement.attr('type') == 'submit') {
             continue;
         }
 
-        var defaultValue = inputElement.attr('defaultValue');
+/*        var defaultValue = inputElement.attr('defaultValue');*/
         var currentValue = inputElement.attr('value');
         
-        if(defaultValue != currentValue) {
+        if(currentValue != '') {
             formIsEmpty = false;
             break;
         }

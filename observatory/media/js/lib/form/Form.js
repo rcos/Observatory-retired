@@ -46,6 +46,13 @@ observatory.Form.prototype.init = function(params) {
     }
     this.container = container;
     
+    var fields = el.attr('elements');
+    if(typeof(fields) == 'undefined') {
+        throw new Error('fields is undefined');
+    }
+    this.fields = fields;
+
+    
     /* If we are disabled */
     this.disabled = false;
 
