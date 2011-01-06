@@ -110,8 +110,14 @@ class Repository(EventSet):
           date = (date - date.utcoffset()).replace(tzinfo=None)
         except:
           pass
-
-        new_max_date = add_commit(commit.message, commit.message, "what",
+        
+        # extract the first line for the title of the commit
+        try:
+          commit_title = commit.message.split("\n")[0]
+        except:
+          commit_title = commit.message
+        
+        new_max_date = add_commit(commit_title, commit.message, "what",
                                   commit.author, date, max_date)
 
         if new_max_date:
