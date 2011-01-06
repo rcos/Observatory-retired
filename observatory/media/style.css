@@ -456,10 +456,10 @@ input:focus, textarea:focus {
 }
 
 /* Valid and invalid input fields */
-input:required:valid {
+input:required:valid, textarea:required:valid {
   border: 2px solid #23CC39;
 }
-input:required:invalid, input:focus:invalid {
+input:required:invalid, textarea:required:invalid, input:focus:invalid, textarea:focus:invalid {
   border: 2px solid red;
 }
 

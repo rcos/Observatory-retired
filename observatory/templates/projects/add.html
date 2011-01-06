@@ -15,6 +15,7 @@
 {% block content %}
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if project_form.errors %}<p><strong>{{ project_form.errors }}</string></p>{% endif %}
 
 <form action="{% url dashboard.views.projects.add %}"
  id="part-1" method="post">
@@ -25,21 +26,25 @@
     <div class="form-col-left">
         <p>
             <label for="id_title">Title</label>
-            <input id="id_title" type="text" name="title" maxlength="32" required />
+            <input id="id_title" type="text" name="title" maxlength="32" required 
+                {% if project_form.data.title %}value="{{project_form.data.title}}"{% endif %}/>
         </p>
         <p>
             <label for="id_website">Website</label>
-            <input placeholder="i.e. https://github.com/NateStedman/Observatory" id="id_website" type="url" name="website" maxlength="64" required />
+            <input placeholder="i.e. https://github.com/NateStedman/Observatory" id="id_website" type="url" name="website" maxlength="64" required 
+                {% if project_form.data.website %}value="{{project_form.data.website}}"{% endif %}/>
         </p>
         <p>
             <label for="id_wiki">Wiki</label>
-            <input id="id_wiki" type="url" name="wiki" maxlength="64" required />
+            <input id="id_wiki" type="url" name="wiki" maxlength="64" required 
+                {% if project_form.data.wiki %}value="{{project_form.data.wiki}}"{% endif %}/>
         </p>
     </div>
     <div class="form-col-right">
         <p>
             <label for="id_description">Description</label>
-            <textarea id="id_description" rows="10" cols="40" name="description"></textarea>
+            <textarea id="id_description" rows="10" cols="40" name="description" required 
+                {% if project_form.data.description %}value="{{project_form.data.description}}"{% endif %}></textarea>
         </p>
     </div>    
     <div class="submitbutton">
