@@ -56,11 +56,7 @@
     <div class="form-col-right">
         <p>
             <label for="id_description">Description</label>
-            <textarea id="id_description" rows="10" cols="40" name="description" required 
-                {% if project_form.data.description %}
-                    value="{{project_form.data.description}}"
-                {% endif %}
-            ></textarea>
+            <textarea id="id_description" rows="10" cols="40" name="description" required>{% if project_form.data.description %}{{project_form.data.description}}{% endif %}</textarea>
         </p>
     </div>    
     <div class="submitbutton">
