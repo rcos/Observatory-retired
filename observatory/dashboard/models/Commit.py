@@ -22,7 +22,8 @@ class Commit(Event):
     app_label = 'dashboard'
   
   # the url to the commit (in cgit, etc.)
-  url = models.URLField("Commit URL", max_length = 200, blank = True)
+  url = models.URLField("Commit URL", max_length = 200,
+                        blank = True, null = True)
   
   # the diff for the commit. This won't exist for RSS commits
   diff = models.TextField(blank = True, null = True)

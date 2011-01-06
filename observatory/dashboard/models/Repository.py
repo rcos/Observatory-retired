@@ -45,7 +45,8 @@ class Repository(EventSet):
   cloned = models.BooleanField()
   
   def fetch(self):
-    def add_commit(title, description, link, author_name, date, max_date):
+    def add_commit(title, description, author_name, date, max_date,
+                   link = None, diff = None):
       # find the new most recently updated date
       if max_date < date:
         max_date = date
@@ -64,6 +65,7 @@ class Repository(EventSet):
                              title = title,
                              description = description,
                              url = link,
+                             diff = diff,
                              date = date)
       commit.repository = self
       if author is not None:
@@ -117,7 +119,7 @@ class Repository(EventSet):
         except:
           commit_title = commit.message
         
-        new_max_date = add_commit(commit_title, commit.message, "what",
+        new_max_date = add_commit(commit_title, commit.message,
                                   commit.author, date, max_date)
 
         if new_max_date:
@@ -131,8 +133,9 @@ class Repository(EventSet):
         except:
           pass
         
-        new_max_date = add_commit(commit.title, commit.description, commit.link,
-                                  commit.author_detail['name'], date, max_date)
+        new_max_date = add_commit(commit.title, commit.description,
+                                  commit.author_detail['name'], date, max_date,
+                                  link = commit.link)
 
         if new_max_date:
           max_date = new_max_date
