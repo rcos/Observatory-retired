@@ -12,6 +12,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+from django.core.urlresolvers import reverse
 from django.db import models
 from Event import Event
 from Repository import Repository
@@ -49,7 +50,5 @@ class Commit(Event):
     return tags
   
   def link(self):
-    if self.repository.cloned:
-      return None
-    else:
-      return self.url
+    return reverse("dashboard.views.commits.show",
+                   args = (self.repository.project.url_path, self.url_path))
