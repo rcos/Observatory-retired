@@ -35,9 +35,13 @@ from observatory.settings import FETCH_THREAD_COUNT
 
 def fetcher():
   while True:
-    project = queue.get()
-    project.fetch()
-    queue.task_done()
+    try:
+      project = queue.get()
+      project.fetch()
+      queue.task_done()
+    except:
+      queue.task_done()
+      raise
 
 # build a queue
 queue = Queue()
