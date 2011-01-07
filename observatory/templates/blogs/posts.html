@@ -13,7 +13,12 @@
             <h2><a href="{% url dashboard.views.blogs.show_post post.url_path %}">
                 {{ post.title }}
             </a></h2>
-            {{ post.description|truncatewords_html:64 }}
+            {% if post.description|length > 64 %}
+                {{ post.description|truncatewords_html:64 }}<a href="{% url dashboard.views.blogs.show_post post.url_path %}">Read more</a>
+            {% else %}
+                {{ post.description }}
+            {% endif %}
+            
             
             <div class="dark-bottom-bar">
                 <div style="float:left">
