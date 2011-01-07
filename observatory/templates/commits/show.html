@@ -14,7 +14,10 @@
 <pre>{{ commit.description }}</pre>
 
 {% if commit.diff %}
-    <pre>{{ commit.diff }}</pre>
+    <h2>Changes</h2>
+    {% autoescape off %}
+        {{ commit.diff }}
+    {% endautoescape %}
 {% endif %}
 
 <div class="dark-bottom-bar">

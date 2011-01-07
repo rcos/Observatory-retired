@@ -20,7 +20,9 @@ from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.utils.html import escape
 from HTMLParser import HTMLParser
+from unicodedata import normalize
 from urllib import urlopen
 
 INVALID_URL_PATHS = (
@@ -84,3 +86,26 @@ def find_author(author_name):
     if len(authors) is 1:
       author = authors[0]
   return author, author_name
+
+def format_diff(diff):
+  if diff is None: return None
+  
+  out = ""
+  for line in diff.split("\n"):
+    classes = (('+++', 'added-file'),
+               ('---', 'removed-file'),
+               ('@@',  'file-lines'),
+               ('+',   'line-added'),
+               ('-',   'line-removed'))
+    
+    try:
+      line = escape(unicode(line)).replace("\t", "  ").replace(" ", "&nbsp;")
+      
+      for item in classes:
+        if line.startswith(item[0]):
+          out += "<pre class='diff {0}'>{1}</pre>\n".format(item[1], line)
+          break
+      
+    except UnicodeDecodeError as e:
+      continue
+  return out

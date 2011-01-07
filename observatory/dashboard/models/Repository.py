@@ -15,7 +15,7 @@
 import os
 import settings
 import subprocess
-from dashboard.util import find_author
+from dashboard.util import find_author, format_diff
 from django.db import models
 from lib import feedparser, dateutil, pyvcs
 from EventSet import EventSet
@@ -65,7 +65,7 @@ class Repository(EventSet):
                              title = title,
                              description = description,
                              url = link,
-                             diff = diff,
+                             diff = format_diff(diff),
                              date = date)
       commit.repository = self
       if author is not None:
@@ -120,7 +120,8 @@ class Repository(EventSet):
           commit_title = commit.message
         
         new_max_date = add_commit(commit_title, commit.message,
-                                  commit.author, date, max_date)
+                                  commit.author, date, max_date,
+                                  diff = commit.diff)
 
         if new_max_date:
           max_date = new_max_date

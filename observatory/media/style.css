@@ -3,15 +3,15 @@ html {
   background-repeat: repeat-x;
   background-color: rgb(32, 32, 32);
   
-	background-image: -webkit-gradient(linear, left bottom, left top,
-		from(rgb(32, 32, 32)),
-		to(rgb(81, 81, 81)));
-	background-image: -moz-linear-gradient(100% 100% 90deg,
-	  rgb(32, 32, 32) 0%,
-		rgb(81, 81, 81) 100%);
-	-webkit-background-size: 1px 200px;
-	-moz-background-size: 1px 200px;
-	background-size: 1px 200px;
+  background-image: -webkit-gradient(linear, left bottom, left top,
+    from(rgb(32, 32, 32)),
+    to(rgb(81, 81, 81)));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+    rgb(32, 32, 32) 0%,
+    rgb(81, 81, 81) 100%);
+  -webkit-background-size: 1px 200px;
+  -moz-background-size: 1px 200px;
+  background-size: 1px 200px;
   
   font-family: 'Helvetica Neue', Helvetica, sans-serif;
   font-size: 10pt;
@@ -301,11 +301,11 @@ h3.event-author {
 .dark-bottom-bar {
   background-image: url('/site-media/pixels/button-active.gif');
   background-image: -webkit-gradient(linear, left bottom, left top,
-		from(rgb(44, 44, 44)),
-		to(rgb(64, 64, 64)));
-	background-image: -moz-linear-gradient(100% 100% 90deg,
-	  rgb(44, 44, 44) 0%,
-		rgb(64, 64, 64) 100%);
+    from(rgb(44, 44, 44)),
+    to(rgb(64, 64, 64)));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+    rgb(44, 44, 44) 0%,
+    rgb(64, 64, 64) 100%);
   
   margin: 20px -20px -20px -20px;
   padding: 5px 20px;
@@ -357,12 +357,12 @@ h3.event-author {
 
 /* project pages */
 #project-clone {
-	clear: both;
-	font-family: monospace;
-	background: #ccc;
-	text-shadow: 0px 1px 1px white;
-	margin: 0px -20px;
-	padding: 3px 20px;
+  clear: both;
+  font-family: monospace;
+  background: #ccc;
+  text-shadow: 0px 1px 1px white;
+  margin: 0px -20px;
+  padding: 3px 20px;
 }
 
 #project-description {
@@ -518,11 +518,11 @@ a.button {
   border-radius: 5px;
   background-image: url('/site-media/pixels/button-nohover.gif');
   background-image: -webkit-gradient(linear, left bottom, left top,
-		from(rgb(171, 171, 171)),
-		to(rgb(216, 216, 216)));
-	background-image: -moz-linear-gradient(100% 100% 90deg,
-	  rgb(171, 171, 171) 0%,
-		rgb(216, 216, 216) 100%);
+    from(rgb(171, 171, 171)),
+    to(rgb(216, 216, 216)));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+    rgb(171, 171, 171) 0%,
+    rgb(216, 216, 216) 100%);
   background-repeat: repeat-x;
   background-color: rgb(140, 140, 140);
   
@@ -551,12 +551,12 @@ select:hover:not(:disabled), select:focus:not(:disabled) {
 .button:active:not(:disabled), .button-small:active:not(:disabled), select:active:not(:disabled) {
   background-image: url('/site-media/pixels/button-active.gif');
   background-image: -webkit-gradient(linear, left bottom, left top,
-		from(rgb(80, 80, 80)),
-		to(rgb(44, 44, 44)));
-	background-image: -moz-linear-gradient(100% 100% 90deg,
-	  rgb(80, 80, 80) 0%,
-		rgb(44, 44, 44) 100%);
-	
+    from(rgb(80, 80, 80)),
+    to(rgb(44, 44, 44)));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+    rgb(80, 80, 80) 0%,
+    rgb(44, 44, 44) 100%);
+  
   color: black;
   border-color: black;
   
@@ -628,12 +628,12 @@ select:hover:not(:disabled), select:focus:not(:disabled) {
 .three-tab li.active {
   background-image: url('/site-media/pixels/tab-active.gif');
   background-image: -webkit-gradient(linear, left bottom, left top,
-		from(rgb(213, 209, 205)),
-		to(rgb(183, 183, 183)));
-	background-image: -moz-linear-gradient(100% 100% 90deg,
-	  rgb(213, 209, 205) 0%,
-		rgb(183, 183, 183) 100%);
-	
+    from(rgb(213, 209, 205)),
+    to(rgb(183, 183, 183)));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+    rgb(213, 209, 205) 0%,
+    rgb(183, 183, 183) 100%);
+  
   color: #444;
   
   -moz-text-shadow: 0px 1px 1px #eee;
@@ -686,4 +686,54 @@ select:hover:not(:disabled), select:focus:not(:disabled) {
   line-height: 28px;
   overflow: hidden;
   font-size: 9pt;
+}
+
+/* diffs */
+pre.diff {
+  padding: 1px 20px;
+  margin: 0px -20px;
+}
+
+pre.added-file, pre.removed-file {
+  padding: 2px inherit;
+  color: white;
+  -moz-text-shadow: 0px -1px 1px #000;
+  -webkit-text-shadow: 0px -1px 1px #000;
+  text-shadow: 0px -1px 1px #000;
+}
+
+pre.added-file {
+  background-color: #53824A;
+  background-image: -webkit-gradient(linear, left bottom, left top,
+    from(#497341),
+    to(#5A8C50));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+    #497341 0%,
+    #5A8C50 100%);
+}
+
+pre.removed-file {
+  background-color: #824A4A;
+  background-image: -webkit-gradient(linear, left bottom, left top,
+    from(#784444),
+    to(#8C5050));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+    #784444 0%,
+    #8C5050 100%);
+}
+
+pre.file-lines {
+  color: #4A5F82;
+  background-color: #D0DDF2;
+  padding: 2px inherit;
+}
+
+pre.line-added {
+  color: #53824A;
+  background-color: #CCE8C8;
+}
+
+pre.line-removed {
+  color: #824A4A;
+  background-color: #F2DCDC;
 }

@@ -85,9 +85,9 @@ mnot.save()
 obsv_blog = Blog(external = False)
 obsv_blog.save()
 obsv_repo = Repository(web_url = "https://github.com/natestedman/Observatory",
-                       repo_rss = "https://github.com/natestedman/Observatory/commits/master.atom",
+                       clone_url = "git://github.com/NateStedman/Observatory.git",
                        cmd = "git clone",
-                       cloned = False)
+                       cloned = True)
 obsv_repo.save()
 obsv = Project(title = "Observatory",
                description = "A Python (Django) based dashboard for the Rensselaer Center for Open Source Software.",
