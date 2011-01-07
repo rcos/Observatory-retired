@@ -23,6 +23,7 @@ def field(label, id, name, form, required):
   # IF we have errors on this field
   if name in form.errors:
     errors = form.errors[name]
+    print "type(errors):\n"+str(type(errors))
   else:
     errors = None
     

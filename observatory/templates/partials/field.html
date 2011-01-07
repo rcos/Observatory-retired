@@ -1,4 +1,10 @@
-<p>
+<div class="form_field_container">
     <label for="{{ id }}">{{ label }}</label>
+    <div class="form_field_error">
+        {% if errors %}
+            {# Slice stupid asterisk from front of error message #}
+            {{ errors.as_text|slice:"2:" }}
+        {% endif %}
+    </div>
     {% block 'field' %}{% endblock %}
-</p>
+</div>
