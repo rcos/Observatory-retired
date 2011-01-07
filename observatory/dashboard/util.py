@@ -92,6 +92,9 @@ def format_diff(diff):
   
   out = ""
   for line in diff.split("\n"):
+    if "\0" in line:
+      continue
+    
     classes = (('+++', 'added-file'),
                ('---', 'removed-file'),
                ('@@',  'file-lines'),
