@@ -1,0 +1,5 @@
+{% extends 'partials/field.html' %}
+
+{% block 'field' %}
+<textarea id="{{ id }}" rows="{{ rows }}" cols="{{ cols }}" name="{{ name }}" required>{% if value %}{{ value }}{% endif %}</textarea>
+{% endblock %}

@@ -1,21 +1,21 @@
-<p>
-    <label for="{{ id }}">{{ label }}</label>
-    <input id="{{ id }}" type="{{ input_type }}" name="{{ name }}"
-        {% if maxlength %}
-            maxlength="{{ maxlength }}"
-        {% endif %}
-        
-        {% if value %}
-            value="{{ value }}"
-        {% endif %}
+{% extends 'partials/field.html' %}
 
-        {% if placeholder %}
-            placeholder="{{ placeholder }}"
-        {% endif %}
-        
-        {% if required %}
-            required 
-        {% endif %}
-        
-    />
-</p>
+{% block 'field' %}
+<input id="{{ id }}" type="{{ input_type }}" name="{{ name }}"
+    {% if maxlength %}
+        maxlength="{{ maxlength }}"
+    {% endif %}
+    
+    {% if value %}
+        value="{{ value }}"
+    {% endif %}
+
+    {% if placeholder %}
+        placeholder="{{ placeholder }}"
+    {% endif %}
+    
+    {% if required %}
+        required 
+    {% endif %}
+/>
+{% endblock %}
