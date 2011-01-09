@@ -35,7 +35,7 @@ def show(request, project_url_path, commit_url_path):
   commit = get_object_or_404(Commit, url_path = commit_url)
   
   # if the commit is external, redirect to it
-  if not commit.repository.cloned:
+  if commit.repository.from_feed:
     return HttpResponseRedirect(commit.url)
   
   return render_to_response("commits/show.html", {

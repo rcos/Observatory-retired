@@ -26,13 +26,10 @@ class Blog(EventSet):
   url = models.URLField("Blog Web Address", max_length = 64)
   rss = models.URLField("Blog Feed", max_length = 64)
   
-  # external (from an rss feed)? or hosted by dashboard?
-  external = models.BooleanField()
-  
   # fetches the posts from the rss feed
   def fetch(self):
     # don't fetch internally hosted blogs
-    if not self.external: return
+    if not self.from_feed: return
     
     # make sure we can add blogposts to the blog
     self.save()
@@ -74,7 +71,7 @@ class Blog(EventSet):
                                summary = post.description,
                                date = date,
                                external_link = post.link,
-                               external = True)
+                               from_feed = True)
       post.blog = self
       if author is not None:
         post.author = author

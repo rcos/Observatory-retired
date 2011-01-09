@@ -26,9 +26,6 @@ class BlogPost(Event):
   markdown = models.TextField("Content")
   summary = models.TextField()
   
-  # posts can be internal on external blogs (vice versa) if the blog switches
-  external = models.BooleanField()
-  
   # what blog the post is associated with
   blog = models.ForeignKey(Blog)
   

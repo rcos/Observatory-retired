@@ -143,20 +143,20 @@ def add(request):
     if 'rss' in request.POST:
       blog = Blog(url = blog_form.cleaned_data['url'],
                   rss = blog_form.cleaned_data['rss'],
-                  external = True)
+                  from_feed = True)
     else:
-      blog = Blog(external = False)
+      blog = Blog(from_feed = False)
     blog.save()
 
     # create the repository object
     if 'clone_url' in request.POST:
       repo = Repository(web_url = cloned_repo_form.cleaned_data['web_url'],
                         clone_url = cloned_repo_form.cleaned_data['clone_url'],
-                        cloned = True)
+                        from_feed = False)
     else:
       repo = Repository(web_url = feed_repo_form.cleaned_data['web_url'],
                         repo_rss = feed_repo_form.cleaned_data['repo_rss'],
-                        cloned = False)
+                        from_feed = True)
     repo.save()
 
     # create the project object
@@ -229,7 +229,7 @@ def modify(request, project_url_path, tab_id = 1):
       project.repository.web_url = form.cleaned_data['web_url']
       project.repository.clone_url = form.cleaned_data['clone_url']
       project.repository.vcs = form.cleaned_data['vcs']
-      project.repository.cloned = True
+      project.repository.from_feed = False
       project.repository.save()
       cloned_repo_form = ClonedRepositoryForm(instance = project.repository)
     else:
@@ -243,7 +243,7 @@ def modify(request, project_url_path, tab_id = 1):
       project.repository.repo_rss = form.cleaned_data['repo_rss']
       project.repository.cmd = form.cleaned_data['cmd']
       project.repository.web_url = form.cleaned_data['web_url']
-      project.repository.cloned = False
+      project.repository.from_feed = True
       project.repository.save()
       feed_repo_form = FeedRepositoryForm(instance = project.repository)
     else:
@@ -256,7 +256,7 @@ def modify(request, project_url_path, tab_id = 1):
     if form.is_valid():
       project.blog.url = form.cleaned_data['url']
       project.blog.rss = form.cleaned_data['rss']
-      project.blog.external = True
+      project.blog.from_feed = True
       project.blog.save()
       blog_form = BlogForm(instance = project.blog)
     else:
@@ -264,7 +264,7 @@ def modify(request, project_url_path, tab_id = 1):
   
   # switching to hosted blog
   if 'switch-to-hosted' in request.POST:
-    project.blog.external = False
+    project.blog.from_feed = False
     project.blog.save()
       
   return render_to_response('projects/modify.html', {

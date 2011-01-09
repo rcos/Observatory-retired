@@ -41,9 +41,6 @@ class Repository(EventSet):
   repo_rss = models.URLField("Repository RSS Feed", max_length = 128)
   cmd = models.CharField("Clone Command", max_length = 128)
   
-  # whether the repo uses cloning or just an rss feed
-  cloned = models.BooleanField()
-  
   def fetch(self):
     def add_commit(title, description, author_name, date, max_date,
                    link = None, diff = None):
@@ -81,7 +78,7 @@ class Repository(EventSet):
     
     max_date = self.most_recent_date
 
-    if self.cloned:
+    if not self.from_feed:
       # this is a cloned repository
       fresh_clone = True
 
@@ -145,7 +142,7 @@ class Repository(EventSet):
     self.save()
   
   def clone_cmd(self):
-    if self.cloned:
+    if not self.from_feed:
       cmds = { 'git': 'clone', 'svn': 'co', 'hg': 'clone', 'bzr': 'branch' }
       return '{0} {1} {2}'.format(self.vcs, cmds[self.vcs], self.clone_url)
     else:

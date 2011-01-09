@@ -24,6 +24,9 @@ class EventSet(models.Model):
   # most recent time to add new events for
   most_recent_date = models.DateTimeField(default = datetime.datetime(1, 1, 1))
   
+  # whether the event set's source is from a feed
+  from_feed = models.BooleanField()
+  
   # how recent was the last update?
   def age_ago(self, time = datetime.datetime.now()):
     return time_ago(self.most_recent_date, time)

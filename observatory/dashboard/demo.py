@@ -46,12 +46,12 @@ for person in [('natesm@gmail.com', 'password', 'Nate', 'Stedman'),
   print "Added {0}".format(user.get_full_name())
   
 # make some projects
-ease_blog = Blog(external = False)
+ease_blog = Blog(from_feed = False)
 ease_blog.save()
 ease_repo = Repository(web_url = "http://git.gnome.org/browse/ease",
                        repo_rss = "http://git.gnome.org/browse/ease/atom/?h=master",
                        cmd = "git clone",
-                       cloned = False)
+                       from_feed = True)
 ease_repo.save()
 ease = Project(title = "Ease",
                description = "A presentation application for the Gnome Desktop.",
@@ -63,14 +63,14 @@ ease.save()
 ease.authors.add(User.objects.get(username = 'natesm@gmail.com'))
 ease.save()
 
-mnot_blog = Blog(external = True,
+mnot_blog = Blog(from_feed = True,
                  url = "http://www.peterhajas.com/blog",
                  rss = "http://www.peterhajas.com/blog/atom.xml")
 mnot_blog.save()
 mnot_repo = Repository(web_url = "https://github.com/peterhajas/MobileNotifier",
                        repo_rss = "https://github.com/peterhajas/MobileNotifier/commits/master.atom",
                        cmd = "git clone",
-                       cloned = False)
+                       from_feed = True)
 mnot_repo.save()
 mnot = Project(title = "MobileNotifier",
                description = "iOS notifications and stuff.",
@@ -82,12 +82,12 @@ mnot.save()
 mnot.authors.add(User.objects.get(username = 'peterhajas@gmail.com'))
 mnot.save()
 
-obsv_blog = Blog(external = False)
+obsv_blog = Blog(from_feed = False)
 obsv_blog.save()
 obsv_repo = Repository(web_url = "https://github.com/natestedman/Observatory",
                        clone_url = "git://github.com/NateStedman/Observatory.git",
                        cmd = "git clone",
-                       cloned = True)
+                       from_feed = False)
 obsv_repo.save()
 obsv = Project(title = "Observatory",
                description = "A Python (Django) based dashboard for the Rensselaer Center for Open Source Software.",
@@ -102,14 +102,14 @@ obsv.authors.add(User.objects.get(username = 'peterhajas@gmail.com'))
 obsv.authors.add(User.objects.get(username = 'arsenm2@rpi.edu'))
 obsv.save()
 
-note_blog = Blog(external = True,
+note_blog = Blog(from_feed = True,
                  url = "http://hortont.com/blog",
                  rss = "http://www.hortont.com/blog//feed/rss.xml")
 note_blog.save()
 note_repo = Repository(web_url = "https://github.com/hortont424/Notebook",
                        clone_url = "git://github.com/hortont424/notebook.git",
                        cmd = "git clone",
-                       cloned = True)
+                       from_feed = False)
 note_repo.save()
 note = Project(title = "Notebook",
                description = "Mathematica? In my Python?",
@@ -122,14 +122,14 @@ note.authors.add(User.objects.get(username = 'hortont424@gmail.com'))
 note.authors.add(User.objects.get(username = 'arsenm2@rpi.edu'))
 note.save()
 
-milk_blog = Blog(external = True,
+milk_blog = Blog(from_feed = True,
                  url = "http://whatmannerofburgeristhis.com/blog",
                  rss = "http://www.whatmannerofburgeristhis.com/blog//feed/rss.xml")
 milk_blog.save()
 milk_repo = Repository(web_url = "https://github.com/Milkyway-at-home/milkywayathome_client",
                        repo_rss = "https://github.com/Milkyway-at-home/milkywayathome_client/commits/master.atom",
                        cmd = "git clone",
-                       cloned = False)
+                       from_feed = True)
 milk_repo.save()
 milk = Project(title = "milkyway@home",
                description = "Doing science.",

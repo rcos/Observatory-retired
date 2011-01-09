@@ -50,7 +50,7 @@ def posts_page(request, page_num):
 # shows a project's internally hosted blog, or redirects to an external one
 def show_blog(request, project_url_path):
   project = get_object_or_404(Project, url_path = project_url_path)
-  if project.blog.external:
+  if project.blog.from_feed:
     return HttpResponseRedirect(project.blog.url)
   else:
     return render_to_response('blogs/show-blog.html', {
@@ -67,7 +67,7 @@ def show_post(request, post_url_path):
                                         args = (pathified,)))
   
   post = get_object_or_404(BlogPost, url_path = post_url_path)
-  if post.external:
+  if post.from_feed:
     return HttpResponseRedirect(post.external_link)
   else:
     return render_to_response('blogs/show-post.html', {
@@ -125,7 +125,7 @@ def create_post(request, project_id):
                     markdown = request.POST['markdown'],
                     description = html,
                     summary = html,
-                    external = False,
+                    from_feed = False,
                     author = request.user,
                     date = datetime.datetime.now())
     post.blog = project.blog

@@ -31,11 +31,17 @@ class Event(models.Model):
   # the description is the main content for the event
   description = models.TextField()
   
+  # whether the event's source is from a feed
+  from_feed = models.BooleanField()
+  
   # the author of the event, if he/she is in dashboard
   author = models.ForeignKey(User, blank = True, null = True)
 
-  # the author's name, if he/she isn't in dashboard
+  # the author's name, displayed if he/she isn't in dashboard
   author_name = models.CharField(max_length = 64, blank = True, null = True)
+  
+  # the author's email
+  author_email = models.CharField(max_length = 64, blank = True, null = True)
   
   # the url path component that points to this event
   url_path = models.CharField(max_length = 128, editable = True, null = True)
