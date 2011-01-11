@@ -28,15 +28,16 @@ class Blog(EventSet):
   
   # fetches the posts from the rss feed
   def fetch(self):
+    import BlogPost
+    
     # don't fetch internally hosted blogs
     if not self.from_feed: return
     
-    # make sure we can add blogposts to the blog
-    self.save()
+    events = []
     
     # parse and iterate the feed
-    max_date = self.most_recent_date
-    for post in feedparser.parse(self.rss).entries:
+    entries = feedparser.parse(self.rss).entries
+    for post in entries:
       # time manipation is fun
       date = dateutil.parser.parse(post.date)
       try:
@@ -44,42 +45,35 @@ class Blog(EventSet):
       except:
         pass
       
-      # find the new most recently updated date
-      if max_date < date:
-        max_date = date
-      
       # don't re-add old posts
       if self.most_recent_date >= date:
         continue
-      
-      # can we find an author for this blog post?
-      try:
-        author, author_name = find_author(post.author_details["name"])
-      except:
-        author = None
-        author_name = None
       
       try:
         description = post.content[0].value
       except:
         description = post.description
       
-      import BlogPost
-      post = BlogPost.BlogPost(author_name = author_name,
-                               title = post.title,
-                               description = description,
-                               summary = post.description,
-                               date = date,
-                               external_link = post.link,
-                               from_feed = True)
-      post.blog = self
-      if author is not None:
-        post.author = author
-      post.save()
+      try:
+        author_name = post.author_detail["name"]
+      except:
+        author_name = None
       
-      # print out results
-      print "Post by {0} in {1} at {2}".format(author_name,
-                                               self.project.title,
-                                               date)
-    self.most_recent_date = max_date
+      events.append(self.add_event(BlogPost.BlogPost,
+        title = post.title,
+        description = post.description,
+        from_feed = True,
+        author_name = author_name,
+        date = date,
+        extra_args = {
+          "external_link": post.link,
+          "summary": post.description,
+          "blog_id": self.id
+        }
+      ))
+    
+    # find the new most recent date
+    dates = [event.date for event in events if event is not None]
+    dates.append(self.most_recent_date)
+    self.most_recent_date = max(dates)
     self.save()

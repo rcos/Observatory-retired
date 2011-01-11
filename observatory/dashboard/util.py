@@ -78,14 +78,30 @@ def url_pathify(string):
   return re.sub(r"[^a-z-]", "", string.lower().replace(" ", "-"))
 
 def find_author(author_name):
-  author_firstlast = author_name.split(' ')
   author = None
-  if len(author_firstlast) > 2:
-    authors = User.objects.filter(first_name = author_firstlast[0],
-                                  last_name = author_firstlast[1])
-    if len(authors) is 1:
-      author = authors[0]
-  return author, author_name
+  
+  # attempt to extract the email
+  email = re.findall("<.*@.*\..*>", author_name)
+  if len(email) == 1:
+    author_name = author_name.replace(email[0], "").strip()
+    author_email = email[0][1:-1]
+    try:
+      author = User.objects.get(email__iexact = author_email)
+    except:
+      author = None
+  else:
+    author_email = None
+  
+  # if the author can't be found via email address, try via name
+  if author is None:
+    author_firstlast = author_name.split(' ')
+    if len(author_firstlast) > 1:
+      authors = User.objects.filter(first_name = author_firstlast[0],
+                                    last_name = author_firstlast[1])
+      if len(authors) is 1:
+        author = authors[0]
+  
+  return author, author_name, author_email
 
 def format_diff(diff):
   if diff is None: return None

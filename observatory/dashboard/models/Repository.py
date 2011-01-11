@@ -15,7 +15,7 @@
 import os
 import settings
 import subprocess
-from dashboard.util import find_author, format_diff
+from dashboard.util import format_diff
 from django.db import models
 from lib import feedparser, dateutil, pyvcs
 from EventSet import EventSet
@@ -42,42 +42,9 @@ class Repository(EventSet):
   cmd = models.CharField("Clone Command", max_length = 128)
   
   def fetch(self):
-    def add_commit(title, description, author_name, date, max_date,
-                   link = None, diff = None):
-      # find the new most recently updated date
-      if max_date < date:
-        max_date = date
-
-      # don't re-add old commits
-      if self.most_recent_date >= date:
-        return
-        
-      # can we find an author for this commit?
-      # TODO: this seems incredibly presumptive of name format
-      author, author_name = find_author(author_name)
-
-      # create and save the commit object
-      import Commit
-      commit = Commit.Commit(author_name = author_name,
-                             title = title,
-                             description = description,
-                             url = link,
-                             diff = format_diff(diff),
-                             date = date)
-      commit.repository = self
-      if author is not None:
-        commit.author = author
-      commit.save()
-
-      # print out results
-      print "Commit by {0} in {1} at {2}".format(author_name,
-                                                 self.project.title,
-                                                 date)
-
-      return max_date
+    import Commit
+    events = []
     
-    max_date = self.most_recent_date
-
     if not self.from_feed:
       # this is a cloned repository
       fresh_clone = True
@@ -116,12 +83,16 @@ class Repository(EventSet):
         except:
           commit_title = commit.message
         
-        new_max_date = add_commit(commit_title, commit.message,
-                                  commit.author, date, max_date,
-                                  diff = commit.diff)
-
-        if new_max_date:
-          max_date = new_max_date
+        events.append(self.add_event(Commit.Commit,
+          title = commit_title,
+          description = commit.message,
+          date = date,
+          author_name = commit.author,
+          from_feed = False,
+          extra_args = {
+            "diff": format_diff(commit.diff),
+            "repository_id": self.id,
+          }))
     else:
       # this is a feed-driven repository
       for commit in feedparser.parse(self.repo_rss).entries:
@@ -131,14 +102,19 @@ class Repository(EventSet):
         except:
           pass
         
-        new_max_date = add_commit(commit.title, commit.description,
-                                  commit.author_detail['name'], date, max_date,
-                                  link = commit.link)
-
-        if new_max_date:
-          max_date = new_max_date
-        
-    self.most_recent_date = max_date
+        events.append(self.add_event(Commit.Commit, 
+          title = commit.title, 
+          description = commit.description,
+          date = date,
+          author_name = commit.author_detail['name'],
+          from_feed = True, 
+          extra_args = { "repository_id": self.id }
+        ))
+    
+    # find the new most recent date
+    dates = [event.date for event in events if event is not None]
+    dates.append(self.most_recent_date)
+    self.most_recent_date = max(dates)
     self.save()
   
   def clone_cmd(self):
