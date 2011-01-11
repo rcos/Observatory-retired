@@ -26,20 +26,4 @@ def jquery(parser, token):
   
   return JqueryNode()
 
-LIGHTBOX = '''
-$(document).ready(function() {
-  $("a[rel=^lightbox]").click(function() {
-    alert("asdf!")
-  });
-});
-'''
-
-# returns the js required to create a lightbox
-def lightbox(parser, token):
-  class LightboxNode(template.Node):
-    def render(self, context):
-      return LIGHTBOX
-  return LightboxNode()
-
 register.tag('jquery', jquery)
-register.tag('lightbox', lightbox)
