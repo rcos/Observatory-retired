@@ -12,7 +12,9 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+import calendar
 import datetime
+import time
 from django.db import models
 from dashboard.util import find_author, time_ago
 
@@ -28,7 +30,7 @@ class EventSet(models.Model):
   from_feed = models.BooleanField()
   
   # how recent was the last update?
-  def age_ago(self, time = datetime.datetime.now()):
+  def age_ago(self, time = datetime.datetime.utcnow()):
     return time_ago(self.most_recent_date, time)
   
   # when was this eventset last updated?
@@ -46,6 +48,10 @@ class EventSet(models.Model):
                 author_name = None,
                 from_feed = None,
                 extra_args = {}):
+    # convert to UTC
+    secs = time.mktime(date.timetuple())
+    date = datetime.datetime.utcfromtimestamp(secs)
+    
     # don't re-add old events
     if self.most_recent_date >= date:
       return

@@ -67,7 +67,7 @@ class Event(models.Model):
     return self.__class__.__name__
   
   # how old the event is (relative to now by default)
-  def age(self, time = datetime.datetime.now()):
+  def age(self, time = datetime.datetime.utcnow()):
     return time_ago(self.date, time)
   
   # a link to more details on the event

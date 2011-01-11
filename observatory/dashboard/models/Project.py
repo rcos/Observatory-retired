@@ -75,7 +75,7 @@ class Project(models.Model):
     self.repository.fetch()
     
     # determine the score of the project
-    now = datetime.datetime.now()
+    now = datetime.datetime.utcnow()
     r = (now - self.repository.most_recent_date).seconds
     b = (now - self.blog.most_recent_date).seconds
     self.score = (r * r + r * b + b * b + r) / 1000000

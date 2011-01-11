@@ -127,7 +127,7 @@ def create_post(request, project_id):
                     summary = html,
                     from_feed = False,
                     author = request.user,
-                    date = datetime.datetime.now())
+                    date = datetime.datetime.utcnow())
     post.blog = project.blog
     post.save()
     

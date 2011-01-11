@@ -38,7 +38,7 @@ class ListPaginator(Paginator):
     return [self.page(i) for i in range(1, self.num_pages + 1)]
 
 # fuzzies up time spans into nice simple numbers of time units ago
-def time_ago(date, time = datetime.datetime.now()):
+def time_ago(date, time = datetime.datetime.utcnow()):
   delta = time - date
 
   def plural(number, descriptor):
