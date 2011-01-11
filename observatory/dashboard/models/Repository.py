@@ -147,11 +147,17 @@ def clone_git_repo(clone_url, destination_dir, fresh_clone = False):
 
 def clone_svn_repo(clone_url, destination_dir, fresh_clone = False):
   if fresh_clone:
+    # make the repo's directory
+    try:
+      os.makedirs(destination_dir, 0770)
+    except OSError as e:
+      pass
+    
     clone_cmdline = ["git", "svn", "clone", clone_url, destination_dir]
   else:
-    clone_cmdline = ["git", "svn", "--git-dir", destination_dir, "fetch"]
+    clone_cmdline = ["git", "svn", "fetch"]
   
-  if subprocess.call(clone_cmdline) != 0:
+  if subprocess.call(clone_cmdline, cwd = destination_dir) != 0:
     print "failed to clone from {0}".format(clone_url)
 
 def clone_repo_function(vcs):
