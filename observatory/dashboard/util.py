@@ -96,8 +96,8 @@ def find_author(author_name):
   if author is None:
     author_firstlast = author_name.split(' ')
     if len(author_firstlast) > 1:
-      authors = User.objects.filter(first_name = author_firstlast[0],
-                                    last_name = author_firstlast[1])
+      authors = User.objects.filter(first_name__iexact = author_firstlast[0],
+                                    last_name__iexact = author_firstlast[1])
       if len(authors) is 1:
         author = authors[0]
   
