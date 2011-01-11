@@ -73,8 +73,10 @@ class Project(models.Model):
   def fetch(self):
     self.blog.fetch()
     self.repository.fetch()
-    
-    # determine the score of the project
+    self.calculate_score()
+  
+  # determine the score of the project
+  def calculate_score(self):
     now = datetime.datetime.utcnow()
     if self.repository.most_recent_date != datetime.datetime(1, 1, 1):
       td = (now - self.repository.most_recent_date)
@@ -89,9 +91,6 @@ class Project(models.Model):
     else:
       b = MAX_SCORE_MINUTES
     b = min([b, MAX_SCORE_MINUTES])
-    
-    #print "XXX {0} {1} {2} {3}".format(self.title, self.score, r, b)
-    #print (now - self.blog.most_recent_date).minutes
     
     self.score = r * 1.5 + b
     self.save()
