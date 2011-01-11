@@ -32,7 +32,7 @@ def index(request):
 # the classic "dashboard" view, with rankings
 def list(request):
   return render_to_response('projects/index.html', {
-      'projects': Project.objects.order_by('rank')
+      'projects': Project.objects.order_by('score')
     }, context_instance = RequestContext(request))
 
 # information about a specific project

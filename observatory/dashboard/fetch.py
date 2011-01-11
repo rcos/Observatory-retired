@@ -68,6 +68,4 @@ rank = 1
 for project in Project.objects.order_by('score'):
   print "{0}. {1}, score {2}".format(str(rank).rjust(4),
                                      project.title, project.score)
-  project.rank = rank
-  project.save()
   rank += 1

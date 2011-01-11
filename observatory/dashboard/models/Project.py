@@ -55,9 +55,6 @@ class Project(models.Model):
   # the score of the project, computed after each fetch
   score = models.IntegerField(blank = True, null = True)
   
-  # the rank of the project, computed after each fetch
-  rank = models.PositiveIntegerField(blank = True, null = True)
-  
   # the url path component that points to this project
   url_path = models.CharField(max_length = 32, editable = False, null = True)
   
@@ -99,16 +96,16 @@ class Project(models.Model):
   def __unicode__(self):
     return self.title
   
-  # face image for rank emblem
-  def rank_emblem_face(self):
+  # face image for scoring emblem
+  def score_emblem_face(self):
     if self.score < UNCERTAIN_SCORE:
       return os.path.join(MEDIA_URL, "pixels", "face-happy.png")
     elif self.score < UNHAPPY_SCORE:
       return os.path.join(MEDIA_URL, "pixels", "face-uncertain.png")
     return os.path.join(MEDIA_URL, "pixels", "face-unhappy.png")
   
-  # CSS for background of ranking emblem
-  def rank_emblem_css(self):
+  # CSS for background of scoring emblem
+  def score_emblem_css(self):
     hue = min([1, max(0, float(self.score - GREEN_SCORE) /
                                (RED_SCORE - GREEN_SCORE))])
     
