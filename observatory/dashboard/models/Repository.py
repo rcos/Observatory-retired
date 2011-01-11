@@ -14,9 +14,11 @@
 
 import os
 import settings
+import stat
 import subprocess
 from dashboard.util import format_diff
 from django.db import models
+from exceptions import Exception
 from lib import feedparser, dateutil, pyvcs
 from EventSet import EventSet
 
@@ -142,8 +144,43 @@ def clone_git_repo(clone_url, destination_dir, fresh_clone = False):
 
   # do something with the repos
 
+def clone_svn_repo(clone_url, destination_dir, fresh_clone = False):
+  # svn likes file://, let's make that easy
+  destination_dir = os.path.abspath(destination_dir)
+  
+  if fresh_clone:
+    # create a space for the repo
+    if subprocess.call(["svnadmin", "create", destination_dir]) != 0:
+      error = "svnadmin create failed for {0}".format(destination_dir)
+      print error
+      raise Exception(error)
+    
+    # create the pre-revprop-change script
+    fname = os.path.join(destination_dir, "hooks", "pre-revprop-change")
+    with open(fname, "w+") as fd:
+      fd.write("#!/bin/bash\n")
+    os.lchmod(fname, 0775)
+    
+    # set up the sync
+    if subprocess.call(["svnsync", "init",
+                        "file://{0}".format(destination_dir), clone_url]) != 0:
+      error = "svnsync init failed for {0}".format(destination_dir)
+      print error
+      raise Exception(error)
+    
+  # sync
+  if subprocess.call(["svnsync", "sync",
+                      "file://{0}".format(destination_dir)]) != 0:
+    error = "svnsync sync failed for {0}".format(destination_dir)
+    print error
+    raise Exception(error)
+    
+
 def clone_repo_function(vcs):
-  clone_repo_functions = { 'git': clone_git_repo }
+  clone_repo_functions = {
+    'git': clone_git_repo,
+    'svn': clone_svn_repo
+  }
 
   if not vcs in clone_repo_functions:
     print "don't know how to clone {0}".format(vcs)

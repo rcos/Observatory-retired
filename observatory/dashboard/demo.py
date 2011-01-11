@@ -140,3 +140,23 @@ milk = Project(title = "milkyway@home",
 milk.save()
 milk.authors.add(User.objects.get(username = 'arsenm2@rpi.edu'))
 milk.save()
+
+awav_blog = Blog(from_feed = False)
+awav_blog.save()
+awav_repo = Repository(web_url = "http://code.google.com/p/awesome-wav/",
+                       clone_url = "http://awesome-wav.googlecode.com/svn/trunk/",
+                       vcs = "svn",
+                       cmd = "git clone",
+                       from_feed = False)
+awav_repo.save()
+awav = Project(title = "awesome-wav",
+               description = """The awesome-wav project is a project designed to encode any data file into a PCM or IEEE float WAV audio file and be virtually undetectable. The potential uses for this project are many and varied. It is a command-line only, cross-platform program.
+
+               This project is currently in development and, though functional, is not guaranteed to work properly under all conditions.
+
+               The program currently supports 8, 16, 24, and 32 bit PCM WAV files, 32 and 64 bit IEEE float WAV files, and supports compressing the input data using zlib or quicklz. It also supports data encryption (AES ECB).""",
+               website = "http://code.google.com/p/awesome-wav/",
+               wiki = "http://code.google.com/p/awesome-wav/",
+               blog_id = awav_blog.id,
+               repository_id = awav_repo.id)
+awav.save()

@@ -3,7 +3,7 @@ from tempfile import NamedTemporaryFile
 from time import mktime
 import os
 
-import lib.pysvn
+import pysvn
 
 from lib.pyvcs.commit import Commit
 from lib.pyvcs.exceptions import CommitDoesNotExist, FileDoesNotExist, FolderDoesNotExist
