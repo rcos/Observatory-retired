@@ -39,14 +39,16 @@ class ListPaginator(Paginator):
 
 # fuzzies up time spans into nice simple numbers of time units ago
 def time_ago(date, time = datetime.datetime.utcnow()):
-  delta = time - date
-
   def plural(number, descriptor):
     if number == 1:
       return "{0} {1} ago".format(number, descriptor)
     else:
       return "{0} {1}s ago".format(number, descriptor)
-
+  
+  delta = time - date
+  
+  if delta.seconds + delta.days * 24 * 3600 <= 0:
+    return "moments ago"
   if delta.days >= 7:
     return plural(int(delta.days / 7), "week")
   if delta.days > 0:
