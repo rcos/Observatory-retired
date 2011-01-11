@@ -18,8 +18,8 @@ from colorsys import hsv_to_rgb
 from django.db import models
 from django.contrib.auth.models import User
 from settings import GREEN_SCORE, RED_SCORE, UNCERTAIN_SCORE, UNHAPPY_SCORE
-from settings import MEDIA_URL
-from ..util import url_pathify_safe
+from settings import MEDIA_URL, MAX_SCORE_MINUTES
+from dashboard.util import url_pathify_safe
 from Repository import Repository
 from Blog import Blog
 
@@ -53,10 +53,10 @@ class Project(models.Model):
   active = models.BooleanField("Currently Active")
   
   # the score of the project, computed after each fetch
-  score = models.FloatField(blank = True, null = True)
+  score = models.IntegerField(blank = True, null = True)
   
   # the rank of the project, computed after each fetch
-  rank = models.IntegerField(blank = True, null = True)
+  rank = models.PositiveIntegerField(blank = True, null = True)
   
   # the url path component that points to this project
   url_path = models.CharField(max_length = 32, editable = False, null = True)
@@ -76,9 +76,24 @@ class Project(models.Model):
     
     # determine the score of the project
     now = datetime.datetime.utcnow()
-    r = (now - self.repository.most_recent_date).seconds
-    b = (now - self.blog.most_recent_date).seconds
-    self.score = (r * r + r * b + b * b + r) / 1000000
+    if self.repository.most_recent_date != datetime.datetime(1, 1, 1):
+      td = (now - self.repository.most_recent_date)
+      r = (td.seconds + td.days * 24 * 3600) / 60
+    else:
+      r = MAX_SCORE_MINUTES
+    r = min([r, MAX_SCORE_MINUTES])
+    
+    if self.blog.most_recent_date != datetime.datetime(1, 1, 1):
+      td = (now - self.blog.most_recent_date)
+      b = (td.seconds + td.days * 24 * 3600) / 60
+    else:
+      b = MAX_SCORE_MINUTES
+    b = min([b, MAX_SCORE_MINUTES])
+    
+    #print "XXX {0} {1} {2} {3}".format(self.title, self.score, r, b)
+    #print (now - self.blog.most_recent_date).minutes
+    
+    self.score = r * 1.5 + b
     self.save()
   
   # string representation of the project

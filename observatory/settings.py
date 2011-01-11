@@ -75,11 +75,14 @@ SCREENSHOT_URL = "/site-media/screenshots/"
 FETCH_THREAD_COUNT = 5
 
 # scoring thresholds
-GREEN_SCORE = 2000 # everything up to this score will be green
-RED_SCORE = 7000 # everything after this score will be red
+GREEN_SCORE = 2880 # everything up to this score will be green
+RED_SCORE = 172800 # everything after this score will be red
 
-UNCERTAIN_SCORE = 3000 # everything after this score will be uncertain face
-UNHAPPY_SCORE = 5000 # everything after this score will be unhappy face
+UNCERTAIN_SCORE = 6000 # everything after this score will be uncertain face
+UNHAPPY_SCORE = 86400 # everything after this score will be unhappy face
+
+# the "worst" score allowed, in minutes
+MAX_SCORE_MINUTES = 3024000
 
 # use production jquery for production, debug for debug
 JQUERY = [os.path.join(MEDIA_URL, "js", "jquery-1.4.4.min.js"),
