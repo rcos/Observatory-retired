@@ -120,6 +120,7 @@ def create_post(request, project_id):
   
   # validate the form
   if form.is_valid():
+    date = datetime.datetime.utcnow()
     html = markdown(request.POST['markdown'])
     post = BlogPost(title = request.POST['title'],
                     markdown = request.POST['markdown'],
@@ -127,9 +128,13 @@ def create_post(request, project_id):
                     summary = html,
                     from_feed = False,
                     author = request.user,
-                    date = datetime.datetime.utcnow())
+                    date = date)
     post.blog = project.blog
     post.save()
+    
+    project.blog.most_recent_date = date
+    project.blog.save()
+    project.calculate_score()
     
     return HttpResponseRedirect(reverse('dashboard.views.blogs.show_post',
                                         args = (post.url_path,)))
