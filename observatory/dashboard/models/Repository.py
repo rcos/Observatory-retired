@@ -20,6 +20,7 @@ from dashboard.util import format_diff
 from django.db import models
 from exceptions import Exception
 from lib import feedparser, dateutil, pyvcs
+from lib.pyvcs.backends import get_backend
 from EventSet import EventSet
 
 # a version control repository
@@ -68,7 +69,7 @@ class Repository(EventSet):
       clone_repo_function(self.vcs)(self.clone_url, dest_dir, fresh_clone)
 
       # add the commits
-      backend = pyvcs.backends.get_backend(self.vcs)
+      backend = get_backend(self.vcs if self.vcs != 'svn' else 'git')
       repository = backend.Repository(dest_dir)
 
       # inspect the last five days of commits
@@ -145,36 +146,13 @@ def clone_git_repo(clone_url, destination_dir, fresh_clone = False):
   # do something with the repos
 
 def clone_svn_repo(clone_url, destination_dir, fresh_clone = False):
-  # svn likes file://, let's make that easy
-  destination_dir = os.path.abspath(destination_dir)
-  
   if fresh_clone:
-    # create a space for the repo
-    if subprocess.call(["svnadmin", "create", destination_dir]) != 0:
-      error = "svnadmin create failed for {0}".format(destination_dir)
-      print error
-      raise Exception(error)
-    
-    # create the pre-revprop-change script
-    fname = os.path.join(destination_dir, "hooks", "pre-revprop-change")
-    with open(fname, "w+") as fd:
-      fd.write("#!/bin/bash\n")
-    os.lchmod(fname, 0775)
-    
-    # set up the sync
-    if subprocess.call(["svnsync", "init",
-                        "file://{0}".format(destination_dir), clone_url]) != 0:
-      error = "svnsync init failed for {0}".format(destination_dir)
-      print error
-      raise Exception(error)
-    
-  # sync
-  if subprocess.call(["svnsync", "sync",
-                      "file://{0}".format(destination_dir)]) != 0:
-    error = "svnsync sync failed for {0}".format(destination_dir)
-    print error
-    raise Exception(error)
-    
+    clone_cmdline = ["git", "svn", "clone", clone_url, destination_dir]
+  else:
+    clone_cmdline = ["git", "svn", "--git-dir", destination_dir, "fetch"]
+  
+  if subprocess.call(clone_cmdline) != 0:
+    print "failed to clone from {0}".format(clone_url)
 
 def clone_repo_function(vcs):
   clone_repo_functions = {
