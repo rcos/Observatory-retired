@@ -95,11 +95,8 @@ class Project(models.Model):
   
   # CSS for background of ranking emblem
   def rank_emblem_css(self):
-    if self.score < GREEN_SCORE:
-      hue = 0
-    elif self.score > RED_SCORE:
-      hue = 1
-    hue = float(self.score - GREEN_SCORE) / (RED_SCORE - GREEN_SCORE)
+    hue = min([1, max(0, float(self.score - GREEN_SCORE) /
+                               (RED_SCORE - GREEN_SCORE))])
     
     mainbg = hsv_to_rgb(0.3 - hue * 0.3, 0.9, 0.75)
     lightbg = hsv_to_rgb(0.3 - hue * 0.3, 0.9, 0.9)
