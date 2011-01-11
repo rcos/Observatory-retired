@@ -234,16 +234,32 @@ h3.event-author {
   clear: both;
 }
 
-.project-authors {
-  list-style: none;
-  padding: 15px 5px 15px 20px;
-  margin: 0px -20px 30px -20px;
+#project-no-authors {
+  color: white !important;
+  -moz-text-shadow: 0px 0px 10px #000 !important;
+  -webkit-text-shadow: 0px 0px 10px #000 !important;
+  text-shadow: 0px 0px 10px #000 !important;
+}
+
+.project-authors, #project-no-authors {
+  padding: 15px 5px 15px 20px !important;
+  margin: 0px -20px -20px -20px !important;
   clear: both;
   
   background: url('/site-media/pixels/dark-bar-tiled.gif');
   background-color: #333;
   border-top: 1px solid #444;
-  border-bottom: 1px solid black;
+  
+  -webkit-border-bottom-right-radius: 12px;
+  -webkit-border-bottom-left-radius: 12px;
+  -moz-border-radius-bottomright: 12px;
+  -moz-border-radius-bottomleft: 12px;
+  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.project-authors {
+  list-style: none;
 }
 
 .project-authors img {
@@ -281,21 +297,6 @@ h3.event-author {
   position: relative;
   float: left;
   margin-right: 15px;
-}
-
-.project-posts li {
-  margin-bottom: 3px;
-}
-
-.project-posts a {
-  font-size: 12pt;
-  text-decoration: none;
-  color: #333;
-}
-
-.project-posts a:hover {
-  color: #000;
-  text-decoration: underline;
 }
 
 .dark-bottom-bar {
@@ -381,6 +382,32 @@ h3.event-author {
 
 .project-author {
   text-align: center;
+}
+
+#project-recent-activity {
+  font-size: smaller;
+}
+
+#project-recent-activity-left, #project-recent-activity-right {
+  width: 385px;
+}
+
+#project-recent-activity-left {
+  float: left;
+}
+
+#project-recent-activity-right {
+  float: right;
+}
+
+#project-recent-activity h2 {
+  color: white;
+  margin: 20px 0px 10px 20px;
+  font-size: 25px;
+  line-height: 30px;
+  -moz-text-shadow: 0px -2px 1px #000;
+  -webkit-text-shadow: 0px -2px 1px #000;
+  text-shadow: 0px -2px 1px #000;
 }
 
 /* user profiles */

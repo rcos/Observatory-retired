@@ -39,10 +39,10 @@ class Commit(Event):
     return self.repository.project
     
   def wrap_tags(self):
-    if self.description.find('<pre>') is -1:
-      return ['p', 'pre']
+    if self.description.find('<pre>') is -1 and self.external:
+      return ['pre']
     else:
-      return ['p']
+      return None
   
   def wrap_tags_rev(self):
     tags = self.wrap_tags()

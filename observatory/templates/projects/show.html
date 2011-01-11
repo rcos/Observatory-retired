@@ -97,19 +97,40 @@
         <div style="clear: both"></div>
     </ul>
 {% else %}
-    <h2>No current authors.</h2>
+    <h2 id="project-no-authors">No current authors.</h2>
 {% endif %}
+{% endblock %}
 
-{% if project.blog.blogpost_set.all %}
-    <h2>Blog Posts</h2>
-    <ul class="project-posts">
-        {% for post in project.blog.blogpost_set.all %}
-        <li>
-            <a href="{% url dashboard.views.blogs.show_post post.url_path %}">
-                {% autoescape off %}{{ post.title }}{% endautoescape %}
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
+{% if project.score != None %}
+    {% block extracontent %}
+    <div id="project-recent-activity">
+        <div id="project-recent-activity-left">
+            {% if blogposts %}
+                <h2>Recent Posts</h2>
+                {% for post in blogposts %}
+                    <div class="extra-content">
+                        <h3>{{ post.title }}</h3>
+                        <p>{{ post.summary }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h2>No recent posts.</h2>
+            {% endif %}
+        </div>
+        <div id="project-recent-activity-right">
+            {% if commits %}
+                <h2>Recent Commits</h2>
+                {% for commit in commits %}
+                    <div class="extra-content">
+                        <h3>{{ commit.title }}</h3>
+                        <p>{{ commit.description }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h2>No recent commits.</h2>
+            {% endif %}
+        </div>
+    </div>
+    <div style="clear:both">
+    {% endblock %}
 {% endif %}
-{%  endblock %}

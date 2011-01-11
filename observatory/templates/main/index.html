@@ -24,10 +24,14 @@ This is where we should put some basic information about the dashboard, I suppos
                     {% endif %}
                 </div>
                 
+                <div style="clear:both"></div>
+                
                 <div class="event-content">
+                    <p>
                     {# this has to be no spaces because of <pre> #}
                     {% if event.wrap_tags %}
-                        {% for tag in event.wrap_tags %} <{{ tag }}>{% endfor %}{% endif %}{% if not event.autoescape %}{% autoescape off %}{{ event.description|truncatewords_html:64 }}{% endautoescape %}{% else %}{{ event.description|truncatewords_html:64 }}{% endif %}{% if event.wrap_tags %}{% for tag in event.wrap_tags_rev %}</{{ tag }}>{% endfor %}{% endif %}
+                        {% for tag in event.wrap_tags %}<{{ tag }}>{% endfor %}{% endif %}{% if not event.autoescape %}{% autoescape off %}{{ event.description|truncatewords_html:64 }}{% endautoescape %}{% else %}{{ event.description|truncatewords_html:64 }}{% endif %}{% if event.wrap_tags %}{% for tag in event.wrap_tags_rev %}</{{ tag }}>{% endfor %}{% endif %}
+                    </p>
                 </div>
                 <div style="clear:both"></div>
                 

@@ -25,6 +25,9 @@ from settings import SCREENSHOT_PATH
 import Image
 import os
 
+SHOW_COMMIT_COUNT = 5
+SHOW_BLOGPOST_COUNT = 3
+
 # index and list are temporarily the same
 def index(request):
   return list(request)
@@ -55,12 +58,22 @@ def show(request, project_url_path):
   if screenshots.count > 0:
     paginator = ListPaginator(screenshots.order_by('id').reverse(), 3)
   
+  # get the most recent commits for the project
+  commits = Commit.objects.filter(repository = project.repository)
+  commits = commits.order_by('date').reverse()[:SHOW_COMMIT_COUNT]
+  
+  # get the most recent blog posts for the project
+  blogposts = BlogPost.objects.filter(blog = project.blog)
+  blogposts = blogposts.order_by('date').reverse()[:SHOW_BLOGPOST_COUNT]
+  
   return render_to_response('projects/show.html', {
       'project': project,
       'paginator': paginator,
       'default_page': 1,
       'has_screenshots': len(screenshots) > 0,
-      'js_page_id': 'show_project', 
+      'js_page_id': 'show_project',
+      'blogposts': blogposts,
+      'commits': commits 
     }, context_instance = RequestContext(request))
 
 # a view for adding a new project
