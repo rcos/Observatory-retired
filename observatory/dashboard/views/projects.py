@@ -31,8 +31,11 @@ def index(request):
 
 # the classic "dashboard" view, with rankings
 def list(request):
+  projects = Project.objects.exclude(score = None).order_by('score')
+  scoreless = Project.objects.filter(score = None)
   return render_to_response('projects/index.html', {
-      'projects': Project.objects.order_by('score')
+      'projects': projects,
+      'scoreless': scoreless
     }, context_instance = RequestContext(request))
 
 # information about a specific project

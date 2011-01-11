@@ -23,37 +23,10 @@
 {% block extracontent %}
 <div id="projects-list">    
     {% for project in projects %}
-        <div class="extra-content" id="project-{{ project.id }}">
-            {% if project.score %}
-                <div class="project-score"
-                     style="{{ project.score_emblem_css }}">
-                    <img src="{{ project.score_emblem_face }}"
-                         alt="Score: {{ project.score }}" />
-                </div>
-            {% endif %}
-            <h2 style="float:left; clear:both">
-                <a href="{% url dashboard.views.projects.show project.url_path %}">
-                    {{ project.title }}
-                </a>
-            </h2>
-            {% include "projects/info.html" %}
-            <div style="clear:both"></div>
-            {{ project.description }}
-            <div class="dark-bottom-bar">
-                {% if project.score %}
-                    <div style="float:left">
-                        {{ project.repository.when_updated }}
-                    </div>
-                    <div style="float:right">
-                        {{ project.blog.when_updated }}
-                    </div>
-                    <div style="clear:both"></div>
-                {% else %}
-                    This project has not been fetched yet. It will be fetched
-                    in the next cycle.
-                {% endif %}
-            </div>
-        </div>
+        {% include "projects/project_bubble.html" %}
+    {% endfor %}
+    {% for project in scoreless %}
+        {% include "projects/project_bubble.html" %}
     {% endfor %}
 </div>
 {% endblock %}
