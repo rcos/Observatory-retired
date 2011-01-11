@@ -40,25 +40,43 @@ a img {
 /* Navigation bar */
 #top {
   padding: 0px 20px;
-}
-#top h1 {
-  float: left;
-  line-height: 40px;
-  padding: 0px;
-  margin: 20px 0px;
+  position: relative;
+  height: 80px;
 }
 
-#top a {
+#top h1 {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  padding: 0px;
+  margin: 0px;
+  font-size: 30px;
+}
+
+#top h1, #navigation-main {
+  line-height: 40px;
+}
+
+#top a, .navigation-bullet {
   color: #ddd;
-  text-decoration: none;
-  font-weight: bold;
   -moz-text-shadow: 0px -1px 1px #000;
   -webkit-text-shadow: 0px -1px 1px #000;
   text-shadow: 0px -1px 1px #000;
 }
 
+#top a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
 #top a:hover {
   color: #fff;
+}
+
+#top li {
+  float: left;
+  margin-left: 10px;
+  padding: 0px;
 }
 
 #top ul {
@@ -66,26 +84,25 @@ a img {
   padding: 0px;
   list-style: none;
   float: right;
-  clear: both;
-}
-
-#top li {
-  float: left;
-  margin-left: 10px;
 }
 
 #navigation-main {
-  font-size: 20pt;
+  font-size: 30px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 
 #navigation-account {
-  font-size: 7.5pt;
-  line-height: 18px;
+  font-size: 10px;
+  position: absolute;
+  top: 58px;
+  right: 20px;
 }
 
-#navigation-right {
-  margin-top: 20px;
-  float: right;
+.navigation-bullet {
+  font-size: 12px;
+  line-height: 44px;
 }
 
 /* Main content */
