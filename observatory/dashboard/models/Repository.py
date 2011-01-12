@@ -37,8 +37,7 @@ class Repository(EventSet):
                          default = 'git',
                          choices = (('git', 'git'),
                                     ('svn', 'Subversion'),
-                                    ('hg',  'Mercurial'),
-                                    ('bzr', 'Bazaar')))
+                                    ('hg',  'Mercurial')))
   
   # non-cloned repository fields
   repo_rss = models.URLField("Repository RSS Feed", max_length = 128)
