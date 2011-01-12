@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 )
 
+# automatically use devserver if it is available and requested
 USE_DEVSERVER = False
 if DEBUG and TRY_DEVSERVER:
   try:
@@ -140,3 +141,7 @@ if DEBUG and TRY_DEVSERVER:
 
 if not USE_DEVSERVER:
   INSTALLED_APPS = INSTALLED_APPS[1:]
+
+DEVSERVER_MODULES = (
+    'devserver.modules.sql.SQLSummaryModule',
+)

@@ -87,7 +87,7 @@ class Repository(EventSet):
         
         events.append(self.add_event(Commit.Commit,
           title = commit_title,
-          description = commit.message,
+          summary = commit.message,
           date = date,
           author_name = commit.author,
           from_feed = False,
@@ -106,7 +106,7 @@ class Repository(EventSet):
         
         events.append(self.add_event(Commit.Commit, 
           title = commit.title, 
-          description = commit.description,
+          summary = commit.description,
           date = date,
           author_name = commit.author_detail['name'],
           from_feed = True, 

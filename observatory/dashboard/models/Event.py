@@ -30,8 +30,9 @@ class Event(models.Model):
   # when the event occured
   date = models.DateTimeField()
   
-  # the description is the main content for the event
-  description = models.TextField()
+  # a short (hopefully) summary of the event's content.
+  # more specific data is stored in the subclasses, Commit and BlogPost
+  summary = models.TextField()
   
   # whether the event's source is from a feed
   from_feed = models.BooleanField()
@@ -58,7 +59,7 @@ class Event(models.Model):
       for tag in self.wrap_tags():
         out += "<{0}>".format(tag)
     
-    out += self.description if self.autoescape else escape(self.description)
+    out += self.summary if self.autoescape else escape(self.summary)
     
     if self.wrap_tags():
       for tag in self.wrap_tags.reverse():
@@ -73,11 +74,11 @@ class Event(models.Model):
     # call up to the default save
     super(Event, self).save(*args, **kwargs)
   
-  # whether or not the description should be autoescaped
+  # whether or not the summary should be autoescaped
   def autoescape(self):
     return True
   
-  # the tags that should wrap the description when displayed
+  # the tags that should wrap the summary when displayed
   def wrap_tags(self):
     return None
   

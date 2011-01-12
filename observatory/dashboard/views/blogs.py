@@ -124,8 +124,8 @@ def create_post(request, project_id):
     html = markdown(request.POST['markdown'])
     post = BlogPost(title = request.POST['title'],
                     markdown = request.POST['markdown'],
-                    description = html,
                     summary = html,
+                    content = html,
                     from_feed = False,
                     author = request.user,
                     date = date)
@@ -156,8 +156,8 @@ def update_post(request, post_url_path):
     html = markdown(request.POST['markdown'])
     post.title = request.POST['title']
     post.markdown = request.POST['markdown']
-    post.description = html
     post.summary = html
+    post.content = html
     post.save()
     
     return HttpResponseRedirect(reverse('dashboard.views.blogs.show_post',

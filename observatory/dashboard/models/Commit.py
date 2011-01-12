@@ -36,7 +36,7 @@ class Commit(Event):
     return False
     
   def wrap_tags(self):
-    if self.description.find('<pre>') is -1 and self.external:
+    if self.summary.find('<pre>') is -1 and self.external:
       return ['pre']
     else:
       return None

@@ -43,7 +43,7 @@ class EventSet(models.Model):
   
   def add_event(self, klass,
                 title = None,
-                description = None,
+                summary = None,
                 date = None,
                 author_name = None,
                 from_feed = None,
@@ -66,7 +66,7 @@ class EventSet(models.Model):
     # create and save the event object
     event = klass(author_name = author_name,
                   title = title,
-                  description = description,
+                  summary = summary,
                   from_feed = from_feed,
                   date = date,
                   author_email = author_email,

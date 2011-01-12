@@ -50,9 +50,9 @@ class Blog(EventSet):
         continue
       
       try:
-        description = post.content[0].value
+        content = post.content[0].value
       except:
-        description = post.description
+        content = post.description
       
       try:
         author_name = post.author_detail["name"]
@@ -61,13 +61,13 @@ class Blog(EventSet):
       
       events.append(self.add_event(BlogPost.BlogPost,
         title = post.title,
-        description = post.description,
+        summary = post.description,
         from_feed = True,
         author_name = author_name,
         date = date,
         extra_args = {
           "external_link": post.link,
-          "summary": post.description,
+          "content": content,
           "blog_id": self.id
         }
       ))

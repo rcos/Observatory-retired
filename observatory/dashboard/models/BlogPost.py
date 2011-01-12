@@ -22,9 +22,11 @@ class BlogPost(Event):
   class Meta:
     app_label = 'dashboard'
   
-  # the text of the post
+  # the source text of internally hosted blog posts
   markdown = models.TextField("Content")
-  summary = models.TextField()
+  
+  # the rendered content of blog posts
+  content = models.TextField()
   
   # what blog the post is associated with
   blog = models.ForeignKey(Blog)
