@@ -13,10 +13,18 @@
                     </div>
                 {% endif %}
                 <div class="event-header">
-                    {% if event.link %}
-                        <h3><a href="{{ event.event.link }}">{{ event.event.title }}</a></h3>
+                    {% if event.event.type_name == "Commit" %}
+                        <h3>
+                            <a href="{% url dashboard.views.commits.show event.project.url_path event.event.url_path %}">
+                                {{ event.event.title }}
+                            </a>
+                        </h3>
                     {% else %}
-                        <h3>{{ event.event.title }}</h3>
+                        <h3>
+                            <a href="{% url dashboard.views.blogs.show_post event.event.url_path %}">
+                                {{ event.event.title }}
+                            </a>
+                        </h3>
                     {% endif %}
                 </div>
                 

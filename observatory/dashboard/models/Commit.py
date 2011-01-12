@@ -34,13 +34,3 @@ class Commit(Event):
   
   def autoescape(self):
     return False
-    
-  def wrap_tags(self):
-    if self.summary.find('<pre>') is -1 and self.external:
-      return ['pre']
-    else:
-      return None
-  
-  def link(self):
-    return reverse("dashboard.views.commits.show",
-                   args = (self.repository.project.url_path, self.url_path))

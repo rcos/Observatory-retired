@@ -55,10 +55,9 @@ class Event(models.Model):
   # format the summary for display
   def formatted_summary(self):
     out = ""
-    if self.wrap_tags():
+    if self.wrap_tags() is not None:
       for tag in self.wrap_tags():
         out += "<{0}>".format(tag)
-    
     out += self.summary if self.autoescape else escape(self.summary)
     
     if self.wrap_tags():
@@ -90,6 +89,3 @@ class Event(models.Model):
   def age(self, time = datetime.datetime.utcnow()):
     return time_ago(self.date, time)
   
-  # a link to more details on the event
-  def link(self):
-    return None
