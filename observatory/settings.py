@@ -91,6 +91,10 @@ JQUERY = [os.path.join(MEDIA_URL, "js", "jquery-1.4.4.min.js"),
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'j+e*h2ket2cf2w##m2fzjp392%68!a^xcjo+_lr_-(^d8c3ea5'
 
+# if True, attempts to use the devserver replacement for runserver in debug
+# https://github.com/dcramer/django-devserver
+TRY_DEVSERVER = True
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -113,6 +117,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'devserver',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -124,3 +129,14 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
 )
+
+USE_DEVSERVER = False
+if DEBUG and TRY_DEVSERVER:
+  try:
+    import devserver
+    USE_DEVSERVER = True
+  except:
+    pass
+
+if not USE_DEVSERVER:
+  INSTALLED_APPS = INSTALLED_APPS[1:]
