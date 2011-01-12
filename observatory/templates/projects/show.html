@@ -107,7 +107,11 @@
                 <h2>Recent Posts</h2>
                 {% for post in blogposts %}
                     <div class="extra-content">
-                        <h3>{{ post.title }}</h3>
+                        <h3>
+                            <a href="{{ post.link }}">
+                                {{ post.title }}
+                            </a>
+                        </h3>
                         <p>
                             {% autoescape off %}
                                 {{ post.formatted_summary }}
@@ -124,7 +128,11 @@
                 <h2>Recent Commits</h2>
                 {% for commit in commits %}
                     <div class="extra-content">
-                        <h3>{{ commit.title }}</h3>
+                        <h3>
+                            <a href="{{ commit.link }}">
+                                {{ commit.title }}
+                            </a>
+                        </h3>
                         <p>
                             {% autoescape off %}
                                 {{ commit.formatted_summary }}
