@@ -108,7 +108,11 @@
                 {% for post in blogposts %}
                     <div class="extra-content">
                         <h3>{{ post.title }}</h3>
-                        <p>{{ post.summary }}</p>
+                        <p>
+                            {% autoescape off %}
+                                {{ post.formatted_summary }}
+                            {% endautoescape %}
+                        </p>
                     </div>
                 {% endfor %}
             {% else %}
@@ -121,7 +125,11 @@
                 {% for commit in commits %}
                     <div class="extra-content">
                         <h3>{{ commit.title }}</h3>
-                        <p>{{ commit.description }}</p>
+                        <p>
+                            {% autoescape off %}
+                                {{ commit.formatted_summary }}
+                            {% endautoescape %}
+                        </p>
                     </div>
                 {% endfor %}
             {% else %}

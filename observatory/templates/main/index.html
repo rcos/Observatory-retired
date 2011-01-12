@@ -28,9 +28,9 @@ This is where we should put some basic information about the dashboard, I suppos
                 
                 <div class="event-content">
                     <p>
-                    {# this has to be no spaces because of <pre> #}
-                    {% if event.0.wrap_tags %}
-                        {% for tag in event.0.wrap_tags %}<{{ tag }}>{% endfor %}{% endif %}{% if not event.0.autoescape %}{% autoescape off %}{{ event.0.description|truncatewords_html:64 }}{% endautoescape %}{% else %}{{ event.0.description|truncatewords_html:64 }}{% endif %}{% if event.0.wrap_tags %}{% for tag in event.0.wrap_tags_rev %}</{{ tag }}>{% endfor %}{% endif %}
+                        {% autoescape off %}
+                            {{ event.formatted_summary }}
+                        {% endautoescape %}
                     </p>
                 </div>
                 <div style="clear:both"></div>

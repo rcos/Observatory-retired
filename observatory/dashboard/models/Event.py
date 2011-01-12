@@ -16,6 +16,7 @@ import datetime
 from dashboard.util import time_ago, url_pathify_safe
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.html import escape
 from Project import Project
 
 # an event is currently either a blog post or a commit
@@ -49,6 +50,20 @@ class Event(models.Model):
   
   # the url path component that points to this event
   url_path = models.CharField(max_length = 128, editable = True, null = True)
+  
+  # format the summary for display
+  def formatted_summary(self):
+    out = ""
+    if self.wrap_tags():
+      for tag in self.wrap_tags():
+        out += "<{0}>".format(tag)
+    
+    out += self.description if self.autoescape else escape(self.description)
+    
+    if self.wrap_tags():
+      for tag in self.wrap_tags.reverse():
+        out += "</{0}>".format(tag)
+    return out
   
   # assign the url path when the event is first created
   def save(self, *args, **kwargs):

@@ -41,11 +41,6 @@ class Commit(Event):
     else:
       return None
   
-  def wrap_tags_rev(self):
-    tags = self.wrap_tags()
-    tags.reverse()
-    return tags
-  
   def link(self):
     return reverse("dashboard.views.commits.show",
                    args = (self.repository.project.url_path, self.url_path))
