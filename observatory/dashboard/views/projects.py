@@ -62,6 +62,16 @@ def show(request, project_url_path):
   commits = Commit.objects.filter(repository = project.repository)
   commits = commits.order_by('date').reverse()[:SHOW_COMMIT_COUNT]
   
+  # if the user has already submitted an author request, hide add/remove author
+  show_add_remove_author = True
+  if request.user is not None:
+    try:
+      AuthorRequest.objects.get(project = project, user = request.user)
+      print "ok, sounds good!"
+      show_add_remove_author = False
+    except:
+      pass
+  
   # get the most recent blog posts for the project
   blogposts = BlogPost.objects.filter(blog = project.blog)
   blogposts = blogposts.order_by('date').reverse()[:SHOW_BLOGPOST_COUNT]
@@ -73,7 +83,8 @@ def show(request, project_url_path):
       'has_screenshots': len(screenshots) > 0,
       'js_page_id': 'show_project',
       'blogposts': blogposts,
-      'commits': commits 
+      'commits': commits,
+      'show_add_remove_author': show_add_remove_author
     }, context_instance = RequestContext(request))
 
 # a view for adding a new project
@@ -304,12 +315,20 @@ def add_user(request):
     return HttpResponseRedirect(reverse('dashboard.views.projects.show',
                                         args = (project.url_path,)))
   
-  # add the user to the project
-  if user not in project.authors.all():
-    project.authors.add(user)
+  # find the current authors of the project
+  authors = project.authors.all()
   
-  # save
-  project.save()
+  # if the user is not already an author of the project
+  if user not in authors:
+    # if there are no authors, allow the user to "claim" the project
+    if len(authors) == 0:
+      project.authors.add(user)
+      project.save()
+  
+    # otherwise, send a request to all of the current authors
+    else:
+      request = AuthorRequest(user_id = user.id, project_id = project.id)
+      request.save()
   
   # redirect back to the show page
   return HttpResponseRedirect(reverse('dashboard.views.projects.show',

@@ -16,6 +16,12 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     (r'^admin', include(admin.site.urls)),
     
+    # author requests
+    (r'^author-request/approve/(\d+)',
+      'dashboard.views.author_requests.approve'),
+    (r'^author-request/reject/(\d+)',
+      'dashboard.views.author_requests.reject'),
+    
     # blog posts
     (r'^posts/add/(\d+)', 'dashboard.views.blogs.write_post'),
     (r'^posts/create/(\d+)', 'dashboard.views.blogs.create_post'),

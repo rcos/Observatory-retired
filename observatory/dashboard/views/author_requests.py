@@ -12,12 +12,23 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-from AuthorRequest import AuthorRequest
-from Blog import Blog
-from BlogPost import BlogPost
-from Commit import Commit
-from Event import Event
-from EventSet import EventSet
-from Project import Project
-from Repository import Repository
-from Screenshot import Screenshot
+from dashboard.models import AuthorRequest, Project
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+
+@login_required
+def approve(request, id):
+  author_request = get_object_or_404(AuthorRequest, id = id)
+  if request.user in author_request.project.authors.all():
+    author_request.approve()
+  return HttpResponseRedirect("/")
+  
+@login_required
+def reject(request, id):
+  author_request = get_object_or_404(AuthorRequest, id = id)
+  if request.user in author_request.project.authors.all():
+    author_request.reject()
+  return HttpResponseRedirect("/")

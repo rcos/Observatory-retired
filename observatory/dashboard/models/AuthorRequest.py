@@ -12,12 +12,27 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-from AuthorRequest import AuthorRequest
-from Blog import Blog
-from BlogPost import BlogPost
-from Commit import Commit
-from Event import Event
-from EventSet import EventSet
+from django.db import models
+from django.contrib.auth.models import User
 from Project import Project
-from Repository import Repository
-from Screenshot import Screenshot
+
+class AuthorRequest(models.Model):
+  class Meta:
+    app_label = 'dashboard'
+  
+  # the user that is requesting to be an author
+  user = models.ForeignKey(User)
+  
+  # the project the user is requesting to be an author for
+  project = models.ForeignKey(Project)
+  
+  # automatically detected by observatory finding a commit by the author
+  autodetected = models.BooleanField(default = False)
+  
+  def approve(self):
+    self.project.authors.add(self.user)
+    self.project.save()
+    self.delete()
+  
+  def reject(self):
+    self.delete()

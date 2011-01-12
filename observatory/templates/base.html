@@ -1,4 +1,5 @@
 {% load javascript %}
+{% load author_requests %}
 
 {% spaceless %}
 
@@ -74,6 +75,11 @@
             </ul>
         </div>
     </div>
+    {% if user.is_authenticated %}
+        {% autoescape off %}
+            {{ user|author_requests }}
+        {% endautoescape %}
+    {% endif %}
     {% if not disable_content %}
         <div id="content">
             {% if error_header %}

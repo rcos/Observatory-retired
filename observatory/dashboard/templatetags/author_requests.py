@@ -12,12 +12,19 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-from AuthorRequest import AuthorRequest
-from Blog import Blog
-from BlogPost import BlogPost
-from Commit import Commit
-from Event import Event
-from EventSet import EventSet
-from Project import Project
-from Repository import Repository
-from Screenshot import Screenshot
+from dashboard.models import AuthorRequest
+from django import template
+from django.template.loader import render_to_string
+
+register = template.Library()
+
+# gets the author requests that should be displayed for a user
+def author_requests(user):
+  requests = AuthorRequest.objects.filter(project__authors = user)
+  if len(requests) == 0:
+    return ""
+  requests = "".join([render_to_string("partials/author_request.html",
+                     { 'request': request }) for request in requests])
+  return "<div id='author-requests'>{0}</div>".format(requests)
+
+register.filter('author_requests', author_requests)
