@@ -39,12 +39,18 @@
 <body>
     <div id="top">
         <h1>
-            <a href="{% url dashboard.views.main.index %}">
+            <a href="{% url dashboard.views.feed.feed %}">
                 Dashboard
             </a>
         </h1>
         <div id="navigation-right">
             <ul id="navigation-main">
+                <li>
+                    <a href="{% url dashboard.views.feed.feed %}">
+                        Feed
+                    </a>
+                </li>
+                <li class="navigation-bullet">•</li>
                 <li>
                     <a href="{% url dashboard.views.projects.list %}">
                         Projects

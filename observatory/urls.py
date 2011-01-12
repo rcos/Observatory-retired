@@ -57,9 +57,12 @@ urlpatterns = patterns('',
     (r'^projects/(.*)', 'dashboard.views.projects.show'),
     (r'^projects', 'dashboard.views.projects.index'),
     
+    # feed
+    (r'^feed', 'dashboard.views.feed.feed'),
+    
     # serve media (for now)
     (r'^site-media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
     
-    (r'', 'dashboard.views.main.index'),
+    (r'', 'dashboard.views.feed.feed'),
 )

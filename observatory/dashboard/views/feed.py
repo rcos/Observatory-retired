@@ -23,8 +23,8 @@ from django.db import connection
 
 INDEX_EVENT_COUNT = 100
 
-# the main page for dashboard, a feed showing recent Events
-def index(request):
+# a feed showing recent Events
+def feed(request):
   qs = InheritanceQuerySet(model = Event)
   objs = qs.select_subclasses().order_by('date').reverse()[:INDEX_EVENT_COUNT]
   
@@ -47,6 +47,7 @@ def index(request):
     
     events.append(event)
   
-  return render_to_response('main/index.html', {
-      'events': events
+  return render_to_response('feed/feed.html', {
+      'events': events,
+      'disable_content': True
     }, context_instance = RequestContext(request))
