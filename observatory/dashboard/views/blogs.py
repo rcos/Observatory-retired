@@ -34,7 +34,7 @@ def posts(request):
 
 # shows a page of blog posts, the number of posts is set by PAGE_PER_POSTS
 def posts_page(request, page_num):
-  paginator = Paginator(BlogPost.objects.all().order_by('date').reverse(),
+  paginator = Paginator(BlogPost.objects.order_by('date').reverse(),
                         POSTS_PER_PAGE)
   
   # if the page requested does not exist, 404

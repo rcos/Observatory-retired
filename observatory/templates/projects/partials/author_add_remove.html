@@ -1,7 +1,7 @@
 {% if user.is_authenticated %}
     <div class="project-info">
         {% if show_add_remove_author %}
-            {% if user not in project.authors.all %}
+            {% if user not in authors %}
                 <form action="{% url dashboard.views.projects.add_user %}"
                       method="post">
                     <input type="submit" value="I work on this!"

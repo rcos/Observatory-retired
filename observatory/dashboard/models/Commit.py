@@ -34,9 +34,6 @@ class Commit(Event):
   
   def autoescape(self):
     return False
-  
-  def project(self):
-    return self.repository.project
     
   def wrap_tags(self):
     if self.description.find('<pre>') is -1 and self.external:

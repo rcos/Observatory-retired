@@ -13,9 +13,10 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import datetime
+from dashboard.util import time_ago, url_pathify_safe
 from django.db import models
 from django.contrib.auth.models import User
-from ..util import time_ago, url_pathify_safe
+from Project import Project
 
 # an event is currently either a blog post or a commit
 class Event(models.Model):
@@ -33,6 +34,9 @@ class Event(models.Model):
   
   # whether the event's source is from a feed
   from_feed = models.BooleanField()
+  
+  # the project associated with the Event
+  project = models.ForeignKey(Project)
   
   # the author of the event, if he/she is in dashboard
   author = models.ForeignKey(User, blank = True, null = True)

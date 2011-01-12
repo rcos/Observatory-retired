@@ -18,13 +18,25 @@ from django.shortcuts import render_to_response, get_object_or_404
 from dashboard.models import *
 from lib.InheritanceQuerySet import InheritanceQuerySet
 
-INDEX_EVENT_COUNT = 50
+from django.db import connection
+
+INDEX_EVENT_COUNT = 4
 
 # the main page for dashboard, a feed showing recent Events
 def index(request):
   qs = InheritanceQuerySet(model = Event)
   objs = qs.select_subclasses().order_by('date').reverse()[:INDEX_EVENT_COUNT]
   
+  projects = {}
+  authors = {}
+  for event in objs:
+    if event.project_id not in projects:
+      projects[event.project_id] = event.project
+    if event.author_id not in authors:
+      authors[event.author_id] = event.author
+  
   return render_to_response('main/index.html', {
-      'events' : objs,
+      'events': objs,
+      'authors': authors,
+      'projects': projects
     }, context_instance = RequestContext(request))

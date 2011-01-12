@@ -60,12 +60,12 @@
     {{ project.description|linebreaks }}
 </div>
 
-{% if project.authors.all %}
+{% if authors %}
     <h2 style="float: left">Authors</h2>
     {% include "projects/partials/author_add_remove.html" %}
     
     <ul class="project-authors">
-        {% for author in project.authors.all %}
+        {% for author in authors %}
             <li>
                 <a href="{% url dashboard.views.users.profile author.id %}">
                     <div class="gloss-100"></div>

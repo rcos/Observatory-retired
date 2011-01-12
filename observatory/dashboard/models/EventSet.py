@@ -71,6 +71,7 @@ class EventSet(models.Model):
                   date = date,
                   author_email = author_email,
                   **extra_args)
+    event.project = self.project
     if author is not None:
       event.author = author
     event.save()

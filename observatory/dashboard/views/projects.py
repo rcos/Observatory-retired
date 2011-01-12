@@ -67,7 +67,6 @@ def show(request, project_url_path):
   if request.user is not None:
     try:
       AuthorRequest.objects.get(project = project, user = request.user)
-      print "ok, sounds good!"
       show_add_remove_author = False
     except:
       pass
@@ -79,6 +78,7 @@ def show(request, project_url_path):
   return render_to_response('projects/show.html', {
       'project': project,
       'paginator': paginator,
+      'authors': project.authors.all(),
       'default_page': 1,
       'has_screenshots': len(screenshots) > 0,
       'js_page_id': 'show_project',

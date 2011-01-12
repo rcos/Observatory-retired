@@ -31,9 +31,6 @@ class BlogPost(Event):
   
   # the external link for a post, if applicable
   external_link = models.URLField(blank = True, null = True)
-  
-  def project(self):
-    return self.blog.project
     
   def autoescape(self):
     return False

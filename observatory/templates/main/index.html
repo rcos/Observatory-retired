@@ -9,18 +9,18 @@ This is where we should put some basic information about the dashboard, I suppos
     {% if events %}
         {% for event in events %}
             <div class="extra-content">
-                {% if event.author %}
+                {% if event.2 %}
                     <div class="event-author">
-                        <img src="{{ event.author|gravatar:40 }}"
-                         alt="{{ event.author.get_full_name }}"
+                        <img src="{{ event.2|gravatar:40 }}"
+                         alt="{{ event.2.get_full_name }}"
                          class="event-gravatar" />
                     </div>
                 {% endif %}
                 <div class="event-header">
                     {% if event.link %}
-                        <h3><a href="{{ event.link }}">{{ event.title }}</a></h3>
+                        <h3><a href="{{ event.0.link }}">{{ event.0.title }}</a></h3>
                     {% else %}
-                        <h3>{{ event.title }}</h3>
+                        <h3>{{ event.0.title }}</h3>
                     {% endif %}
                 </div>
                 
@@ -29,30 +29,30 @@ This is where we should put some basic information about the dashboard, I suppos
                 <div class="event-content">
                     <p>
                     {# this has to be no spaces because of <pre> #}
-                    {% if event.wrap_tags %}
-                        {% for tag in event.wrap_tags %}<{{ tag }}>{% endfor %}{% endif %}{% if not event.autoescape %}{% autoescape off %}{{ event.description|truncatewords_html:64 }}{% endautoescape %}{% else %}{{ event.description|truncatewords_html:64 }}{% endif %}{% if event.wrap_tags %}{% for tag in event.wrap_tags_rev %}</{{ tag }}>{% endfor %}{% endif %}
+                    {% if event.0.wrap_tags %}
+                        {% for tag in event.0.wrap_tags %}<{{ tag }}>{% endfor %}{% endif %}{% if not event.0.autoescape %}{% autoescape off %}{{ event.0.description|truncatewords_html:64 }}{% endautoescape %}{% else %}{{ event.0.description|truncatewords_html:64 }}{% endif %}{% if event.0.wrap_tags %}{% for tag in event.0.wrap_tags_rev %}</{{ tag }}>{% endfor %}{% endif %}
                     </p>
                 </div>
                 <div style="clear:both"></div>
                 
                 <div class="dark-bottom-bar">
                     <div style="float:left">
-                        {% if event.author %}
-                            <a href="{% url dashboard.views.users.profile event.author.id %}">
-                                {{ event.author.get_full_name }}
+                        {% if event.2 %}
+                            <a href="{% url dashboard.views.users.profile event.2.id %}">
+                                {{ event.2.get_full_name }}
                             </a>
                         {% else %}
-                            {% if event.author_name %}
-                                {{ event.author_name }}
+                            {% if event.0.author_name %}
+                                {{ event.0.author_name }}
                             {% endif %}
                         {% endif %}
                     </div>
                     <div style="float:right">
-                        {{ event.type_name }} •
-                        <a href="{% url dashboard.views.projects.show event.project.url_path %}">
-                            {{ event.project.title }}
+                        {{ event.0.type_name }} •
+                        <a href="{% url dashboard.views.projects.show event.1.url_path %}">
+                            {{ event.1.title }}
                         </a> •
-                        {{ event.age }}
+                        {{ event.0.age }}
                     </div>
                     <div style="clear:both"></div>
                 </div>
