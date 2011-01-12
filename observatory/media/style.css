@@ -515,10 +515,27 @@ input:focus, textarea:focus {
 
 /* Valid and invalid input fields */
 input:required:valid, textarea:required:valid {
-  border: 2px solid #23CC39;
+  background: #DFD;
+  border: 1px solid #0A0;
+  
+  background-image: -webkit-gradient(linear, left bottom, left top,
+    from(#EFE),
+    to(#CFC));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+    #EFE 0%,
+    #CFC 100%);
 }
-input:required:invalid, textarea:required:invalid, input:focus:invalid, textarea:focus:invalid {
-  border: 2px solid red;
+input:required:invalid, textarea:required:invalid, input:focus:invalid,
+textarea:focus:invalid {
+  background: #FDD;
+  border: 1px solid #A00;
+  
+  background-image: -webkit-gradient(linear, left bottom, left top,
+    from(#FEE),
+    to(#FCC));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+    #FEE 0%,
+    #FCC 100%);
 }
 
 .form-col-left {
