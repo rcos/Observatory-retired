@@ -55,7 +55,7 @@ urlpatterns = patterns('',
     (r'^projects/(.*)/modify', 'dashboard.views.projects.modify'),
     (r'^projects/(.*)/blog', 'dashboard.views.blogs.show_blog'),
     (r'^projects/(.*)', 'dashboard.views.projects.show'),
-    (r'^projects', 'dashboard.views.projects.index'),
+    (r'^projects', 'dashboard.views.projects.list'),
     
     # feed
     (r'^feed', 'dashboard.views.feed.feed'),

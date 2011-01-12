@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if projects or scoreless %}
+    {% if nothing_fetched %}
+        <h2 style="float:left">Nothing has been fetched yet!</h2>
+    {% else %}
+        <h2 style='float:left'>In the past week...</h2>
+    {% endif %}
+{% else %}
+    <h2 style="float:left">No projects found.</h2>
+{% endif %}
+{% if user.is_authenticated %}
+    <ul class='project-info'>
+        <li>
+            <a href="{% url dashboard.views.projects.add %}"
+               class="button-small">
+                Add a Project
+            </a>
+        </li>
+    </ul>
+{% endif %}
+<div style="clear:both"></div>
+
+{% if projects and not nothing_fetched %}
+    <div id="project-bars">
+        <div class="projects-bar-container">
+            <div class="projects-bar overall-bar"
+                 style="{{ overall_bar_css }}">
+            </div>
+        </div>
+        <div class="projects-bar-text">
+            {{ overall_count }} of {{ projects.count }}
+            projects have been updated
+        </div>
+        
+        <div class="projects-bar-container">
+            <div class="projects-bar repo-bar" style="{{ repo_bar_css }}">
+            </div>
+        </div>
+        <div class="projects-bar-text">
+            {{ repo_count }} of {{ projects.count }}
+            blogs have been updated
+        </div>
+    
+        <div class="projects-bar-container">
+            <div class="projects-bar blog-bar" style="{{ blog_bar_css }}">
+            </div>
+        </div>
+        <div class="projects-bar-text">
+            {{ repo_count }} of {{ projects.count }}
+            repositories have been updated
+        </div>
+        <div style="clear:both"></div>
+    </div>
+{% endif %}
+
+{% endblock %}
+
+{% block extracontent %}
+<div id="projects-list">    
+    {% for project in projects %}
+        {% include "projects/project_bubble.html" %}
+    {% endfor %}
+    {% for project in scoreless %}
+        {% include "projects/project_bubble.html" %}
+    {% endfor %}
+</div>
+{% endblock %}

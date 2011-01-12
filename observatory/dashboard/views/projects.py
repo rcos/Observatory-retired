@@ -12,6 +12,10 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+import Image
+import os
+from colorsys import hsv_to_rgb
+from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -22,23 +26,71 @@ from dashboard.models import *
 from dashboard.forms import *
 from dashboard.util import ListPaginator, url_pathify
 from settings import SCREENSHOT_PATH
-import Image
-import os
 
 SHOW_COMMIT_COUNT = 5
 SHOW_BLOGPOST_COUNT = 3
-
-# index and list are temporarily the same
-def index(request):
-  return list(request)
 
 # the classic "dashboard" view, with rankings
 def list(request):
   projects = Project.objects.exclude(score = None).order_by('score')
   scoreless = Project.objects.filter(score = None)
-  return render_to_response('projects/index.html', {
+  
+  # find the number of updates for blog, repo and overall in the past week
+  repo_count, blog_count, overall_count = 0, 0, 0
+  now = datetime.utcnow()
+  for project in projects:
+    repo_days = (now - project.repository.most_recent_date).days
+    blog_days = (now - project.blog.most_recent_date).days
+    if repo_days < 7: repo_count += 1
+    if blog_days < 7: blog_count += 1
+    if repo_days < 7 or blog_days < 7: overall_count += 1
+  
+  # create CSS for the progress bars at the top
+  def css(count):
+    grad_top = hsv_to_rgb(0.3 * count / projects.count(), 0.9, 0.5)
+    grad_bottom = hsv_to_rgb(0.3 * count / projects.count(), 0.9, 0.9)
+    border = hsv_to_rgb(0.3 * count / projects.count(), 0.9, 0.7)
+    
+    return """
+      background:rgb({6},{7},{8});
+      background-image: -webkit-gradient(linear, left bottom, left top,
+        from(rgb({0},{1},{2})),
+        to(rgb({3},{4},{5})));
+      background-image: -moz-linear-gradient(100% 100% 90deg,
+        rgb({0},{1},{2}),
+        rgb({3},{4},{5})
+      );
+      border: 1px solid rgb({6},{7},{8});
+      width:{9}%;display: block;""".format(
+        int(grad_top[0] * 255),
+        int(grad_top[1] * 255),
+        int(grad_top[2] * 255),
+        int(grad_bottom[0] * 255),
+        int(grad_bottom[1] * 255),
+        int(grad_bottom[2] * 255),
+        int(border[0] * 255),
+        int(border[1] * 255),
+        int(border[2] * 255),
+        int(100 * (1.0 * count / projects.count()))
+      )
+      
+  if projects.count() is not 0:
+    repo_bar_css = css(repo_count)
+    blog_bar_css = css(blog_count)
+    overall_bar_css = css(overall_count)
+  else:
+    repo_bar_css, blog_bar_css, overall_bar_css = None, None, None
+  
+  return render_to_response('projects/list.html', {
       'projects': projects,
-      'scoreless': scoreless
+      'scoreless': scoreless,
+      'blog_count': blog_count,
+      'repo_count': repo_count,
+      'overall_count': overall_count,
+      'repo_bar_css': repo_bar_css,
+      'blog_bar_css': overall_bar_css,
+      'overall_bar_css': blog_bar_css,
+      'nothing_fetched': projects.count() is 0
     }, context_instance = RequestContext(request))
 
 # information about a specific project

@@ -29,7 +29,7 @@ def profile(request, user_id):
 # displays both the login and registration forms. If there is an error with the
 # selected form, the user is redirected to a page with only that form.
 def login_or_reg(request):
-  next = reverse('dashboard.views.projects.index')
+  next = reverse('dashboard.views.projects.list')
   
   if 'next' in request.GET:
     next = request.GET['next']
@@ -42,7 +42,7 @@ def login_or_reg(request):
 # displays a registration form
 def register(request):
   return render_to_response('users/register.html', {
-      'next': reverse('dashboard.views.projects.index'),
+      'next': reverse('dashboard.views.projects.list'),
       'error_header': "Something isn't quite right."
     }, context_instance = RequestContext(request))
   
@@ -80,7 +80,7 @@ def create(request):
 
 # allows a user to login
 def login(request):
-  next = reverse('dashboard.views.projects.index')
+  next = reverse('dashboard.views.projects.list')
   
   if 'next' in request.GET:
     next = request.GET['next']
@@ -109,4 +109,4 @@ def authenticate(request):
 # logs out a user
 def logout(request):
   auth.logout(request)
-  return HttpResponseRedirect(reverse('dashboard.views.projects.index')) 
+  return HttpResponseRedirect(reverse('dashboard.views.projects.list')) 
