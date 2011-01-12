@@ -160,10 +160,19 @@ def clone_svn_repo(clone_url, destination_dir, fresh_clone = False):
   if subprocess.call(clone_cmdline, cwd = destination_dir) != 0:
     print "failed to clone from {0}".format(clone_url)
 
+def clone_bzr_repo(clone_url, destination_dir, fresh_clone = False):
+  if fresh_clone:
+    if subprocess.call(['bzr', 'branch', clone_url, destination_dir]):
+      print "failed to clone from {0}".format(clone_url)
+  else:
+    if subprocess.call(['bzr', 'update'], cwd = destination_dir):
+      print "failed to update from {0}".format(clone_url)
+    
 def clone_repo_function(vcs):
   clone_repo_functions = {
     'git': clone_git_repo,
-    'svn': clone_svn_repo
+    'svn': clone_svn_repo,
+    'bzr': clone_bzr_repo
   }
 
   if not vcs in clone_repo_functions:
