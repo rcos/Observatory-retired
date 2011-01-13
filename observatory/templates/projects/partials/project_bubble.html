@@ -13,7 +13,7 @@
     </h2>
     {% include "projects/partials/info.html" %}
     <div class="clear"></div>
-    <p>{{ project.description }}</p>
+    <p>{{ project.description|linebreaks }}</p>
     <div class="dark-bottom-bar">
         {% if project.score %}
             <div style="float:left">
