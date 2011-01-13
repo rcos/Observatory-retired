@@ -34,7 +34,7 @@
                     </a> •
                     {{ post.age }}
                 </div>
-                <div style="clear:both"></div>
+                <div class="clear"></div>
             </div>
         </div>
         
@@ -46,7 +46,6 @@
         {% endif %}
     </div>
     {% endautoescape %}
-    
     <div class="pagination-buttons">
         {% if page.has_previous %}
             <a class="pagination-previous button"
@@ -61,7 +60,7 @@
                 Next Page
             </a>
         {% endif %}
-        <div style="clear:both"></div>
+        <div class="clear"></div>
     </div>
 {% else %}
     <div id="content">

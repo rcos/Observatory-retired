@@ -69,7 +69,7 @@
     </a>
 </ul>
 
-<div style="clear:both"></div>
+<div class="clear"></div>
 
 <div id="content-container">
     <div id="content-1"
@@ -159,7 +159,7 @@
                 {% endfor %}
                 </ul>
             {% endif %}
-            <div style="clear:both"></div>
+            <div class="clear"></div>
             {% if project.blog.external %}
             <form method="post"
              action="{% url dashboard.views.projects.modify project.url_path 2 %}">

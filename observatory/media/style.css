@@ -122,6 +122,8 @@ a img {
   clear: both;
   padding: 20px;
   margin-bottom: 20px;
+  
+  position: relative;
 
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
@@ -238,7 +240,6 @@ a img {
   padding: 0px;
 }
 
-
 h3.event-author {
   float:right;
   font-size: 12px;
@@ -305,7 +306,7 @@ h3.event-author {
 
 .project-authors p {
   padding: 0px;
-  margin: 5px 0px 0px 0px;
+  margin: 2px 0px 0px 0px;
   text-align: center;
 }
 
@@ -327,7 +328,8 @@ h3.event-author {
 .project-authors li {
   position: relative;
   float: left;
-  margin-right: 15px;
+  margin-right: 27px;
+  margin-bottom: 12px;
 }
 
 .dark-bottom-bar {
@@ -339,11 +341,18 @@ h3.event-author {
     rgb(44, 44, 44) 0%,
     rgb(64, 64, 64) 100%);
   
-  margin: 20px -20px -20px -20px;
   padding: 5px 20px;
   color: #AAA;
   font-size: smaller;
   font-weight: bold;
+  margin-right: 20px;
+  
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  
+  height: 1em;
+  width: 750px;
   
   -webkit-border-bottom-right-radius: 12px;
   -webkit-border-bottom-left-radius: 12px;
@@ -355,6 +364,20 @@ h3.event-author {
   -moz-text-shadow: 0px -1px 1px #000;
   -webkit-text-shadow: 0px -1px 1px #000;
   text-shadow: 0px -1px 1px #000;
+}
+
+.dark-bottom-bar-left, .dark-bottom-bar-right {
+  position: absolute;
+  top: 0.5em;
+  line-height: 10px;
+}
+
+.dark-bottom-bar-left {
+  left: 20px;
+}
+
+.dark-bottom-bar-right {
+  right: 20px;
 }
 
 .dark-bottom-bar a {
@@ -940,12 +963,16 @@ a.author-request-reject:hover {
 }
 
 .projects-bar-container {
-  width: 430px;
+  position: relative;
   height: 30px;
   margin-bottom: 10px;
-  
-  float: left;
-  clear: both;
+}
+
+.projects-bar-outline {
+  width: 430px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
   
   border: 1px solid #777;
   background: #444;
@@ -982,10 +1009,16 @@ a.author-request-reject:hover {
   font-size: 15px;
   height: 30px;
   line-height: 30px;
-  z-index: 1;
-  float: right;
+  position: absolute;
+  left: 450px;
+  top: 0px;
   
   -moz-text-shadow: 0px 0px 5px #000;
   -webkit-text-shadow: 0px 0px 5px #000;
   text-shadow: 0px 0px 5px #000;
+}
+
+/* clearing things */
+.clear {
+  clear: both;
 }

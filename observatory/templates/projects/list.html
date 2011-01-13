@@ -21,38 +21,44 @@
         </li>
     </ul>
 {% endif %}
-<div style="clear:both"></div>
+<div class="clear"></div>
 
 {% if projects and not nothing_fetched %}
     <div id="project-bars">
         <div class="projects-bar-container">
-            <div class="projects-bar overall-bar"
-                 style="{{ overall_bar_css }}">
+            <div class="projects-bar-outline">
+                <div class="projects-bar overall-bar"
+                     style="{{ overall_bar_css }}">
+                </div>
             </div>
-        </div>
-        <div class="projects-bar-text">
-            {{ overall_count }} of {{ projects.count }}
-            projects have been updated
+            <div class="projects-bar-text">
+                {{ overall_count }} of {{ projects.count }}
+                projects have been updated
+            </div>
         </div>
         
         <div class="projects-bar-container">
-            <div class="projects-bar repo-bar" style="{{ repo_bar_css }}">
+            <div class="projects-bar-outline">
+                <div class="projects-bar repo-bar" style="{{ repo_bar_css }}">
+                </div>
             </div>
-        </div>
-        <div class="projects-bar-text">
-            {{ repo_count }} of {{ projects.count }}
-            blogs have been updated
+            <div class="projects-bar-text">
+                {{ repo_count }} of {{ projects.count }}
+                blogs have been updated
+            </div>
         </div>
     
         <div class="projects-bar-container">
-            <div class="projects-bar blog-bar" style="{{ blog_bar_css }}">
+            <div class="projects-bar-outline">
+                <div class="projects-bar blog-bar" style="{{ blog_bar_css }}">
+                </div>
+            </div>
+            <div class="projects-bar-text">
+                {{ repo_count }} of {{ projects.count }}
+                repositories have been updated
             </div>
         </div>
-        <div class="projects-bar-text">
-            {{ repo_count }} of {{ projects.count }}
-            repositories have been updated
-        </div>
-        <div style="clear:both"></div>
+        <div class="clear"></div>
     </div>
 {% endif %}
 

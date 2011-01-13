@@ -12,8 +12,8 @@
         </a>
     </h2>
     {% include "projects/info.html" %}
-    <div style="clear:both"></div>
-    {{ project.description }}
+    <div class="clear"></div>
+    <p>{{ project.description }}</p>
     <div class="dark-bottom-bar">
         {% if project.score %}
             <div style="float:left">
@@ -22,7 +22,7 @@
             <div style="float:right">
                 {{ project.blog.when_updated }}
             </div>
-            <div style="clear:both"></div>
+            <div class="clear"></div>
         {% else %}
             This project has not been fetched yet. It will be fetched
             in the next cycle.

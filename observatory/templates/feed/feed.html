@@ -28,7 +28,7 @@
                     {% endif %}
                 </div>
                 
-                <div style="clear:both"></div>
+                <div class="clear"></div>
                 
                 <div class="event-content">
                     <p>
@@ -37,10 +37,10 @@
                         {% endautoescape %}
                     </p>
                 </div>
-                <div style="clear:both"></div>
+                <div class="clear"></div>
                 
                 <div class="dark-bottom-bar">
-                    <div style="float:left">
+                    <div class="dark-bottom-bar-left">
                         {% if event.author %}
                             <a href="{% url dashboard.views.users.profile event.author.id %}">
                                 {{ event.author.get_full_name }}
@@ -51,14 +51,14 @@
                             {% endif %}
                         {% endif %}
                     </div>
-                    <div style="float:right">
+                    <div class="dark-bottom-bar-right">
                         {{ event.event.type_name }} •
                         <a href="{% url dashboard.views.projects.show event.project.url_path %}">
                             {{ event.project.title }}
                         </a> •
                         {{ event.event.age }}
                     </div>
-                    <div style="clear:both"></div>
+                    <div class="clear"></div>
                 </div>
             </div>
         {% endfor %}

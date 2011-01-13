@@ -160,3 +160,13 @@ awav = Project(title = "awesome-wav",
                blog_id = awav_blog.id,
                repository_id = awav_repo.id)
 awav.save()
+
+# add a bunch of dummy users to observatory to test multirow authors
+for i in range(1, 20):
+  user = User.objects.create_user("test{0}@something.com".format(i),
+                                  "test{0}@something.com".format(i),
+                                  "password")
+  user.first_name = "Test"
+  user.last_name = "User{0}".format(i)
+  user.save()
+  obsv.authors.add(user)

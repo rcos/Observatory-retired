@@ -52,7 +52,7 @@ def list(request):
     border = hsv_to_rgb(0.3 * count / projects.count(), 0.9, 0.7)
     
     return """
-      background:rgb({6},{7},{8});
+      background:rgb({3},{4},{5});
       background-image: -webkit-gradient(linear, left bottom, left top,
         from(rgb({0},{1},{2})),
         to(rgb({3},{4},{5})));
