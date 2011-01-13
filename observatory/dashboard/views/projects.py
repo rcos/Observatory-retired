@@ -65,7 +65,7 @@ def list(request):
         rgb({3},{4},{5})
       );
       border: 1px solid rgb({6},{7},{8});
-      width:{9}%;display: block;""".format(
+      width:{9}px;display: block;""".format(
         int(grad_top[0] * 255),
         int(grad_top[1] * 255),
         int(grad_top[2] * 255),
@@ -75,7 +75,7 @@ def list(request):
         int(border[0] * 255),
         int(border[1] * 255),
         int(border[2] * 255),
-        int(100 * (1.0 * count / projects.count()))
+        int(424 * (1.0 * count / projects.count()))
       )
       
   if projects.count() is not 0:
