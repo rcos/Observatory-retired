@@ -1,7 +1,23 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block head %}
+<script>
+    $(document).ready(function() {
+        ids = ["#blog-bar", "#overall-bar", "#repo-bar"]
+        for (i in ids) {
+            tag = $(ids[i])
+            width = tag.css("width")
+            tag.css({"width": "0%"})
+            tag.animate({
+                "width": width,
+                "opacity": "5" // hack to make it fade in fast
+            }, 2000)
+        }
+    });
+</script>
+{% endblock %}
 
+{% block content %}
 {% if projects or scoreless %}
     {% if nothing_fetched %}
         <h2 style="float:left">Nothing has been fetched yet!</h2>
@@ -27,7 +43,7 @@
     <div id="project-bars">
         <div class="projects-bar-container">
             <div class="projects-bar-outline">
-                <div class="projects-bar overall-bar"
+                <div class="projects-bar" id="overall-bar"
                      style="{{ overall_bar_css }}">
                 </div>
             </div>
@@ -39,7 +55,8 @@
         
         <div class="projects-bar-container">
             <div class="projects-bar-outline">
-                <div class="projects-bar repo-bar" style="{{ repo_bar_css }}">
+                <div class="projects-bar" id="repo-bar"
+                     style="{{ repo_bar_css }}">
                 </div>
             </div>
             <div class="projects-bar-text">
@@ -50,7 +67,8 @@
     
         <div class="projects-bar-container">
             <div class="projects-bar-outline">
-                <div class="projects-bar blog-bar" style="{{ blog_bar_css }}">
+                <div class="projects-bar" id="blog-bar"
+                     style="{{ blog_bar_css }}">
                 </div>
             </div>
             <div class="projects-bar-text">

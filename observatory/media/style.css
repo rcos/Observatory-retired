@@ -1000,6 +1000,8 @@ a.author-request-reject:hover {
   -webkit-border-radius: 13px;
   -moz-border-radius: 13px;
   border-radius: 13px;
+  opacity: 0;
+  position: relative;
 }
 
 .projects-bar-text {
