@@ -45,11 +45,15 @@ def list(request):
     if blog_days < 7: blog_count += 1
     if repo_days < 7 or blog_days < 7: overall_count += 1
   
+  print blog_count, repo_count, overall_count
+  
   # create CSS for the progress bars at the top
   def css(count):
     grad_top = hsv_to_rgb(0.3 * count / projects.count(), 0.9, 0.5)
     grad_bottom = hsv_to_rgb(0.3 * count / projects.count(), 0.9, 0.9)
     border = hsv_to_rgb(0.3 * count / projects.count(), 0.9, 0.7)
+    
+    print count, projects.count(), int(100 * (1.0 * count / projects.count()))
     
     return """
       background:rgb({3},{4},{5});
@@ -88,8 +92,8 @@ def list(request):
       'repo_count': repo_count,
       'overall_count': overall_count,
       'repo_bar_css': repo_bar_css,
-      'blog_bar_css': overall_bar_css,
-      'overall_bar_css': blog_bar_css,
+      'blog_bar_css': blog_bar_css,
+      'overall_bar_css': overall_bar_css,
       'nothing_fetched': projects.count() is 0
     }, context_instance = RequestContext(request))
 
