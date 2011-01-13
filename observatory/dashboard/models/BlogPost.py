@@ -41,4 +41,5 @@ class BlogPost(Event):
     return "Post"
   
   def link(self):
-    return reverse('dashboard.views.blogs.show_post', args = (self.url_path,))
+    return reverse('dashboard.views.blogs.show_post',
+                   args = (self.project.url_path, self.url_path,))

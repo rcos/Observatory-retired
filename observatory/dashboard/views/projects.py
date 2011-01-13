@@ -24,7 +24,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from dashboard.models import *
 from dashboard.forms import *
-from dashboard.util import ListPaginator, url_pathify
+from dashboard.util import ListPaginator, url_pathify, force_url_paths
 from settings import SCREENSHOT_PATH
 
 SHOW_COMMIT_COUNT = 5
@@ -96,10 +96,8 @@ def list(request):
 # information about a specific project
 def show(request, project_url_path):
   # redirect if the url path is not in the correct format
-  pathified = url_pathify(project_url_path)
-  if pathified != project_url_path:
-    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                        args = (pathified,)))
+  resp = force_url_paths('dashboard.views.projects.show', project_url_path)
+  if resp: return resp
   
   # get the project
   project = get_object_or_404(Project, url_path = project_url_path)
@@ -264,10 +262,8 @@ def add(request):
 @login_required
 def modify(request, project_url_path, tab_id = 1):
   # redirect if the url path is not in the correct format
-  pathified = url_pathify(project_url_path)
-  if pathified != project_url_path:
-    return HttpResponseRedirect(reverse('dashboard.views.projects.modify',
-                                        args = (pathified,)))
+  resp = force_url_paths('dashboard.views.projects.modify', project_url_path)
+  if resp: return resp
   
   project = get_object_or_404(Project, url_path = project_url_path)
   
@@ -409,7 +405,12 @@ def remove_user(request):
                                       args = (project.url_path,)))
 
 # displays the screenshot upload form
+@login_required
 def upload_screenshot(request, project_url_path):
+  resp = force_url_paths('dashboard.views.projects.upload_screenshot',
+                         project_url_path)
+  if resp: return resp
+  
   form = None
   project = get_object_or_404(Project, url_path = project_url_path)
   

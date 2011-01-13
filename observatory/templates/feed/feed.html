@@ -21,7 +21,7 @@
                         </h3>
                     {% else %}
                         <h3>
-                            <a href="{% url dashboard.views.blogs.show_post event.event.url_path %}">
+                            <a href="{% url dashboard.views.blogs.show_post event.project.url_path event.event.url_path %}">
                                 {{ event.event.title }}
                             </a>
                         </h3>

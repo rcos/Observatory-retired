@@ -147,11 +147,11 @@
                         <li>
                             <div>{{ post.title }}</div>
                             <a class="button-small"
-                               href="{% url dashboard.views.blogs.delete_post post.url_path %}">
+                               href="{% url dashboard.views.blogs.delete_post post.project.url_path post.url_path %}">
                                 Delete
                             </a>
                             <a class="button-small"
-                               href="{% url dashboard.views.blogs.edit_post post.url_path %}">
+                               href="{% url dashboard.views.blogs.edit_post post.project.url_path post.url_path %}">
                                 Modify
                             </a>
                         </li>

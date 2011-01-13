@@ -18,6 +18,7 @@ from collections import defaultdict
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils.html import escape
@@ -78,6 +79,13 @@ def url_pathify_safe(model, string, invalid_paths = INVALID_URL_PATHS,
 def url_pathify(string):
   # replace space with dash, lowercase, drop nonalphabeticals
   return re.sub(r"[^a-z-]", "", string.lower().replace(" ", "-"))
+
+def force_url_paths(view, *url_paths):
+  pathified = tuple([url_pathify(url_path) for url_path in url_paths])
+  if pathified != url_paths:
+    return HttpResponseRedirect(reverse(view, args = pathified))
+  else:
+    return None
 
 def find_author(author_name):
   author = None

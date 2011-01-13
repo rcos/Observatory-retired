@@ -15,7 +15,7 @@
 import datetime
 from dashboard.forms import BlogPostForm
 from dashboard.models import BlogPost, Blog, Project
-from dashboard.util import url_pathify
+from dashboard.util import url_pathify, force_url_paths
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
@@ -49,6 +49,9 @@ def posts_page(request, page_num):
 
 # shows a project's internally hosted blog, or redirects to an external one
 def show_blog(request, project_url_path):
+  resp = force_url_paths('dashboard.views.blogs.show_blog', project_url_path)
+  if resp: return resp
+  
   project = get_object_or_404(Project, url_path = project_url_path)
   if project.blog.from_feed:
     return HttpResponseRedirect(project.blog.url)
@@ -59,12 +62,10 @@ def show_blog(request, project_url_path):
       }, context_instance = RequestContext(request))
 
 # shows a specific blog post
-def show_post(request, post_url_path):
-  # redirect if the url path is not in the correct format
-  pathified = url_pathify(post_url_path)
-  if pathified != post_url_path:
-    return HttpResponseRedirect(reverse('dashboard.views.blogs.show_post',
-                                        args = (pathified,)))
+def show_post(request, project_url_path, post_url_path):
+  resp = force_url_paths('dashboard.views.projects.show_post',
+                         project_url_path, post_url_path)
+  if resp: return resp
   
   post = get_object_or_404(BlogPost, url_path = post_url_path)
   if post.from_feed:
@@ -89,12 +90,11 @@ def write_post(request, project_id):
 
 # edit an existing post
 @login_required
-def edit_post(request, post_url_path):
+def edit_post(request, project_url_path, post_url_path):
   # redirect if the url path is not in the correct format
-  pathified = url_pathify(post_url_path)
-  if pathified != post_url_path:
-    return HttpResponseRedirect(reverse('dashboard.views.blogs.edit_post',
-                                        args = (pathified,)))
+  resp = force_url_paths('dashboard.views.projects.edit_post',
+                         project_url_path, post_url_path)
+  if resp: return resp
   
   post = get_object_or_404(BlogPost, url_path = post_url_path)
   
@@ -128,6 +128,7 @@ def create_post(request, project_id):
                     content = html,
                     from_feed = False,
                     author = request.user,
+                    project = project,
                     date = date)
     post.blog = project.blog
     post.save()
@@ -137,7 +138,8 @@ def create_post(request, project_id):
     project.calculate_score()
     
     return HttpResponseRedirect(reverse('dashboard.views.blogs.show_post',
-                                        args = (post.url_path,)))
+                                        args = (post.blog.project.url_path,
+                                                post.url_path,)))
   else:
     return render_to_response('blogs/edit.html', {
         'project': project,
@@ -146,7 +148,7 @@ def create_post(request, project_id):
 
 # updates a previously posted post, and redirects to the management page
 @login_required
-def update_post(request, post_url_path):
+def update_post(request, project_url_path, post_url_path):
   form = BlogPostForm(request.POST)
   post = get_object_or_404(BlogPost, url_path = post_url_path)
   
@@ -161,7 +163,8 @@ def update_post(request, post_url_path):
     post.save()
     
     return HttpResponseRedirect(reverse('dashboard.views.blogs.show_post',
-                                        args = (post.url_path,)))
+                                        args = (post.blog.project.url_path,
+                                                post.url_path,)))
   else:
     return render_to_response('blogs/edit.html', {
         'project': post.blog.project,
@@ -170,13 +173,13 @@ def update_post(request, post_url_path):
 
 # deletes a post
 @login_required
-def delete_post(request, post_url_path):
+def delete_post(request, project_url_path, post_url_path):
   post = get_object_or_404(BlogPost, url_path = post_url_path)
-  blog = post.blog
+  project = post.project
   
   if request.user not in post.blog.project.authors.all():
     return HttpResponseRedirect(reverse('dashboard.views.projects.show',
                                         args = (project.url_path,)))
   post.delete()
-  return HttpResponseRedirect(reverse('dashboard.views.blogs.show_blog',
-                                      args = (blog.id,)))
+  return HttpResponseRedirect(reverse('dashboard.views.projects.modify',
+                                      args = (project.url_path, 2)))
