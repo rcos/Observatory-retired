@@ -67,10 +67,10 @@
 {% block extracontent %}
 <div id="projects-list">    
     {% for project in projects %}
-        {% include "projects/project_bubble.html" %}
+        {% include "projects/partials/project_bubble.html" %}
     {% endfor %}
     {% for project in scoreless %}
-        {% include "projects/project_bubble.html" %}
+        {% include "projects/partials/project_bubble.html" %}
     {% endfor %}
 </div>
 {% endblock %}
