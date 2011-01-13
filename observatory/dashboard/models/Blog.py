@@ -12,6 +12,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+import datetime
 from dashboard.util import find_author
 from django.db import models
 from lib import feedparser, dateutil
@@ -38,12 +39,10 @@ class Blog(EventSet):
     # parse and iterate the feed
     entries = feedparser.parse(self.rss).entries
     for post in entries:
-      # time manipation is fun
-      date = dateutil.parser.parse(post.date)
       try:
-        date = (date - date.utcoffset()).replace(tzinfo=None)
+        date = dateutil.parser.parse(post.date).replace(tzinfo=None)
       except:
-        pass
+        date = datetime.datetime.utcnow()
       
       # don't re-add old posts
       if self.most_recent_date >= date:
