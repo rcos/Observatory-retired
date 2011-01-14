@@ -23,7 +23,7 @@ from threading import Thread
 
 setup_environment()
 
-from dashboard.models import Blog
+from dashboard.models import Blog, Project
 from observatory.settings import BLOG_FETCH_THREAD_COUNT
 
 if BLOG_FETCH_THREAD_COUNT > 1:
@@ -70,3 +70,6 @@ else:
       blog.fetch()
       cprint("==> Done fetching the blog for {0}".format(title),
              "green", attrs=["bold"])
+      
+      project = Project.objects.get(blog__id = blog.id)
+      project.calculate_score()

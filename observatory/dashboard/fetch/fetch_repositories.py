@@ -25,7 +25,7 @@ from time import sleep
 
 setup_environment()
 
-from dashboard.models import Repository, Commit
+from dashboard.models import Repository, Commit, Project
 from observatory.settings import REPO_FETCH_TIMEOUT, REPO_FETCH_PROCESS_COUNT
 
 class Fetcher(object):
@@ -106,5 +106,7 @@ while True:
   # age the fetchers, remove them if they are done
   for fetcher in fetchers:
     if fetcher.second_passed():
+      project = Project.objects.get(repository__id = fetcher.repo.id)
+      project.calculate_score()
       fetchers.remove(fetcher)
   
