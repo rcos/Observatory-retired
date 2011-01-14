@@ -14,6 +14,7 @@
 
 import datetime
 import re
+from BeautifulSoup import BeautifulSoup, Comment
 from collections import defaultdict
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
@@ -59,6 +60,29 @@ def time_ago(date, time = datetime.datetime.utcnow()):
   if delta.seconds >= 60:
     return plural(int(delta.seconds / 60), "minute")
   return plural(delta.seconds, "second")
+
+def sanitize(string, allowed_tags = None, strip_tags = None):
+  js_regex = re.compile(r'[\s]*(&#x.{1,7})?'.join(list('javascript')))
+  
+  if allowed_tags:
+    allowed_tags = [tag.split(":") for tag in allowed_tags]
+    allowed_tags = dict((tag[0], tag[1:]) for tag in allowed_tags)
+  
+  soup = BeautifulSoup(string)
+  for comment in soup.findAll(text=lambda text: isinstance(text, Comment)):
+    comment.extract()
+  
+  for tag in soup.findAll(True):
+    if strip_tags and tag.name in strip_tags:
+      tag.hidden = True
+    else:
+      if not allowed_tags or tag.name not in allowed_tags:
+        tag.extract()
+      else:
+        tag.attrs = [(attr, js_regex.sub('', val))
+                     for attr, val in tag.attrs
+                     if attr in allowed_tags[tag.name]]
+  return soup.renderContents().decode("utf8")
 
 def url_pathify_safe(model, string, invalid_paths = INVALID_URL_PATHS,
                      max_length = 32):

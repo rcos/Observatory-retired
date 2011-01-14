@@ -13,7 +13,8 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import datetime
-from dashboard.util import find_author
+import re
+from dashboard.util import find_author, sanitize
 from django.db import models
 from lib import feedparser, dateutil
 from EventSet import EventSet
@@ -57,6 +58,16 @@ class Blog(EventSet):
         author_name = post.author_detail["name"]
       except:
         author_name = None
+      
+      # sanitize the post's content
+      content = sanitize(content, [
+        "h1", "h2", "h3", "h4", "h5", "h6",
+        "a:href", "p", "ul", "ol", "li", "br", "div",
+        "img:src:alt:title",
+        "b", "i", "u", "strong", "em",
+        "table", "tbody", "td", "th", "thead", "tfoot",
+        "pre", "tt", "code"
+      ])
       
       events.append(self.add_event(BlogPost.BlogPost,
         title = post.title,

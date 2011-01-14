@@ -16,7 +16,7 @@ import calendar
 import datetime
 import time
 from django.db import models
-from dashboard.util import find_author, time_ago
+from dashboard.util import find_author, time_ago, sanitize
 
 # a set of events (a blog or repository)
 class EventSet(models.Model):
@@ -62,6 +62,14 @@ class EventSet(models.Model):
     else:
       author = None
       author_email = None
+    
+    # sanitize the summary
+    summary = sanitize(summary, [
+      "h1", "h2", "h3", "h4", "h5", "h6",
+      "a:href", "p", "ul", "ol", "li", "br",
+      "b", "i", "u", "strong", "em", "div",
+      "pre", "tt", "code"
+    ])
 
     # create and save the event object
     event = klass(author_name = author_name,
