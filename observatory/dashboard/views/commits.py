@@ -24,12 +24,11 @@ from django.shortcuts import render_to_response, get_object_or_404
 from lib.markdown import markdown
 
 def show(request, project_url_path, commit_url_path):
-  resp = force_url_paths('dashboard.views.commits.show',
-                         project_url_path, commit_url_path)
+  resp = force_url_paths(show, project_url_path, commit_url_path)
   if resp: return resp
   
   # find the commit
-  commit = get_object_or_404(Commit, url_path = commit_url)
+  commit = get_object_or_404(Commit, url_path = commit_url_path)
   
   # if the commit is external, redirect to it
   if commit.repository.from_feed:

@@ -19,6 +19,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
+from observatory.dashboard.views import projects
 
 # display's the user's profile
 def profile(request, user_id):
@@ -29,7 +30,7 @@ def profile(request, user_id):
 # displays both the login and registration forms. If there is an error with the
 # selected form, the user is redirected to a page with only that form.
 def login_or_reg(request):
-  next = reverse('dashboard.views.projects.list')
+  next = reverse(projects.list)
   
   if 'next' in request.GET:
     next = request.GET['next']
@@ -42,7 +43,7 @@ def login_or_reg(request):
 # displays a registration form
 def register(request):
   return render_to_response('users/register.html', {
-      'next': reverse('dashboard.views.projects.list'),
+      'next': reverse(projects.list),
       'error_header': "Something isn't quite right."
     }, context_instance = RequestContext(request))
   
@@ -50,7 +51,7 @@ def register(request):
 def create(request):
   # check that the passwords match
   if request.POST['password'] != request.POST['password_confirm']:
-    return HttpResponseRedirect(reverse('dashboard.views.users.register'))
+    return HttpResponseRedirect(reverse(register))
   
   # if it's ok, register the user
   user = User.objects.create_user(request.POST['email'],
@@ -80,7 +81,7 @@ def create(request):
 
 # allows a user to login
 def login(request):
-  next = reverse('dashboard.views.projects.list')
+  next = reverse(projects.list)
   
   if 'next' in request.GET:
     next = request.GET['next']
@@ -97,7 +98,7 @@ def authenticate(request):
   
   # if the password is incorrect, redireect to the login page
   if user is None:
-    return HttpResponseRedirect(reverse('dashboard.views.users.login'))
+    return HttpResponseRedirect(reverse(login))
   
   # otherwise, log the user in
   if user.is_active:
@@ -109,4 +110,4 @@ def authenticate(request):
 # logs out a user
 def logout(request):
   auth.logout(request)
-  return HttpResponseRedirect(reverse('dashboard.views.projects.list')) 
+  return HttpResponseRedirect(reverse(projects.list)) 

@@ -1,4 +1,5 @@
 from dashboard.models import *
+from dashboard.views import *
 from django.conf.urls.defaults import *
 import settings
 
@@ -17,52 +18,49 @@ urlpatterns = patterns('',
     (r'^admin', include(admin.site.urls)),
     
     # author requests
-    (r'^author-request/approve/(\d+)$',
-      'dashboard.views.author_requests.approve'),
-    (r'^author-request/reject/(\d+)$',
-      'dashboard.views.author_requests.reject'),
+    (r'^author-request/approve/(\d+)$', author_requests.approve),
+    (r'^author-request/reject/(\d+)$', author_requests.reject),
     
     # blog posts
-    (r'^posts/add/(\d+)$', 'dashboard.views.blogs.write_post'),
-    (r'^posts/create/(\d+)$', 'dashboard.views.blogs.create_post'),
-    (r'^posts/page/(\d+)$', 'dashboard.views.blogs.posts_page'),
-    (r'^project/(.*)/post/(.*)/modify$', 'dashboard.views.blogs.edit_post'),
-    (r'^project/(.*)/post/(.*)/update$', 'dashboard.views.blogs.update_post'),
-    (r'^project/(.*)/post/(.*)/delete$', 'dashboard.views.blogs.delete_post'),
-    (r'^project/(.*)/post/(.*)$', 'dashboard.views.blogs.show_post'),
-    (r'^posts$', 'dashboard.views.blogs.posts'),
+    (r'^posts/add/(\d+)$', blogs.write_post),
+    (r'^posts/create/(\d+)$', blogs.create_post),
+    (r'^posts/page/(\d+)$', blogs.posts_page),
+    (r'^project/(.*)/post/(.*)/modify$', blogs.edit_post),
+    (r'^project/(.*)/post/(.*)/update$', blogs.update_post),
+    (r'^project/(.*)/post/(.*)/delete$', blogs.delete_post),
+    (r'^project/(.*)/post/(.*)$', blogs.show_post),
+    (r'^posts$', blogs.posts),
     
     # users
-    (r'^register-or-login$', 'dashboard.views.users.login_or_reg'),
-    (r'^register$', 'dashboard.views.users.register'),
-    (r'^login$', 'dashboard.views.users.login'),
-    (r'^logout$', 'dashboard.views.users.logout'),
-    (r'^user/create$', 'dashboard.views.users.create'),
-    (r'^user/authenticate$', 'dashboard.views.users.authenticate'),
-    (r'^user/(\d+)$', 'dashboard.views.users.profile'),
+    (r'^register-or-login$', users.login_or_reg),
+    (r'^register$', users.register),
+    (r'^login$', users.login),
+    (r'^logout$', users.logout),
+    (r'^user/create$', users.create),
+    (r'^user/authenticate$', users.authenticate),
+    (r'^user/(\d+)$', users.profile),
     
     # commits
-    (r'^projects/(.*)/commit/(.*)$', 'dashboard.views.commits.show'),
+    (r'^projects/(.*)/commit/(.*)$', commits.show),
     
     # projects
-    (r'^projects/add-user$', 'dashboard.views.projects.add_user'),
-    (r'^projects/remove-user$', 'dashboard.views.projects.remove_user'),
-    (r'^projects/add$', 'dashboard.views.projects.add'),
-    (r'^projects/list$', 'dashboard.views.projects.list'),
-    (r'^projects/(.*)/upload-screenshot$',
-      'dashboard.views.projects.upload_screenshot'),
-    (r'^projects/(.*)/modify/(\d+)$', 'dashboard.views.projects.modify'),
-    (r'^projects/(.*)/modify$', 'dashboard.views.projects.modify'),
-    (r'^projects/(.*)/blog$', 'dashboard.views.blogs.show_blog'),
-    (r'^projects/(.*)$', 'dashboard.views.projects.show'),
-    (r'^projects$', 'dashboard.views.projects.list'),
+    (r'^projects/add-user$', projects.add_user),
+    (r'^projects/remove-user$', projects.remove_user),
+    (r'^projects/add$', projects.add),
+    (r'^projects/list$', projects.list),
+    (r'^projects/(.*)/upload-screenshot$', projects.upload_screenshot),
+    (r'^projects/(.*)/modify/(\d+)$', projects.modify),
+    (r'^projects/(.*)/modify$', projects.modify),
+    (r'^projects/(.*)/blog$', blogs.show_blog),
+    (r'^projects/(.*)$', projects.show),
+    (r'^projects$', projects.list),
     
     # feed
-    (r'^feed$', 'dashboard.views.feed.feed'),
+    (r'^feed$', feed.feed),
     
     # serve media (for now)
     (r'^site-media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
     
-    (r'$', 'dashboard.views.feed.feed'),
+    (r'$', feed.feed),
 )

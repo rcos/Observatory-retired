@@ -16,6 +16,7 @@ import datetime
 from dashboard.forms import BlogPostForm
 from dashboard.models import BlogPost, Blog, Project
 from dashboard.util import url_pathify, force_url_paths
+from observatory.dashboard.views import projects
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
@@ -49,7 +50,7 @@ def posts_page(request, page_num):
 
 # shows a project's internally hosted blog, or redirects to an external one
 def show_blog(request, project_url_path):
-  resp = force_url_paths('dashboard.views.blogs.show_blog', project_url_path)
+  resp = force_url_paths(show_blog, project_url_path)
   if resp: return resp
   
   project = get_object_or_404(Project, url_path = project_url_path)
@@ -63,8 +64,7 @@ def show_blog(request, project_url_path):
 
 # shows a specific blog post
 def show_post(request, project_url_path, post_url_path):
-  resp = force_url_paths('dashboard.views.projects.show_post',
-                         project_url_path, post_url_path)
+  resp = force_url_paths(show_post, project_url_path, post_url_path)
   if resp: return resp
   
   post = get_object_or_404(BlogPost, url_path = post_url_path)
@@ -80,7 +80,7 @@ def show_post(request, project_url_path, post_url_path):
 def write_post(request, project_id):
   project = get_object_or_404(Project, id = int(project_id))
   if request.user not in project.authors.all():
-    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+    return HttpResponseRedirect(reverse(projects.show,
                                         args = (project.url_path,)))
   
   return render_to_response('blogs/edit.html', {
@@ -92,14 +92,13 @@ def write_post(request, project_id):
 @login_required
 def edit_post(request, project_url_path, post_url_path):
   # redirect if the url path is not in the correct format
-  resp = force_url_paths('dashboard.views.projects.edit_post',
-                         project_url_path, post_url_path)
+  resp = force_url_paths(edit_post, project_url_path, post_url_path)
   if resp: return resp
   
   post = get_object_or_404(BlogPost, url_path = post_url_path)
   
   if request.user not in post.blog.project.authors.all():
-    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+    return HttpResponseRedirect(reverse(projects.show,
                                         args = (project.url_path,)))
   
   return render_to_response('blogs/edit.html', {
@@ -115,7 +114,7 @@ def create_post(request, project_id):
   project = get_object_or_404(Project, id = int(project_id))
   
   if request.user not in project.authors.all():
-    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+    return HttpResponseRedirect(reverse(projects.show,
                                         args = (project.url_path,)))
   
   # validate the form
@@ -137,7 +136,7 @@ def create_post(request, project_id):
     project.blog.save()
     project.calculate_score()
     
-    return HttpResponseRedirect(reverse('dashboard.views.blogs.show_post',
+    return HttpResponseRedirect(reverse(show_post,
                                         args = (post.blog.project.url_path,
                                                 post.url_path,)))
   else:
@@ -162,7 +161,7 @@ def update_post(request, project_url_path, post_url_path):
     post.content = html
     post.save()
     
-    return HttpResponseRedirect(reverse('dashboard.views.blogs.show_post',
+    return HttpResponseRedirect(reverse(show_post,
                                         args = (post.blog.project.url_path,
                                                 post.url_path,)))
   else:
@@ -178,8 +177,8 @@ def delete_post(request, project_url_path, post_url_path):
   project = post.project
   
   if request.user not in post.blog.project.authors.all():
-    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
+    return HttpResponseRedirect(reverse(projects.show,
                                         args = (project.url_path,)))
   post.delete()
-  return HttpResponseRedirect(reverse('dashboard.views.projects.modify',
+  return HttpResponseRedirect(reverse(projects.modify,
                                       args = (project.url_path, 2)))

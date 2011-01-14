@@ -259,22 +259,21 @@ def add(request):
     project.save()
 
     # redirect to the show page for the new project
-    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                        args = (project.url_path,)))
+    return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
 
 # a view for modifying an existing project
 @login_required
 def modify(request, project_url_path, tab_id = 1):
   # redirect if the url path is not in the correct format
-  resp = force_url_paths('dashboard.views.projects.modify', project_url_path)
+  resp = force_url_paths(modify, project_url_path)
   if resp: return resp
   
   project = get_object_or_404(Project, url_path = project_url_path)
   
   # if someone tries to edit a project they shouldn't be able to
   if request.user not in project.authors.all():
-    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                        args = (project.url_path,)))
+    return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
+  
   # default forms
   project_form = ProjectForm(instance = project)
   cloned_repo_form = ClonedRepositoryForm(instance = project.repository)
@@ -364,8 +363,7 @@ def add_user(request):
   
   # don't let people add other users
   if int(request.user.id) is not user.id:
-    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                        args = (project.url_path,)))
+    return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
   
   # find the current authors of the project
   authors = project.authors.all()
@@ -383,8 +381,7 @@ def add_user(request):
       request.save()
   
   # redirect back to the show page
-  return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                      args = (project.url_path,)))
+  return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
 
 # removes a user as an author of a project
 def remove_user(request):
@@ -394,8 +391,7 @@ def remove_user(request):
   
   # don't let people delete other users
   if int(request.user.id) is not int(user.id):
-    return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                        args = (project.url_path,)))
+    return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
   
   # removes the user from the project
   if user in project.authors.all():
@@ -405,14 +401,12 @@ def remove_user(request):
   project.save()
   
   # redirect back to the show page
-  return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                      args = (project.url_path,)))
+  return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
 
 # displays the screenshot upload form
 @login_required
 def upload_screenshot(request, project_url_path):
-  resp = force_url_paths('dashboard.views.projects.upload_screenshot',
-                         project_url_path)
+  resp = force_url_paths(upload_screenshot, project_url_path)
   if resp: return resp
   
   form = None
@@ -453,8 +447,7 @@ def upload_screenshot(request, project_url_path):
                           "{0}_t.png".format(str(screen.id)))
       img.save(path, "PNG")
       
-      return HttpResponseRedirect(reverse('dashboard.views.projects.show',
-                                          args = (project.url_path,)))
+      return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
   
   # otherwise, create a new form
   else:
