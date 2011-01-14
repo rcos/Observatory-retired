@@ -163,6 +163,27 @@ awav = Project(title = "awesome-wav",
                repository_id = awav_repo.id)
 awav.save()
 
+
+cnct_blog = Blog(url = "http://blog.concertsoundorganizer.com",
+                 rss = "http://blog.concertsoundorganizer.com/rss")
+cnct_blog.save()
+cnct_repo = Repository(web_url = "https://github.com/joshelser/Concert/",
+                       clone_url = "https://github.com/joshelser/Concert.git",
+                       vcs = "git",
+                       from_feed = False)
+cnct_repo.save()
+cnct = Project(title = "Concert",
+               description = """Concert is a web-based application for collaboratively organizing audio. It enables a group of musicians to upload recordings of small ideas or entire practices, and then remotely categorize and discuss these segments so that the ideas are already well-formed before the musicians actually discuss them in person.
+
+			It is built on Django using the python-audio-tools library, as well as other dependencies.
+
+			The software is currently not in a release state, as it is being completely re-written. You can read about the development progress here: blog.concertsoundorganizer.com""",
+               website = "http://concertsoundorganizer.com/",
+               wiki = "https://github.com/joshelser/Concert/wiki",
+               blog_id = cnct_blog.id,
+               repository_id = cnct_repo.id)
+cnct.save()
+
 # add a bunch of dummy users to observatory to test multirow authors
 for i in range(1, 20):
   user = User.objects.create_user("test{0}@something.com".format(i),
