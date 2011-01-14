@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 
 # Copyright (c) 2010, Nate Stedman <natesm@gmail.com>
 #
@@ -14,20 +14,12 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-# This script shouldn't be used in production, it's just a shortcut for quick
-# use with demo.py. Realistically, blogs don't need to be fetched nearly as
-# often as repositories, and github can take the hits a lot better than
-# peoples personal servers can. Just don't DOS anyone.
+from fetch_core import setup_environment
+from sys import argv
 
-import os, subprocess
-from sys import executable as python
+setup_environment()
 
-this_dir = os.path.abspath(os.path.dirname(__file__))
-blogs_script = os.path.join(this_dir, "fetch", "fetch_blogs.py")
-repos_script = os.path.join(this_dir, "fetch", "fetch_repositories.py")
+from dashboard.models import Repository
 
-blogs = subprocess.Popen([python, blogs_script])
-repos = subprocess.Popen([python, repos_script])
-
-blogs.wait()
-repos.wait()
+repo = Repository.objects.get(id = argv[1])
+repo.clone_or_fetch()

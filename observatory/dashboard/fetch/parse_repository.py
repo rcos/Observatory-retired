@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 
 # Copyright (c) 2010, Nate Stedman <natesm@gmail.com>
 #
@@ -14,20 +14,14 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-# This script shouldn't be used in production, it's just a shortcut for quick
-# use with demo.py. Realistically, blogs don't need to be fetched nearly as
-# often as repositories, and github can take the hits a lot better than
-# peoples personal servers can. Just don't DOS anyone.
+# Repository fetching can be very slow, so we use multiple processes for it.
+# This file takes a single argument, which is the id number of a repository.
 
-import os, subprocess
-from sys import executable as python
+from fetch_core import setup_environment
+from sys import argv
 
-this_dir = os.path.abspath(os.path.dirname(__file__))
-blogs_script = os.path.join(this_dir, "fetch", "fetch_blogs.py")
-repos_script = os.path.join(this_dir, "fetch", "fetch_repositories.py")
+setup_environment()
 
-blogs = subprocess.Popen([python, blogs_script])
-repos = subprocess.Popen([python, repos_script])
+from dashboard.models import Repository
 
-blogs.wait()
-repos.wait()
+Repository.objects.get(id = argv[1]).parse_commits()

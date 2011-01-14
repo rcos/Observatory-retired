@@ -43,33 +43,17 @@ class Repository(EventSet):
   repo_rss = models.URLField("Repository RSS Feed", max_length = 128)
   cmd = models.CharField("Clone Command", max_length = 128)
   
-  def fetch(self):
+  def parse_commits(self):
     import Commit
     events = []
     
+    # if this is a cloned repository
     if not self.from_feed:
-      # this is a cloned repository
-      fresh_clone = True
-
-      # ensure that REPO_ROOT already exists
-      try:
-        os.makedirs(settings.REPO_ROOT, 0770)
-      except OSError as e:
-        pass
+      repo_dir = os.path.join(settings.REPO_ROOT, self.project.url_path)
       
-      # construct the name of the directory into which to clone the repository
-      dest_dir = os.path.join(settings.REPO_ROOT, self.project.url_path)
-
-      # check if we've already cloned this project
-      if os.path.isdir(dest_dir):
-        fresh_clone = False
-
-      # clone the repository, or update our copy
-      clone_repo_function(self.vcs)(self.clone_url, dest_dir, fresh_clone)
-
       # add the commits
       backend = get_backend(self.vcs if self.vcs != 'svn' else 'git')
-      repository = backend.Repository(dest_dir)
+      repository = backend.Repository(repo_dir)
 
       # inspect the last five days of commits
       for commit in repository.get_recent_commits():
@@ -95,8 +79,9 @@ class Repository(EventSet):
             "diff": format_diff(commit.diff),
             "repository_id": self.id,
           }))
+    
+    # this is a feed-driven repository
     else:
-      # this is a feed-driven repository
       for commit in feedparser.parse(self.repo_rss).entries:
         date = dateutil.parser.parse(commit.date)
         try:
@@ -118,6 +103,27 @@ class Repository(EventSet):
     dates.append(self.most_recent_date)
     self.most_recent_date = max(dates)
     self.save()
+    
+  def clone_or_fetch(self):
+    if self.from_feed: return
+    
+    fresh_clone = True
+
+    # ensure that REPO_ROOT already exists
+    try:
+      os.makedirs(settings.REPO_ROOT, 0770)
+    except OSError as e:
+      pass
+    
+    # construct the name of the directory into which to clone the repository
+    dest_dir = os.path.join(settings.REPO_ROOT, self.project.url_path)
+
+    # check if we've already cloned this project
+    if os.path.isdir(dest_dir):
+      fresh_clone = False
+
+    # clone the repository, or update our copy
+    clone_repo_function(self.vcs)(self.clone_url, dest_dir, fresh_clone)
   
   def clone_cmd(self):
     if not self.from_feed:
@@ -135,9 +141,9 @@ def clone_git_repo(clone_url, destination_dir, fresh_clone = False):
                      clone_url, destination_dir]
   else:
     clone_cmdline = ["git", "--git-dir", destination_dir, "fetch"]
-
+  
   clone_subprocess = subprocess.Popen(clone_cmdline)
-
+  
   if clone_subprocess.wait() != 0:
     # TODO: handle this better
     print "failed to clone from {0}".format(clone_url)

@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 # Copyright (c) 2010, Nate Stedman <natesm@gmail.com>
 #
 # Permission to use, copy, modify, and/or distribute this software for any
@@ -14,20 +12,17 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-# This script shouldn't be used in production, it's just a shortcut for quick
-# use with demo.py. Realistically, blogs don't need to be fetched nearly as
-# often as repositories, and github can take the hits a lot better than
-# peoples personal servers can. Just don't DOS anyone.
+import os, sys
 
-import os, subprocess
-from sys import executable as python
+try:
+  from termcolor import cprint
+except:
+  def cprint(str, *args, **kwargs):
+    print str
 
-this_dir = os.path.abspath(os.path.dirname(__file__))
-blogs_script = os.path.join(this_dir, "fetch", "fetch_blogs.py")
-repos_script = os.path.join(this_dir, "fetch", "fetch_repositories.py")
-
-blogs = subprocess.Popen([python, blogs_script])
-repos = subprocess.Popen([python, repos_script])
-
-blogs.wait()
-repos.wait()
+def setup_environment():
+  path = os.path.dirname(os.path.abspath(__file__))
+  sys.path.insert(0, path)
+  sys.path.insert(0, os.path.abspath(os.path.join(path, '..', '..')))
+  sys.path.insert(0, os.path.abspath(os.path.join(path, '..', '..', '..')))
+  os.environ['DJANGO_SETTINGS_MODULE'] = 'observatory.settings'

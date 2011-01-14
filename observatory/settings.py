@@ -71,8 +71,19 @@ SCREENSHOT_PATH = os.path.join(MEDIA_ROOT, 'screenshots')
 # Root URL for screenshots
 SCREENSHOT_URL = "/site-media/screenshots/"
 
-# Number of threads to use when fetching projects
-FETCH_THREAD_COUNT = 5
+# The maximum number of threads to use when fetching blogs
+BLOG_FETCH_THREAD_COUNT = 10
+
+# The maximum number of concurrent processes to run when fetching repos
+REPO_FETCH_PROCESS_COUNT = 4
+
+# The number of minutes before a repository fetch should timeout.
+#
+# This doesn't apply to the time it takes the clone the repository, just to
+# the amount of time it takes to read the logs and generate diffs.
+# "Some People" commit massive diffs, other than that this should never be
+# an issue unless your computer is very, very slow.
+REPO_FETCH_TIMEOUT = 1
 
 # scoring thresholds
 GREEN_SCORE = 2880 # everything up to this score will be green

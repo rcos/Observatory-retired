@@ -52,6 +52,9 @@ class Event(models.Model):
   # the url path component that points to this event
   url_path = models.CharField(max_length = 128, editable = True, null = True)
   
+  def __unicode__(self):
+    return self.title
+  
   # format the summary for display
   def formatted_summary(self):
     out = ""
