@@ -126,7 +126,7 @@ def create_post(request, project_id):
   # validate the form
   if form.is_valid():
     date = datetime.datetime.utcnow()
-    html = markdown(request.POST['markdown'])
+    html = markdown(request.POST['markdown'], safe_mode = True)
     post = BlogPost(title = request.POST['title'],
                     markdown = request.POST['markdown'],
                     summary = html,
@@ -160,7 +160,7 @@ def update_post(request, project_url_path, post_url_path):
   # validate the form
   if form.is_valid():
     # update the post
-    html = markdown(request.POST['markdown'])
+    html = markdown(request.POST['markdown'], safe_mode = True)
     post.title = request.POST['title']
     post.markdown = request.POST['markdown']
     post.summary = html

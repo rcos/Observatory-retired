@@ -13,13 +13,16 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import os
+import re
 import settings
 import stat
 import subprocess
 from dashboard.util import format_diff
 from django.db import models
+from django.utils.html import escape
 from exceptions import Exception
 from lib import feedparser, dateutil, pyvcs
+from lib.markdown import markdown
 from lib.pyvcs.backends import get_backend
 from EventSet import EventSet
 
@@ -62,12 +65,26 @@ class Repository(EventSet):
           date = (date - date.utcoffset()).replace(tzinfo=None)
         except:
           pass
+          
+        # process the diff of this commit
+        diff, added, removed, changed = format_diff(commit.diff)
         
-        # extract the first line for the title of the commit
+        # extract the title of the commit
         try:
+          commit_title = re.findall(r"^.*\.\s", commit.message)[0].strip()
+        except IndexError:
           commit_title = commit.message.split("\n")[0]
-        except:
-          commit_title = commit.message
+        
+        # format the commit message
+        commit.message = markdown(commit.message.replace(commit_title, ""),
+                                  safe_mode = True)
+        
+        append_unsanitized = ("<div class=\"light-bar\">{0} file{1} changed," +
+          " {2} line{3} added, {4} line{5} removed</div>").format(
+            changed, 's' if changed != 1 else '',
+            added, 's' if added != 1 else '',
+            removed, 's' if removed != 1 else ''
+        )
         
         events.append(self.add_event(Commit.Commit,
           title = commit_title,
@@ -75,8 +92,9 @@ class Repository(EventSet):
           date = date,
           author_name = commit.author,
           from_feed = False,
+          append_unsanitized = append_unsanitized,
           extra_args = {
-            "diff": format_diff(commit.diff),
+            "diff": diff,
             "repository_id": self.id,
           }))
     

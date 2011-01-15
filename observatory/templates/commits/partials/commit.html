@@ -4,7 +4,7 @@
 <div class="extra-content">
     {% if commit.author %}
         <div class="event-author">
-            <img src="{{ commit.author|gravatar:40 }}"
+            <img src="{{ commit.author|gravatar:60 }}"
              alt="{{ commit.author.get_full_name }}"
              class="event-gravatar" />
         </div>
@@ -22,7 +22,7 @@
     <div class="event-content">
         <p>
             {% autoescape off %}
-                {{ commit.formatted_summary }}
+                {{ commit.summary }}
             {% endautoescape %}
         </p>
     </div>

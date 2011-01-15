@@ -57,16 +57,7 @@ class Event(models.Model):
   
   # format the summary for display
   def formatted_summary(self):
-    out = ""
-    if self.wrap_tags() is not None:
-      for tag in self.wrap_tags():
-        out += "<{0}>".format(tag)
-    out += self.summary if self.autoescape else escape(self.summary)
-    
-    if self.wrap_tags():
-      for tag in self.wrap_tags.reverse():
-        out += "</{0}>".format(tag)
-    return out
+    return self.summary
   
   # assign the url path when the event is first created
   def save(self, *args, **kwargs):
@@ -75,14 +66,6 @@ class Event(models.Model):
     
     # call up to the default save
     super(Event, self).save(*args, **kwargs)
-  
-  # whether or not the summary should be autoescaped
-  def autoescape(self):
-    return True
-  
-  # the tags that should wrap the summary when displayed
-  def wrap_tags(self):
-    return None
   
   # the name of the event type, by default this is just the class name
   def type_name(self):

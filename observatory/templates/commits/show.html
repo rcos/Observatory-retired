@@ -12,7 +12,9 @@
 <h2 style="float:left">{{ commit.title }}</h2>
 <div class="clear"></div>
 
-<pre>{{ commit.summary }}</pre>
+{% autoescape off %}
+    {{ commit.summary }}
+{% endautoescape %}
 
 {% if commit.diff %}
     <h2>Changes</h2>

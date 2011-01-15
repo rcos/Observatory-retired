@@ -52,7 +52,7 @@
     </ul>
 {% endif %}
 
-<div id="project-clone">
+<div id="project-clone" class="light-bar">
     {{ project.repository.clone_cmd }}
 </div>
 
@@ -114,7 +114,7 @@
                         </h3>
                         <p>
                             {% autoescape off %}
-                                {{ post.formatted_summary }}
+                                {{ post.summary }}
                             {% endautoescape %}
                         </p>
                     </div>
@@ -135,7 +135,7 @@
                         </h3>
                         <p>
                             {% autoescape off %}
-                                {{ commit.formatted_summary }}
+                                {{ commit.summary }}
                             {% endautoescape %}
                         </p>
                     </div>

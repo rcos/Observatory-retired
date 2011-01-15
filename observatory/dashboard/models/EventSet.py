@@ -47,6 +47,7 @@ class EventSet(models.Model):
                 date = None,
                 author_name = None,
                 from_feed = None,
+                append_unsanitized = "",
                 extra_args = {}):
     # convert to UTC
     secs = time.mktime(date.timetuple())
@@ -64,7 +65,7 @@ class EventSet(models.Model):
       author_email = None
     
     # sanitize the summary
-    summary = sanitize(summary, [
+    summary = append_unsanitized + sanitize(summary, [
       "h1", "h2", "h3", "h4", "h5", "h6",
       "a:href", "p", "ul", "ol", "li", "br",
       "b", "i", "u", "strong", "em", "div",

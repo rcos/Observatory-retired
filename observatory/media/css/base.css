@@ -94,6 +94,12 @@
   box-shadow: 0px 5px 20px #000;
 }
 
+.top-right-square {
+  -webkit-border-top-right-radius: 4px !important;
+  -moz-border-radius-topright: 4px !important;
+  border-top-right-radius: 4px !important;
+}
+
 #content h2, .extra-content h2, #content h3, .extra-content h3 {
   color: rgb(50, 50, 50);
   text-overflow: ellipsis;

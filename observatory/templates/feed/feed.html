@@ -5,14 +5,17 @@
 {% block extracontent %}
     {% if events %}
         {% for event in events %}
-            <div class="extra-content">
-                {% if event.author %}
-                    <div class="event-author">
-                        <img src="{{ event.author|gravatar:40 }}"
-                         alt="{{ event.author.get_full_name }}"
-                         class="event-gravatar" />
-                    </div>
-                {% endif %}
+            <div style="position:relative">
+            {% if event.author %}
+                <div class="event-author">
+                    <img src="{{ event.author|gravatar:60 }}"
+                     alt="{{ event.author.get_full_name }}"
+                     class="event-gravatar" />
+                </div>
+                <div class="extra-content top-right-square">
+            {% else %}
+                <div class="extra-content">
+            {% endif %}
                 <div class="event-header">
                     {% if event.type_name == "Commit" %}
                         <h3>
@@ -34,12 +37,13 @@
                 <div class="event-content">
                     <p>
                         {% autoescape off %}
-                            {{ event.formatted_summary }}
+                            {{ event.summary }}
                         {% endautoescape %}
                     </p>
                 </div>
                 
                 {% bottom_bar event 1 %}
+            </div>
             </div>
         {% endfor %}
     {% else %}

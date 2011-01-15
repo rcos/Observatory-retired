@@ -172,6 +172,9 @@ def find_author(author_name):
 def format_diff(diff):
   if diff is None: return None
   
+  last_was_minusminusminus = False
+  added, removed, changed = 0, 0, 0
+  
   out = ""
   for line in diff.split("\n"):
     if "\0" in line:
@@ -184,13 +187,27 @@ def format_diff(diff):
                ('-',   'line-removed'))
     
     try:
-      line = escape(unicode(line)).replace("\t", "  ").replace(" ", "&nbsp;")
+      line = escape(unicode(line)).replace("\t", "  ")
       
       for item in classes:
         if line.startswith(item[0]):
           out += "<pre class='diff {0}'>{1}</pre>\n".format(item[1], line)
+          
+          # keep track of lines added and removed as well as files changed
+          if item[0] == "-":
+            removed += 1
+          if item[0] == "+":
+            added += 1
+          
+          if item[0] == "---":
+            last_was_minusminusminus = True
+            changed += 1
+          if item[0] == "+++" and not last_was_minusminusminus:
+            changed += 1
+          elif last_was_minusminusminus:
+            last_was_minusminusminus = False
           break
       
     except UnicodeDecodeError as e:
       continue
-  return out
+  return out, added, removed, changed
