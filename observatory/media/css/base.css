@@ -102,7 +102,6 @@
 
 #content h2, .extra-content h2, #content h3, .extra-content h3 {
   color: rgb(50, 50, 50);
-  text-overflow: ellipsis;
   -moz-text-shadow: 0px 1px 1px #fff;
   -webkit-text-shadow: 0px 1px 1px #fff;
   text-shadow: 0px 1px 1px #fff;

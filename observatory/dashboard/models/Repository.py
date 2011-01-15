@@ -76,8 +76,8 @@ class Repository(EventSet):
           commit_title = commit.message.split("\n")[0]
         
         # format the commit message
-        commit.message = markdown(commit.message.replace(commit_title, ""),
-                                  safe_mode = True)
+        commit.message = re.sub(r"<p>\s+</p>", "",
+          markdown(commit.message.replace(commit_title, ""), safe_mode = True))
         
         append_unsanitized = ("<div class=\"light-bar\">{0} file{1} changed," +
           " {2} line{3} added, {4} line{5} removed</div>").format(
