@@ -56,7 +56,7 @@ class Repository(EventSet):
       repository = backend.Repository(repo_dir)
 
       # inspect the last five days of commits
-      for commit in repository.get_recent_commits():
+      for commit in repository.get_recent_commits(self.most_recent_date):
         date = commit.time
         try:
           date = (date - date.utcoffset()).replace(tzinfo=None)
