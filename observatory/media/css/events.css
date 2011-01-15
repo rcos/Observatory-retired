@@ -1,0 +1,21 @@
+/* events */
+.event-gravatar {
+  margin: 0px;
+  border: 0px;
+  padding: 0px;
+  -webkit-border-top-right-radius: 6px;
+  -webkit-border-bottom-left-radius: 5px;
+  -moz-border-radius-topright: 6px;
+  -moz-border-radius-bottomleft: 5px;
+  border-top-right-radius: 6px;
+  border-bottom-left-radius: 5px;
+}
+
+.event-author {
+  margin: -20px -20px 0px 0px;
+  float: right;
+  width: 40px;
+  height: 40px;
+  padding: 0px;
+}
+

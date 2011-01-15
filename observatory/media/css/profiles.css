@@ -1,0 +1,16 @@
+/* user profiles */
+#profile-left {
+  float: left;
+  width: 525px;
+}
+
+#profile-gravatar {
+  float: right;
+  
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -moz-box-shadow: 0px 5px 20px #bbb;
+  -webkit-box-shadow: 0px 5px 20px #bbb;
+  box-shadow: 0px 5px 20px #bbb;
+}

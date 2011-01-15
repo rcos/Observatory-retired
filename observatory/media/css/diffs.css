@@ -1,0 +1,49 @@
+/* diffs */
+pre.diff {
+  padding: 1px 20px;
+  margin: 0px -20px;
+}
+
+pre.added-file, pre.removed-file {
+  padding: 2px inherit;
+  color: white;
+  -moz-text-shadow: 0px -1px 1px #000;
+  -webkit-text-shadow: 0px -1px 1px #000;
+  text-shadow: 0px -1px 1px #000;
+}
+
+pre.added-file {
+  background-color: #53824A;
+  background-image: -webkit-gradient(linear, left bottom, left top,
+    from(#497341),
+    to(#5A8C50));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+    #497341 0%,
+    #5A8C50 100%);
+}
+
+pre.removed-file {
+  background-color: #824A4A;
+  background-image: -webkit-gradient(linear, left bottom, left top,
+    from(#784444),
+    to(#8C5050));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+    #784444 0%,
+    #8C5050 100%);
+}
+
+pre.file-lines {
+  color: #4A5F82;
+  background-color: #D0DDF2;
+  padding: 2px inherit;
+}
+
+pre.line-added {
+  color: #53824A;
+  background-color: #CCE8C8;
+}
+
+pre.line-removed {
+  color: #824A4A;
+  background-color: #F2DCDC;
+}

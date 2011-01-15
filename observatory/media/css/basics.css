@@ -1,0 +1,38 @@
+html {
+  background-image: url('/site-media/pixels/html-top.gif');
+  background-repeat: repeat-x;
+  background-color: rgb(32, 32, 32);
+  
+  background-image: -webkit-gradient(linear, left bottom, left top,
+                                     from(rgb(32, 32, 32)),
+                                     to(rgb(81, 81, 81)));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+                                         rgb(32, 32, 32) 0%,
+                                         rgb(81, 81, 81) 100%);
+  -webkit-background-size: 1px 200px;
+  -moz-background-size: 1px 200px;
+  background-size: 1px 200px;
+  
+  font-family: 'Helvetica Neue', Helvetica, Arial, "Bitstream Vera Sans", sans-serif;
+  font-size: 10pt;
+  color: rgb(30, 30, 30);
+}
+
+body {
+  width: 790px;
+  margin: 0px auto;
+}
+
+p {
+  text-align: justify;
+}
+
+pre {
+  font-family: 'Inconsolata', monospace;
+  font-size: 10pt;
+  overflow: hidden;
+}
+
+a img {
+  border: 0px;
+}

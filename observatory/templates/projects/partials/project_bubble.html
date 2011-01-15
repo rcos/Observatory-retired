@@ -14,12 +14,12 @@
     {% include "projects/partials/info.html" %}
     <div class="clear"></div>
     <p>{{ project.description|linebreaks }}</p>
-    <div class="dark-bottom-bar">
+    <div class="bottom-bar">
         {% if project.score %}
-            <div style="float:left">
+            <div class="bottom-bar-left">
                 {{ project.repository.when_updated }}
             </div>
-            <div style="float:right">
+            <div class="bottom-bar-right">
                 {{ project.blog.when_updated }}
             </div>
             <div class="clear"></div>

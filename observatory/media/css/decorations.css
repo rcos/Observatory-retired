@@ -1,0 +1,73 @@
+.bottom-bar {
+  background-image: url('/site-media/pixels/button-active.gif');
+  background-image: -webkit-gradient(linear, left bottom, left top,
+    from(rgb(44, 44, 44)),
+    to(rgb(64, 64, 64)));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+    rgb(44, 44, 44) 0%,
+    rgb(64, 64, 64) 100%);
+  
+  padding: 0px 20px;
+  color: #AAA;
+  font-size: 11px;
+  font-weight: bold;
+  margin-right: 20px;
+  margin-top: 20px;
+  
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  
+  height: 22px;
+  width: 750px;
+  
+  -webkit-border-bottom-right-radius: 12px;
+  -webkit-border-bottom-left-radius: 12px;
+  -moz-border-radius-bottomright: 12px;
+  -moz-border-radius-bottomleft: 12px;
+  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+  
+  -moz-text-shadow: 0px -1px 1px #000;
+  -webkit-text-shadow: 0px -1px 1px #000;
+  text-shadow: 0px -1px 1px #000;
+}
+
+.bottom-bar-left, .bottom-bar-right {
+  position: absolute;
+  line-height: 22px;
+}
+
+.bottom-bar-left {
+  left: 20px;
+}
+
+.bottom-bar-right {
+  right: 20px;
+}
+
+.bottom-bar a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.bottom-bar a:hover {
+  color: white;
+}
+
+/* round the corners of images in posts and give them a subtle shadow */
+.post img {
+  margin: 0px auto;
+  display: block;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  
+  -moz-box-shadow: 0px 0px 20px #ccc;
+  -webkit-box-shadow: 0px 0px 20px #ccc;
+  box-shadow: 0px 0px 20px #ccc;
+}
+
+.post img, .post p {
+  padding: 0px 0px 20px 0px;
+}

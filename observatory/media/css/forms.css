@@ -1,0 +1,83 @@
+/* some of the css for some form elements is in buttons.css as well */
+label {
+  font-size: 15pt;
+  display: block;
+}
+
+input, textarea, select {
+  width: 100%;
+  font-family: inherit;
+  font-size: 16pt;
+  background: #eee;
+  padding: 3px;
+  
+  border: 1px solid #aaa;
+  
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+textarea {
+  font-size: 9pt;
+}
+
+.submitbutton {
+  width: auto;
+  text-align: center;
+  clear: both;
+}
+
+input[type='submit'] {
+  float: none;
+  width: auto;
+  padding: 5px;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  background: #fff;
+  border: 1px solid #888;
+}
+
+/* Valid and invalid input fields */
+input:required:valid, textarea:required:valid {
+  background: #DFD;
+  border: 1px solid #0A0;
+  
+  background-image: -webkit-gradient(linear, left bottom, left top,
+    from(#EFE),
+    to(#CFC));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+    #EFE 0%,
+    #CFC 100%);
+}
+input:required:invalid, textarea:required:invalid, input:focus:invalid,
+textarea:focus:invalid {
+  background: #FDD;
+  border: 1px solid #A00;
+  
+  background-image: -webkit-gradient(linear, left bottom, left top,
+    from(#FEE),
+    to(#FCC));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+    #FEE 0%,
+    #FCC 100%);
+}
+
+.form-col-left {
+  float: left;
+  width: 360px;
+}
+
+
+.form-col-right {
+  float: left;
+  padding-left: 30px;
+  width: 360px;
+}
+
+/* When one side of a form is to be disabled */
+.disabled {
+  opacity: .3;
+}

@@ -1,0 +1,103 @@
+/* tabs for the modify project page */
+.three-tab {
+  padding: 0px;
+  margin: -20px -20px 20px -20px;
+  height: 40px;
+  
+  background: url('/site-media/pixels/button-active.gif') repeat-x;
+  background-color: #222;
+  color: black;
+  
+  -moz-text-shadow: 0px 1px 1px #888;
+  -webkit-text-shadow: 0px 1px 1px #888;
+  text-shadow: 0px 1px 1px #888;
+  font-weight: bold;
+  
+  -webkit-border-top-left-radius: 13px;
+  -webkit-border-top-right-radius: 13px;
+  -moz-border-radius-topleft: 13px;
+  -moz-border-radius-topright: 13px;
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px;
+  
+  font-size: 12pt;
+}
+
+.three-tab li {
+  width: 263px;
+  float: left;
+  list-style: none;
+  text-align: center;
+  line-height: 40px;
+  height: 40px;
+  
+  -webkit-border-top-left-radius: 15px;
+  -webkit-border-top-right-radius: 15px;
+  -moz-border-radius-topleft: 15px;
+  -moz-border-radius-topright: 15px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.three-tab li.active {
+  background-image: url('/site-media/pixels/tab-active.gif');
+  background-image: -webkit-gradient(linear, left bottom, left top,
+                                     from(rgb(213, 209, 205)),
+                                     to(rgb(183, 183, 183)));
+  background-image: -moz-linear-gradient(100% 100% 90deg,
+                                         rgb(213, 209, 205) 0%,
+                                         rgb(183, 183, 183) 100%);
+  
+  color: #444;
+  
+  -moz-text-shadow: 0px 1px 1px #eee;
+  -webkit-text-shadow: 0px 1px 1px #eee;
+  text-shadow: 0px 1px 1px #eee;
+}
+
+.three-tab a {
+  text-decoration: none;
+  color: inherit;
+}
+
+#content-container {
+  position: relative;
+  margin-bottom: -20px;
+  padding-bottom: 20px;
+}
+
+.tab-content {
+  left: 0;
+  top: 0;
+}
+
+.modify-post-list {
+  padding: 0px 0px;
+}
+
+.modify-post-list li {
+  list-style: none;
+  padding-left: 0px;
+  clear: both;
+  height: 35px;
+}
+
+.modify-post-list a {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  float: right;
+  margin: 0px 0px 0px 10px;
+  width: 36px;
+  text-align: center;
+}
+
+.modify-post-list div {
+  float: left;
+  width: 200px;
+  text-align: left;
+  font-weight: bold;
+  height: 26px;
+  line-height: 28px;
+  overflow: hidden;
+  font-size: 9pt;
+}
