@@ -34,6 +34,28 @@ INVALID_URL_PATHS = (
   "list"
 )
 
+# Prevents duplicate queries by settings relationship properties of instances
+# in a query set that point to an object that appears more than once to a
+# single instance. The function assumes that property_id will be a unique
+# identifier to an object of a specific type in the database.
+# 
+# Arguments are the query set, then an arbitrary amount of string property
+# names. Keyword arguments may also provide starting dictionaries. This is
+# useful when requesting users, as it avoids duplicating the logged in user.
+def avoid_duplicate_queries(queryset, *properties, **defaults):
+  sets = {}
+  for property in properties:
+    sets[property] = defaults[property] if property in defaults else {}
+  
+  for object in queryset:
+    for property in properties:
+      id = getattr(object, property + "_id")
+      
+      if id in sets[property]:
+        setattr(object, property, sets[property][id])
+      else:
+        sets[property][id] = getattr(object, property)
+
 # adds a "pages" method to paginator, which returns a list of the pages
 class ListPaginator(Paginator):
   def pages(self):
@@ -110,9 +132,13 @@ def url_pathify(string):
   # remove redundant dashes
   return re.sub(r"-+", "-", string)
 
-def force_url_paths(view, *url_paths):
-  pathified = tuple([url_pathify(url_path) for url_path in url_paths])
-  if pathified != url_paths:
+def force_url_paths(view, *url_paths, **kwargs):
+  pathified = [url_pathify(url_path) for url_path in url_paths]
+  
+  if tuple(pathified) != url_paths:
+    if 'page' in kwargs:
+      pathified.append(kwargs['page'])
+    
     return HttpResponseRedirect(reverse(view, args = pathified))
   else:
     return None

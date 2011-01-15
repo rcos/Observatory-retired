@@ -14,10 +14,13 @@
 
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect, Http404
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from dashboard.models import *
+from dashboard.util import force_url_paths, avoid_duplicate_queries
 from lib.InheritanceQuerySet import InheritanceQuerySet
+from observatory.dashboard.views import commits, blogs
 
 from django.db import connection
 
@@ -28,26 +31,32 @@ def feed(request):
   qs = InheritanceQuerySet(model = Event)
   objs = qs.select_subclasses().order_by('date').reverse()[:INDEX_EVENT_COUNT]
   
-  events = []
-  projects = {}
-  authors = { request.user.id: request.user } if request.user else {}
-  
-  for obj in objs:
-    event = { 'event': obj }
-    
-    if obj.author_id is not None:
-      if obj.author_id not in authors:
-        authors[obj.author_id] = User.objects.get(id = obj.author_id)
-      event['author'] = authors[obj.author_id]
-    
-    if obj.project_id is not None:
-      if obj.project_id not in projects:
-        projects[obj.project_id] = Project.objects.get(id = obj.project_id)
-      event['project'] = projects[obj.project_id]
-    
-    events.append(event)
+  avoid_duplicate_queries(objs, "author", "project",
+                          author = { request.user.id: request.user }
+                                   if request.user.is_authenticated() else {})
   
   return render_to_response('feed/feed.html', {
-      'events': events,
+      'events': objs,
       'disable_content': True
     }, context_instance = RequestContext(request))
+
+# a URL that will redirect to the specific page for a type of event
+def event(request, url_path):
+  resp = force_url_paths(event, url_path)
+  if resp: return resp
+  
+  try:
+    qs = InheritanceQuerySet(model = Event)
+    the_event = qs.select_subclasses().get(url_path = url_path)
+  except:
+    raise Http404
+  
+  if the_event.__class__ is Commit:
+    return HttpResponseRedirect(reverse(commits.show,
+                                        args = (the_event.project.url_path,
+                                                the_event.url_path,)))
+  else:
+    return HttpResponseRedirect(reverse(blogs.show_post,
+                                        args = (the_event.project.url_path,
+                                                the_event.url_path,)))
+  raise Http404

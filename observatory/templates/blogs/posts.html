@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load bottom_bar %}
 {% load gravatar %}
 
 {% block title %}Dashboard • Posts{% endblock %}
@@ -16,26 +17,7 @@
             
             {{ post.content }}
             
-            <div class="dark-bottom-bar">
-                <div style="float:left">
-                    {% if post.author %}
-                        <a href="{% url dashboard.views.users.profile post.author.id %}">
-                            {{ post.author.get_full_name }}
-                        </a>
-                    {% else %}
-                        {% if post.author_name %}
-                            {{ post.author_name }}
-                        {% endif %}
-                    {% endif %}
-                </div>
-                <div style="float:right">
-                    <a href="{% url dashboard.views.projects.show post.project.url_path %}">
-                        {{ post.project.title }}
-                    </a> •
-                    {{ post.age }}
-                </div>
-                <div class="clear"></div>
-            </div>
+            {% bottom_bar post 0 %}
         </div>
         
         {% endfor %}

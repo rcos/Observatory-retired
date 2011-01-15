@@ -1,3 +1,4 @@
+from dashboard.feeds import *
 from dashboard.models import *
 from dashboard.views import *
 from django.conf.urls.defaults import *
@@ -25,11 +26,18 @@ urlpatterns = patterns('',
     (r'^posts/add/(\d+)$', blogs.write_post),
     (r'^posts/create/(\d+)$', blogs.create_post),
     (r'^posts/page/(\d+)$', blogs.posts_page),
-    (r'^project/(.*)/post/(.*)/modify$', blogs.edit_post),
-    (r'^project/(.*)/post/(.*)/update$', blogs.update_post),
-    (r'^project/(.*)/post/(.*)/delete$', blogs.delete_post),
-    (r'^project/(.*)/post/(.*)$', blogs.show_post),
+    (r'^project/([^\.]*)/post/([^\.]*)/modify$', blogs.edit_post),
+    (r'^project/([^\.]*)/post/([^\.]*)/update$', blogs.update_post),
+    (r'^project/([^\.]*)/post/([^\.]*)/delete$', blogs.delete_post),
+    (r'^project/([^\.]*)/post/([^\.]*)$', blogs.show_post),
+    (r'^project/([^\.]*)/post/([^\.]*)\.rss$',
+     SingleFeed(),  {'model': BlogPost}),
+    
+    (r'^projects/([^\.]*)/posts$', blogs.show_blog),
+    (r'^projects/([^\.]*)/posts\.rss$', BlogPostsFeed()),
+    
     (r'^posts$', blogs.posts),
+    (r'^posts\.rss$', BlogPostsFeed()),
     
     # users
     (r'^register-or-login$', users.login_or_reg),
@@ -41,22 +49,37 @@ urlpatterns = patterns('',
     (r'^user/(\d+)$', users.profile),
     
     # commits
-    (r'^projects/(.*)/commit/(.*)$', commits.show),
+    (r'^projects/([^\.]*)/commit/([^\.]*)$', commits.show),
+    (r'^projects/([^\.]*)/commit/([^\.]*)\.rss$',
+     SingleFeed(), {'model': Commit}),
+    
+    
+    (r'^commits/(\d+)$', commits.all_page),
+    (r'^commits$', commits.all),
+    (r'^commits\.rss$', CommitsFeed()),
+    
+    (r'^projects/([^\.]*)/commits$', commits.show_repository),
+    (r'^projects/([^\.]*)/commits/(\d+)$', commits.repository_page),
+    (r'^projects/([^\.]*)/commits\.rss$', CommitsFeed()),
     
     # projects
     (r'^projects/add-user$', projects.add_user),
     (r'^projects/remove-user$', projects.remove_user),
     (r'^projects/add$', projects.add),
     (r'^projects/list$', projects.list),
-    (r'^projects/(.*)/upload-screenshot$', projects.upload_screenshot),
-    (r'^projects/(.*)/modify/(\d+)$', projects.modify),
-    (r'^projects/(.*)/modify$', projects.modify),
-    (r'^projects/(.*)/blog$', blogs.show_blog),
-    (r'^projects/(.*)$', projects.show),
+    (r'^projects/([^\.]*)/upload-screenshot$', projects.upload_screenshot),
+    (r'^projects/([^\.]*)/modify/(\d+)$', projects.modify),
+    (r'^projects/([^\.]*)/modify$', projects.modify),
+    
+    (r'^projects/([^\.]*)$', projects.show),
+    (r'^projects/([^\.]*)\.rss', EventsFeed()),
+    
     (r'^projects$', projects.list),
     
     # feed
+    (r'^event/([^\.]*)$', feed.event),
     (r'^feed$', feed.feed),
+    (r'^feed\.rss$', EventsFeed()),
     
     # serve media (for now)
     (r'^site-media/(?P<path>.*)$', 'django.views.static.serve',

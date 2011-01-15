@@ -1,0 +1,33 @@
+{% load gravatar %}
+{% load bottom_bar %}
+
+<div class="extra-content">
+    {% if commit.author %}
+        <div class="event-author">
+            <img src="{{ commit.author|gravatar:40 }}"
+             alt="{{ commit.author.get_full_name }}"
+             class="event-gravatar" />
+        </div>
+    {% endif %}
+    <div class="event-header">
+        <h3>
+            <a href="{% url dashboard.views.commits.show commit.project.url_path commit.url_path %}">
+                {{ commit.title }}
+            </a>
+        </h3>
+    </div>
+    
+    <div class="clear"></div>
+    
+    <div class="event-content">
+        <p>
+            {% autoescape off %}
+                {{ commit.formatted_summary }}
+            {% endautoescape %}
+        </p>
+    </div>
+    
+    {% bottom_bar commit 0 %}
+    
+    </div>
+</div>

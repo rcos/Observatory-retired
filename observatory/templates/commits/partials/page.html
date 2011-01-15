@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block extracontent %}
+    {% if page %}
+        {% for commit in page.object_list %}
+            {% include "commits/partials/commit.html" %}
+        {% endfor %}
+    {% endif %}
+    
+    {% block navigation %}{% endblock %}
+{% endblock %}

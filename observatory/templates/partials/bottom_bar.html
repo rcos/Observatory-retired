@@ -1,0 +1,25 @@
+<div class="clear"></div>
+
+<div class="dark-bottom-bar">
+    <div class="dark-bottom-bar-left">
+        {% if event.author %}
+            <a href="{% url dashboard.views.users.profile event.author.id %}">
+                {{ event.author.get_full_name }}
+            </a>
+        {% else %}
+            {% if event.author_name %}
+                {{ event.author_name }}
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="dark-bottom-bar-right">
+        {% if specify_type %}
+            {{ event.type_name }} •
+        {% endif %}
+        <a href="{% url dashboard.views.projects.show event.project.url_path %}">
+            {{ event.project.title }}
+        </a> •
+        {{ event.age }}
+    </div>
+    <div class="clear"></div>
+</div>

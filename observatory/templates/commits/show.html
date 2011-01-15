@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load bottom_bar %}
 {% load gravatar %}
 {% load javascript %}
 
@@ -20,25 +21,6 @@
     {% endautoescape %}
 {% endif %}
 
-<div class="dark-bottom-bar">
-    <div style="float:left">
-        {% if commit.author %}
-            <a href="{% url dashboard.views.users.profile commit.author.id %}">
-                {{ commit.author.get_full_name }}
-            </a>
-        {% else %}
-            {% if commit.author_name %}
-                {{ commit.author_name }}
-            {% endif %}
-        {% endif %}
-    </div>
-    <div style="float:right">
-        <a href="{% url dashboard.views.projects.show commit.project.url_path %}">
-            {{ commit.project.title }}
-        </a> •
-        {{ commit.age }}
-    </div>
-    <div class="clear"></div>
-</div>
+{% bottom_bar commit 0 %}
 
 {% endblock %}

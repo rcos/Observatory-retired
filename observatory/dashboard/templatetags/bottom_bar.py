@@ -12,6 +12,15 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-import gravatar
-import javascript
-import bottom_bar
+from django import template
+from django.template.loader import render_to_string
+
+register = template.Library()
+
+def bottom_bar(event, specify_type):
+  return render_to_string("partials/bottom_bar.html", {
+    'event': event,
+    'specify_type': specify_type
+  })
+
+register.simple_tag(bottom_bar)

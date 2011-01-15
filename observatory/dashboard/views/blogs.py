@@ -16,6 +16,7 @@ import datetime
 from dashboard.forms import BlogPostForm
 from dashboard.models import BlogPost, Blog, Project
 from dashboard.util import url_pathify, force_url_paths
+from dashboard.util import avoid_duplicate_queries
 from observatory.dashboard.views import projects
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -42,9 +43,14 @@ def posts_page(request, page_num):
   if int(page_num) not in paginator.page_range:
     raise Http404
   
+  page = paginator.page(page_num)
+  avoid_duplicate_queries(page.object_list, "author", "project",
+                          author = { request.user.id: request.user }
+                                   if request.user.is_authenticated() else {})
+  
   # otherwise, render
   return render_to_response('blogs/posts.html', {
-      'page': paginator.page(page_num),
+      'page': page,
       'disable_content': True
     }, context_instance = RequestContext(request))
 

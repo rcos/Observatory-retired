@@ -95,6 +95,18 @@ UNHAPPY_SCORE = 86400 # everything after this score will be unhappy face
 # the "worst" score allowed, in minutes
 MAX_SCORE_MINUTES = 3024000
 
+# The web address that observatory is hosted on
+DOMAIN_NAME = "http://localhost:8000"
+
+# The title prepended to any RSS feeds
+FEED_TITLE = "Observatory"
+
+# The number of items that should appear in dashboard-wide feeds
+FEED_COUNT = 30
+
+# The number of items that should appear in project-specific feeds
+PROJECT_FEED_COUNT = 10
+
 # use production jquery for production, debug for debug
 JQUERY = [os.path.join(MEDIA_URL, "js", "jquery-1.4.4.min.js"),
           os.path.join(MEDIA_URL, "js", "jquery-1.4.4.js")][DEBUG]
