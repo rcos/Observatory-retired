@@ -16,6 +16,7 @@ from AuthorRequest import AuthorRequest
 from Blog import Blog
 from BlogPost import BlogPost
 from Commit import Commit
+from Contributor import Contributor
 from Event import Event
 from EventSet import EventSet
 from Project import Project

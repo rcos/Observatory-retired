@@ -49,9 +49,8 @@ for person in [('natesm@gmail.com', 'password', 'Nate', 'Stedman'),
 ease_blog = Blog(from_feed = False)
 ease_blog.save()
 ease_repo = Repository(web_url = "http://git.gnome.org/browse/ease",
-                       repo_rss = "http://git.gnome.org/browse/ease/atom/?h=master",
-                       cmd = "git clone",
-                       from_feed = True)
+                       clone_url = "git://git.gnome.org/ease",
+                       from_feed = False)
 ease_repo.save()
 ease = Project(title = "Ease",
                description = "A presentation application for the Gnome Desktop.",

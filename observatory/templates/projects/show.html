@@ -61,14 +61,15 @@
 </div>
 
 {% if authors %}
-    <h2 style="float: left">Authors</h2>
-    {% include "projects/partials/author_add_remove.html" %}
+    <div class="light-bar">
+        <h2>Authors</h2>
+        {% include "projects/partials/author_add_remove.html" %}
+    </div>
     
     <ul class="project-authors">
         {% for author in authors %}
             <li>
                 <a href="{% url dashboard.views.users.profile author.id %}">
-                    <div class="gloss-100"></div>
                     <img src="{{ author|gravatar:100 }}"
                          alt="{{ author.get_full_name }}" />
                     <p>{{ author.get_full_name }}</p>
@@ -97,6 +98,29 @@
         <div class="clear"></div>
     </div>
 {% endif %}
+
+{% if contributors %}
+    <div class="light-bar"><h2>Contributors</h2></div>
+    <ul class="project-authors">
+        {% for contributor in contributors %}
+            <li>
+                {% if contributor.user %}
+                    <a href="{% url dashboard.views.users.profile contributor.user.id %}">
+                        <img src="{{ contributor.user|gravatar:100 }}"
+                             alt="{{ contributor.user.get_full_name }}" />
+                        <p>{{ contributor.user.get_full_name }}</p>
+                    </a>
+                {% else %}
+                    <img src="{{ contributor|contributor_gravatar:100 }}"
+                         alt="{{ contributor.name }}" />
+                    <p>{{ contributor.name }}</p>
+                {% endif %}
+            </li>
+        {% endfor %}
+        <div style="clear:both"></div>
+    </ul>
+{% endif %}
+
 {% endblock %}
 
 {% if project.score != None %}

@@ -84,7 +84,38 @@ class EventSet(models.Model):
     if author is not None:
       event.author = author
     event.save()
-
+    
+    # add a contributor for the author if they are not a project author
+    if author is not None or author_name is not None:
+      from Contributor import Contributor
+      cont = None
+      
+      # if there is no "author", create a contributor associated with a
+      # name and an email. this can be upgraded to a User if that person
+      # joins observatory.
+      if author is None:
+        try:
+          if author_email is not None:
+            cont = Contributor.objects.get(email = author_email)
+          else:
+            raise Contributor.DoesNotExist()
+        except Contributor.DoesNotExist:
+          try:
+            cont = Contributor.objects.get(name = author_name)
+          except Contributor.DoesNotExist:
+            cont = Contributor(name = author_name, email = author_email)
+      
+      # otherwise, associate with the user model
+      else:
+        try:
+          cont = Contributor.objects.get(user = author)
+        except Contributor.DoesNotExist:
+          cont = Contributor(user = author)
+      
+      # save the contributor and add it to the project
+      cont.save()
+      cont.projects.add(event.project)
+      
     # print out results
     print "{0} by {1}{2} in {3} at {4}".format(
       klass.__name__,

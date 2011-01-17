@@ -112,6 +112,13 @@ def show(request, project_url_path):
   commits = Commit.objects.filter(repository = project.repository)
   commits = commits.order_by('date').reverse()[:SHOW_COMMIT_COUNT]
   
+  # get the project's contributors
+  contributors = Contributor.objects.filter(projects__id__exact = project.id)
+  
+  # exclude the current authors from the project
+  for user in project.authors.all():
+    contributors = contributors.exclude(user = user)
+  
   # if the user has already submitted an author request, hide add/remove author
   show_add_remove_author = True
   if request.user is not None:
@@ -134,6 +141,7 @@ def show(request, project_url_path):
       'js_page_id': 'show_project',
       'blogposts': blogposts,
       'commits': commits,
+      'contributors': contributors,
       'show_add_remove_author': show_add_remove_author
     }, context_instance = RequestContext(request))
 

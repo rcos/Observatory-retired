@@ -19,11 +19,22 @@ register = template.Library()
 
 # gets a gravatar for a user at the specified size
 def gravatar(user, size):
-  # get an md5 hash of the user (with gravatar's parameters)
+  return gravatar_real(user.email, size)
+
+def contributor_gravatar(contributor, size):
+  if contributor.user:
+    return gravatar_real(user.email, size)
+  elif contributor.email:
+    return gravatar_real(contributor.email, size)
+  else:
+    return gravatar_real(contributor.name, size)
+
+def gravatar_real(email, size):
   m = md5()
-  m.update(user.email.strip().lower())
+  m.update(email.strip().lower())
   hash = m.hexdigest()
   url = 'http://www.gravatar.com/avatar/{0}?d=retro&r=pg&s={1}'
   return url.format(hash, size)
 
-register.filter('gravatar', gravatar)
+register.filter(gravatar)
+register.filter(contributor_gravatar)

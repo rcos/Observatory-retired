@@ -97,6 +97,7 @@
 
 .project-authors {
   list-style: none;
+  color: #aaa;
 }
 
 .project-authors img {
@@ -112,22 +113,30 @@
 .project-authors p {
   padding: 0px;
   margin: 2px 0px 0px 0px;
+  
   text-align: center;
-}
-
-.project-authors a {
-  text-align: center;
-  text-decoration: none;
   font-weight: bold;
-  color: #ddd;
+  
+  height: 26px;
+  
+  overflow: hidden;
+  font-size: 11px !important;
   
   -moz-text-shadow: 0px -1px 1px #000;
   -webkit-text-shadow: 0px -1px 1px #000;
   text-shadow: 0px -1px 1px #000;
 }
 
+.project-authors a {
+  color: #fff !important;
+  text-decoration: none;
+}
+
 .project-authors a:hover {
   color:#fff;
+  -moz-text-shadow: 0px 0px 3px #fff !important;
+  -webkit-text-shadow: 0px 0px 3px #fff !important;
+  text-shadow: 0px 0px 3px #fff !important;
 }
 
 .project-authors li {
@@ -135,6 +144,7 @@
   float: left;
   margin-right: 27px;
   margin-bottom: 12px;
+  width: 100px;
 }
 
 /* project pages */
