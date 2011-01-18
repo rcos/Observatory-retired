@@ -35,6 +35,23 @@ def list(request):
   projects = Project.objects.exclude(score = None).order_by('score')
   scoreless = Project.objects.filter(score = None)
   
+  # fetch repositories and blogs in single queries
+  repositories = Repository.objects.exclude(project = None)
+  blogs = Blog.objects.exclude(project = None)
+  
+  repository_dict = {}
+  blogs_dict = {}
+  
+  for repository in repositories:
+    repository_dict[repository.id] = repository
+  for blog in blogs:
+    blogs_dict[blog.id] = blog
+  
+  # assign the repositories and blogs
+  for project in projects:
+    project.repository = repository_dict[project.repository_id]
+    project.blog = blogs_dict[project.blog_id]
+  
   # find the number of updates for blog, repo and overall in the past week
   repo_count, blog_count, overall_count = 0, 0, 0
   now = datetime.utcnow()
