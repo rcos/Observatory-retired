@@ -1,0 +1,81 @@
+# Observatory
+_A Python based dashboard for the Rensselaer Center for Open Source Software_
+
+## Features
+Observatory is intended to track a group of open source projects across
+their source code repositories and blogs. It also includes links to the
+websites and wikis each project, but doesn't scan those for any updates.
+
+Observatory can directly access repositories (for `git`, `hg`, and `svn`),
+so the "branches don't work" problem has been eliminated. With this also comes
+a full redesign. Individual commits are visible in detail, and each project
+has its own page, which shows authors, smaller contributors, blog posts,
+commits, and screenshots. Additionally, there is a "feed" view that shows all
+of the most recent actions.
+
+## Setup
+Observatory is pretty easy to set up. Excluding the Apache and `mod_wsgi`
+setup that you would want for a production environment (resources on which are
+best found elsewhere, most of the dependencies) are packed in the
+`observatory/lib` directory.
+
+The following additional packages are required:
+
+* Python Imaging Library (PIL)
+* BeautifulSoup
+
+As well as these version control systems:
+
+* `git` (Subversion is via `git svn`)
+* Mercurial
+
+Everything except `git` can be acquired from PyPI:
+
+`$ pip install mercurial BeautifulSoup pil`
+
+Of course, you can also use your distribution's package manager if that's your
+sort of thing.
+
+## Fetching
+Since it deals primarily with external data sources, Observatory uses a set of
+scripts to pull data down and store it in the local database. There scripts are
+located in the `observatory/dashboard/fetch` directory. There are two primary
+scripts, `fetch_blogs.py` and `fetch_repositories.py`, the purpose of each
+being fairly obvious. For development purposes, there is also a `fetch.py`
+script (located up a directory from the others) which runs both fetch scripts.
+
+The primary reason for splitting up the fetching process into two scripts is
+that previously, the update process was somewhat unpleasant for users: either
+click the update link (which didn't always work), or wait up to an hour. While
+blogs update infrequently, commits (should) happen much more frequently.
+Therefore, it is ideal to run the repository fetching script more often than
+the blog fetching one. Both scripts tend to run fairly quickly (with the
+exception of the initial import).
+
+As threads and Python don't get along so well, fetching instead uses multiple
+processes (via the `subprocess` module). The amount of processes can be
+configured in the `settings.py file`. The usual rules about processes per CPU
+core don't necessarily apply here, because a lot of the time (especially for
+blog fetching) is spent waiting for servers to respond.
+
+## Development
+If you would like to help out with Observatory, that is probably a good thing.
+You can either use the fork + pull request feature of Github, or just send in
+patches (use Issues or email).
+
+To set up a development environment is very easy. Just follow the instructions
+in the "Setup" above, but skip the part about configuring a web server and
+database, since you can use the Django development server and SQLite.
+
+There are two scripts that are useful:
+
+* `observatory/dashboard/demo.py` loads up a demo set of projects and users.
+* `observatory/dashboard/fetch.py` runs the repository and blog fetch scripts.
+
+Once both of these have been run, the database will be populated with the most
+recent commits and blog posts for the demo projects. Then, you can just run the
+server with `./manage.py runserver` in the `observatory` directory, and access
+it (typically) at `http://localhost:8000`.
+
+If you're looking for something to work on, check out the Issues page or ask
+me, via email or on `#rcos` on `irc.freenode.net`.
