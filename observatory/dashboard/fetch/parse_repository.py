@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (c) 2010, Nate Stedman <natesm@gmail.com>
+# Copyright (c) 2010, individual contributors (see AUTHORS file)
 #
 # Permission to use, copy, modify, and/or distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
