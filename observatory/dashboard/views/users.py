@@ -12,7 +12,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-from dashboard.models import Event
+from dashboard.models import Contributor, Event
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -72,10 +72,20 @@ def create(request):
     event.save()
   
   # search past events for the user's first and last name
-  for event in Event.objects.filter(author_name__iexact = user.get_full_name(),
-                                    author = None):
+  name = user.get_full_name()
+  for event in Event.objects.filter(author_name__iexact = name, author = None):
     event.author = user
     event.save()
+  
+  # search contributors for the user's name and email
+  for contrib in Contributor.objects.filter(email__iexact = user.email,
+                                            user = None):
+    contrib.user = user
+    contrib.save()
+  
+  for contrib in Contributor.objects.filter(name__iexact = name, user = None):
+    contrib.user = user
+    contrib.save()
   
   return HttpResponseRedirect(request.POST['next'])
 
