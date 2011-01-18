@@ -128,7 +128,12 @@
     <div id="project-recent-activity">
         <div id="project-recent-activity-left">
             {% if blogposts %}
-                <h2>Recent Posts</h2>
+                <div class="project-recent-header">
+                    <h2>Recent Posts</h2>
+                    <a href="{% url dashboard.views.blogs.show_blog project.url_path %}">
+                        See All
+                    </a>
+                </div>
                 {% for post in blogposts %}
                     <div class="extra-content">
                         <h3>
@@ -149,7 +154,12 @@
         </div>
         <div id="project-recent-activity-right">
             {% if commits %}
-                <h2>Recent Commits</h2>
+                <div class="project-recent-header">
+                    <h2>Recent Commits</h2>
+                    <a href="{% url dashboard.views.commits.show_repository project.url_path %}">
+                        See All
+                    </a>
+                </div>
                 {% for commit in commits %}
                     <div class="extra-content">
                         <h3>
