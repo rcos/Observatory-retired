@@ -38,7 +38,8 @@ from django.contrib.auth.models import User
 for person in [('natesm@gmail.com', 'password', 'Nate', 'Stedman'),
                ('peterhajas@gmail.com', 'password', 'Peter', 'Hajas'),
                ('hortont424@gmail.com', 'password', 'Tim', 'Horton'),
-               ('arsenm2@rpi.edu', 'password', 'Matt', 'Arsenault')]:
+               ('arsenm2@rpi.edu', 'password', 'Matt', 'Arsenault'),
+               ('doughj3@rpi.edu', 'password', 'Joseph', 'Dougherty')]:
   user = User.objects.create_user(person[0], person[0], person[1])
   user.first_name = person[2]
   user.last_name = person[3]
@@ -182,6 +183,23 @@ cnct = Project(title = "Concert",
                blog_id = cnct_blog.id,
                repository_id = cnct_repo.id)
 cnct.save()
+
+fire_blog = Blog(url = "http://firedepartmentsolutions.com/",
+                 rss = "http://firedepartmentsolutions.com/?q=rss.xml",
+                 from_feed = True)
+fire_blog.save()
+fire_repo = Repository(web_url = "http://firedepartmentsolutions.com/websvn/listing.php?repname=Fire+Department+Management+System",
+                       clone_url = "http://firedepartmentsolutions.com/svn/fdms/",
+                       vcs = "svn",
+                       from_feed = False)
+fire_repo.save()
+fire = Project(title = "Fire Department Management System",
+               description = "By their very nature, fire departments must record and track a large variety of data. Clean and thorough record keeping is imperative to ensure safe and proper action in the conditions under which fire departments operate. This paperwork can quickly become unmanageable, time consuming, and stressful. Time that could be better spent in training is put into clerical work, and this is not acceptable.",
+               website = "http://firedepartmentsolutions.com/",
+               wiki = "http://firedepartmentsolutions.com/",
+               blog_id = fire_blog.id,
+               repository_id = fire_repo.id)
+fire.save()
 
 # add a bunch of dummy users to observatory to test multirow authors
 for i in range(1, 20):
