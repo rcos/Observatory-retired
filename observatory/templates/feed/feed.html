@@ -2,6 +2,8 @@
 {% load gravatar %}
 {% load bottom_bar %}
 
+{% block extratitle %} • Feed{% endblock %}
+
 {% block extracontent %}
     {% if events %}
         {% for event in events %}

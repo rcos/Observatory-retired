@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard • Blog for {{ project.title }}{% endblock %}
+{% block title %}Blog for {{ project.title }}{% endblock %}
 
 {% block content %}
     {% if user in project.authors.all %}
