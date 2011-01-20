@@ -101,3 +101,106 @@
   overflow: hidden;
   font-size: 9pt;
 }
+
+#write-post-box-overlay {
+	position: absolute;
+	left: 0;
+	top: 0;
+	
+	width: 100%;
+	height: 100%;
+	
+	background: #000;
+	opacity: 0;
+	
+	display: none;
+}
+
+#write-post-box {
+	width: 600px;
+	padding: 0px 95px;
+	display: none;
+	opacity: 0;
+	
+	position: absolute;
+	top: -200px;
+	color: #eee;
+}
+
+#write-post-box p {
+	float: left;
+	line-height: 36px;
+	padding: 0px;
+	margin: 0px;
+}
+
+#write-post-box p a {
+	color: white;
+}
+
+#write-post-box textarea {
+	height: 400px;
+	font-size: 14pt;
+	width: 100%;
+}
+
+#write-post-box input[type="text"] {
+	font-weight: 100;
+	font-size: 24pt;
+}
+
+#write-post-box textarea, #write-post-box input[type="text"] {
+	-moz-box-shadow: 0px 0px 40px black;
+	-webkit-box-shadow: 0px 0px 40px black;
+	box-shadow: 0px 0px 40px black;
+	background: #fff;
+	padding: 5px;
+	border: none;
+	margin-bottom: 20px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#write-post-box a.cancel, #write-post-box input[type="submit"] {
+	-moz-box-shadow: 0px 0px 40px black;
+	-webkit-box-shadow: 0px 0px 40px black;
+	box-shadow: 0px 0px 40px black;
+	
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	
+	background: #111;
+	display: block;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	
+	padding: 10px;
+	margin: 0px;
+	
+	color: #fff;
+	border: 1px solid #444;
+	
+	text-shadow: 0px -1px 0px black;
+	-moz-text-shadow: 0px -1px 0px black;
+	=webkit-text-shadow: 0px -1px 0px black;
+	
+	background-image: -webkit-gradient(linear, left bottom, left top,
+	                                   from(#111),
+	                                   to(#222));
+	background-image: -moz-linear-gradient(100% 100% 90deg,
+	                                       rgb(213, 209, 205) 0%,
+	                                       rgb(183, 183, 183) 100%);
+}
+
+#write-post-box a.cancel {
+	display: block;
+	float: right;
+	margin-right: 20px;
+}
+
+#write-post-box input[type="submit"] {
+	float: right;
+}

@@ -303,8 +303,13 @@ def modify(request, project_url_path, tab_id = 1):
   
   # if changes should be saved or rejected
   if request.POST:
+    # wrote a post with the js overlay
+    if 'title' in request.POST and 'markdown' in request.POST:
+      from observatory.dashboard.views.blogs import create_post_real
+      return create_post_real(request.POST)
+
     # editing the project's information
-    if 'title' in request.POST:
+    elif 'title' in request.POST:
       form = ProjectForm(request.POST)
       
       # if the form is valid, save
@@ -320,51 +325,51 @@ def modify(request, project_url_path, tab_id = 1):
       else:
         project_form = form
     
-  # editing a cloned repository
-  if 'clone_url' in request.POST:
-    form = ClonedRepositoryForm(request.POST)
+    # editing a cloned repository
+    elif 'clone_url' in request.POST:
+      form = ClonedRepositoryForm(request.POST)
+      
+      if form.is_valid():
+        project.repository.web_url = form.cleaned_data['web_url']
+        project.repository.clone_url = form.cleaned_data['clone_url']
+        project.repository.vcs = form.cleaned_data['vcs']
+        project.repository.from_feed = False
+        project.repository.save()
+        cloned_repo_form = ClonedRepositoryForm(instance = project.repository)
+      else:
+        cloned_repo_form = form
     
-    if form.is_valid():
-      project.repository.web_url = form.cleaned_data['web_url']
-      project.repository.clone_url = form.cleaned_data['clone_url']
-      project.repository.vcs = form.cleaned_data['vcs']
-      project.repository.from_feed = False
-      project.repository.save()
-      cloned_repo_form = ClonedRepositoryForm(instance = project.repository)
-    else:
-      cloned_repo_form = form
-  
-  # editing a feed repository
-  if 'repo_rss' in request.POST:
-    form = FeedRepositoryForm(request.POST)
+    # editing a feed repository
+    elif 'repo_rss' in request.POST:
+      form = FeedRepositoryForm(request.POST)
+      
+      if form.is_valid():
+        project.repository.repo_rss = form.cleaned_data['repo_rss']
+        project.repository.cmd = form.cleaned_data['cmd']
+        project.repository.web_url = form.cleaned_data['web_url']
+        project.repository.from_feed = True
+        project.repository.save()
+        feed_repo_form = FeedRepositoryForm(instance = project.repository)
+      else:
+        feed_repo_form = form
     
-    if form.is_valid():
-      project.repository.repo_rss = form.cleaned_data['repo_rss']
-      project.repository.cmd = form.cleaned_data['cmd']
-      project.repository.web_url = form.cleaned_data['web_url']
-      project.repository.from_feed = True
-      project.repository.save()
-      feed_repo_form = FeedRepositoryForm(instance = project.repository)
-    else:
-      feed_repo_form = form
-  
-  # editing a feed-based blog
-  if 'url' in request.POST:
-    form = BlogForm(request.POST)
+    # editing a feed-based blog
+    elif 'url' in request.POST:
+      form = BlogForm(request.POST)
+      
+      if form.is_valid():
+        project.blog.url = form.cleaned_data['url']
+        project.blog.rss = form.cleaned_data['rss']
+        project.blog.from_feed = True
+        project.blog.save()
+        blog_form = BlogForm(instance = project.blog)
+      else:
+        blog_form = form
     
-    if form.is_valid():
-      project.blog.url = form.cleaned_data['url']
-      project.blog.rss = form.cleaned_data['rss']
-      project.blog.from_feed = True
+    # switching to hosted blog
+    elif 'switch-to-hosted' in request.POST:
+      project.blog.from_feed = False
       project.blog.save()
-      blog_form = BlogForm(instance = project.blog)
-    else:
-      blog_form = form
-  
-  # switching to hosted blog
-  if 'switch-to-hosted' in request.POST:
-    project.blog.from_feed = False
-    project.blog.save()
       
   return render_to_response('projects/modify.html', {
     'project': project,
@@ -372,6 +377,7 @@ def modify(request, project_url_path, tab_id = 1):
     'cloned_repo_form': cloned_repo_form,
     'feed_repo_form': feed_repo_form,
     'blog_form': blog_form,
+    'post_form': BlogPostForm(),
     'repo': project.repository,
     'tab': int(tab_id)
   }, context_instance = RequestContext(request))

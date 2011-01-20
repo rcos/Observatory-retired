@@ -40,10 +40,47 @@
             
             // switch the tabs
             $(".active").removeClass("active")
-            $("#tab-" + new_index).addClass("active")
+			$("#tab-" + new_index).addClass("active")
         }
-    </script>
-        
+	</script>
+	<script>
+		OVERLAY_FADE_TIME = 500
+
+		function hide_just_post_form() {
+			$("#write-post-box").animate({
+				"opacity": 0,
+				"top": "-400px"
+			}, OVERLAY_FADE_TIME, function() {
+				$("#write-post-box").css("display", "none")
+			})
+		}
+		
+		function hide_post_form() {
+			hide_just_post_form()
+
+			overlay = $("#write-post-box-overlay")
+			overlay.animate({ "opacity": 0 }, OVERLAY_FADE_TIME)
+			overlay.css("display", "none")
+		}
+
+		function show_post_form() {
+			box = $("#write-post-box")
+			box.css("display", "block")
+			box.animate({
+				"opacity": 1,
+				"top": "50px"
+			}, OVERLAY_FADE_TIME)
+			overlay = $("#write-post-box-overlay")
+			overlay.animate({ "opacity": 0.75 }, OVERLAY_FADE_TIME)
+			overlay.css("display", "block")
+		}
+
+		$(document).ready(function() {
+			write_post = $("#write-post-button")
+			write_post.attr("onClick", "show_post_form()")
+			write_post.removeAttr("href")
+		})
+	</script> 
 {% endblock %}
 
 {% block title %}Dashboard • Modifying {{ project.title }}{% endblock %}
@@ -173,7 +210,8 @@
             {% else %}
             <div style="margin: 0px auto">
                 <a href="{% url dashboard.views.blogs.write_post project.id %}"
-                 class="button" style="text-align:center">
+					class="button" style="text-align:center"
+					id="write-post-button">
                     Write a Post
                 </a>
             </div>
@@ -234,6 +272,24 @@
     </div>
 </div>
 
-<div style="clear:both">
+<div style="clear:both"></div>
+{% endblock %}
 
+{% block extracontent %}
+<div id="write-post-box-overlay"></div>
+<div id="write-post-box">
+	<form method="post" action="{% url dashboard.views.blogs.create_post project.id %}">
+		{% csrf_token %}
+
+		{{ post_form.title }}
+		{{ post_form.markdown }}
+		<p>
+			Posts can be formatted with
+				<a href="http://daringfireball.net/projects/markdown/">
+					Markdown</a>.
+		</p>
+		<input type="submit" content="Post" onclick="hide_just_post_form()" />
+		<a class="cancel" onclick="hide_post_form()">Cancel</a>
+	</form>
+</div>
 {% endblock %}
