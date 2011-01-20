@@ -1,0 +1,19 @@
+<form enctype="multipart/form-data" method="post" action="{% url dashboard.views.projects.modify project.url_path 4 %}">
+	<h3>Upload a Screenshot</h3>
+	{% csrf_token %}
+	<input type="hidden" name="screenshot_upload" value="yes" />
+	{{ screenshot_form.title.label }}
+	{{ screenshot_form.title }}
+	{{ screenshot_form.title.errors }}
+
+	{{ screenshot_form.description.label }}
+	{{ screenshot_form.description }}
+	{{ screenshot_form.description.errors }}
+
+	{{ screenshot_form.file }}
+	{{ screenshot_form.file.errors }}
+
+	<div class="submitbutton">
+		<input type="submit" value="Upload" class="small-button" />
+	</div>
+</form>

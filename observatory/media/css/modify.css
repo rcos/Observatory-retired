@@ -1,5 +1,5 @@
 /* tabs for the modify project page */
-.three-tab {
+.four-tab {
   padding: 0px;
   margin: -20px -20px 20px -20px;
   height: 40px;
@@ -23,8 +23,8 @@
   font-size: 12pt;
 }
 
-.three-tab li {
-  width: 263px;
+.four-tab li {
+  width: 197px;
   float: left;
   list-style: none;
   text-align: center;
@@ -39,7 +39,7 @@
   border-top-right-radius: 15px;
 }
 
-.three-tab li.active {
+.four-tab li.active {
   background-image: url('/site-media/pixels/tab-active.gif');
   background-image: -webkit-gradient(linear, left bottom, left top,
                                      from(rgb(213, 209, 205)),
@@ -55,7 +55,7 @@
   text-shadow: 0px 1px 1px #eee;
 }
 
-.three-tab a {
+.four-tab a {
   text-decoration: none;
   color: inherit;
 }
@@ -204,3 +204,42 @@
 #write-post-box input[type="submit"] {
 	float: right;
 }
+
+/* screenshots tab */
+.modify-screenshots .form-col-left {
+	width: 500px !important;
+}
+
+.modify-screenshots .form-col-left div.screenshot {
+	margin-bottom: 10px;
+	position: relative;
+}
+
+.modify-screenshots img {
+	padding: 0px;
+	margin: 0px;
+}
+
+.modify-screenshots .form-col-left h3 {
+	font-size: 12px !important;
+}
+
+.modify-screenshots .form-col-left div.screenshot-info {
+	width: 240px;
+	position: absolute;
+	right: 10px;
+	top: 5px;
+}
+
+.modify-screenshots .form-col-right {
+	width: 220px;
+}
+
+.modify-screenshots input {
+	font-size: 12px !important;
+	padding: 2px;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+

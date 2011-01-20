@@ -12,49 +12,48 @@
 
 {% include "projects/partials/info.html" %}
 
-{% if has_screenshots %}
-    <ul class="project-authors">
-        {% for page in paginator.pages %}
-            <div id="screenshot-page-{{page.number}}"
-                 {% if page.number != default_page %}
-                      style="display:none"
-                 {% endif %}>
-                {% for screen in page.object_list %}
-                    <li>
-                        <a href="{{ screen.url }}"
-                           rel="lightbox"
-                           title="{{ screen.title }}">
-                            <img src="{{ screen.thumb_url }}"
-                                 alt="{{ screen.title }}"
-                                 class="screenshot-thumb" />
-                        </a>
-                    </li>
-                {% endfor %}
-            </div>
-        {% endfor %}
-        
-        {% if paginator.num_pages > 1 %}
-            <div class="screenshot-buttons">
-                {% for page in paginator.pages %}
-                    <a class="screenshot-switcher"
-                       rel="#screenshot-page-{{page.number}}"
-                       id="screenshot-switcher-{{page.number}}"
-                       {% if page.number != default_page %}
-                           style="opacity: 0.5"
-                       {% endif %}>
-                        •
-                    </a>
-                {% endfor %}
-            </div>
-        {% endif %}
-        
-        <div style="clear: both"></div>
-    </ul>
-{% endif %}
-
 <div id="project-clone" class="light-bar">
     {{ project.repository.clone_cmd }}
 </div>
+
+{% if has_screenshots %}
+<div id="screenshots">
+	<div id="screenshot-page-wrapper" style="width:{{ screenshot_pages_width }}px">
+	{% for page in paginator.pages %}
+		<div id="screenshot-page-{{page.number}}" class="screenshot-page">
+			{% for screen in page.object_list %}
+			<p class="screenshot">
+				<a href="{{ screen.url }}"
+				   rel="lightbox"
+				   title="{{ screen.title }}">
+					<img src="{{ screen.thumb_url }}"
+						 alt="{{ screen.title }}"
+						 class="screenshot-thumb" />
+				</a>
+			</p>
+			{% endfor %}
+		</div>
+	{% endfor %}
+	</div>
+
+	{% if paginator.num_pages > 1 %}
+	<div class="screenshot-buttons">
+		{% for page in paginator.pages %}
+			<a class="screenshot-switcher"
+			   rel="{{page.number}}"
+			   id="screenshot-switcher-{{page.number}}"
+			   {% if page.number != default_page %}
+				   style="opacity: 0.25"
+			   {% endif %}>
+				•
+			</a>
+		{% endfor %}
+	</div>
+	{% endif %}
+
+	<div style="clear: both"></div>
+</div>
+{% endif %}
 
 <div id="project-description">
     {{ project.description|linebreaks }}

@@ -7,9 +7,8 @@
         FADE_INITIALIZED = false
         
         current_tab = "{{ tab }}"
-        function tabclicked(tab) {
+        function tabclicked(new_index) {
             // ignore if it's the active tab
-            new_index = tab.href[tab.href.length - 1]
             if (new_index.toString() == current_tab.toString()) return;
             current_tab = new_index
             
@@ -42,9 +41,6 @@
             $(".active").removeClass("active")
 			$("#tab-" + new_index).addClass("active")
         }
-	</script>
-	<script>
-		OVERLAY_FADE_TIME = 500
 
 		function hide_just_post_form() {
 			$("#write-post-box").animate({
@@ -54,6 +50,8 @@
 				$("#write-post-box").css("display", "none")
 			})
 		}
+
+		OVERLAY_FADE_TIME = 500
 		
 		function hide_post_form() {
 			hide_just_post_form()
@@ -79,6 +77,14 @@
 			write_post = $("#write-post-button")
 			write_post.attr("onClick", "show_post_form()")
 			write_post.removeAttr("href")
+			
+			tabs = ["#tab-link-1", "#tab-link-2", "#tab-link-3", "#tab-link-4"]
+			for (i in tabs) {
+				tab = $(tabs[i])
+				tab.removeAttr("href")
+				tab_id = parseInt(i) + 1
+				tab.attr("onClick", "tabclicked(" + tab_id + ")")
+			}
 		})
 	</script> 
 {% endblock %}
@@ -87,28 +93,39 @@
 
 {% block content %}
 
-<ul class="three-tab">
-    <a href="#1" onClick="tabclicked(this)">
-        <li id="tab-1" {% if tab == 1 %} class="active" {% endif %}>
+<ul class="four-tab">
+	<a href="{% url dashboard.views.projects.modify project.url_path 1 %}"
+		id="tab-link-1">
+		<li id="tab-1" {% if tab == 1 %} class="active" {% endif %}
+		 style="width:198px">
             Information
         </li>
     </a>
-    <a href="#2" onClick="tabclicked(this)">
+	<a href="{% url dashboard.views.projects.modify project.url_path 2 %}"
+		id="tab-link-2">
         <li id="tab-2" {% if tab == 2 %} class="active" {% endif %}>
             Blog
         </li>
     </a>
-    <a href="#3" onClick="tabclicked(this)">
-        <li id="tab-3" {% if tab == 3 %} class="active" {% endif %} 
-         style="width:264px">
+	<a href="{% url dashboard.views.projects.modify project.url_path 3 %}"
+		id="tab-link-3">
+		<li id="tab-3" {% if tab == 3 %} class="active" {% endif %}>
             Repository
         </li>
-    </a>
+	</a>
+	<a href="{% url dashboard.views.projects.modify project.url_path 4 %}"
+		id="tab-link-4">
+		<li id="tab-4" {% if tab == 4 %} class="active" {% endif %}
+		 style="width:198px">
+			Screenshots
+		</li>
+	</a>
 </ul>
 
 <div class="clear"></div>
 
 <div id="content-container">
+	{# basic project information tab #}
     <div id="content-1"
      {% if tab == 1 %} class="active-content tab-content"
      {% else %} style="display:none;opacity:0" class="tab-content" {% endif %}>
@@ -145,7 +162,8 @@
             </div>
         </form>
     </div>
-    
+
+	{# blog settings tab #}
     <div id="content-2"
      {% if tab == 2 %} class="active-content tab-content"
      {% else %} style="display:none;opacity:0" class="tab-content" {% endif %}>
@@ -218,7 +236,8 @@
             {% endif %}
         </div>
     </div>
-    
+
+	{# repository settings tab #}
     <div id="content-3"
      {% if tab == 3 %} class="active-content tab-content"
      {% else %} style="display:none;opacity:0" class="tab-content" {% endif %}>
@@ -245,7 +264,7 @@
                 </div>
             </form>
         </div>
-
+		
         <div class="form-col-right">
             <h2>Feed Repository Settings</h2>
             <p>
@@ -269,13 +288,50 @@
                 </div>
             </form>
         </div>
-    </div>
+	</div>
+
+	{# screenshots tab #}
+    <div id="content-4"
+     {% if tab == 4 %} class="active-content tab-content"
+	 {% else %} style="display:none;opacity:0" class="tab-content" {% endif %}>
+
+	 	{# if there are screenshots to display, show them #}
+		{% if screenshots %}
+		<div class="modify-screenshots">
+			<div class="form-col-left">
+
+				{# show each screenshot #}
+				{% for screenshot in screenshots %}
+				<div class="screenshot">
+					<img src="{{ screenshot.thumb_url }}" alt="{{ project.title }}" />
+					<div class="screenshot-info">
+						<h3>{{ screenshot.title }}</h3>
+						<a class="button-small" href="{% url dashboard.views.projects.delete_screenshot project.url_path screenshot.id %}">
+								Delete
+						</a>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+
+			{# show an upload form on the right side #}
+			<div class="form-col-right">
+				{% include "projects/partials/upload_screenshot.html" %}
+			</div>
+		</div>
+
+		{# if there are no screenshots, simply display the upload form #}
+		{% else %}
+			{% include "projects/partials/upload_screenshot.html" %}
+		{% endif %}
+	</div>
 </div>
 
 <div style="clear:both"></div>
 {% endblock %}
 
 {% block extracontent %}
+{# the overlay post writer, only visible is JS is enabled #}
 <div id="write-post-box-overlay"></div>
 <div id="write-post-box">
 	<form method="post" action="{% url dashboard.views.blogs.create_post project.id %}">
@@ -285,11 +341,12 @@
 		{{ post_form.markdown }}
 		<p>
 			Posts can be formatted with
-				<a href="http://daringfireball.net/projects/markdown/">
+				<a href="http://daringfireball.net/projects/markdown/syntax">
 					Markdown</a>.
 		</p>
 		<input type="submit" value="Post" onclick="hide_just_post_form()" />
 		<a class="cancel" onclick="hide_post_form()">Cancel</a>
 	</form>
 </div>
+
 {% endblock %}

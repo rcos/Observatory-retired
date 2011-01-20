@@ -79,6 +79,16 @@
 }
 
 .project-authors, #project-no-authors {
+	-webkit-border-bottom-right-radius: 12px;
+	-webkit-border-bottom-left-radius: 12px;
+	-moz-border-radius-bottomright: 12px;
+	-moz-border-radius-bottomleft: 12px;
+	border-bottom-right-radius: 12px;
+	border-bottom-left-radius: 12px;
+}
+	
+
+.project-authors, #project-no-authors, #screenshots {
   padding: 15px 5px 15px 20px !important;
   margin: 0px -20px -20px -20px !important;
   clear: both;
@@ -86,16 +96,9 @@
   background: url('/site-media/pixels/dark-bar-tiled.gif');
   background-color: #333;
   border-top: 1px solid #444;
-  
-  -webkit-border-bottom-right-radius: 12px;
-  -webkit-border-bottom-left-radius: 12px;
-  -moz-border-radius-bottomright: 12px;
-  -moz-border-radius-bottomleft: 12px;
-  border-bottom-right-radius: 12px;
-  border-bottom-left-radius: 12px;
-}
+}  
 
-.project-authors {
+.project-authors, #screenshots {
   list-style: none;
   color: #aaa;
 }
@@ -139,9 +142,12 @@
   text-shadow: 0px 0px 3px #fff !important;
 }
 
-.project-authors li {
+.project-authors li, #screenshots li {
   position: relative;
   float: left;
+}
+
+.project-authors li {
   margin-right: 27px;
   margin-bottom: 12px;
   width: 100px;
@@ -235,18 +241,55 @@
 
 /* project screenshots */
 .screenshot-buttons {
-  clear: both;
-  padding: 25px 0px 0px 0px;
-  margin: 0px 15px -5px 0px;
   text-align: center;
+  color: white;
   font-size: 40pt;
   line-height: 0px;
+  width: 100%;
+  padding-top: 220px;
 }
 
 .screenshot-switcher {
   cursor: pointer;
 }
 
+#screenshots {
+	margin-bottom: 0px !important;
+	overflow: hidden;
+	position: relative;
+	min-height: 210px;
+	padding: 0px !important;
+}
+
+#screenshot-page-wrapper {
+	position: absolute;
+	height: 170px;
+	padding: 20px 20px;
+	left: 0px;
+}
+
+#screenshots p.screenshot {
+	margin: 0px 21px 0px 0px;
+	float: left;
+	padding: 0px;
+}
+
+.screenshot-page {
+	float: left;
+	width: 790px;
+}
+
+#screenshots img {
+	width:230px;
+
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	
+	-moz-box-shadow: 0px 0px 20px black;
+	-webkit-box-shadow: 0px 0px 20px black;
+	box-shadow: 0px 0px 20px black;
+}
 
 /* project updated "progress" bars */
 #project-bars {

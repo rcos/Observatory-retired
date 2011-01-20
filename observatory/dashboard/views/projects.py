@@ -12,7 +12,6 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-import Image
 import os
 from colorsys import hsv_to_rgb
 from datetime import datetime
@@ -25,7 +24,6 @@ from django.shortcuts import render_to_response, get_object_or_404
 from dashboard.models import *
 from dashboard.forms import *
 from dashboard.util import ListPaginator, url_pathify, force_url_paths
-from settings import SCREENSHOT_PATH
 
 SHOW_COMMIT_COUNT = 5
 SHOW_BLOGPOST_COUNT = 3
@@ -155,6 +153,7 @@ def show(request, project_url_path):
       'authors': project.authors.all(),
       'default_page': 1,
       'has_screenshots': len(screenshots) > 0,
+      'screenshot_pages_width': len(screenshots) * 790,
       'js_page_id': 'show_project',
       'blogposts': blogposts,
       'commits': commits,
@@ -290,6 +289,7 @@ def modify(request, project_url_path, tab_id = 1):
   if resp: return resp
   
   project = get_object_or_404(Project, url_path = project_url_path)
+  screenshots = Screenshot.objects.filter(project = project)
   
   # if someone tries to edit a project they shouldn't be able to
   if request.user not in project.authors.all():
@@ -300,9 +300,18 @@ def modify(request, project_url_path, tab_id = 1):
   cloned_repo_form = ClonedRepositoryForm(instance = project.repository)
   feed_repo_form = FeedRepositoryForm(instance = project.repository)
   blog_form = BlogForm(instance = project.blog)
+  screenshot_form = UploadScreenshotForm()
   
   # if changes should be saved or rejected
   if request.POST:
+    # uploading a screenshot
+    if 'screenshot_upload' in request.POST:
+      form = UploadScreenshotForm(request.POST, request.FILES)
+      if form.is_valid():
+        Screenshot.create(form, request.FILES["file"], project)
+      else:
+        screenshot_form = form
+
     # wrote a post with the js overlay
     if 'title' in request.POST and 'markdown' in request.POST:
       from observatory.dashboard.views.blogs import create_post_real
@@ -373,10 +382,12 @@ def modify(request, project_url_path, tab_id = 1):
       
   return render_to_response('projects/modify.html', {
     'project': project,
+    'screenshots': screenshots,
     'project_form': project_form,
     'cloned_repo_form': cloned_repo_form,
     'feed_repo_form': feed_repo_form,
     'blog_form': blog_form,
+    'screenshot_form': screenshot_form,
     'post_form': BlogPostForm(),
     'repo': project.repository,
     'tab': int(tab_id)
@@ -430,58 +441,14 @@ def remove_user(request):
   # redirect back to the show page
   return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
 
-# displays the screenshot upload form
 @login_required
-def upload_screenshot(request, project_url_path):
-  resp = force_url_paths(upload_screenshot, project_url_path)
-  if resp: return resp
-  
-  form = None
+def delete_screenshot(request, project_url_path, screenshot_id):
   project = get_object_or_404(Project, url_path = project_url_path)
   
-  # if the user has submitted the form and is uploading a screenshot
-  if request.method == 'POST':
-    form = UploadScreenshotForm(request.POST, request.FILES)
-    
-    # if the form is valid, save the image and associate it with the project
-    if form.is_valid():
-      file = request.FILES["file"]
-      
-      # create a screenshot object in the database
-      screen = Screenshot(title = form.cleaned_data["title"],
-                          description = form.cleaned_data["description"],
-                          project = project,
-                          extension = os.path.splitext(file.name)[1])
-      screen.save()
-    
-      # write the screenshot to a file
-      path = os.path.join(SCREENSHOT_PATH, screen.filename())
-      write = open(path, 'wb+')
-      
-      # write the chunks
-      for chunk in file.chunks():
-        write.write(chunk)
-      write.close()
-      
-      # create a thumbnail of the file
-      img = Image.open(path)
-      
-      # convert to a thumbnail
-      img.thumbnail((240, 240), Image.ANTIALIAS)
-      
-      # save the thumbnail
-      path = os.path.join(SCREENSHOT_PATH,
-                          "{0}_t.png".format(str(screen.id)))
-      img.save(path, "PNG")
-      
-      return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
+  if request.user not in project.authors.all():
+    return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
   
-  # otherwise, create a new form
-  else:
-    form = UploadScreenshotForm()
+  screenshot = get_object_or_404(Screenshot, id = screenshot_id)
+  screenshot.delete()
   
-  return render_to_response('projects/upload-screenshot.html', {
-      'project': project,
-      'form': form
-    }, context_instance = RequestContext(request))
-
+  return HttpResponseRedirect(reverse(modify, args = (project.url_path, 4)))

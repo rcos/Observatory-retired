@@ -22,6 +22,10 @@ a.button {
   display: block;
 }
 
+.button, .button-small {
+	text-align: center;
+}
+
 .button, .button-small, select {
   border: 1px solid #aaa;
   padding: 0px 15px;

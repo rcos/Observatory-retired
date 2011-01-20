@@ -29,25 +29,20 @@ observatory.ShowProjectPage.prototype = new observatory.Page();
 observatory.ShowProjectPage.prototype.init = function(params) {
     observatory.Page.prototype.init.call(this, params);
 
-    var current = "#screenshot-page-1"
-    var current_switcher = "#screenshot-switcher-1"
-    var animating = false
+    var current = 1
     $("a.screenshot-switcher").click(function() {
-        if (current != $($(this).attr("rel")) && !animating) {
-            animating = true
-            $(current).hide("fast", function() {
-               $(current).show("fast")
-               animating = false
-            });
-            current = $(this).attr("rel")
-            
-            $(current_switcher).animate({ opacity: "0.5" }, 400);
-            current_switcher = this
-            $(current_switcher).animate({ opacity: "1" }, 400);
-        }
-    });
+		new_index = $(this).attr("rel")
+		old_switcher = "#screenshot-switcher-" + current
+		new_switcher = "#screenshot-switcher-" + new_index
+		if (new_switcher != old_switcher) {
+			current = new_index;
+			$(old_switcher).animate({ "opacity": 0.25 }, 200)
+			$(new_switcher).animate({ "opacity": 1 }, 200)
+			pixels = (-(new_index - 1) * 790).toString() + "px"
+			$("#screenshot-page-wrapper").animate({ "left": pixels }, 500)
+		}
+	});
     
-    /* Make all images lightboxable */
-    $('a[rel*="lightbox"]').lightBox();
-    
+	/* Make all images lightboxable */
+	$('a[rel*="lightbox"]').lightBox();
 };
