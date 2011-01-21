@@ -4,9 +4,19 @@ from dashboard.views import *
 from django.conf.urls.defaults import *
 import settings
 
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
-admin.autodiscover()
+
+# autodiscover doesn't work, do it manually
+for model in (AuthorRequest,
+              Blog,
+              BlogPost,
+              Commit,
+              Contributor,
+              Event,
+              Project,
+              Repository,
+              Screenshot):
+  admin.site.register(model)
 
 urlpatterns = patterns('',
     # Example:
@@ -16,7 +26,7 @@ urlpatterns = patterns('',
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    (r'^admin', include(admin.site.urls)),
+    (r'^admin/', include(admin.site.urls)),
     
     # author requests
     (r'^author-request/approve/(\d+)$', author_requests.approve),
