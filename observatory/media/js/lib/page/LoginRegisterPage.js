@@ -35,14 +35,14 @@ observatory.LoginRegisterPage.prototype.init = function(params) {
     var loginFormElement = $('#login_form');
     var loginForm = new observatory.Form({
         el: loginFormElement,
-        container: $('.form-col-left'), 
+        container: $('.form-col-left')
     });
     
         
     var registerFormElement = $('#register_form');
     var registerForm = new observatory.Form({
         el: registerFormElement,
-        container: $('.form-col-right'), 
+        container: $('.form-col-right')
     });
     
     new observatory.ExclusiveOrForms({

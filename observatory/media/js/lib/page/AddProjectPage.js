@@ -42,7 +42,7 @@ observatory.AddProjectPage.prototype.init = function(params) {
     /* part one of the form */
     var partOneForm = new observatory.Form({
         el: partOneElement, 
-        container: $('#content'), 
+        container: $('#content')
     });
 
     /* part two of the form */
@@ -59,7 +59,7 @@ observatory.AddProjectPage.prototype.init = function(params) {
     /* Make only one of the forms work */
     new observatory.ExclusiveOrForms({
         formA: partTwoLeftForm, 
-        formB: partTwoRightForm, 
+        formB: partTwoRightForm 
     });
 
     /* If we are on part 3 of the form */
