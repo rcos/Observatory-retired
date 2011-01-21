@@ -178,7 +178,7 @@
                 {% csrf_token %}
                 {{ blog_form.as_p }}
                 <div class="submitbutton">
-                    {% if project.blog.external %}
+                    {% if project.blog.from_feed %}
                         <input type="submit" class="button"
                                value="Save Changes" />
                     {% else %}
@@ -198,7 +198,7 @@
             {% if project.blog.blogpost_set.all %}
                 <ul class="modify-post-list">
                 {% for post in project.blog.blogpost_set.all %}
-                    {% if not post.external %}
+                    {% if not post.from_feed %}
                         <li>
                             <div>{{ post.title }}</div>
                             <a class="button-small"
@@ -215,7 +215,7 @@
                 </ul>
             {% endif %}
             <div class="clear"></div>
-            {% if project.blog.external %}
+            {% if project.blog.from_feed %}
             <form method="post"
              action="{% url dashboard.views.projects.modify project.url_path 2 %}">
                 {% csrf_token %}
@@ -254,7 +254,7 @@
                 {% csrf_token %}
                 {{ cloned_repo_form.as_p }}
                 <div class="submitbutton">
-                    {% if repo.cloned %}
+                    {% if not repo.from_feed %}
                         <input type="submit" class="button"
                                value="Save Changes" />
                     {% else %}
@@ -278,7 +278,7 @@
                 {% csrf_token %}
                 {{ feed_repo_form.as_p }}
                 <div class="submitbutton">
-                    {% if not repo.cloned %}
+                    {% if repo.from_feed %}
                         <input type="submit" class="button"
                                value="Save Changes" />
                     {% else %}
