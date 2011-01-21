@@ -244,9 +244,9 @@
   text-align: center;
   color: white;
   font-size: 40pt;
-  line-height: 0px;
   width: 100%;
-  padding-top: 220px;
+  margin-bottom: -10px;
+  padding-top: 185px;
 }
 
 .screenshot-switcher {
