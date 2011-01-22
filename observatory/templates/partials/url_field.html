@@ -1,0 +1,29 @@
+{% extends 'partials/input_field.html' %}
+
+{% block 'attrs' %}
+pattern="^(https?://)?(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,6}\.?|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:/?|[/?]\S+)$"
+{% endblock %}
+
+{% comment %}
+    This regular expression scheme was taken from the Django code.  I had to add 
+    all of the lowercase stuff explicitly because there is no case insensitive flag
+    yet
+    http://lists.w3.org/Archives/Public/public-html/2010Nov/0191.html
+    
+    http:// or https://
+    ^https?://
+    
+    #domain...
+    (?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+[A-Z]{2,6}\.?|
+    
+    #localhost...
+    localhost|
+    
+    # ...or ip
+    \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})
+    
+    # optional port
+    (?::\d+)?
+
+    (?:/?|[/?]\S+)$
+{% endcomment %}

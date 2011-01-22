@@ -2,6 +2,8 @@
 
 {% block 'field' %}
 <input id="{{ id }}" type="{{ input_type }}" name="{{ name }}"
+    {% block 'attrs' %}{% endblock %}
+
     {% if maxlength %}
         maxlength="{{ maxlength }}"
     {% endif %}
@@ -17,5 +19,6 @@
     {% if required %}
         required 
     {% endif %}
+    
 />
 {% endblock %}

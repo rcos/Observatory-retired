@@ -32,9 +32,9 @@
     <div class="form-col-left">
         {% input_field 'Title' 'id_title' 'title' project_form 'required' 32 0 'text' %}
         
-        {% input_field 'Website' 'id_website' 'website' project_form 'required' 64 'i.e. https://github.com/NateStedman/Observatory' 'url' %}
+        {% url_field 'Website' 'id_website' 'website' project_form 'required' 64 'i.e. https://github.com/NateStedman/Observatory' 'text' %}
         
-        {% input_field 'Wiki' 'id_wiki' 'wiki' project_form 'required' 64 0 'url' %}
+        {% url_field 'Wiki' 'id_wiki' 'wiki' project_form 'required' 64 0 'text' %}
     </div>
     <div class="form-col-right">
         {% textarea_field 'Description' 'id_description' 'description' project_form 'required' 0 0 10 30 %}
@@ -60,7 +60,7 @@
                 <input type="hidden" name="{{ key }}" value="{{ value }}" />
             {% endfor %}
 
-            {% input_field 'Repository Web Address:' 'id_web_url' 'web_url' cloned_repo_form 'required' 128 'i.e. https://github.com/NateStedman/Observatory/' 'url' %}
+            {% url_field 'Repository Web Address:' 'id_web_url' 'web_url' cloned_repo_form 'required' 128 'i.e. https://github.com/NateStedman/Observatory/' 'text' %}
             {% input_field 'Repository Clone Address:' 'id_clone_url' 'clone_url' cloned_repo_form 'required' 128 'i.e. git@github.com:NateStedman/Observatory.git' 'text' %}
             
             
@@ -87,9 +87,9 @@
                 <input type="hidden" name="{{ key }}" value="{{ value }}" />
             {% endfor %}
             
-            {% input_field 'Repository Web Address:' 'id_web_url' 'web_url' feed_repo_form 'required' 128 'i.e. https://github.com/NateStedman/Observatory/' 'url' %}
+            {% url_field 'Repository Web Address:' 'id_web_url' 'web_url' feed_repo_form 'required' 128 'i.e. https://github.com/NateStedman/Observatory/' 'text' %}
             
-            {% input_field 'Repository RSS Feed:' 'id_repo_rss' 'repo_rss' feed_repo_form 'required' 128 0 'url' %}
+            {% url_field 'Repository RSS Feed:' 'id_repo_rss' 'repo_rss' feed_repo_form 'required' 128 0 'text' %}
 
             {% input_field 'Clone Command:' 'id_cmd' 'cmd' feed_repo_form 'required' 128 0 'text' %}
             
@@ -114,9 +114,9 @@
                 <input type="hidden" name="{{ key }}" value="{{ value }}" />
             {% endfor %}
 
-            {% input_field 'Blog Web Address:' 'id_url' 'url' blog_form 'required' 64    0 'url' %}
+            {% url_field 'Blog Web Address:' 'id_url' 'url' blog_form 'required' 64    0 'text' %}
 
-            {% input_field 'Blog Feed:' 'id_rss' 'rss' blog_form 'required' 64 0 'url' %}
+            {% url_field 'Blog Feed:' 'id_rss' 'rss' blog_form 'required' 64 0 'text' %}
                         
             <div class="submitbutton">
                 <input type="submit" class="button" value="Use my feed" />

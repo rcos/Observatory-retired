@@ -77,6 +77,15 @@ def input_field(label, id, name, form, required, maxlength, placeholder, input_t
   return context
   
 ###
+#   The driver for a url field, right now is the same as an input_field, just uses
+#   a different template.
+###
+@register.inclusion_tag('partials/url_field.html')
+def url_field(label, id, name, form, required, maxlength, placeholder, input_type):
+    context = input_field(label, id, name, form, required, maxlength, placeholder, input_type)
+    return context
+  
+###
 # A textarea field.
 #
 # @param  {Number}  rows  - rows attribute of <textarea> element
