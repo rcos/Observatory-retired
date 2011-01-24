@@ -1,49 +1,15 @@
 <!DOCTYPE html>
 
-{% load javascript %}
+{% load head_tags %}
 {% load author_requests %}
 
 {% spaceless %}
 
 <html>
 <head>
-    {# Stylesheets #}
-    <link rel="stylesheet" type="text/css" href="/site-media/style.css" />
-    <link rel="stylesheet" type="text/css"
-          href="/site-media/jquery.lightbox-0.5.css" />
-    <link rel='stylesheet' type='text/css'
-          href='http://fonts.googleapis.com/css?family=Inconsolata' />
-    
     <title>{% block title %}Dashboard{% endblock %}{% block extratitle %}{% endblock %}</title>
-    
-    {# All of the scripts below have been commented out, and compiled.js is used #}
-    {% comment %}
-    {# Vendor #}
-    <script src="/site-media/js/lib/vendor/jquery-1.4.4.js"></script>
-    <script src="/site-media/js/lib/vendor/jquery.html5form-1.2-min.js"></script>
-    <script src="/site-media/js/lib/vendor/jquery.lightbox-0.5.min.js"></script>
-    
-    <script src="/site-media/js/globals.js"></script>
-
-    {# Forms #}    
-    <script src="/site-media/js/lib/form/Form.js"></script>
-    <script src="/site-media/js/lib/form/ExclusiveOrForms.js"></script>
-    
-    {# Pages #}
-    <script src="/site-media/js/lib/page/Page.js"></script>
-    <script src="/site-media/js/lib/page/LoginRegisterPage.js"></script>
-    <script src="/site-media/js/lib/page/AddProjectPage.js"></script>
-	<script src="/site-media/js/lib/page/ShowProjectPage.js"></script>
-	<script src="/site-media/js/lib/page/ModifyProjectPage.js"></script>
-    
-    <script src="/site-media/js/init.js"></script>
-    {% endcomment %}
-    
-    {# Comment this one out and use the above scripts for development #}
-    <script src="/site-media/js/compiled.js"></script>
-
-    {% block head %}{% endblock %}
-
+	{% head_tags %}
+	{% block head %}{% endblock %}
 </head>
 <body>
     <div id="top">
