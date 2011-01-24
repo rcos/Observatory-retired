@@ -125,9 +125,9 @@
   overflow: hidden;
   font-size: 11px !important;
   
-  -moz-text-shadow: 0px -1px 1px #000;
-  -webkit-text-shadow: 0px -1px 1px #000;
-  text-shadow: 0px -1px 1px #000;
+  -moz-text-shadow: 0px 0px 6px #000;
+  -webkit-text-shadow: 0px 0px 6px #000;
+  text-shadow: 0px 0px 6px #000;
 }
 
 .project-authors a {
@@ -218,9 +218,9 @@
   border: 1px solid #555;
   color: #555;
   
-  -moz-text-shadow: 0px -1px 1px #000;
-  -webkit-text-shadow: 0px -1px 1px #000;
-  text-shadow: 0px -1px 1px #000;
+  -moz-text-shadow: 0px -1px 0px #000;
+  -webkit-text-shadow: 0px -1px 0px #000;
+  text-shadow: 0px -1px 0px #000;
   
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
