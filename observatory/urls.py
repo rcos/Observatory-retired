@@ -54,8 +54,6 @@ urlpatterns = patterns('',
     (r'^register$', users.register),
     (r'^login$', users.login),
     (r'^logout$', users.logout),
-    (r'^user/create$', users.create),
-    (r'^user/authenticate$', users.authenticate),
     (r'^user/(\d+)$', users.profile),
     
     # commits

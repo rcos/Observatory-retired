@@ -13,28 +13,36 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 from django import forms
+from django.contrib.auth.models import User
 from dashboard.models import *
 
-class ProjectForm(forms.ModelForm):
+class RequiredForm(forms.ModelForm):
+  def __init__(self, *args, **kwargs):
+    super(RequiredForm, self).__init__(*args, **kwargs)
+    for name, field in self.fields.items():
+      if not field.widget.attrs.has_key("required"):
+        field.widget.attrs.update({ "required": "true" })
+
+class ProjectForm(RequiredForm):
   class Meta:
     model = Project
     fields = ('title', 'website', 'wiki', 'description')
 
-class RepositoryForm(forms.ModelForm):
+class RepositoryForm(RequiredForm):
   class Meta:
     model = Repository
 
-class ClonedRepositoryForm(forms.ModelForm):
+class ClonedRepositoryForm(RequiredForm):
   class Meta:
     model = Repository
     fields = ('web_url', 'clone_url', 'vcs')
 
-class FeedRepositoryForm(forms.ModelForm):
+class FeedRepositoryForm(RequiredForm):
   class Meta:
     model = Repository
     fields = ('web_url', 'repo_rss', 'cmd')
 
-class BlogForm(forms.ModelForm):
+class BlogForm(RequiredForm):
   class Meta:
     model = Blog
     fields = ('url', 'rss')
@@ -44,7 +52,19 @@ class BlogPostForm(forms.ModelForm):
     model = BlogPost
     fields = ('title', 'markdown')
 
-class UploadScreenshotForm(forms.Form):
+class UploadScreenshotForm(RequiredForm):
   title = forms.CharField(max_length = 32)
   description = forms.CharField(max_length = 100)
   file = forms.ImageField()
+
+class RegistrationForm(RequiredForm):
+  class Meta:
+    model = User
+    fields = ('email', 'first_name', 'last_name', 'password')
+    widgets = { 'password': forms.PasswordInput() }
+
+class LoginForm(RequiredForm):
+  class Meta:
+    model = User
+    fields = ('email', 'password')
+    widgets = { 'password': forms.PasswordInput() }

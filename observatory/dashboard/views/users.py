@@ -12,6 +12,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+from dashboard.forms import LoginForm, RegistrationForm
 from dashboard.models import Contributor, Event
 from django.contrib import auth
 from django.contrib.auth.models import User
@@ -19,7 +20,10 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
+from hashlib import md5
 from observatory.dashboard.views import projects
+from observatory.settings import RECAPTCHA_PUBLIC, RECAPTCHA_PRIVATE
+from recaptcha.client import captcha
 
 # display's the user's profile
 def profile(request, user_id):
@@ -35,32 +39,82 @@ def login_or_reg(request):
   if 'next' in request.GET:
     next = request.GET['next']
   
+  reg_form = RegistrationForm(auto_id = "id_login_%s")
+  login_form = LoginForm(auto_id = "id_login_%s")
+  
   return render_to_response('users/login-register.html', {
       'next': next,
-      'js_page_id': 'login-register', 
+      'js_page_id': 'login-register',
+      'reg_form': reg_form,
+      'login_form': login_form,
+      'RECAPTCHA_PUBLIC': RECAPTCHA_PUBLIC,
+      'RECAPTCHA_PRIVATE': RECAPTCHA_PRIVATE
     }, context_instance = RequestContext(request))
 
 # displays a registration form
 def register(request):
+  if request.method == "POST":
+    class RegisterError:
+      pass
+    
+    try:
+      form = RegistrationForm(request.POST)
+      if not form.is_valid():
+        error_header = "That's not quite right."
+        raise RegisterError()
+      
+      if len(User.objects.filter(email = form.cleaned_data["email"])) is not 0:
+        error_header = "That email is already registered."
+        raise RegisterError()
+      
+      if form.cleaned_data['password'] != request.POST['password_confirm']:
+        error_header = "Your passwords didn't match."
+        raise RegisterError()
+      
+      # validate the captcha is recaptcha is enabled
+      if RECAPTCHA_PUBLIC is not None:
+        capt = captcha.submit(request.POST["recaptcha_challenge_field"],
+                              request.POST["recaptcha_response_field"],
+                              RECAPTCHA_PRIVATE,
+                              request.META["REMOTE_ADDR"])
+        if not capt.is_valid:
+          error_header = "Let's try that captcha again."
+          raise RegisterError()
+      
+      resp = create_user(request, form)
+      return resp
+    except RegisterError:
+      pass
+  
+  # GET
+  else:
+    error_header = None
+    form = RegistrationForm()
+  
   return render_to_response('users/register.html', {
       'next': reverse(projects.list),
-      'error_header': "Something isn't quite right."
+      'reg_form': form,
+      'error_header': error_header,
+      'RECAPTCHA_PUBLIC': RECAPTCHA_PUBLIC,
+      'RECAPTCHA_PRIVATE': RECAPTCHA_PRIVATE
     }, context_instance = RequestContext(request))
   
 # creates a user, submitted from register
-def create(request):
-  # check that the passwords match
-  if request.POST['password'] != request.POST['password_confirm']:
-    return HttpResponseRedirect(reverse(register))
+def create_user(request, form):
+  data = form.cleaned_data
   
+  # use an md5 of the email as a username
+  m = md5()
+  m.update(data["email"])
+
   # if it's ok, register the user
-  user = User.objects.create_user(request.POST['email'],
-                                  request.POST['email'],
-                                  request.POST['password'])
+  user = User.objects.create_user(m.hexdigest()[0:30],
+                                  data['email'],
+                                  data['password'])
   
   # set the user's first/last names
-  user.first_name = request.POST['first']
-  user.last_name = request.POST['last']
+  user.first_name = data['first_name']
+  user.last_name = data['last_name']
   
   # save the user
   user.save()
@@ -87,35 +141,54 @@ def create(request):
     contrib.user = user
     contrib.save()
   
+  # log the user in (since we can't send emails for validation AFAIK)
+  user = auth.authenticate(username = user.username,
+                           password = data['password'])
+  auth.login(request, user)
+  
   return HttpResponseRedirect(request.POST['next'])
 
 # allows a user to login
 def login(request):
   next = reverse(projects.list)
   
-  if 'next' in request.GET:
-    next = request.GET['next']
+  if request.method == 'POST':
+    if 'next' in request.POST:
+      next = request.POST['next']
+      
+    login_form = LoginForm(request.POST, auto_id = "id_login_%s")
+    if login_form.is_valid():
+      try:
+        data = login_form.cleaned_data
+        
+        # query for a user via email
+        user = User.objects.get(email = data['email'])
+        print user.username
+        print data['password']
+        
+        # authenticate that user
+        user = auth.authenticate(username = user.username,
+                                 password = data['password'])
+        
+        # if the password is incorrect, redireect to the login page
+        if user is None:
+          return HttpResponseRedirect(reverse(login))
+        
+        # otherwise, log the user in
+        if user.is_active:
+          auth.login(request, user)
+        
+        return HttpResponseRedirect(next)
+      except:
+        raise
+  else:
+    login_form = LoginForm(auto_id = "id_login_%s")
   
   return render_to_response('users/login.html', {
       'next': next,
-      'error_header': "Something isn't quite right."
+      'error_header': "Something isn't quite right.",
+      'login_form': login_form
     }, context_instance = RequestContext(request))
-
-# logins in a user, submitted from login
-def authenticate(request):
-  user = auth.authenticate(username = request.POST['email'],
-                           password = request.POST['password'])
-  
-  # if the password is incorrect, redireect to the login page
-  if user is None:
-    return HttpResponseRedirect(reverse(login))
-  
-  # otherwise, log the user in
-  if user.is_active:
-    auth.login(request, user)
-  
-  # redirect to the root dashboard
-  return HttpResponseRedirect(request.POST['next']) 
 
 # logs out a user
 def logout(request):

@@ -29,13 +29,13 @@ class Project(models.Model):
     app_label = 'dashboard'
   
   # basic things
-  title = models.CharField(max_length = 32)
+  title = models.CharField(max_length = 200)
   
   # a short description of the project
   description = models.TextField()
   
   # project's web presence
-  website = models.URLField(max_length = 64)
+  website = models.URLField(max_length = 200)
   
   # version control
   repository = models.OneToOneField(Repository)
@@ -44,7 +44,7 @@ class Project(models.Model):
   blog = models.OneToOneField(Blog)
   
   # wiki
-  wiki = models.URLField(max_length = 64)
+  wiki = models.URLField(max_length = 200)
   
   # authors of the project
   authors = models.ManyToManyField(User)

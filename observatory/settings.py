@@ -154,6 +154,13 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 )
 
+# import recaptcha keys
+try:
+  from settings_recaptcha import RECAPTCHA_PUBLIC, RECAPTCHA_PRIVATE
+except:
+  RECAPTCHA_PUBLIC = None
+  RECAPTCHA_PRIVATE = None
+
 # automatically use devserver if it is available and requested
 USE_DEVSERVER = False
 if DEBUG and TRY_DEVSERVER:

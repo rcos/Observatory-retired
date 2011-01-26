@@ -1,77 +1,16 @@
 {% extends "base.html" %}
 
-{% load javascript %}
-
-
 {% block extratitle %}Register or Login{% endblock %}
 
 {% block content %}
 
 <div class="form-col-left">
-    <h2>Login</h2>
-    <form id="login_form" action="{% url dashboard.views.users.authenticate %}" method="post">
-        {% csrf_token %}
-    
-        <div style="display:none">
-            <!-- The next page to go to (by default the home page) -->
-            <input type="hidden" name="next" value="{{ next }}">
-        </div>
-    
-        <p>
-            <label for="id_log_email">Email Address</label>
-            <input id="id_log_email" name="email" type="email" required />
-        </p>
-    
-        <p>
-            <label for="id_log_password">Password</label>
-            <input type="password" id="id_log_password" name="password" required />
-        </p>
-    
-        <div class='submitbutton'>
-            <input type="submit" class="button" value="Login" />
-        </div>
-    </form>
+	<h2>Login</h2>
+	{% include "users/partials/login.html" %}
 </div>
 <div class="form-col-right">
-    <h2>Register</h2>
-    <form id="register_form" action="{% url dashboard.views.users.create %}" method="post">
-        {% csrf_token %}
-
-        <div style="display:none">
-            <!-- The next page to go to (by default the home page) -->
-            <input type="hidden" name="next" value="{{ next }}">
-        </div>
-
-        <p>
-            <label for="id_email">Email Address</label>
-            <input id="id_email" name="email" type="email" required />
-        </p>
-
-        <p>
-            <label for="id_first">First Name</label>
-            <input type="text" id="id_first" name="first" maxlength="30" required />
-        </p>
-
-        <p>
-            <label for="id_last">Last Name</label>
-            <input type="text" id="id_last" name="last" maxlength="30" required />
-        </p>
-
-        <p>
-            <label for="id_password">Password</label>
-            <input type="password" id="id_password" name="password"  required />
-        </p>
-
-        <p>
-            <label for="id_password_confirm">Confirm Password</label>
-            <input type="password" id="id_password_confirm"
-                name="password_confirm" required />
-        </p>
-        
-        <div class='submitbutton'>
-            <input type="submit" class="button" value="Register" />
-        </div>
-    </form>
+	<h2>Register</h2>
+	{% include "users/partials/register.html" %}
 </div>
 <div style="clear: both"></div>
 

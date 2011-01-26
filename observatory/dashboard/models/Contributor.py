@@ -30,5 +30,5 @@ class Contributor(models.Model):
   
   # the person's user model or name/email
   user = models.ForeignKey(User, blank = True, null = True)
-  name = models.CharField(max_length = 64, blank = True, null = True)
-  email = models.CharField(max_length = 64, blank = True, null = True)
+  name = models.CharField(max_length = 200, blank = True, null = True)
+  email = models.CharField(max_length = 200, blank = True, null = True)

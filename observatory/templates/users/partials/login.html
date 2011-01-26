@@ -1,0 +1,21 @@
+<form id="login_form" action="{% url dashboard.views.users.login %}" method="post">
+	{% csrf_token %}
+	<div style="display:none">
+		<input type="hidden" name="next" value="{{ next }}">
+	</div>
+	<p>
+		<label for="id_login_email">Email Address</label>
+		{{ login_form.email }}
+		{{ login_form.username.errors }}
+	</p>
+
+	<p>
+		<label for="id_login_password">Password</label>
+		{{ login_form.password }}
+		{{ login_form.password.errors }}
+	</p>
+
+	<div class='submitbutton'>
+		<input type="submit" class="button" value="Login" />
+	</div>
+</form>

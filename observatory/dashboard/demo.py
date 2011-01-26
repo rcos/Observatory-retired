@@ -18,6 +18,7 @@
 
 import sys
 import os
+from hashlib import md5
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -40,7 +41,9 @@ for person in [('natesm@gmail.com', 'password', 'Nate', 'Stedman'),
                ('hortont424@gmail.com', 'password', 'Tim', 'Horton'),
                ('arsenm2@rpi.edu', 'password', 'Matt', 'Arsenault'),
                ('doughj3@rpi.edu', 'password', 'Joseph', 'Dougherty')]:
-  user = User.objects.create_user(person[0], person[0], person[1])
+  m = md5()
+  m.update(person[0])
+  user = User.objects.create_user(m.hexdigest()[0:30], person[0], person[1])
   user.first_name = person[2]
   user.last_name = person[3]
   user.save()
@@ -60,7 +63,7 @@ ease = Project(title = "Ease",
                blog_id = ease_blog.id,
                repository_id = ease_repo.id)
 ease.save()
-ease.authors.add(User.objects.get(username = 'natesm@gmail.com'))
+ease.authors.add(User.objects.get(email = 'natesm@gmail.com'))
 ease.save()
 
 mnot_blog = Blog(from_feed = True,
@@ -79,7 +82,7 @@ mnot = Project(title = "MobileNotifier",
                blog_id = mnot_blog.id,
                repository_id = mnot_repo.id)
 mnot.save()
-mnot.authors.add(User.objects.get(username = 'peterhajas@gmail.com'))
+mnot.authors.add(User.objects.get(email = 'peterhajas@gmail.com'))
 mnot.save()
 
 obsv_blog = Blog(from_feed = True,
@@ -98,10 +101,10 @@ obsv = Project(title = "Observatory",
                blog_id = obsv_blog.id,
                repository_id = obsv_repo.id)
 obsv.save()
-obsv.authors.add(User.objects.get(username = 'natesm@gmail.com'))
-obsv.authors.add(User.objects.get(username = 'hortont424@gmail.com'))
-obsv.authors.add(User.objects.get(username = 'peterhajas@gmail.com'))
-obsv.authors.add(User.objects.get(username = 'arsenm2@rpi.edu'))
+obsv.authors.add(User.objects.get(email = 'natesm@gmail.com'))
+obsv.authors.add(User.objects.get(email = 'hortont424@gmail.com'))
+obsv.authors.add(User.objects.get(email = 'peterhajas@gmail.com'))
+obsv.authors.add(User.objects.get(email = 'arsenm2@rpi.edu'))
 obsv.save()
 
 note_blog = Blog(from_feed = True,
@@ -120,8 +123,8 @@ note = Project(title = "Notebook",
                blog_id = note_blog.id,
                repository_id = note_repo.id)
 note.save()
-note.authors.add(User.objects.get(username = 'hortont424@gmail.com'))
-note.authors.add(User.objects.get(username = 'arsenm2@rpi.edu'))
+note.authors.add(User.objects.get(email = 'hortont424@gmail.com'))
+note.authors.add(User.objects.get(email = 'arsenm2@rpi.edu'))
 note.save()
 
 milk_blog = Blog(from_feed = True,
@@ -140,7 +143,7 @@ milk = Project(title = "milkyway@home",
                blog_id = milk_blog.id,
                repository_id = milk_repo.id)
 milk.save()
-milk.authors.add(User.objects.get(username = 'arsenm2@rpi.edu'))
+milk.authors.add(User.objects.get(email = 'arsenm2@rpi.edu'))
 milk.save()
 
 awav_blog = Blog(from_feed = False)

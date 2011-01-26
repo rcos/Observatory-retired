@@ -1,0 +1,57 @@
+<form id="register_form" action="{% url dashboard.views.users.register %}" method="post">
+	{% csrf_token %}
+
+	<div style="display:none">
+		<input type="hidden" name="next" value="{{ next }}">
+	</div>
+
+	<p>
+		<label for="id_email">Email Address</label>
+		{{ reg_form.email }}
+		{{ reg_form.email.errors }}
+	</p>
+
+	<p>
+		<label for="id_first">First Name</label>
+		{{ reg_form.first_name }}
+		{{ reg_form.first_name.errors }}
+	</p>
+
+	<p>
+		<label for="id_last">Last Name</label>
+		{{ reg_form.last_name }}
+		{{ reg_form.last_name.errors }}
+	</p>
+
+	<p>
+		<label for="id_password">Password</label>
+		{{ reg_form.password }}
+		{{ reg_form.password.errors }}
+	</p>
+
+	<p>
+		<label for="id_password_confirm">Confirm Password</label>
+		<input type="password" id="id_password_confirm"
+			name="password_confirm" required />
+	</p>
+
+	{% if RECAPTCHA_PUBLIC %}
+	<p>
+		<script type="text/javascript" src="http://www.google.com/recaptcha/api/challenge?k={{ RECAPTCHA_PUBLIC }}">
+		</script>
+		<noscript>
+			<iframe src="http://www.google.com/recaptcha/api/noscript?k={{ RECAPTCHA_PUBLIC }}"
+				height="300" width="500" frameborder="0"></iframe>
+			<br>
+		<textarea name="recaptcha_challenge_field" rows="3" cols="40">
+		</textarea>
+		<input type="hidden" name="recaptcha_response_field"
+			value="manual_challenge">
+		</noscript>
+	</p>
+	{% endif %}
+	
+	<div class='submitbutton'>
+		<input type="submit" class="button" value="Register" />
+	</div>
+</form>

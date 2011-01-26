@@ -25,8 +25,8 @@ class Blog(EventSet):
     app_label = 'dashboard'
   
   # link to the blog, if it isn't hosted on dashboard
-  url = models.URLField("Blog Web Address", max_length = 64)
-  rss = models.URLField("Blog Feed", max_length = 64)
+  url = models.URLField("Blog Web Address")
+  rss = models.URLField("Blog Feed")
   
   # fetches the posts from the rss feed
   def fetch(self):
