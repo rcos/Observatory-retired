@@ -163,8 +163,6 @@ def login(request):
         
         # query for a user via email
         user = User.objects.get(email = data['email'])
-        print user.username
-        print data['password']
         
         # authenticate that user
         user = auth.authenticate(username = user.username,
