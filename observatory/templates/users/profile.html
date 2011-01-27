@@ -5,25 +5,38 @@
 
 {% block content %}
 <div id="profile-left">
-    <h2>{{ user_page.get_full_name }}</h2>
+	<h2>{{ user_page.get_full_name }}</h2>
 
-    {% if user_page.project_set.all %}
-    <h3>Projects</h3>
-    <ul>
-        {% for project in user_page.project_set.all %}
-            <li>
-                <a href="{% url dashboard.views.projects.show project.url_path %}">
-                    {{ project.title }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-        <h3>No Projects.</h3>
-    {% endif %}
+	{% if user_page.project_set.all %}
+	<h3>Projects</h3>
+	<ul>
+		{% for project in user_page.project_set.all %}
+		<li>
+			<a href="{% url dashboard.views.projects.show project.url_path %}">
+				{{ project.title }}
+			</a>
+		</li>
+		{% endfor %}
+	</ul>
+	{% else %}
+	<h3>Not an author of any projects.</h3>
+	{% endif %}
+
+	{% if contributor and contributor.projects.all %}
+	<h3 style="padding-top: 20px">Contributed to:</h3>
+	<ul>
+		{% for project in contributor.projects.all %}
+		<li>
+			<a href="{% url dashboard.views.projects.show project.url_path %}">
+				{{ project.title }}
+			</a>
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
 </div>
 
 <img src="{{ user_page|gravatar:200 }}" alt="{{ user_page.get_full_name }}"
-    id="profile-gravatar" />
+	id="profile-gravatar" />
 <div style="clear:both">
 {%  endblock %}

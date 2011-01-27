@@ -27,8 +27,15 @@ from recaptcha.client import captcha
 
 # display's the user's profile
 def profile(request, user_id):
+  user = get_object_or_404(User, id = user_id)
+  try:
+    contributor = Contributor.objects.get(user = user)
+  except:
+    contributor = None
+  
   return render_to_response('users/profile.html', {
-      'user_page': get_object_or_404(User, id = int(user_id))
+      'user_page': user,
+      'contributor': contributor
     }, context_instance = RequestContext(request))
 
 # displays both the login and registration forms. If there is an error with the
