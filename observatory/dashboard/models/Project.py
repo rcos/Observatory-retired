@@ -56,7 +56,7 @@ class Project(models.Model):
   score = models.IntegerField(blank = True, null = True)
   
   # the url path component that points to this project
-  url_path = models.CharField(max_length = 32, editable = False, null = True)
+  url_path = models.CharField(max_length = 200, editable = False, null = True)
   
   # assign the url path when the project is first created
   def save(self, *args, **kwargs):
