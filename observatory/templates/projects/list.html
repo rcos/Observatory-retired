@@ -8,12 +8,14 @@
         ids = ["#blog-bar", "#overall-bar", "#repo-bar"]
         for (i in ids) {
             tag = $(ids[i])
-            width = tag.css("width")
-            tag.css({"width": "0%"})
-            tag.animate({
-                "width": width,
-                "opacity": "5" // hack to make it fade in fast
-            }, 2000)
+			width = tag.css("width")
+			if (width != "0px") {
+				tag.css({"width": "0%"})
+				tag.animate({
+					"width": width,
+					"opacity": "5" // hack to make it fade in fast
+				}, 2000)
+			}
         }
     });
 </script>
