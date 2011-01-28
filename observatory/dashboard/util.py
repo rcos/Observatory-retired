@@ -107,7 +107,7 @@ def sanitize(string, allowed_tags = None, strip_tags = None):
   return soup.renderContents().decode("utf8")
 
 def url_pathify_safe(model, string, invalid_paths = INVALID_URL_PATHS,
-                     max_length = 32):
+                     max_length = 128):
   url_path = url_pathify(string)
   final_url_path = url_path
   

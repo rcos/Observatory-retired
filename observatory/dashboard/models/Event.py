@@ -18,9 +18,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.html import escape
 from Project import Project
+from URLPathedModel import URLPathedModel
 
 # an event is currently either a blog post or a commit
-class Event(models.Model):
+class Event(URLPathedModel):
   class Meta:
     app_label = 'dashboard'
   
@@ -49,9 +50,6 @@ class Event(models.Model):
   # the author's email
   author_email = models.CharField(max_length = 64, blank = True, null = True)
   
-  # the url path component that points to this event
-  url_path = models.CharField(max_length = 128, editable = True, null = True)
-  
   def __unicode__(self):
     return self.title
   
@@ -61,10 +59,16 @@ class Event(models.Model):
   
   # assign the url path when the event is first created
   def save(self, *args, **kwargs):
-    if self.url_path is None:
-      self.url_path = url_pathify_safe(Event, self.title, max_length = 128)
+    # ensure that the title, email, and name fields are not too long
+    if len(self.title) > 128:
+      self.title = self.title[0:125] + "..."
     
-    # call up to the default save
+    if self.author_email is not None and len(self.author_email) > 64:
+      self.author_email = self.author_email[0:61] + "..."
+    
+    if self.author_name is not None and len(self.author_name) > 64:
+      self.author_name = self.author_name[0:61] + "..."
+ 
     super(Event, self).save(*args, **kwargs)
   
   # the name of the event type, by default this is just the class name

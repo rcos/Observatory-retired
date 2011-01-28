@@ -12,15 +12,17 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-from AuthorRequest import AuthorRequest
-from Blog import Blog
-from BlogPost import BlogPost
-from Commit import Commit
-from Contributor import Contributor
-from Event import Event
-from EventSet import EventSet
-from Project import Project
-from Repository import Repository
-from Screenshot import Screenshot
-from URLPathedModel import URLPathedModel
+from django.db import models
+from dashboard.util import url_pathify_safe
+
+class URLPathedModel(models.Model):
+  class Meta:
+    abstract = True
+
+  url_path = models.CharField(max_length = 128, editable = False, null = True)
+
+  def save(self, *args, **kwargs):
+    if self.url_path is None:
+      self.url_path = url_pathify_safe(self.__class__, self.title)
+    super(URLPathedModel, self).save(*args, **kwargs)
 

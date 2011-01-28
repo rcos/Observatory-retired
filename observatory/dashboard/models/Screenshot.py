@@ -39,6 +39,11 @@ class Screenshot(models.Model):
   # file extension
   extension = models.CharField(max_length = 8)
   
+  # save override to validate title/description length
+  def save(self, *args, **kwargs):
+    self.title = self.title[0:32]
+    self.description = self.description[0:100]
+  
   # the filename for this file. just the last part, no directory specified.
   def filename(self):
     return "{0}{1}".format(str(self.id), self.extension)

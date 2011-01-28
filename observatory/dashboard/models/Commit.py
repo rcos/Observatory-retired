@@ -32,5 +32,13 @@ class Commit(Event):
   # the repository the commit is part of
   repository = models.ForeignKey(Repository)
   
+  def save(self, *args, **kwargs):
+    # I guess this will break absurdly long URLs. hopefully it won't be an
+    # issue, as ideally everyone should use cloned repos anyways
+    if self.url is not None:
+      self.url = self.url[0:200]
+    
+    super(Commit, self).save(*args, **kwargs)
+  
   def autoescape(self):
     return False

@@ -22,9 +22,10 @@ from settings import MEDIA_URL, MAX_SCORE_MINUTES
 from dashboard.util import url_pathify_safe
 from Repository import Repository
 from Blog import Blog
+from URLPathedModel import URLPathedModel
 
 # an open source project tracked by observatory
-class Project(models.Model):
+class Project(URLPathedModel):
   class Meta:
     app_label = 'dashboard'
   
@@ -55,13 +56,12 @@ class Project(models.Model):
   # the score of the project, computed after each fetch
   score = models.IntegerField(blank = True, null = True)
   
-  # the url path component that points to this project
-  url_path = models.CharField(max_length = 200, editable = False, null = True)
-  
   # assign the url path when the project is first created
   def save(self, *args, **kwargs):
-    if self.url_path is None:
-      self.url_path = url_pathify_safe(Project, self.title)
+    # clip max lengths
+    self.title = self.title[0:200]
+    self.website = self.website[0:200]
+    self.wiki = self.wiki[0:200]
     
     # call up to the default save
     super(Project, self).save(*args, **kwargs)
