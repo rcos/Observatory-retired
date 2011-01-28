@@ -16,18 +16,22 @@
     <p>{{ project.description|linebreaks }}</p>
     <div class="bottom-bar">
         {% if project.score %}
-            <div class="bottom-bar-left">
-                {{ project.repository.when_updated }}
-            </div>
-            <div class="bottom-bar-right">
-                {{ project.blog.when_updated }}
-            </div>
-            <div class="clear"></div>
+		<div class="bottom-bar-left">
+			<a href="{% url dashboard.views.commits.show_repository project.url_path %}">
+				{{ project.repository.when_updated }}
+			</a>
+		</div>
+		<div class="bottom-bar-right">
+			<a href="{% url dashboard.views.blogs.show_blog project.url_path %}">
+				{{ project.blog.when_updated }}
+			</a>
+		</div>
+		<div class="clear"></div>
         {% else %}
-            <div class="bottom-bar-left">
-                This project has not been fetched yet. It will be fetched
-                in the next cycle.
-			</div>
+		<div class="bottom-bar-left">
+			This project has not been fetched yet. It will be fetched
+			in the next cycle.
+		</div>
         {% endif %}
     </div>
 </div>
