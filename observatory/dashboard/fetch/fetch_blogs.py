@@ -17,59 +17,45 @@
 # Blog fetching is pretty much always fast, so it does not need to be broken
 # up into multiple processes. This script should just be run in cron.
 
+import os, subprocess
 from fetch_core import setup_environment, cprint
 from Queue import Queue
 from threading import Thread
+from time import sleep
+from sys import executable as python
 
 setup_environment()
 
 from dashboard.models import Blog, Project
-from observatory.settings import BLOG_FETCH_THREAD_COUNT
+from observatory.settings import BLOG_FETCH_PROCESS_COUNT
 
-if BLOG_FETCH_THREAD_COUNT > 1:
-  def fetcher():
-    while True:
-      try:
-        # get the next blog
-        blog = queue.get()
-        
-        # don't fetch internally hosted blogs
-        if blog.from_feed:
-          title = blog.project.title        
-          cprint("==> Fetching the blog for {0}".format(title),
-                 "magenta", attrs=["bold"])
-          blog.fetch()
-          cprint("==> Done fetching the blog for {0}".format(title),
-                 "green", attrs=["bold"])
-        
-        # all done!
-        queue.task_done()
-      except:
-        queue.task_done()
-        raise
+this_dir = os.path.abspath(os.path.dirname(__file__))
+fetch_script = os.path.join(this_dir, "fetch_single_blog.py")
 
-  # build a queue
-  queue = Queue()
-  for blog in Blog.objects.all():
-    queue.put(blog)
+class Fetcher(object):
+  def __init__(self, blog):
+    self.blog = blog
+    self.process = subprocess.Popen([python, fetch_script, str(blog.id), "&"])
+  
+  def is_done(self):
+    self.process.poll()
+    return self.process.returncode is not None
 
-  # run the threads
-  for i in range(BLOG_FETCH_THREAD_COUNT):
-    thread = Thread(target = fetcher)
-    thread.daemon = True
-    thread.start()
+blogs = list(Blog.objects.filter(from_feed = True))
+fetchers = []
 
-  # wait until we're finished
-  queue.join()
-else:
-  for blog in Blog.objects.all():
-    if blog.from_feed:
-      title = blog.project.title        
-      cprint("==> Fetching the blog for {0}".format(title),
-             "magenta", attrs=["bold"])
-      blog.fetch()
-      cprint("==> Done fetching the blog for {0}".format(title),
-             "green", attrs=["bold"])
-      
-      project = Project.objects.get(blog__id = blog.id)
+while True:
+  if len(blogs) is 0 and len(fetchers) is 0:
+    break
+  
+  while len(fetchers) < BLOG_FETCH_PROCESS_COUNT and len(blogs) > 0:
+    fetchers.append(Fetcher(blogs.pop()))
+  
+  sleep(1)
+  
+  for fetcher in fetchers:
+    if fetcher.is_done():
+      project = Project.objects.get(blog__id = fetcher.blog.id)
       project.calculate_score()
+      fetchers.remove(fetcher)
+
