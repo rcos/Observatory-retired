@@ -52,7 +52,7 @@ class BlogPostForm(forms.ModelForm):
     model = BlogPost
     fields = ('title', 'markdown')
 
-class UploadScreenshotForm(RequiredForm):
+class UploadScreenshotForm(forms.Form):
   title = forms.CharField(max_length = 32)
   description = forms.CharField(max_length = 100)
   file = forms.ImageField()
