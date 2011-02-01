@@ -67,3 +67,10 @@ ul.rcos-links a:hover {
 	width: 214px;
 	height: 100%;
 }
+
+.rcos-left hr {
+	width: 555px;
+	margin: 7px -20px 7px 0px;
+	border: none;
+	border-bottom: 1px solid #ccc;
+}

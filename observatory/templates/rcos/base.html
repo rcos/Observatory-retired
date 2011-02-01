@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 
 {% block extracontent %}
-    {% if with_top %}
-        Stylish stuff goes here!
-    {% endif %}
-    
     <div class="rcos-content">
         <div class="rcos-left">
+            {% if with_top %}
+                Stylish stuff goes here!
+            {% endif %}
             {% block rcoscontent %}{% endblock %}
         </div>
         <div class="rcos-right">        
