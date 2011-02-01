@@ -34,7 +34,7 @@ ul.rcos-links a:hover {
 
 .rcos-left {
 	left: 0px;
-	width: 535px;
+	width: 565px;
 	padding: 20px;
 	background: #fff;
 	
@@ -65,7 +65,7 @@ ul.rcos-links a:hover {
 	border-top-right-radius: 15px;
 	border-bottom-right-radius: 15px;
 	
-	width: 214px;
+	width: 184px;
 	height: 100%;
 }
 
@@ -74,4 +74,8 @@ ul.rcos-links a:hover {
 	margin: 7px -20px 7px 0px;
 	border: none;
 	border-bottom: 1px solid #ccc;
+}
+
+.rcos-left img {
+	margin: 5px -20px;
 }
