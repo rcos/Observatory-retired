@@ -56,6 +56,9 @@ class Project(URLPathedModel):
   # the score of the project, computed after each fetch
   score = models.IntegerField(blank = True, null = True)
   
+  # the number of presentations the group has made this semester
+  presentations = models.IntegerField(default = 0)
+  
   # assign the url path when the project is first created
   def save(self, *args, **kwargs):
     # clip max lengths

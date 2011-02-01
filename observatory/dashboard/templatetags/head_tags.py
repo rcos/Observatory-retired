@@ -60,7 +60,7 @@ def head_tags():
     return ("".join([CSS_LINK.format(file) for file in CSS_FILES]) + 
             "".join([JS_LINK.format(file) for file in JS_FILES]))
   else:
-    return (JS_LINK.format("/site-media/js/compiled.js") +
-            CSS_LINK.format("/site-media/style.css"))
+    return (CSS_LINK.format("style.css") +
+            "".join([JS_LINK.format(file) for file in JS_FILES]))
 
 register.simple_tag(head_tags)
