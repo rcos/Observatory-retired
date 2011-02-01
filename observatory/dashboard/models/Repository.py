@@ -39,8 +39,7 @@ class Repository(EventSet):
   vcs = models.CharField("Version Control System", max_length = 3,
                          default = 'git',
                          choices = (('git', 'git'),
-                                    ('svn', 'Subversion'),
-                                    ('hg',  'Mercurial')))
+                                    ('svn', 'Subversion')))
   
   # non-cloned repository fields
   repo_rss = models.URLField("Repository RSS Feed", max_length = 128)
