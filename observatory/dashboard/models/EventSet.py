@@ -58,7 +58,8 @@ class EventSet(models.Model):
       return
     
     # can we find an author for this event?
-    if self.user is None:
+    from dashboard.models import Blog
+    if self.__class__ is not Blog or self.user is None:
       if author_name is not None:
         author, author_name, author_email = find_author(author_name)
       else:
@@ -89,7 +90,6 @@ class EventSet(models.Model):
     event.save()
     
     # if this is a personal blog, we're all done
-    from dashboard.models import Blog
     if self.__class__ == Blog:
       if self.user is not None:
         print "Personal blog found by {0}".format(self.user.get_full_name())
