@@ -29,7 +29,8 @@ CSS_FILES=[
   "css/forms.css",
   "css/modify.css",
   "css/profiles.css",
-  "css/projects.css"
+  "css/projects.css",
+  "css/rcos.css"
 ]
 
 JS_FILES=[
