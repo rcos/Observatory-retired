@@ -76,6 +76,8 @@ class Event(URLPathedModel):
     return self.__class__.__name__
   
   # how old the event is (relative to now by default)
-  def age(self, time = datetime.datetime.utcnow()):
+  def age(self, time = None):
+    if time is None:
+      time = datetime.datetime.now()
     return time_ago(self.date, time)
 
