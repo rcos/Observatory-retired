@@ -70,4 +70,12 @@ class Event(URLPathedModel):
       self.author_name = self.author_name[0:61] + "..."
     
     super(Event, self).save(*args, **kwargs)
+  
+  # the name of the event type, by default this is just the class name
+  def type_name(self):
+    return self.__class__.__name__
+  
+  # how old the event is (relative to now by default)
+  def age(self, time = datetime.datetime.utcnow()):
+    return time_ago(self.date, time)
 
