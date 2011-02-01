@@ -84,12 +84,15 @@ class Repository(BaseRepository):
         ))
 
     def get_commit_by_id(self, commit_id):
-        commit = self._get_commit(commit_id)
-        parent = commit.parents[0] if len(commit.parents) else 'NULL'
-        files = self._diff_files(commit.id, parent)
-        return Commit(commit.id, commit.author,
-            datetime.fromtimestamp(commit.commit_time), commit.message, files,
-            lambda: generate_unified_diff(self, files, parent, commit.id))
+        try:
+            commit = self._get_commit(commit_id)
+            parent = commit.parents[0] if len(commit.parents) else 'NULL'
+            files = self._diff_files(commit.id, parent)
+            return Commit(commit.id, commit.author,
+                datetime.fromtimestamp(commit.commit_time), commit.message, files,
+                lambda: generate_unified_diff(self, files, parent, commit.id))
+        except KeyError:
+            return None
 
     def get_recent_commits(self, since=None):
         if since is None:
@@ -110,6 +113,8 @@ class Repository(BaseRepository):
             pending_commits.extend(commit.parents)
         commits = filter(lambda o: datetime.fromtimestamp(o.commit_time) >= since, history.values())
         commits = map(lambda o: self.get_commit_by_id(o.id), commits)
+        while None in commits:
+          commits.remove(None)
         return sorted(commits, key=attrgetter('time'), reverse=True)
 
     def list_directory(self, path, revision=None):

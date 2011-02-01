@@ -71,9 +71,8 @@ mnot_blog = Blog(from_feed = True,
                  rss = "http://www.peterhajas.com/blog/atom.xml")
 mnot_blog.save()
 mnot_repo = Repository(web_url = "https://github.com/peterhajas/MobileNotifier",
-                       repo_rss = "https://github.com/peterhajas/MobileNotifier/commits/master.atom",
-                       cmd = "git clone",
-                       from_feed = True)
+                       clone_url = "git://github.com/peterhajas/MobileNotifier.git",
+                       from_feed = False)
 mnot_repo.save()
 mnot = Project(title = "MobileNotifier",
                description = "iOS notifications and stuff.",

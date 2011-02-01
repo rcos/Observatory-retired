@@ -66,7 +66,10 @@ class Repository(EventSet):
           pass
           
         # process the diff of this commit
-        diff, added, removed, changed = format_diff(commit.diff)
+        try:
+          diff, added, removed, changed = format_diff(commit.diff)
+        except KeyError:
+          diff, added, removed, changed = "", "Unknown", "Unknown", "Unknown"
         
         # extract the title of the commit
         try:
