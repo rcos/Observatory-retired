@@ -5,8 +5,19 @@
 
 {% block content %}
 <div id="profile-left">
-	<h2>{{ user_page.get_full_name }}</h2>
-
+	<h2 style="float:left">
+		{{ user_page.get_full_name }}
+	</h2>
+	
+	{% if is_self %}
+	<div style="float:right">
+		<a href="{% url dashboard.views.blogs.edit_personal_blog user_page.id %}" class="button-small">
+			Personal Blog Settings
+		</a>
+	</div>
+	{% endif %}
+	<div class="clear"></div>
+	
 	{% if user_page.project_set.all %}
 	<h3>Projects</h3>
 	<ul>

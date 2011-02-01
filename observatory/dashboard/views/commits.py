@@ -32,6 +32,9 @@ def all_page(request, page_num):
                    Commit.objects.order_by('-date'),
                    "commits/show_all.html")
 
+def show_user(request, user_id):
+  pass
+
 def show_repository(request, project_url_path):
   resp = force_url_paths(show_repository, project_url_path)
   if resp: return resp

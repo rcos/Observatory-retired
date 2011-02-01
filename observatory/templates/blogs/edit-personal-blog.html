@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block extratitle %} • Personal Blog Settings{% endblock %}
+
+{% block content %}
+<h2>Personal Blog Settings</h2>
+<form method="post" action="{% url dashboard.views.blogs.edit_personal_blog user.id %}">
+	{% csrf_token %}
+	<div class="form-col-left">
+		{{ form.as_p }}
+	</div>
+	<div class="form-col-right">
+		A personal blog allows you to track a blog that is not associated
+		with a specific project. It will be automatically fetched along with
+		all other blogs, and posts will be shown in the main feed, on the
+		"Posts" page, and on your user page.
+	</div>
+	<div class="clear"></div>
+	<div class="submitbutton">
+		<input type="submit" class="button" value="Save Personal Blog Settings" />
+	</div>
+</form>
+{% endblock %}

@@ -15,10 +15,12 @@
     <div class="bottom-bar-right">
         {% if specify_type %}
             {{ event.type_name }} •
-        {% endif %}
-        <a href="{% url dashboard.views.projects.show event.project.url_path %}">
-            {{ event.project.title }}
-        </a> •
+		{% endif %}
+		{% if event.project %}	
+			<a href="{% url dashboard.views.projects.show event.project.url_path %}">
+				{{ event.project.title }}
+			</a> •
+		{% endif %}
         {{ event.age }}
     </div>
     <div class="clear"></div>

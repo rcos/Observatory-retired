@@ -13,7 +13,7 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import datetime
-from dashboard.forms import BlogPostForm
+from dashboard.forms import BlogPostForm, BlogForm
 from dashboard.models import BlogPost, Blog, Project
 from dashboard.util import url_pathify, force_url_paths
 from dashboard.util import avoid_duplicate_queries
@@ -68,11 +68,29 @@ def show_blog(request, project_url_path):
         'posts': project.blog.blogpost_set.all(),
       }, context_instance = RequestContext(request))
 
+# shows all blog posts by a specific user (personal blogs, mostly)
+def show_user_blog(request, user_id):
+  user = get_object_or_404(User, id = user_id)
+  return render_to_response('blogs/show-user.html', {
+      'posts': BlogPost.objects.filter(author = user),
+      'user': user,
+      'disable_content': True
+    }, context_instance = RequestContext(request))
+
 # shows a specific blog post
 def show_post(request, project_url_path, post_url_path):
   resp = force_url_paths(show_post, project_url_path, post_url_path)
   if resp: return resp
-  
+  return show_post_real(request, post_url_path)
+
+# show a post with a user-based url (personal posts)
+def show_user_post(request, user_id, post_url_path):
+  resp = force_url_paths(show_user_post, post_url_path)
+  if resp: return resp
+  return show_post_real(request, post_url_path)
+
+# actually does the template/redirect for showing posts
+def show_post_real(request, post_url_path):
   post = get_object_or_404(BlogPost, url_path = post_url_path)
   if post.from_feed:
     return HttpResponseRedirect(post.external_link)
@@ -188,3 +206,41 @@ def delete_post(request, project_url_path, post_url_path):
   post.delete()
   return HttpResponseRedirect(reverse(projects.modify,
                                       args = (project.url_path, 2)))
+
+@login_required
+def edit_personal_blog(request, user_id):
+  # users can only edit their own blogs, of course
+  if request.user.id != int(user_id):
+    raise Http404
+  
+  # user is saving the form
+  if request.POST:
+    form = BlogForm(request.POST)
+    if form.is_valid():
+      try:
+        blog = Blog.objects.get(user = request.user)
+        blog.url = form.cleaned_data['url']
+        blog.rss = form.cleaned_data['rss']
+      except Blog.DoesNotExist:
+        blog = Blog(user = request.user,
+                    url = form.cleaned_data['url'],
+                    rss = form.cleaned_data['rss'],
+                    from_feed = True)
+      blog.save()
+    
+    # prevent form resubmission on refresh by redirecting
+    from observatory.dashboard.views import users
+    return HttpResponseRedirect(reverse(users.profile,
+                                        args = (request.user.id,)))
+  
+  # displaying the initial form, or a form from an already created blog
+  else:
+    try:
+      form = BlogForm(instance = Blog.objects.get(user = request.user))
+    except Blog.DoesNotExist:
+      form = BlogForm()
+  
+  return render_to_response("blogs/edit-personal-blog.html", {
+      "form": form,
+      "user": request.user,
+    }, context_instance = RequestContext(request))

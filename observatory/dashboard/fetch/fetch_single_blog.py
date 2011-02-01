@@ -26,7 +26,10 @@ from observatory.settings import BLOG_FETCH_PROCESS_COUNT
 blog = Blog.objects.get(id = argv[1])
 
 if blog.from_feed:
-  title = blog.project.title        
+  try:
+    title = blog.project.title
+  except:
+    title = blog.user.get_full_name()
   cprint("==> Fetching the blog for {0}".format(title), "magenta", attrs=["bold"])
   blog.fetch()
   cprint("==> Done fetching the blog for {0}".format(title), "green", attrs=["bold"])

@@ -45,7 +45,10 @@ class DashboardFeed(Feed):
       return u"Authors of {0}".format(event.project.title)
   
   def item_author_link(self, event):
-    return event.project.website
+    if event.project:
+      return event.project.website
+    else:
+      return None
   
   def item_pubdate(self, event):
     return event.date

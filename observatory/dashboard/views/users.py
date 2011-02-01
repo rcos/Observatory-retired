@@ -33,9 +33,15 @@ def profile(request, user_id):
   except:
     contributor = None
   
+  try:
+    is_self = user.id == request.user.id
+  except:
+    is_self = False
+  
   return render_to_response('users/profile.html', {
       'user_page': user,
-      'contributor': contributor
+      'contributor': contributor,
+      'is_self': is_self
     }, context_instance = RequestContext(request))
 
 # displays both the login and registration forms. If there is an error with the

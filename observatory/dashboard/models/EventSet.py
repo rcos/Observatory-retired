@@ -56,12 +56,16 @@ class EventSet(models.Model):
     # don't re-add old events
     if self.most_recent_date >= date:
       return
-      
+    
     # can we find an author for this event?
-    if author_name is not None:
-      author, author_name, author_email = find_author(author_name)
+    if self.user is None:
+      if author_name is not None:
+        author, author_name, author_email = find_author(author_name)
+      else:
+        author = None
+        author_email = None
     else:
-      author = None
+      author = self.user
       author_email = None
     
     # sanitize the summary
@@ -80,9 +84,19 @@ class EventSet(models.Model):
                   date = date,
                   author_email = author_email,
                   **extra_args)
-    event.project = self.project
     if author is not None:
       event.author = author
+    event.save()
+    
+    # if this is a personal blog, we're all done
+    from dashboard.models import Blog
+    if self.__class__ == Blog:
+      if self.user is not None:
+        print "Personal blog found by {0}".format(self.user.get_full_name())
+        return event
+    
+    # set the project
+    event.project = self.project
     event.save()
     
     # add a contributor for the author if they are not a project author
@@ -128,3 +142,4 @@ class EventSet(models.Model):
   
   class Meta:
     abstract = True
+
