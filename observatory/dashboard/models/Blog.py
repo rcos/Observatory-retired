@@ -73,9 +73,21 @@ class Blog(EventSet):
         "pre", "tt", "code"
       ])
       
+      # format a summary for the post
+      summary = sanitize(content, [], strip_tags = [
+        "h1", "h2", "h3", "h4", "h5", "h6",
+        "p", "ul", "ol", "li", "br", "div", 'a',
+        "b", "i", "u", "strong", "em",
+        "pre", "tt", "code"
+      ])
+      
+      if len(summary) > 500:
+        summary = summary[0:500] + u"..."
+      summary = "<p>" + summary + "</p>"
+      
       events.append(self.add_event(BlogPost.BlogPost,
         title = post.title,
-        summary = post.description,
+        summary = summary,
         from_feed = True,
         author_name = author_name,
         date = date,
