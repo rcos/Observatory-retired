@@ -43,6 +43,7 @@ class Screenshot(models.Model):
   def save(self, *args, **kwargs):
     self.title = self.title[0:32]
     self.description = self.description[0:100]
+    super(Screenshot, self).save(*args, **kwargs)
   
   # the filename for this file. just the last part, no directory specified.
   def filename(self):
