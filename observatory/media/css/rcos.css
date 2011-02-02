@@ -112,6 +112,9 @@ ul.rcos-links a:hover {
 	top: 2px;
 	line-height: 40px;
 	font-size: 40px;
+	width: 2000px;
+	height: 50px;
+	overflow: hidden;
 	padding: 0px 20px;
 	margin: 0px;
 	font-weight: 100;
