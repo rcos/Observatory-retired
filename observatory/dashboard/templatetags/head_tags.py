@@ -52,7 +52,7 @@ JS_FILES=[
   "js/init.js"
 ]
 
-CSS_LINK = "<link rel='stylesheet' type='text.css' href='/site-media/{0}' />"
+CSS_LINK = "<link rel='stylesheet' type='text/css' href='/site-media/{0}' />"
 JS_LINK = "<script src='/site-media/{0}'></script>"
 
 def head_tags():
