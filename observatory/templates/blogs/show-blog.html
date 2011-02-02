@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% load event_bubble %}
 
-{% block title %}Blog for {{ project.title }}{% endblock %}
+{% block title %}{{ project.title }} • Blog{% endblock %}
 
 {% block content %}
     {% if user in project.authors.all %}
@@ -13,13 +14,8 @@
     {% endif %}
 
     {% if posts %}
-        {% for post in posts %}
-            {% autoescape off %}
-                <a href="{% url dashboard.views.blogs.show_post post.project.url_path post.url_path %}">
-                    <h2>{{ post.title }}</h2>
-                </a>
-                {{ post.content }}
-            {% endautoescape %}
+		{% for post in posts %}
+			{% event_bubble post 0 1 "post" %}
         {% endfor %}
     {% else %}
         <h2>No posts yet!</h2>

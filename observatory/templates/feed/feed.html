@@ -1,50 +1,12 @@
 {% extends "base.html" %}
-{% load gravatar %}
-{% load bottom_bar %}
+{% load event_bubble %}
 
 {% block extratitle %} • Feed{% endblock %}
 
 {% block extracontent %}
     {% if events %}
         {% for event in events %}
-            <div style="position:relative">
-            {% if event.author %}
-                <div class="event-author">
-                    <img src="{{ event.author|gravatar:60 }}"
-                     alt="{{ event.author.get_full_name }}"
-                     class="event-gravatar" />
-                </div>
-                <div class="extra-content top-right-square">
-            {% else %}
-                <div class="extra-content">
-            {% endif %}
-                <div class="event-header">
-                    {% if event.type_name == "Commit" %}
-                        <h3>
-                            <a href="{% url dashboard.views.commits.show event.project.url_path event.url_path %}">
-                                {{ event.title }}
-                            </a>
-                        </h3>
-                    {% else %}
-                        <h3>
-                            <a href="{% url dashboard.views.blogs.show_post event.project.url_path event.url_path %}">
-                                {{ event.title }}
-                            </a>
-                        </h3>
-                    {% endif %}
-                </div>
-                
-                <div class="clear"></div>
-                
-                <div class="event-content">
-					{% autoescape off %}
-						{{ event.summary }}
-					{% endautoescape %}
-                </div>
-                
-                {% bottom_bar event 1 %}
-            </div>
-            </div>
+        	{% event_bubble event 1 %}
         {% endfor %}
     {% else %}
         <div class="extra-content">

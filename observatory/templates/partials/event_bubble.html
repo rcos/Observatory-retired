@@ -1,0 +1,46 @@
+{% load gravatar %}
+{% load bottom_bar %}
+
+<div style="position:relative">
+	{% if event.author %}
+	<div class="event-author">
+		<a href="{% url dashboard.views.users.profile event.author.id %}">
+			<img src="{{ event.author|gravatar:60 }}"
+				alt="{{ event.author.get_full_name }}"
+				class="event-gravatar" />
+		</a>
+	</div>
+	{% endif %}
+	 
+	<div class="extra-content{% if event.author %} top-right-square{% endif %} {{ extra_classes }}">
+		<div class="event-header">
+			{% if event.type_name == "Commit" %}
+			<h3>
+				<a href="{% url dashboard.views.commits.show event.project.url_path event.url_path %}">
+					{{ event.title }}
+				</a>
+			</h3>
+			{% else %}
+			<h3>
+				<a href="{% url dashboard.views.blogs.show_post event.project.url_path event.url_path %}">
+					{{ event.title }}
+				</a>
+			</h3>
+			{% endif %}
+		</div>
+	
+		<div class="clear"></div>
+		
+		<div class="event-content">
+			{% autoescape off %}
+				{% if show_content %}
+					{{ event.content }}
+				{% else %}
+					{{ event.summary }}
+				{% endif %}
+			{% endautoescape %}
+		</div>
+		
+		{% bottom_bar event specify_type %}
+	</div>
+</div>

@@ -116,7 +116,7 @@ SECRET_KEY = 'j+e*h2ket2cf2w##m2fzjp392%68!a^xcjo+_lr_-(^d8c3ea5'
 
 # if True, attempts to use the devserver replacement for runserver in debug
 # https://github.com/dcramer/django-devserver
-TRY_DEVSERVER = True
+TRY_DEVSERVER = False
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

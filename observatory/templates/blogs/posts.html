@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-{% load bottom_bar %}
-{% load gravatar %}
+{% load event_bubble %}
 
 {% block extratitle %} • Posts{% endblock %}
 
@@ -10,16 +9,7 @@
     <div id="posts-list">
         {% if page.object_list %}
         {% for post in page.object_list %}
-        <div class="post extra-content" id="post-{{ post.id }}">
-            <h2><a href="{% url dashboard.views.blogs.show_post post.project.url_path post.url_path %}">
-                {{ post.title }}
-            </a></h2>
-            
-            {{ post.content }}
-            
-            {% bottom_bar post 0 %}
-        </div>
-        
+        	{% event_bubble post 0 1 "post" %}       
         {% endfor %}
         {% else %}
             <div id="content">
