@@ -87,29 +87,31 @@ class Screenshot(models.Model):
       write.write(chunk)
     write.close()
     
-    # create a thumbnail of the file
-    img = Image.open(path)
+    def create_thumbnail(path, save, width, height):
+      # create a thumbnail of the file
+      img = Image.open(path)
+      
+      # resize the image for a thumbnail
+      scalex = width / img.size[0]
+      scaley = height / img.size[1]
+      scale = scalex if scalex > scaley else scaley
+      img = img.resize((int(img.size[0] * scale),
+                        int(img.size[1] * scale)),
+                       Image.ANTIALIAS)
+      
+      # crop the image to fit
+      if img.size[0] > width or img.size[1] > height:
+        left = (img.size[0] - width) / 2
+        right = left + width
+        top = (img.size[1] - height) / 2
+        bottom = top + height
+        img = img.crop((int(left), int(top), int(right), int(bottom)))
+      
+      # save the thumbnail
+      save_path = os.path.join(SCREENSHOT_PATH, save.format(str(screen.id)))
+      img.save(save_path, "PNG")
     
-    # resize the image for a thumbnail
-    scalex = SCREENSHOT_WIDTH / img.size[0]
-    scaley = SCREENSHOT_HEIGHT / img.size[1]
-    scale = scalex if scalex > scaley else scaley
-    img = img.resize((int(img.size[0] * scale),
-                      int(img.size[1] * scale)),
-                     Image.ANTIALIAS)
-    
-    # crop the image to fit
-    if img.size[0] > SCREENSHOT_WIDTH:
-      left = (img.size[0] - SCREENSHOT_WIDTH) / 2
-      right = left + SCREENSHOT_WIDTH
-      top = (img.size[1] - SCREENSHOT_HEIGHT) / 2
-      bottom = top + SCREENSHOT_HEIGHT
-      img = img.crop((int(left), int(top), int(right), int(bottom)))
-    
-    # save the thumbnail
-    path = os.path.join(SCREENSHOT_PATH,
-                        "{0}_t.png".format(str(screen.id)))
-    img.save(path, "PNG")
-    
+    create_thumbnail(path, "{0}_t.png", SCREENSHOT_WIDTH, SCREENSHOT_HEIGHT)
+
     return screen
 
