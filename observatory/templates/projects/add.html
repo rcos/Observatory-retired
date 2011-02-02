@@ -59,12 +59,16 @@
             {% for key, value in previous_data.items %}
                 <input type="hidden" name="{{ key }}" value="{{ value }}" />
             {% endfor %}
-
-            {% url_field 'Repository Web Address:' 'id_web_url' 'web_url' cloned_repo_form 'required' 128 'i.e. https://github.com/NateStedman/Observatory/' 'text' %}
-            {% input_field 'Repository Clone Address:' 'id_clone_url' 'clone_url' cloned_repo_form 'required' 128 'i.e. git@github.com:NateStedman/Observatory.git' 'text' %}
+			<p>
+			{% url_field 'Repository Web Address:' 'id_web_url' 'web_url' cloned_repo_form 'required' 128 'i.e. https://github.com/NateStedman/Observatory/' 'text' %}
+			</p>
+			<p>
+			{% input_field 'Repository <em>Public</em> Clone Address:' 'id_clone_url' 'clone_url' cloned_repo_form 'required' 128 'i.e. git@github.com:NateStedman/Observatory.git' 'text' %}
+			</p>
             
-            
-            {% select_field 'Version Control System' 'id_vcs' 'vcs' cloned_repo_form 'required' 'git' %}
+			<p>
+			{% select_field 'Version Control System' 'id_vcs' 'vcs' cloned_repo_form 'required' 'git' %}
+			</p>
 
             <div class="submitbutton">
                 <input type="submit" class="button" value="Clone it!" />
@@ -86,12 +90,17 @@
             {% for key, value in previous_data.items %}
                 <input type="hidden" name="{{ key }}" value="{{ value }}" />
             {% endfor %}
-            
-            {% url_field 'Repository Web Address:' 'id_web_url' 'web_url' feed_repo_form 'required' 128 'i.e. https://github.com/NateStedman/Observatory/' 'text' %}
-            
-            {% url_field 'Repository RSS Feed:' 'id_repo_rss' 'repo_rss' feed_repo_form 'required' 128 0 'text' %}
 
-            {% input_field 'Clone Command:' 'id_cmd' 'cmd' feed_repo_form 'required' 128 0 'text' %}
+			<p>
+			{% url_field 'Repository Web Address:' 'id_web_url' 'web_url' feed_repo_form 'required' 128 'i.e. https://github.com/NateStedman/Observatory/' 'text' %}
+			</p>
+
+			<p>
+			{% url_field 'Repository RSS Feed:' 'id_repo_rss' 'repo_rss' feed_repo_form 'required' 128 0 'text' %}
+			</p>
+			<p>
+			{% input_field 'Clone Command:' 'id_cmd' 'cmd' feed_repo_form 'required' 128 0 'text' %}
+			</p>
             
             <div class="submitbutton">
                 <input type="submit" class="button" value="Use my feed" />
@@ -113,10 +122,14 @@
             {% for key, value in previous_data.items %}
                 <input type="hidden" name="{{ key }}" value="{{ value }}" />
             {% endfor %}
-
-            {% url_field 'Blog Web Address:' 'id_url' 'url' blog_form 'required' 64    0 'text' %}
-
-            {% url_field 'Blog Feed:' 'id_rss' 'rss' blog_form 'required' 64 0 'text' %}
+			
+			<p>
+			{% url_field 'Blog Web Address:' 'id_url' 'url' blog_form 'required' 64    0 'text' %}
+			</p>
+			
+			<p>
+			{% url_field 'Blog Feed:' 'id_rss' 'rss' blog_form 'required' 64 0 'text' %}
+			</p>
                         
             <div class="submitbutton">
                 <input type="submit" class="button" value="Use my feed" />
