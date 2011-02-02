@@ -30,7 +30,9 @@ class EventSet(models.Model):
   from_feed = models.BooleanField()
   
   # how recent was the last update?
-  def age_ago(self, time = datetime.datetime.utcnow()):
+  def age_ago(self, time = None):
+    if time is None:
+      time = datetime.datetime.utcnow()
     return time_ago(self.most_recent_date, time)
   
   # when was this eventset last updated?
