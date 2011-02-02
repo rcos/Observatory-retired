@@ -136,6 +136,10 @@ ul.rcos-links a:hover {
 	border-top: 1px solid black;
 }
 
+.rcos-stylish-thing a.selected {
+	border: 1px solid white !important;
+}
+
 .rcos-stylish-thing a.chooser {
 	display: block;
 	float: left;

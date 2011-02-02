@@ -11,6 +11,9 @@
 		outgoing = $(current)
 		incoming = $(id)
 
+		$(current + "-chooser").removeClass("selected")
+		$(id + "-chooser").addClass("selected")
+
 		incoming.css("display", "block")
 		incoming.css("opacity", 0);
 		outgoing.animate({ "opacity": 0 }, 400,
@@ -38,7 +41,9 @@
 	{% endfor %}
 	{% for project in projects %}
 	<a href="#" onClick='showStylish("#stylish-{{ project.url_path }}")'
-	   style="right:{% cycle "65px" "35px" "5px" %};" class="chooser">
+		style="right:{% cycle "65px" "35px" "5px" %};"
+		id="stylish-{{ project.url_path }}-chooser"
+		class="chooser {% cycle "selected" "" "" %}">
 		{% cycle 1 2 3 %}
 	</a>
 	{% endfor %}
