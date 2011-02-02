@@ -112,6 +112,7 @@ class Screenshot(models.Model):
       img.save(save_path, "PNG")
     
     create_thumbnail(path, "{0}_t.png", SCREENSHOT_WIDTH, SCREENSHOT_HEIGHT)
-
+    create_thumbnail(path, "{0}_mp.png", MAIN_PAGE_WIDTH, MAIN_PAGE_HEIGHT)
+    
     return screen
 
