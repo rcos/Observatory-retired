@@ -1,9 +1,10 @@
 {% extends "base.html" %}
+{% load event_bubble %}
 
 {% block extracontent %}
     {% if page %}
         {% for commit in page.object_list %}
-            {% include "commits/partials/commit.html" %}
+            {% event_bubble commit 0 %}
         {% endfor %}
     {% endif %}
     

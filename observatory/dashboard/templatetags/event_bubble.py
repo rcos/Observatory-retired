@@ -12,8 +12,17 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-import head_tags
-import gravatar
-import javascript
-import bottom_bar
-import event_bubble
+from django import template
+from django.template.loader import render_to_string
+
+register = template.Library()
+
+def event_bubble(event, specify_type, show_content = False, extra_classes = ""):
+  return render_to_string("partials/event_bubble.html", {
+    "event": event,
+    "specify_type": specify_type,
+    "show_content": show_content,
+    "extra_classes": extra_classes
+  })
+
+register.simple_tag(event_bubble)
