@@ -20,6 +20,7 @@
 import os
 import subprocess
 from fetch_core import setup_environment, cprint
+from shutil import rmtree
 from sys import executable as python
 from time import sleep
 
@@ -27,6 +28,8 @@ setup_environment()
 
 from dashboard.models import Repository, Commit, Project
 from observatory.settings import REPO_FETCH_TIMEOUT, REPO_FETCH_PROCESS_COUNT
+
+CLONE_TIMEOUT = 20 * 60
 
 class Fetcher(object):
   repo = None
@@ -43,13 +46,30 @@ class Fetcher(object):
   def second_passed(self):
     # initial clone/fetch stage
     self.process.poll()
+    self.age += 1
+    
     if not self.parsing:
+      # move on to the parsing stage if fetching is complete
       if self.process.returncode is not None:
         cprint("==> Parsing {0}".format(self.repo.project.title),
                "blue", attrs=["bold"])
         self.parsing = True
+        self.age = 0
         self.process = subprocess.Popen([python, parse_script,
                                          str(self.repo.id)])
+
+      # time out cloning, clean up the failed clone dir, and end the fetcher
+      elif self.age > CLONE_TIMEOUT:
+        cprint("==> Killing cloning of {0}".format(self.repo.project.title),
+               "red", attrs=["bold"])
+        self.process.terminate()
+        
+        path = os.path.dirname(os.path.abspath(__file__))
+        rmtree(os.path.join(path, "..", "..", "clones",
+                            self.repo.project.url_path))
+        
+        return True
+
     else:
       # if the process finished, we're all done
       if self.process.returncode is not None:
@@ -57,9 +77,6 @@ class Fetcher(object):
           cprint("==> Successfully parsed {0}".format(self.repo.project.title),
                  "green", attrs=["bold"])
         return True
-      
-      # age the parser a second
-      self.age += 1
       
       # if the parser timed out
       if self.age > 60 * REPO_FETCH_TIMEOUT:
