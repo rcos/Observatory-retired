@@ -7,5 +7,6 @@
 observatory/settings_recaptcha.py
 observatory/media/screenshots/
 observatory/media/style.css
+observatory/media/observatory.js
 observatory/clones/
 !observatory/media/screenshots/thisdirectoryexists.txt
