@@ -12,14 +12,17 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+from dashboard.models import Project
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 
 def index(request):
+  projects = Project.objects.order_by("score")[0:3]
+
   return render_to_response('rcos/index.html', {
-      'with_top': True,
-      'disable_content': True
+      'disable_content': True,
+      'projects': projects
     }, context_instance = RequestContext(request))
 
 def donor(request):

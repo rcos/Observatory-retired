@@ -21,6 +21,9 @@ from Project import Project
 SCREENSHOT_WIDTH = 230.0
 SCREENSHOT_HEIGHT = 170.0
 
+MAIN_PAGE_WIDTH = 605.0
+MAIN_PAGE_HEIGHT = 300.0
+
 # a screenshot for a project, display on its page. its filename is derived from
 # its ID, so it is not required as a field
 class Screenshot(models.Model):
@@ -61,6 +64,10 @@ class Screenshot(models.Model):
   def thumb_url(self):
     return os.path.join(SCREENSHOT_URL, self.thumbnail())
   
+  # the large thumbnail to be used on the main page
+  def main_page_url(self):
+    return os.path.join(SCREENSHOT_URL, str(self.id) + "_mp.png")
+  
   # a static creation method to handle writing to disk
   @staticmethod
   def create(form, file, project):
@@ -70,7 +77,7 @@ class Screenshot(models.Model):
                         project = project,
                         extension = os.path.splitext(file.name)[1])
     screen.save()
-
+    
     # write the screenshot to a file
     path = os.path.join(SCREENSHOT_PATH, screen.filename())
     write = open(path, 'wb+')
@@ -105,3 +112,4 @@ class Screenshot(models.Model):
     img.save(path, "PNG")
     
     return screen
+
