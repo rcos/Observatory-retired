@@ -30,11 +30,11 @@
     
     <h2>Add a Project</h2>
     <div class="form-col-left">
-        {% input_field 'Title' 'id_title' 'title' project_form 'required' 32 0 'text' %}
+        {% input_field 'Title' 'id_title' 'title' project_form 'required' 200 0 'text' %}
         
-        {% url_field 'Website' 'id_website' 'website' project_form 'required' 64 'i.e. https://github.com/NateStedman/Observatory' 'text' %}
+        {% url_field 'Website' 'id_website' 'website' project_form 'required' 200 'i.e. https://github.com/NateStedman/Observatory' 'text' %}
         
-        {% url_field 'Wiki' 'id_wiki' 'wiki' project_form 'required' 64 0 'text' %}
+        {% url_field 'Wiki' 'id_wiki' 'wiki' project_form 'required' 200 0 'text' %}
     </div>
     <div class="form-col-right">
         {% textarea_field 'Description' 'id_description' 'description' project_form 'required' 0 0 10 30 %}
