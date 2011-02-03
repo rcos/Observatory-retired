@@ -59,6 +59,7 @@ urlpatterns = patterns('',
     (r'^user/(\d+)/post/([^\.]*)/$', blogs.show_user_post),
     (r'^user/(\d+)/posts/$', blogs.show_user_blog),
     (r'^user/(\d+)/$', users.profile),
+    (r'^forgot-password/$', users.forgot_password),
     
     # commits
     (r'^projects/([^\.]*)/commit/([^\.]*)/$', commits.show),
