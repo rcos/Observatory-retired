@@ -209,10 +209,21 @@ def logout(request):
 # forgot password
 def forgot_password(request):
   
+  forgot_password_form = ForgotPasswordForm(request.POST, auto_id="id_%s")
   if request.method == 'POST':
-    raise NotImplemented()
+    if forgot_password_form.is_valid():
+      try:
+        data = login_form.cleaned_data
+        
+        # query for a user via email
+        user = User.objects.get(email = data['email'])
+        
+        return render_to_response('users/forgot_password_success.html', {
+        })
+      except:
+        raise Exception('An error occurred')
   else:
-    forgot_password_form = ForgotPasswordForm()
+    forgot_password_form = ForgotPasswordForm(auto_id="id_%s")
     
     return render_to_response('users/forgot_password.html', {
       'forgot_password_form': forgot_password_form
