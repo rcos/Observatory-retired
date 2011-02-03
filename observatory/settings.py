@@ -65,6 +65,9 @@ MEDIA_URL = '/site-media/'
 # Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = '/media/'
 
+# append slashes to URLs
+APPEND_SLASH = True
+
 # Path where screenshots and thumbnails should be placed
 SCREENSHOT_PATH = os.path.join(MEDIA_ROOT, 'screenshots')
 
