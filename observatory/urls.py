@@ -109,5 +109,5 @@ urlpatterns = patterns('',
     (r'^urp-application/$', rcos.views.urpapplication),
     (r'^links-and-contacts/$', rcos.views.linksandcontacts),
     (r'^irc/$', rcos.views.irc),
-    (r'^$', feed.feed),
+    (r'^$', rcos.views.index),
 )
