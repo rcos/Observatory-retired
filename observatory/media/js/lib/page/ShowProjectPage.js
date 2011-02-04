@@ -42,7 +42,4 @@ observatory.ShowProjectPage.prototype.init = function(params) {
 			$("#screenshot-page-wrapper").animate({ "left": pixels }, 500)
 		}
 	});
-    
-	/* Make all images lightboxable */
-	$('a[rel*="lightbox"]').lightBox();
 };

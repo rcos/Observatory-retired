@@ -99,5 +99,5 @@ urlpatterns = patterns('',
     (r'^site-media/(?P<path>.*)/$', 'django.views.static.serve',
         {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
     
-    (r'/$', feed.feed),
+    (r'^$', feed.feed),
 )
