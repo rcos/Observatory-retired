@@ -12,7 +12,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-from dashboard.forms import LoginForm, RegistrationForm
+from dashboard.forms import LoginForm, RegistrationForm, ForgotPasswordForm
 from dashboard.models import Contributor, Event
 from django.contrib import auth
 from django.contrib.auth.models import User
@@ -205,3 +205,26 @@ def login(request):
 def logout(request):
   auth.logout(request)
   return HttpResponseRedirect(reverse(projects.list)) 
+  
+# forgot password
+def forgot_password(request):
+  
+  forgot_password_form = ForgotPasswordForm(request.POST, auto_id="id_%s")
+  if request.method == 'POST':
+    if forgot_password_form.is_valid():
+      try:
+        data = login_form.cleaned_data
+        
+        # query for a user via email
+        user = User.objects.get(email = data['email'])
+        
+        return render_to_response('users/forgot_password_success.html', {
+        })
+      except:
+        raise Exception('An error occurred')
+  else:
+    forgot_password_form = ForgotPasswordForm(auto_id="id_%s")
+    
+    return render_to_response('users/forgot_password.html', {
+      'forgot_password_form': forgot_password_form
+    }, context_instance = RequestContext(request))

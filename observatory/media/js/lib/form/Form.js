@@ -57,7 +57,7 @@ observatory.Form.prototype.init = function(params) {
     this.disabled = false;
 
     /* Enable client side validation */
-    el.html5form();
+//    el.html5form();
 };
 
 /**

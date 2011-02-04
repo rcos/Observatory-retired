@@ -68,3 +68,6 @@ class LoginForm(RequiredForm):
     model = User
     fields = ('email', 'password')
     widgets = { 'password': forms.PasswordInput() }
+
+class ForgotPasswordForm(forms.Form):
+  email = forms.EmailField()

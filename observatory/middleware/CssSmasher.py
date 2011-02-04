@@ -19,7 +19,7 @@ from observatory.settings import MEDIA_ROOT
 
 JS_FILES=[
   "js/lib/vendor/jquery-1.4.4.js",
-  "js/lib/vendor/jquery.html5form-1.2-min.js",
+  "js/lib/vendor/jquery.html5form-1.2.js",
   "js/lib/vendor/jquery.lightbox-0.5.min.js",
   "js/globals.js",
   
