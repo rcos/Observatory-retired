@@ -34,7 +34,7 @@ CSS_FILES=[
 
 JS_FILES=[
   "js/lib/vendor/jquery-1.4.4.js",
-  "js/lib/vendor/jquery.html5form-1.2-min.js",
+  "js/lib/vendor/jquery.html5form-1.2.js",
   "js/globals.js",
   "js/lib/lightbox.js",
   
