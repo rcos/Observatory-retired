@@ -8,6 +8,7 @@
   font-weight: bold;
   border-top: 1px solid #aaa;
   border-bottom: 1px solid white;
+  position: relative;
 }
 
 .light-bar {
@@ -33,6 +34,18 @@
   font-size: 20px !important;
   padding: 2px 0px !important;
   margin: 0px !important;
+}
+
+.light-bar .project-info {
+	position: absolute;
+	right: 20px;
+	top: 2px;
+	padding: 0px;
+	margin: 0px;
+}
+
+.light-bar .project-info form, .light-bar .project-info input {
+	margin: 0px;
 }
 
 /* dark bottom bars at the bottom of boxes */
