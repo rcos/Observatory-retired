@@ -110,5 +110,6 @@ urlpatterns = patterns('',
     (r'^urp-application/$', rcos.views.urpapplication),
     (r'^links-and-contacts/$', rcos.views.linksandcontacts),
     (r'^irc/$', rcos.views.irc),
+    (r'^calendar/$', rcos.views.calendar),
     (r'^$', rcos.views.index),
 )
