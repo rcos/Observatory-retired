@@ -2,6 +2,7 @@
 
 {% load head_tags %}
 {% load author_requests %}
+{% load pageheader %}
 
 {% spaceless %}
 
@@ -16,7 +17,7 @@
 <body>
     <div id="top">
         <h1>
-          {% block pageheader %}<a href="/">Observatory!</a>{% endblock %}
+          {% pageheader %}
         </h1>
         <div id="navigation-right">
             <ul id="navigation-main">

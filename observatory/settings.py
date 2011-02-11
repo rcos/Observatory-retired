@@ -217,3 +217,5 @@ JS_FILES=[
   "js/init.js"
 ]
 
+## Page header
+HEADER_TEMPLATE = 'rcos/header.html'
