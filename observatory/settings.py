@@ -1,5 +1,3 @@
-# this is a change
-
 import os
 import django
 
