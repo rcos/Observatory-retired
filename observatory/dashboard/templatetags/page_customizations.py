@@ -14,7 +14,7 @@
 
 from django import template
 from django.template.loader import render_to_string
-from observatory.settings import HEADER_TEMPLATE
+from observatory.settings import HEADER_TEMPLATE, FAVICON_PATH
 
 register = template.Library()
 
@@ -25,3 +25,13 @@ def pageheader():
   return render_to_string(HEADER_TEMPLATE)
 
 register.simple_tag(pageheader)
+
+
+###
+#   Used so favicon path can be defined in settings for customization
+###
+def favicon():
+  if FAVICON_PATH:
+    return '<link rel="shortcut icon" href="'+FAVICON_PATH+'" />'
+
+register.simple_tag(favicon)

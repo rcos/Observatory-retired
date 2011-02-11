@@ -2,7 +2,7 @@
 
 {% load head_tags %}
 {% load author_requests %}
-{% load pageheader %}
+{% load page_customizations %}
 
 {% spaceless %}
 
@@ -12,7 +12,7 @@
 	{% head_tags %}
 	{% block head %}{% endblock %}
 
-	<link rel="shortcut icon" href="/site-media/rcos/favicon.ico" />
+	{% favicon %}
 </head>
 <body>
     <div id="top">

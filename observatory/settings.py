@@ -219,3 +219,6 @@ JS_FILES=[
 
 ## Page header
 HEADER_TEMPLATE = 'rcos/header.html'
+
+## Favicon
+FAVICON_PATH = '/site-media/rcos/favicon.ico'
