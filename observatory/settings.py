@@ -137,7 +137,7 @@ MIDDLEWARE_CLASSES = (
     'observatory.middleware.CssSmasher'
 )
 
-ROOT_URLCONF = 'observatory.urls'
+ROOT_URLCONF = 'observatory.rcos.urls'
 
 TEMPLATE_DIRS = (
     os.path.join(SITE_ROOT, 'templates')
