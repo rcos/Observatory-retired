@@ -92,7 +92,7 @@ REPO_FETCH_TIMEOUT = 1
 GREEN_SCORE = 2880 # everything up to this score will be green
 RED_SCORE = 172800 # everything after this score will be red
 
-UNCERTAIN_SCORE = 6000 # everything after this score will be uncertain face
+UNCERTAIN_SCORE = 10000 # everything after this score will be uncertain face
 UNHAPPY_SCORE = 86400 # everything after this score will be unhappy face
 
 # the "worst" score allowed, in minutes
