@@ -16,10 +16,7 @@
 <body>
     <div id="top">
         <h1>
-            <a href="{% url rcos.views.index %}">
-                <img src="/site-media/rcos/logo.png"
-                 alt="Rensselaer Center for Open Source Software" />
-            </a>
+          {% block pageheader %}<a href="/">Observatory!</a>{% endblock %}
         </h1>
         <div id="navigation-right">
             <ul id="navigation-main">

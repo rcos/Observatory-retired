@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 
+{% block pageheader %}
+  <a href="{% url rcos.views.index %}">
+      <img src="/site-media/rcos/logo.png"
+       alt="Rensselaer Center for Open Source Software" />
+  </a>
+{% endblock %}
+
+
 {% block extracontent %}
     <div class="rcos-content">
         <div class="rcos-left">
