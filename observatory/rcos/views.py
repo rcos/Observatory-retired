@@ -70,4 +70,9 @@ def calendar(request):
 
 def irc(request):
   return HttpResponseRedirect("http://webchat.freenode.net/?channels=#rcos")
+  
+def howtojoin(request):
+  return render_to_response('rcos/howtojoin.html', {
+      'disable_content': True
+    }, context_instance = RequestContext(request))
 
