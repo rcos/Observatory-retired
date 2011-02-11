@@ -14,6 +14,7 @@
 
 import datetime
 import os
+import random
 from colorsys import hsv_to_rgb
 from django.db import models
 from django.contrib.auth.models import User
@@ -23,6 +24,8 @@ from dashboard.util import url_pathify_safe
 from Repository import Repository
 from Blog import Blog
 from URLPathedModel import URLPathedModel
+
+random.seed()
 
 # an open source project tracked by observatory
 class Project(URLPathedModel):
@@ -130,3 +133,12 @@ class Project(URLPathedModel):
                  int(lightbg[0] * 255),
                  int(lightbg[1] * 255),
                  int(lightbg[2] * 255))
+  
+  def random_main_page_screenshot(self):
+    from Screenshot import Screenshot
+    screens = Screenshot.objects.filter(project = self)
+    
+    if len(screens) is 0:
+      return None
+
+    return screens[random.randint(0, len(screens) - 1)].main_page_url()

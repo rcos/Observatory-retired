@@ -7,15 +7,18 @@
 
 <html>
 <head>
-    <title>{% block title %}Dashboard{% endblock %}{% block extratitle %}{% endblock %}</title>
+    <title>{% block title %}Rensselaer Center for Open Source Software{% endblock %}{% block extratitle %}{% endblock %}</title>
 	{% head_tags %}
 	{% block head %}{% endblock %}
+
+	<link rel="shortcut icon" href="/site-media/rcos/favicon.ico" />
 </head>
 <body>
     <div id="top">
         <h1>
-            <a href="{% url dashboard.views.feed.feed %}">
-                Dashboard
+            <a href="{% url rcos.views.index %}">
+                <img src="/site-media/rcos/logo.png"
+                 alt="Rensselaer Center for Open Source Software" />
             </a>
         </h1>
         <div id="navigation-right">
