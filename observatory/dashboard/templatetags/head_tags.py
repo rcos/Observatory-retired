@@ -14,44 +14,10 @@
 
 from django import template
 from django.template.loader import render_to_string
-from observatory.settings import DEBUG
+from observatory.settings import DEBUG, JS_FILES, CSS_FILES
 
 register = template.Library()
 
-CSS_FILES=[
-  "css/author-requests.css",
-  "css/base.css",
-  "css/basics.css",
-  "css/buttons.css",
-  "css/decorations.css",
-  "css/diffs.css",
-  "css/events.css",
-  "css/forms.css",
-  "css/modify.css",
-  "css/profiles.css",
-  "css/projects.css",
-  "css/rcos.css"
-]
-
-JS_FILES=[
-  "js/lib/vendor/jquery-1.4.4.js",
-  "js/lib/vendor/jquery.html5form-1.2.js",
-  "js/globals.js",
-  "js/lib/lightbox.js",
-  
-  # forms
-  "js/lib/form/Form.js",
-  "js/lib/form/ExclusiveOrForms.js",
-  
-  # pages
-  "js/lib/page/Page.js",
-  "js/lib/page/LoginRegisterPage.js",
-  "js/lib/page/AddProjectPage.js",
-  "js/lib/page/ShowProjectPage.js",
-  "js/lib/page/ModifyProjectPage.js",
-  
-  "js/init.js"
-]
 
 CSS_LINK = "<link rel='stylesheet' type='text/css' href='/site-media/{0}' />"
 JS_LINK = "<script src='/site-media/{0}'></script>"

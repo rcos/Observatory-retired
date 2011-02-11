@@ -15,27 +15,7 @@
 import os
 import re
 from django.core.exceptions import MiddlewareNotUsed
-from observatory.settings import MEDIA_ROOT
-
-JS_FILES=[
-  "js/lib/vendor/jquery-1.4.4.js",
-  "js/lib/vendor/jquery.html5form-1.2.js",
-  "js/lib/vendor/jquery.lightbox-0.5.min.js",
-  "js/globals.js",
-  
-  # forms
-  "js/lib/form/Form.js",
-  "js/lib/form/ExclusiveOrForms.js",
-  
-  # pages
-  "js/lib/page/Page.js",
-  "js/lib/page/LoginRegisterPage.js",
-  "js/lib/page/AddProjectPage.js",
-  "js/lib/page/ShowProjectPage.js",
-  "js/lib/page/ModifyProjectPage.js",
-  
-  "js/init.js"
-]
+from observatory.settings import MEDIA_ROOT, JS_FILES, CSS_FILES
 
 class CssSmasher(object):
   def __init__(self):

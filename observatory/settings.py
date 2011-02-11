@@ -180,3 +180,40 @@ if not USE_DEVSERVER:
 DEVSERVER_MODULES = (
     'devserver.modules.sql.SQLSummaryModule',
 )
+
+# Client side files
+CSS_FILES=[
+  "css/author-requests.css",
+  "css/base.css",
+  "css/basics.css",
+  "css/buttons.css",
+  "css/decorations.css",
+  "css/diffs.css",
+  "css/events.css",
+  "css/forms.css",
+  "css/modify.css",
+  "css/profiles.css",
+  "css/projects.css",
+  "css/rcos.css"
+]
+
+JS_FILES=[
+  "js/lib/vendor/jquery-1.4.4.js",
+  "js/lib/vendor/jquery.html5form-1.2.js",
+  "js/globals.js",
+  "js/lib/lightbox.js",
+  
+  # forms
+  "js/lib/form/Form.js",
+  "js/lib/form/ExclusiveOrForms.js",
+  
+  # pages
+  "js/lib/page/Page.js",
+  "js/lib/page/LoginRegisterPage.js",
+  "js/lib/page/AddProjectPage.js",
+  "js/lib/page/ShowProjectPage.js",
+  "js/lib/page/ModifyProjectPage.js",
+  
+  "js/init.js"
+]
+
