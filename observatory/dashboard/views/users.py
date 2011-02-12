@@ -23,7 +23,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from hashlib import md5
 from observatory.dashboard.views import projects
 from observatory.settings import RECAPTCHA_PUBLIC, RECAPTCHA_PRIVATE
-from recaptcha.client import captcha
+from observatory.lib.recaptcha.client import captcha
 
 # display's the user's profile
 def profile(request, user_id):
