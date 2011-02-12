@@ -75,7 +75,7 @@ There are two scripts that are useful:
 Once both of these have been run, the database will be populated with the most
 recent commits and blog posts for the demo projects. Then, you can just run the
 server with `./manage.py runserver` in the `observatory` directory, and access
-it (typically) at `http://localhost:8000`.
+it (typically) at `http://localhost:8000/projects`.
 
 If you're looking for something to work on, check out the Issues page or ask
 me, via email or on `#rcos` on `irc.freenode.net`.
