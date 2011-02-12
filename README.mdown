@@ -54,7 +54,7 @@ exception of the initial import).
 
 As threads and Python don't get along so well, fetching instead uses multiple
 processes (via the `subprocess` module). The amount of processes can be
-configured in the `settings.py file`. The usual rules about processes per CPU
+configured in the `settings.py` file. The usual rules about processes per CPU
 core don't necessarily apply here, because a lot of the time (especially for
 blog fetching) is spent waiting for servers to respond.
 
