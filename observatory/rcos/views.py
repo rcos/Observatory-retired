@@ -56,7 +56,7 @@ def achievements(request):
     }, context_instance = RequestContext(request))
 
 def urpapplication(request):
-  return HttpResponseRedirect("http://rcos.rpi.edu/URP_Application.pdf")
+  return HttpResponseRedirect("http://www.cs.rpi.edu/~moorthy/rcos/URP_Application.pdf")
 
 def linksandcontacts(request):
   return render_to_response('rcos/linksandcontacts.html', {
