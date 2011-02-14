@@ -6,6 +6,8 @@
         {% for commit in page.object_list %}
             {% event_bubble commit 0 %}
         {% endfor %}
+	{% else %}
+		<h2>No posts yet!</h2>
     {% endif %}
     
     {% block navigation %}{% endblock %}
