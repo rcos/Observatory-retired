@@ -19,6 +19,15 @@ setup that you would want for a production environment (resources on which are
 best found elsewhere, most of the dependencies) are packed in the
 `observatory/lib` directory.
 
+Observatory requires Django to be installed. You can read about how to install
+Django at the project's installation guide page:
+
+http://docs.djangoproject.com/en/1.2/intro/install/
+
+You'll need to have Django in your Python path.
+
+Observatory works on Python 2.6 and above, but not Python 3.
+
 The following additional packages are required:
 
 * Python Imaging Library (PIL)
@@ -31,7 +40,7 @@ As well as these version control systems:
 
 Everything except `git` can be acquired from PyPI:
 
-`$ pip install mercurial BeautifulSoup pil`
+`$ pip install django mercurial BeautifulSoup pil`
 
 Of course, you can also use your distribution's package manager if that's your
 sort of thing.
