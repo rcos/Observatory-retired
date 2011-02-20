@@ -208,6 +208,22 @@ def delete_post(request, project_url_path, post_url_path):
                                       args = (project.url_path, 2)))
 
 @login_required
+def remove_personal_blog(request, user_id):
+  if request.user.id != int(user_id):
+    raise Http404
+  
+  try: #remove the blog and all related posts, if they have one
+    blog = Blog.objects.get(user = request.user)
+    BlogPost.objects.filter(blog = blog).delete()
+    blog.delete()
+  except Blog.DoesNotExist:
+    pass #No need to delete anything
+
+  from observatory.dashboard.views import users
+  return HttpResponseRedirect(reverse(users.profile,
+                                      args = (request.user.id,)))
+
+@login_required
 def edit_personal_blog(request, user_id):
   # users can only edit their own blogs, of course
   if request.user.id != int(user_id):

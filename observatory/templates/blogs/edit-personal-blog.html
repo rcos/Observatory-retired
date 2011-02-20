@@ -20,4 +20,8 @@
 		<input type="submit" class="button" value="Save Personal Blog Settings" />
 	</div>
 </form>
+<br/>
+<div class="submitbutton">
+  <a href="{% url dashboard.views.blogs.remove_personal_blog user.id %}"><input type="submit" class="button" value="Remove Personal Blog" /></a>
+</div>
 {% endblock %}
