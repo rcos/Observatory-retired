@@ -96,10 +96,6 @@ urlpatterns = patterns('',
     (r'^feed/$', feed.feed),
     (r'^feed\.rss$', EventsFeed()),
     
-    (r'^/$', projects.list),
-    (r'^$', projects.list),
-    
-    # serve media (for now)
     (r'^site-media/(?P<path>.*)/$', 'django.views.static.serve',
         {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
 )
