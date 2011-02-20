@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     (r'^irc/$', rcos.views.irc),
     (r'^calendar/$', rcos.views.calendar),
     (r'^howtojoin/$', rcos.views.howtojoin),
+    (r'^past-projects/$', rcos.views.past_projects),
     (r'^$', rcos.views.index),
     
     (r'^', include(observatory.urls)),

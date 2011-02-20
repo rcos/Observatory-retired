@@ -76,3 +76,8 @@ def howtojoin(request):
       'disable_content': True
     }, context_instance = RequestContext(request))
 
+def past_projects(request):
+  return render_to_response('rcos/past_projects.html', {
+      'disable_content': True
+    }, context_instance = RequestContext(request))
+
