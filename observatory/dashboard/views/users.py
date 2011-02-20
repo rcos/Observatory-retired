@@ -23,7 +23,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from hashlib import md5
 from observatory.dashboard.views import projects
 from observatory.settings import RECAPTCHA_PUBLIC, RECAPTCHA_PRIVATE
-from recaptcha.client import captcha
+from observatory.lib.recaptcha.client import captcha
 
 # display's the user's profile
 def profile(request, user_id):
@@ -161,9 +161,14 @@ def create_user(request, form):
   
   return HttpResponseRedirect(request.POST['next'])
 
+class LoginError:
+  def __init__(self, username_correct):
+    self.username_corrent = username_correct
+
 # allows a user to login
 def login(request):
   next = reverse(projects.list)
+  error_header = None
   
   if request.method == 'POST':
     if 'next' in request.POST:
@@ -175,7 +180,11 @@ def login(request):
         data = login_form.cleaned_data
         
         # query for a user via email
-        user = User.objects.get(email = data['email'])
+        try:
+          user = User.objects.get(email = data['email'])
+        except:
+          error_header = "{0} isn't registered.".format(data['email'])
+          raise LoginError(False)
         
         # authenticate that user
         user = auth.authenticate(username = user.username,
@@ -183,13 +192,16 @@ def login(request):
         
         # if the password is incorrect, redireect to the login page
         if user is None:
-          return HttpResponseRedirect(reverse(login))
+          error_header = "Invalid password."
+          raise LoginError(True)
         
         # otherwise, log the user in
         if user.is_active:
           auth.login(request, user)
         
         return HttpResponseRedirect(next)
+      except LoginError as e:
+        pass
       except:
         raise
   else:
@@ -197,7 +209,7 @@ def login(request):
   
   return render_to_response('users/login.html', {
       'next': next,
-      'error_header': "Something isn't quite right.",
+      'error_header': error_header,
       'login_form': login_form
     }, context_instance = RequestContext(request))
 
