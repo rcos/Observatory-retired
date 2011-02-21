@@ -7,8 +7,8 @@
         </li>
     {% endif %}
     <li><a href="{{ project.website }}">Website</a></li>
-    <li><a href="{% url dashboard.views.blogs.show_blog project.url_path %}">
+	<li><a href="{{ project.blog.link_to }}">
         Blog
     </a></li>
-	<li><a href="{% url dashboard.views.commits.show_repository project.url_path %}">Repository</a></li>
+	<li><a href="{{ project.repository.web_url }}">Repository</a></li>
 </ul>
