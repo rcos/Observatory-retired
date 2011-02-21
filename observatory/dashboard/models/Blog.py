@@ -16,6 +16,7 @@ import datetime
 import re
 from dashboard.util import find_author, sanitize
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.db import models
 from lib import feedparser, dateutil
 from EventSet import EventSet
@@ -31,6 +32,15 @@ class Blog(EventSet):
   
   # the user associated with the blog, if it is a personal blog
   user = models.ForeignKey(User, blank = True, null = True)
+  
+  # returns the address for the blog, which depends on whether or not it
+  # is hosted internally or externally
+  def link_to(self):
+    if self.from_feed:
+      return self.url
+    else:
+      from dashboard.views import blogs
+      return reverse(blogs.show_blog, args = (self.project.url_path,))
   
   # fetches the posts from the rss feed
   def fetch(self):
