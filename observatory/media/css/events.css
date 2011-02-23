@@ -30,3 +30,7 @@
   text-align: justify;
   line-height: 1.3em;
 }
+
+.post img {
+	max-width: 100%;
+}
