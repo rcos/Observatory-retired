@@ -82,6 +82,7 @@ There are two scripts that are useful:
 * `observatory/dashboard/fetch.py` runs the repository and blog fetch scripts.
 
 Be sure to sync the database also:
+
 * `observatory/manage.py syncdb`  creates the necessary database tables.
 
 Once these have been run, the database will be populated with the most
