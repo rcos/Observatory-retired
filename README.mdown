@@ -81,7 +81,7 @@ There are two scripts that are useful:
 * `observatory/dashboard/demo.py` loads up a demo set of projects and users.
 * `observatory/dashboard/fetch.py` runs the repository and blog fetch scripts.
 
-Be sure to sync the database also:
+(Optional) If you don't want the demo set, you need to use syncdb manually:
 
 * `observatory/manage.py syncdb`  creates the necessary database tables.
 
