@@ -80,9 +80,11 @@ There are two scripts that are useful:
 
 * `observatory/dashboard/demo.py` loads up a demo set of projects and users.
 * `observatory/dashboard/fetch.py` runs the repository and blog fetch scripts.
+
+Be sure to sync the database also:
 * `observatory/manage.py syncdb`  creates the necessary database tables.
 
-Once both of these have been run, the database will be populated with the most
+Once these have been run, the database will be populated with the most
 recent commits and blog posts for the demo projects. Then, you can just run the
 server with `./manage.py runserver` in the `observatory` directory, and access
 it (typically) at `http://localhost:8000/projects`.
