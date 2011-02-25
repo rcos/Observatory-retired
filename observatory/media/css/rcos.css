@@ -176,8 +176,8 @@ ul.rcos-links a:hover {
 	                                   from(#111),
 	                                   to(#333));
 	background-image: -moz-linear-gradient(100% 100% 90deg,
-	                                       #dcc 0%,
-	                                       #aaa 100%);
+	                                       #111 0%,
+	                                       #333 100%);
 }
 
 .rcos-stylish-thing a {
