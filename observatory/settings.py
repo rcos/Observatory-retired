@@ -137,7 +137,7 @@ MIDDLEWARE_CLASSES = (
     'observatory.middleware.CssSmasher'
 )
 
-ROOT_URLCONF = 'observatory.urls'
+ROOT_URLCONF = 'observatory.rcos.urls'
 
 TEMPLATE_DIRS = (
     os.path.join(SITE_ROOT, 'templates')
@@ -155,6 +155,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    'rcos',
 )
 
 # import recaptcha keys
@@ -193,6 +194,7 @@ CSS_FILES=[
   "css/modify.css",
   "css/profiles.css",
   "css/projects.css",
+  "css/rcos.css"
 ]
 
 JS_FILES=[
@@ -216,7 +218,7 @@ JS_FILES=[
 ]
 
 ## Page header
-HEADER_TEMPLATE = 'header.html'
+HEADER_TEMPLATE = 'rcos/header.html'
 
 ## Favicon
-FAVICON_PATH = ''
+FAVICON_PATH = '/site-media/rcos/favicon.ico'

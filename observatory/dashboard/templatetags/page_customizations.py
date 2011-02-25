@@ -31,9 +31,7 @@ register.simple_tag(pageheader)
 #   Used so favicon path can be defined in settings for customization
 ###
 def favicon():
-  if FAVICON_PATH and FAVICON_PATH is not '':
+  if FAVICON_PATH:
     return '<link rel="shortcut icon" href="'+FAVICON_PATH+'" />'
-  else:
-    return ''
 
 register.simple_tag(favicon)
