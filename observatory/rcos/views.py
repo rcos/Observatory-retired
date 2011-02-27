@@ -58,6 +58,9 @@ def achievements(request):
 def urpapplication(request):
   return HttpResponseRedirect("http://www.cs.rpi.edu/~moorthy/rcos/URP_Application.pdf")
 
+def talksignup(request):
+  return HttpResponseRedirect("https://spreadsheets.google.com/ccc?key=0AmUFEZRUC23ddDg3bnF5Rnd3OHZNdFR6UkZjQUUxTFE&hl=en#gid=0")
+
 def linksandcontacts(request):
   return render_to_response('rcos/linksandcontacts.html', {
       'disable_content': True
@@ -70,7 +73,7 @@ def calendar(request):
 
 def irc(request):
   return HttpResponseRedirect("http://webchat.freenode.net/?channels=#rcos")
-  
+
 def howtojoin(request):
   return render_to_response('rcos/howtojoin.html', {
       'disable_content': True
