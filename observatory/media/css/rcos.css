@@ -138,7 +138,7 @@ ul.rcos-links a:hover {
 	border-top: 1px solid black;
 }
 
-.rcos-stylish-thing a.selected {
+.rcos-stylish-thing a.selected div {
 	border: 1px solid white !important;
 }
 
@@ -146,7 +146,7 @@ ul.rcos-links a:hover {
 	display: block;
 	float: left;
 	position: absolute;
-	bottom: 5px;
+	bottom: 0px;
 	width: 20px;
 	height: 20px;
 	text-align: center;
@@ -154,6 +154,14 @@ ul.rcos-links a:hover {
 	
 	text-decoration: none;
 	
+	padding: 5px 5px 10px 5px;
+}
+
+
+.rcos-stylish-thing a.chooser div {
+	width: 20px;
+	height: 20px;
+		
 	font-weight: bold;
 	line-height: 20px;
 	color: #eee;

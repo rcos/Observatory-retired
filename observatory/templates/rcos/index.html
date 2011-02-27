@@ -44,7 +44,9 @@
 		style="right:{% cycle "65px" "35px" "5px" %};"
 		id="stylish-{{ project.url_path }}-chooser"
 		class="chooser {% cycle "selected" "" "" %}">
-		{% cycle 1 2 3 %}
+		<div>
+			{% cycle 1 2 3 %}
+		</div>
 	</a>
 	{% endfor %}
 </div>

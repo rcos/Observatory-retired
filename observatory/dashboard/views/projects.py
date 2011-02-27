@@ -251,8 +251,11 @@ def add(request):
 
     # create the repository object
     # if using google code removes read only addition
+    # if git@ is mistakenly typed, git:// is placed in
     if 'clone_url' in request.POST:
       url = cloned_repo_form.cleaned_data['clone_url']
+      gitfix = url.replace('git@', 'git://')
+      url = gitfix
       if "google.com" in url:
         split = url.split(' ')
         url = split[0]
