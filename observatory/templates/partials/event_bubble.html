@@ -22,7 +22,11 @@
 			</h3>
 			{% else %}
 			<h3>
+				{% if not event.blog.user %}
 				<a href="{% url dashboard.views.blogs.show_post event.project.url_path event.url_path %}">
+				{% else %}
+				<a href="{% url dashboard.views.blogs.show_user_post event.url_path %}">
+				{% endif %}
 					{{ event.title }}
 				</a>
 			</h3>
