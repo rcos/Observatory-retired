@@ -17,9 +17,15 @@
 from fetch_core import setup_environment
 from sys import argv
 
+import sys
+
 setup_environment()
 
 from dashboard.models import Repository
 
 repo = Repository.objects.get(id = argv[1])
-repo.clone_or_fetch()
+
+try:
+  repo.clone_or_fetch()
+except Repository.CheckoutFailureException:
+  sys.exit(1)

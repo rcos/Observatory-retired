@@ -250,9 +250,15 @@ def add(request):
     blog.save()
 
     # create the repository object
+    # if using google code removes read only addition
     if 'clone_url' in request.POST:
+      url = cloned_repo_form.cleaned_data['clone_url']
+      if "google.com" in url:
+        split = url.split(' ')
+        url = split[0]
+
       repo = Repository(web_url = cloned_repo_form.cleaned_data['web_url'],
-                        clone_url = cloned_repo_form.cleaned_data['clone_url'],
+                        clone_url = url,
                         from_feed = False)
     else:
       repo = Repository(web_url = feed_repo_form.cleaned_data['web_url'],
