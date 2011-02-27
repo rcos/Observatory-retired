@@ -127,7 +127,7 @@ def url_pathify(string):
   string = re.sub(r"[^a-z-]", "", string.lower().replace(" ", "-"))
   
   # remove dashes from the start or the end
-  string = re.sub(r"^-|-$", "", string)
+  #string = re.sub(r"^-|-$", "", string)
   
   # remove redundant dashes
   return re.sub(r"-+", "-", string)
