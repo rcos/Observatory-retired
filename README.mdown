@@ -77,6 +77,7 @@ in the "Setup" above, but skip the part about configuring a web server and
 database, since you can use the Django development server and SQLite.
 
 There are two scripts that are useful:
+(Scripts need to be run from the Observatory directory.) 
 
 * `observatory/dashboard/demo.py` loads up a demo set of projects and users.
 * `observatory/dashboard/fetch.py` runs the repository and blog fetch scripts.
