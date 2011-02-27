@@ -49,26 +49,33 @@ class Fetcher(object):
     self.age += 1
     
     if not self.parsing:
+      # time out cloning, clean up the failed clone dir, and end the fetcher
+      if self.age > CLONE_TIMEOUT or self.process.returncode == 1:
+        if self.process.returncode is not None:
+          cprint("==> Fetching failed for {0}".format(self.repo.project.title),
+                 "red", attrs=["bold"])
+        else:
+          cprint("==> Killing clone of {0}".format(self.repo.project.title),
+                 "red", attrs=["bold"])
+          self.process.terminate()
+
+        path = os.path.dirname(os.path.abspath(__file__))
+        clone_path = os.path.join(path, "..", "..", "clones",
+                                  self.repo.project.url_path)
+        if os.path.exists(clone_path):
+          rmtree(clone_path)
+
+        return True
       # move on to the parsing stage if fetching is complete
-      if self.process.returncode is not None:
+      elif self.process.returncode is not None:
+        cprint("==> Successfully fetched {0}".format(self.repo.project.title))
+
         cprint("==> Parsing {0}".format(self.repo.project.title),
                "blue", attrs=["bold"])
         self.parsing = True
         self.age = 0
         self.process = subprocess.Popen([python, parse_script,
                                          str(self.repo.id)])
-
-      # time out cloning, clean up the failed clone dir, and end the fetcher
-      elif self.age > CLONE_TIMEOUT:
-        cprint("==> Killing cloning of {0}".format(self.repo.project.title),
-               "red", attrs=["bold"])
-        self.process.terminate()
-        
-        path = os.path.dirname(os.path.abspath(__file__))
-        rmtree(os.path.join(path, "..", "..", "clones",
-                            self.repo.project.url_path))
-        
-        return True
 
     else:
       # if the process finished, we're all done

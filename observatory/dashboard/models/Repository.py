@@ -30,7 +30,9 @@ from EventSet import EventSet
 class Repository(EventSet):
   class Meta:
     app_label = 'dashboard'
-  
+  class CheckoutFailureException(Exception):
+    pass
+
   # web access to the repository
   web_url = models.URLField("Repository Web Address", max_length = 128)
   
@@ -163,12 +165,9 @@ def clone_git_repo(clone_url, destination_dir, fresh_clone = False):
     clone_cmdline = ["git", "--git-dir", destination_dir, "fetch"]
   
   clone_subprocess = subprocess.Popen(clone_cmdline)
-  
-  if clone_subprocess.wait() != 0:
-    # TODO: handle this better
-    print "failed to clone from {0}".format(clone_url)
 
-  # do something with the repos
+  if subprocess.call(clone_cmdline) != 0:
+    raise Repository.CheckoutFailureException(" ".join(clone_cmdline))
 
 def clone_svn_repo(clone_url, destination_dir, fresh_clone = False):
   if fresh_clone:
@@ -183,16 +182,16 @@ def clone_svn_repo(clone_url, destination_dir, fresh_clone = False):
     clone_cmdline = ["git", "svn", "fetch"]
   
   if subprocess.call(clone_cmdline, cwd = destination_dir) != 0:
-    print "failed to clone from {0}".format(clone_url)
+    raise Repository.CheckoutFailureException(" ".join(clone_cmdline))
 
 def clone_bzr_repo(clone_url, destination_dir, fresh_clone = False):
   if fresh_clone:
     if subprocess.call(['bzr', 'branch', clone_url, destination_dir]):
-      print "failed to clone from {0}".format(clone_url)
+      raise Repository.CheckoutFailureException(" ".join(clone_cmdline))
   else:
     if subprocess.call(['bzr', 'update'], cwd = destination_dir):
-      print "failed to update from {0}".format(clone_url)
-    
+      raise Repository.CheckoutFailureException(" ".join(clone_cmdline))
+
 def clone_repo_function(vcs):
   clone_repo_functions = {
     'git': clone_git_repo,
