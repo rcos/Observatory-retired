@@ -40,6 +40,7 @@ urlpatterns = patterns('',
     (r'^project/([^\.]*)/post/([^\.]*)/update/$', blogs.update_post),
     (r'^project/([^\.]*)/post/([^\.]*)/delete/$', blogs.delete_post),
     (r'^project/([^\.]*)/post/([^\.]*)/$', blogs.show_post),
+    (r'^post/([^\.]*)/$', blogs.show_user_post),
     (r'^project/([^\.]*)/post/([^\.]*)\.rss$',
      SingleFeed(),  {'model': BlogPost}),
     

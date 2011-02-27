@@ -84,7 +84,7 @@ def show_post(request, project_url_path, post_url_path):
   return show_post_real(request, post_url_path)
 
 # show a post with a user-based url (personal posts)
-def show_user_post(request, user_id, post_url_path):
+def show_user_post(request, post_url_path):
   resp = force_url_paths(show_user_post, post_url_path)
   if resp: return resp
   return show_post_real(request, post_url_path)
