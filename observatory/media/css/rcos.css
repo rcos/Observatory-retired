@@ -191,3 +191,41 @@ ul.rcos-links a:hover {
 .rcos-stylish-thing a {
 	text-decoration: none;
 }
+
+/* footer */
+.rcos-footer {
+	padding: 20px;
+}
+
+.rcos-trailer {
+	clear: both;
+	height: 20px;
+}
+
+.rcos-footer img {
+	float: left;
+}
+
+.rcos-footer a {
+	color: #666;
+	text-shadow: 0px -1px 0px #000;
+	text-decoration: none;
+	font-size: 12px;
+}
+
+.rcos-footer a:hover {
+	color: #aaa;
+}
+
+.rcos-footer div {
+	margin: 0px 0px 0px 230px;
+}
+
+.rcos-footer ul {
+	float: left;
+	width: 166px;
+	padding: 0px;
+	margin: 0px;
+	list-style: none;
+}
+
