@@ -36,7 +36,7 @@
 
 #top li {
   float: left;
-  margin-left: 10px;
+  margin-left: 5px;
   padding: 0px;
 }
 
@@ -48,7 +48,7 @@
 }
 
 #navigation-main {
-  font-size: 30px;
+  font-size: 20px;
   position: absolute;
   top: 20px;
   right: 20px;
