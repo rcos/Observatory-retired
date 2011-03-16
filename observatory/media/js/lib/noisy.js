@@ -17,8 +17,9 @@
 			            	r = colorArr[0].replace("rgb(","").trim(), g = colorArr[1].trim(), b = colorArr[2].replace(")","").trim();
 						for (x=0; x<canvas.width; x += 1) {
 							for (y=0; y<canvas.height; y += 1) {
+								gray = Math.random();
 								ctx.fillStyle = "rgba(" + [
-									Math.floor(Math.random() * r + this.amount), Math.floor(Math.random() * g + this.amount), Math.floor(Math.random() * b + this.amount),
+									Math.floor(gray * r + this.amount), Math.floor(gray * g + this.amount), Math.floor(gray * b + this.amount),
 									this.opacity
 								].join(",") + ")";
 								ctx.fillRect(x, y, 1, 1);
