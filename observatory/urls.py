@@ -91,6 +91,7 @@ urlpatterns = patterns('',
     (r'^projects/([^\.]*)\.rss', EventsFeed()),
     
     (r'^projects/$', projects.list),
+    (r'^$', projects.list),
     
     # feed
     (r'^event/([^\.]*)/$', feed.event),
