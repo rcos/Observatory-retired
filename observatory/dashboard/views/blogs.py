@@ -66,6 +66,7 @@ def show_blog(request, project_url_path):
     return render_to_response('blogs/show-blog.html', {
         'project': project,
         'posts': project.blog.blogpost_set.all(),
+        'disable_content': True
       }, context_instance = RequestContext(request))
 
 # shows all blog posts by a specific user (personal blogs, mostly)
