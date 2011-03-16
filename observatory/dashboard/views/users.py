@@ -25,6 +25,13 @@ from observatory.dashboard.views import projects
 from observatory.settings import RECAPTCHA_PUBLIC, RECAPTCHA_PRIVATE
 from observatory.lib.recaptcha.client import captcha
 
+# display the list of users
+def people(request):
+  people = User.objects.all()
+  return render_to_response("users/people.html", {
+      "people": people
+    }, context_instance = RequestContext(request))
+
 # display's the user's profile
 def profile(request, user_id):
   user = get_object_or_404(User, id = user_id)
