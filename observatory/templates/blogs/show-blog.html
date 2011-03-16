@@ -3,7 +3,7 @@
 
 {% block title %}{{ project.title }} • Blog{% endblock %}
 
-{% block content %}
+{% block extracontent %}
     {% if user in project.authors.all %}
     <div style="float:right">
         <a href="{% url dashboard.views.blogs.write_post project.id %}"

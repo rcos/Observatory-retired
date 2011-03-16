@@ -3,6 +3,7 @@
 *.DS_Store
 *.psd
 *.swp
+*~
 
 observatory/settings_recaptcha.py
 observatory/media/screenshots/
