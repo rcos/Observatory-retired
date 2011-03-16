@@ -12,6 +12,8 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+import random
+
 from dashboard.forms import LoginForm, RegistrationForm, ForgotPasswordForm
 from dashboard.models import Contributor, Event
 from django.contrib import auth
@@ -25,11 +27,26 @@ from observatory.dashboard.views import projects
 from observatory.settings import RECAPTCHA_PUBLIC, RECAPTCHA_PRIVATE
 from observatory.lib.recaptcha.client import captcha
 
+PEOPLE_ADJECTIVES = ["awesome",
+                     "stylish",
+                     "great",
+                     "excellent",
+                     "wonderful",
+                     "amazing",
+                     "impressive",
+                     "tremendous",
+                     "innovative",
+                     "inventive",
+                     "creative",
+                     "sensational"]
+ADJ_COUNT = len(PEOPLE_ADJECTIVES)
+
 # display the list of users
 def people(request):
   people = User.objects.all()
   return render_to_response("users/people.html", {
-      "people": people
+      "people": people,
+      "adjective": PEOPLE_ADJECTIVES[random.randint(0, ADJ_COUNT - 1)]
     }, context_instance = RequestContext(request))
 
 # display's the user's profile
