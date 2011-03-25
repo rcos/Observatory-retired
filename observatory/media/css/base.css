@@ -1,122 +1,109 @@
 /* Navigation bar */
 #top {
-  padding: 0px 20px;
-  position: relative;
-  height: 80px;
+    padding: 0px 20px;
+    position: relative;
+    height: 80px;
 }
 
 #top h1 {
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  padding: 0px;
-  margin: 0px;
-  font-size: 30px;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    padding: 0px;
+    margin: 0px;
+    font-size: 30px;
 }
 
 #top h1, #navigation-main {
-  line-height: 40px;
+    line-height: 40px;
 }
 
 #top a, .navigation-bullet {
-  color: #ddd;
-  -moz-text-shadow: 0px -1px 0px #000;
-  -webkit-text-shadow: 0px -1px 0px #000;
-  text-shadow: 0px -1px 0px #000;
+    font-family: "Kreon", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    color: #ddd;
+    -moz-text-shadow: 0px 0px 5px #000;
+    -webkit-text-shadow: 0px 0px 5px #000;
+    text-shadow: 0px 0px 5px #000;
 }
 
 #top a {
-  text-decoration: none;
-  font-weight: bold;
+    text-decoration: none;
 }
 
 #top a:hover {
-  color: #fff;
+    color: #fff;
+    -moz-text-shadow: 0px 0px 5px #000;
+    -webkit-text-shadow: 0px 0px 5px #000;
+    text-shadow: 0px 0px 5px #000;
 }
 
 #top li {
-  float: left;
-  margin-left: 5px;
-  padding: 0px;
+    float: left;
+    margin-left: 5px;
+    padding: 0px;
 }
 
 #top ul {
-  margin: 0px;
-  padding: 0px;
-  list-style: none;
-  float: right;
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    float: right;
 }
 
 #navigation-main {
-  font-size: 20px;
-  position: absolute;
-  top: 20px;
-  right: 20px;
+    font-size: 20px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }
 
 #navigation-account {
-  font-size: 10px;
-  position: absolute;
-  top: 58px;
-  right: 20px;
+    font-size: 10px;
+    position: absolute;
+    top: 58px;
+    right: 20px;
 }
 
 .navigation-bullet {
-  font-size: 12px;
-  line-height: 44px;
+    font-size: 12px;
+    line-height: 44px;
 }
 
 /* Main content */
 #content, .extra-content {
-  background-image: url('/site-media/pixels/content-top.gif');
-  background-image: -webkit-gradient(linear, left bottom, left top,
-                                     from(rgb(255, 255, 255)),
-                                     to(rgb(202, 198, 193)));
-  background-image: -moz-linear-gradient(100% 100% 90deg,
-                                         rgb(255, 255, 255) 0%,
-                                         rgb(202, 198, 193) 100%);
-  -webkit-background-size: 1px 200px;
-  -moz-background-size: 1px 200px;
-  background-size: 1px 200px;
-  background-repeat: repeat-x;
-  background-color: #fff;
-  clear: both;
-  padding: 20px;
-  margin-bottom: 20px;
-  
-  position: relative;
+    background-color: #fff;
+    clear: both;
+    padding: 20px;
+    
+    margin-bottom: 20px;
+    
+    position: relative;
 
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  border-radius: 15px;
-  -moz-box-shadow: 0px 5px 20px #000;
-  -webkit-box-shadow: 0px 5px 20px #000;
-  box-shadow: 0px 5px 20px #000;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    
+    -moz-box-shadow: 0px 0px 20px #111;
+    -webkit-box-shadow: 0px 0px 20px #111;
+    box-shadow: 0px 0px 20px #111;
 }
 
-.top-right-square {
-  -webkit-border-top-right-radius: 4px !important;
-  -moz-border-radius-topright: 4px !important;
-  border-top-right-radius: 4px !important;
-}
-
-#content h2, .extra-content h2, #content h3, .extra-content h3 {
-  color: rgb(50, 50, 50);
-  -moz-text-shadow: 0px 1px 1px #fff;
-  -webkit-text-shadow: 0px 1px 1px #fff;
-  text-shadow: 0px 1px 1px #fff;
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Kreon", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
 }
 
 #content h2, .extra-content h2 {
-    font-size: 20pt;
+    padding: 0px;
     margin: 0px 0px 10px 0px;
+    line-height: 30px;
 }
 
 #content h3, .extra-content h3 {
-    font-size: 14px;
-    line-height: 16px;
     padding: 0px;
-    margin: -5px 0px 0px 0px;
+    margin: 0px 0px 10px 0px;
+    line-height: 20px;
 }
 
 #content h2 a, .extra-content h2 a, #content h3 a, .extra-content h3 a {

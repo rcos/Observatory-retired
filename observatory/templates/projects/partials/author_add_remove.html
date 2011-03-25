@@ -5,13 +5,13 @@
                 <form action="{% url dashboard.views.projects.add_user %}"
                       method="post">
                     <input type="submit" value="I work on this!"
-                           class="button-small" />
+                           class="green button-small" />
             {% else %}
                 <form action="{% url dashboard.views.projects.remove_user %}"
                       method="post">
                     <input type="submit"
                            value="I'm not working on this anymore"
-                           class="button-small" />
+                           class="green button-small" />
             {% endif %}
                 {% csrf_token %}
                 <input type="hidden" value="{{ project.id }}"
