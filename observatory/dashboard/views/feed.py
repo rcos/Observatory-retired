@@ -56,12 +56,12 @@ def event(request, url_path):
                                         args = (the_event.project.url_path,
                                                 the_event.url_path,)))
   else:
-    if the_event.project == None:
+    if the_event.project is not None:
       return HttpResponseRedirect(reverse(blogs.show_post,
                                           args = (the_event.project.url_path,
                                                   the_event.url_path,)))
     else:
       return HttpResponseRedirect(reverse(blogs.show_user_post,
-                                          args = (the_event.user.id,
+                                          args = (the_event.author.id,
                                                   the_event.url_path,)))
   raise Http404
