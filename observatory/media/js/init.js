@@ -43,12 +43,3 @@ function initialize_page(js_page_id) {
     
 }
 
-function noisify() {
-	// noisy.js gets displeased with elements that don't exist
-	noise_element = function(element, opacity) {
-		e = $(element);
-		if (e.length > 0) {
-			e.noisy({opacity: opacity});
-		}
-	}
-}
