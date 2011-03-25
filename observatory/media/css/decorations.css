@@ -1,87 +1,92 @@
+.top-bar {
+    margin: -20px -20px 10px -20px;
+    padding: 10px 20px 20px 20px;
+}
+
+.top-bar h2 {
+    float: left;
+}
+
 /* light bars under initial headers */
 .light-bar, .large-light-bar {
-  background: #cbb;
-  text-shadow: 0px 1px 1px white;
-  margin: 10px -20px 0px -20px;
-  padding: 3px 20px;
-  clear: both;
-  font-weight: bold;
-  border-top: 1px solid #aaa;
-  border-bottom: 1px solid white;
-  position: relative;
+    margin: 10px -20px 0px -20px;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    position: relative;
+    background: #eee;
 }
 
 .light-bar {
-  font-size: 9pt;
-  background-image: -webkit-gradient(linear, left bottom, left top,
-                                     from(#dcc),
-                                     to(#bbb));
-  background-image: -moz-linear-gradient(100% 100% 90deg,
-                                         #dcc 0%,
-                                         #bbb 100%);
+    font-size: 9pt;
+    
 }
 
 .large-light-bar {
-  background-image: -webkit-gradient(linear, left bottom, left top,
-                                     from(#dcc),
-                                     to(#aaa));
-  background-image: -moz-linear-gradient(100% 100% 90deg,
-                                         #dcc 0%,
-                                         #aaa 100%);
-}
 
-.light-bar h2 {
-  font-size: 20px !important;
-  padding: 2px 0px !important;
-  margin: 0px !important;
-}
-
-.light-bar .project-info {
-	position: absolute;
-	right: 20px;
-	top: 2px;
-	padding: 0px;
-	margin: 0px;
 }
 
 .light-bar .project-info form, .light-bar .project-info input {
 	margin: 0px;
 }
 
+.dark {
+    background: #222 url("/site-media/pixels/bg-dark.png");
+    text-shadow: 0px -1px 0px #000;
+    position: relative;
+    
+    margin: 0px -20px;
+    padding: 0px 20px;
+    
+    color: #ddd;
+    text-shadow: 1px 1px 0px #000;
+}
+
+.dark hr {
+    margin: 0px -20px;
+    border: none;
+    border-top: 1px solid #111;
+    border-bottom: 1px solid #333;
+}
+
+.dark a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+.dark a:hover {
+    color: #fff;
+}
+
 /* dark bottom bars at the bottom of boxes */
 .bottom-bar {
-  background-image: url('/site-media/pixels/button-active.gif');
-  background-image: -webkit-gradient(linear, left bottom, left top,
-    from(rgb(44, 44, 44)),
-    to(rgb(64, 64, 64)));
-  background-image: -moz-linear-gradient(100% 100% 90deg,
-    rgb(44, 44, 44) 0%,
-    rgb(64, 64, 64) 100%);
-  
-  padding: 0px 20px;
-  color: #AAA;
-  font-size: 11px;
-  font-weight: bold;
-  margin-right: 20px;
-  margin-top: 20px;
-  
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  
-  height: 22px;
-  width: 750px;
-  
-  -webkit-border-bottom-right-radius: 12px;
-  -webkit-border-bottom-left-radius: 12px;
-  -moz-border-radius-bottomright: 12px;
-  -moz-border-radius-bottomleft: 12px;
-  border-bottom-right-radius: 12px;
-  border-bottom-left-radius: 12px;
-  
-  -moz-text-shadow: 0px -1px 0px #000;
-  -webkit-text-shadow: 0px -1px 0px #000;
-  text-shadow: 0px -1px 0px #000;
+    padding: 0px 20px;
+    color: black;
+    font-size: 11px;
+    font-weight: bold;
+    margin-right: 20px;
+    margin-top: 20px;
+
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    
+    background: #eee;
+    border-top: 1px solid #ddd;
+
+    height: 22px;
+    width: 750px;
+    
+    -webkit-border-bottom-right-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    
+    text-shadow: 0px 1px 0px white;
 }
 
 .bottom-bar-left, .bottom-bar-right {
@@ -98,12 +103,12 @@
 }
 
 .bottom-bar a {
-  color: #ccc;
-  text-decoration: none;
+    color: #444;
+    text-decoration: none;
 }
 
 .bottom-bar a:hover {
-  color: white;
+    color: black;
 }
 
 /* round the corners of images in posts and give them a subtle shadow */

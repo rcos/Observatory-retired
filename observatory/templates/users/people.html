@@ -5,7 +5,7 @@
 <h2>
 	{{ people|length }} developer{{ people|length|pluralize}}.
 </h2>
-<ul class="project-authors">
+<ul class="project-authors dark">
 	{% for person in people %}
 	<li>
 		<a href="{% url dashboard.views.users.profile person.id %}">
