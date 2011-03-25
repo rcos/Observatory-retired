@@ -99,10 +99,10 @@ UNHAPPY_SCORE = 86400 # everything after this score will be unhappy face
 MAX_SCORE_MINUTES = 3024000
 
 # The web address that observatory is hosted on
-DOMAIN_NAME = "http://localhost:8000"
+DOMAIN_NAME = "http://rcos.rpi.edu"
 
 # The title prepended to any RSS feeds
-FEED_TITLE = "Observatory"
+FEED_TITLE = "RCOS"
 
 # The number of items that should appear in dashboard-wide feeds
 FEED_COUNT = 30
