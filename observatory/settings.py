@@ -202,6 +202,7 @@ JS_FILES=[
   "js/lib/vendor/jquery.html5form-1.2.js",
   "js/globals.js",
   "js/lib/lightbox.js",
+  "js/lib/noisy.js",
   
   # forms
   "js/lib/form/Form.js",

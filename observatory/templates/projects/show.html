@@ -8,64 +8,74 @@
 {% block title %}{{ project.title }}{% endblock %}
 
 {% block content %}
-<h2 style='float:left'>{{ project.title }}</h2>
+<div class="top-bar">
+    <h2 style='float:left'>{{ project.title }}</h2>
 
-{% include "projects/partials/info.html" %}
-
-<div id="project-clone" class="light-bar">
-    {{ project.repository.clone_cmd }}
+    {% include "projects/partials/info.html" %}
 </div>
+<div class="clear"></div>
 
-{% if has_screenshots %}
-<div id="screenshots">
-	<div id="screenshot-page-wrapper" style="width:{{ screenshot_pages_width }}px">
-	{% for page in paginator.pages %}
-		<div id="screenshot-page-{{page.number}}" class="screenshot-page">
-			{% for screen in page.object_list %}
-			<p class="screenshot">
-				<a href="{{ screen.url }}"
-				   rel="lightbox"
-				   title="{{ screen.title }}">
-					<img src="{{ screen.thumb_url }}"
-						 alt="{{ screen.title }}"
-						 class="screenshot-thumb" />
-				</a>
-			</p>
-			{% endfor %}
-		</div>
-	{% endfor %}
-	</div>
+<div class="dark">
+    <div id="project-clone">
+        {{ project.repository.clone_cmd }}
+    </div>
+    <div id="project-clone-label">
+        Clone me!
+    </div>
+    <div class="clear"></div>
+    {% if has_screenshots %}
+    <hr />
+    <div id="screenshots">
+    	<div id="screenshot-page-wrapper" style="width:{{ screenshot_pages_width }}px">
+    	{% for page in paginator.pages %}
+    		<div id="screenshot-page-{{page.number}}" class="screenshot-page">
+    			{% for screen in page.object_list %}
+    			<p class="screenshot">
+    				<a href="{{ screen.url }}"
+    				   rel="lightbox"
+    				   title="{{ screen.title }}">
+    					<img src="{{ screen.thumb_url }}"
+    						 alt="{{ screen.title }}"
+    						 class="screenshot-thumb" />
+    				</a>
+    			</p>
+    			{% endfor %}
+    		</div>
+    	{% endfor %}
+    	</div>
 
-	{% if paginator.num_pages > 1 %}
-	<div class="screenshot-buttons">
-		{% for page in paginator.pages %}
-			<a class="screenshot-switcher"
-			   rel="{{page.number}}"
-			   id="screenshot-switcher-{{page.number}}"
-			   {% if page.number != default_page %}
-				   style="opacity: 0.25"
-			   {% endif %}>
-				•
-			</a>
-		{% endfor %}
-	</div>
-	{% endif %}
+    	{% if paginator.num_pages > 1 %}
+    	<div class="screenshot-buttons">
+    		{% for page in paginator.pages %}
+    			<a class="screenshot-switcher"
+    			   rel="{{page.number}}"
+    			   id="screenshot-switcher-{{page.number}}"
+    			   {% if page.number != default_page %}
+    				   style="opacity: 0.25"
+    			   {% endif %}>
+    				•
+    			</a>
+    		{% endfor %}
+    	</div>
+    	{% endif %}
 
-	<div style="clear: both"></div>
+    	<div style="clear: both"></div>
+    </div>
+    {% endif %}
 </div>
-{% endif %}
 
 <div id="project-description">
     {{ project.description|linebreaks }}
 </div>
 
+<div class="dark">
 {% if authors %}
-    <div class="light-bar">
+    <div class="header">
         <h2>Authors</h2>
         {% include "projects/partials/author_add_remove.html" %}
     </div>
     
-    <ul class="project-authors">
+    <ul class="project-authors dark">
         {% for author in authors %}
             <li>
                 <a href="{% url dashboard.views.users.profile author.id %}">
@@ -86,7 +96,7 @@
                       method="post">
                     {% csrf_token %}
                     <input type="submit" value="I work on this!"
-                           class="button" />
+                           class="green button" />
                     <input type="hidden" value="{{ project.id }}"
                           name="project_id" />
                     <input type="hidden" value="{{ user.id }}"
@@ -99,7 +109,11 @@
 {% endif %}
 
 {% if contributors %}
-    <div class="light-bar"><h2>Contributors</h2></div>
+    <hr />
+    
+    <div class="header">
+        <h2>Contributors</h2>
+    </div>
     <ul class="project-authors">
         {% for contributor in contributors %}
             <li>
@@ -119,65 +133,57 @@
         <div style="clear:both"></div>
     </ul>
 {% endif %}
-
-{% endblock %}
-
-{% if project.score != None %}
-    {% block extracontent %}
-    <div id="project-recent-activity">
-        <div id="project-recent-activity-left">
-            {% if blogposts %}
-                <div class="project-recent-header">
-                    <h2>Recent Posts</h2>
-                    <a href="{% url dashboard.views.blogs.show_blog project.url_path %}">
-                        See All
+</div>
+    
+<div id="project-recent-activity">
+    <div id="project-recent-activity-left">
+        {% if blogposts %}
+            <div class="project-recent-header">
+                <h2>Recent Posts</h2>
+                <a href="{% url dashboard.views.blogs.show_blog project.url_path %}" class="green button">
+                    See All
+                </a>
+            </div>
+            {% for post in blogposts %}
+                <h3>
+                    <a href="{% url dashboard.views.blogs.show_post project.url_path post.url_path %}">
+                        {{ post.title }}
                     </a>
-                </div>
-                {% for post in blogposts %}
-                    <div class="extra-content">
-                        <h3>
-                            <a href="{% url dashboard.views.blogs.show_post project.url_path post.url_path %}">
-                                {{ post.title }}
-                            </a>
-                        </h3>
-                        <p>
-                            {% autoescape off %}
-                                {{ post.summary }}
-                            {% endautoescape %}
-                        </p>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <h2>No recent posts.</h2>
-            {% endif %}
-        </div>
-        <div id="project-recent-activity-right">
-            {% if commits %}
-                <div class="project-recent-header">
-                    <h2>Recent Commits</h2>
-                    <a href="{% url dashboard.views.commits.show_repository project.url_path %}">
-                        See All
-                    </a>
-                </div>
-                {% for commit in commits %}
-                    <div class="extra-content">
-                        <h3>
-                            <a href="{% url dashboard.views.commits.show project.url_path commit.url_path %}">
-                                {{ commit.title }}
-                            </a>
-                        </h3>
-                        <p>
-                            {% autoescape off %}
-                                {{ commit.summary }}
-                            {% endautoescape %}
-                        </p>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <h2>No recent commits.</h2>
-            {% endif %}
-        </div>
+                </h3>
+                <p>
+                    {% autoescape off %}
+                        {{ post.summary }}
+                    {% endautoescape %}
+                </p>
+            {% endfor %}
+        {% else %}
+            <h2>No recent posts.</h2>
+        {% endif %}
     </div>
-    <div style="clear:both">
-    {% endblock %}
-{% endif %}
+    <div id="project-recent-activity-right">
+        {% if commits %}
+            <div class="project-recent-header">
+                <h2>Recent Commits</h2>
+                <a href="{% url dashboard.views.commits.show_repository project.url_path %}" class="green button">
+                    See All
+                </a>
+            </div>
+            {% for commit in commits %}
+                <h3>
+                    <a href="{% url dashboard.views.commits.show project.url_path commit.url_path %}">
+                        {{ commit.title }}
+                    </a>
+                </h3>
+                <p>
+                    {% autoescape off %}
+                        {{ commit.summary }}
+                    {% endautoescape %}
+                </p>
+            {% endfor %}
+        {% else %}
+            <h2>No recent commits.</h2>
+        {% endif %}
+    </div>
+</div>
+<div style="clear:both">
+{% endblock %}

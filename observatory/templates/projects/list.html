@@ -35,7 +35,7 @@
     <ul class='project-info'>
         <li>
             <a href="{% url dashboard.views.projects.add %}"
-               class="button-small">
+               class="green button-small">
                 Add a Project
             </a>
         </li>
@@ -44,7 +44,7 @@
 <div class="clear"></div>
 
 {% if projects and not nothing_fetched %}
-    <div id="project-bars">
+    <div id="project-bars" class="dark">
         <div class="projects-bar-container">
             <div class="projects-bar-outline">
                 <div class="projects-bar" id="overall-bar"
