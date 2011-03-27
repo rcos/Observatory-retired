@@ -164,8 +164,6 @@ def clone_git_repo(clone_url, destination_dir, fresh_clone = False):
   else:
     clone_cmdline = ["git", "--git-dir", destination_dir, "fetch"]
   
-  clone_subprocess = subprocess.Popen(clone_cmdline)
-
   if subprocess.call(clone_cmdline) != 0:
     raise Repository.CheckoutFailureException(" ".join(clone_cmdline))
 
