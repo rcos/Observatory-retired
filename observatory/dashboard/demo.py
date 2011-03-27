@@ -20,6 +20,9 @@ import sys
 import os
 from hashlib import md5
 
+# argv
+with_svn = "--with-svn" in sys.argv
+
 path = os.path.dirname(os.path.abspath(__file__))
 
 # remove the database and recreate it
@@ -145,25 +148,26 @@ milk.save()
 milk.authors.add(User.objects.get(email = 'arsenm2@rpi.edu'))
 milk.save()
 
-awav_blog = Blog(from_feed = False)
-awav_blog.save()
-awav_repo = Repository(web_url = "http://code.google.com/p/awesome-wav/",
-                       clone_url = "http://awesome-wav.googlecode.com/svn/trunk/",
-                       vcs = "svn",
-                       cmd = "git clone",
-                       from_feed = False)
-awav_repo.save()
-awav = Project(title = "awesome-wav",
-               description = """The awesome-wav project is a project designed to encode any data file into a PCM or IEEE float WAV audio file and be virtually undetectable. The potential uses for this project are many and varied. It is a command-line only, cross-platform program.
+if with_svn:
+  awav_blog = Blog(from_feed = False)
+  awav_blog.save()
+  awav_repo = Repository(web_url = "http://code.google.com/p/awesome-wav/",
+                         clone_url = "http://awesome-wav.googlecode.com/svn/trunk/",
+                         vcs = "svn",
+                         cmd = "git clone",
+                         from_feed = False)
+  awav_repo.save()
+  awav = Project(title = "awesome-wav",
+                 description = """The awesome-wav project is a project designed to encode any data file into a PCM or IEEE float WAV audio file and be virtually undetectable. The potential uses for this project are many and varied. It is a command-line only, cross-platform program.
 
-               This project is currently in development and, though functional, is not guaranteed to work properly under all conditions.
+                 This project is currently in development and, though functional, is not guaranteed to work properly under all conditions.
 
-               The program currently supports 8, 16, 24, and 32 bit PCM WAV files, 32 and 64 bit IEEE float WAV files, and supports compressing the input data using zlib or quicklz. It also supports data encryption (AES ECB).""",
-               website = "http://code.google.com/p/awesome-wav/",
-               wiki = "http://code.google.com/p/awesome-wav/",
-               blog_id = awav_blog.id,
-               repository_id = awav_repo.id)
-awav.save()
+                 The program currently supports 8, 16, 24, and 32 bit PCM WAV files, 32 and 64 bit IEEE float WAV files, and supports compressing the input data using zlib or quicklz. It also supports data encryption (AES ECB).""",
+                 website = "http://code.google.com/p/awesome-wav/",
+                 wiki = "http://code.google.com/p/awesome-wav/",
+                 blog_id = awav_blog.id,
+                 repository_id = awav_repo.id)
+  awav.save()
 
 
 cnct_blog = Blog(url = "http://blog.concertsoundorganizer.com",
@@ -186,22 +190,23 @@ cnct = Project(title = "Concert",
                repository_id = cnct_repo.id)
 cnct.save()
 
-fire_blog = Blog(url = "http://firedepartmentsolutions.com/",
-                 rss = "http://firedepartmentsolutions.com/?q=rss.xml",
-                 from_feed = True)
-fire_blog.save()
-fire_repo = Repository(web_url = "http://firedepartmentsolutions.com/websvn/listing.php?repname=Fire+Department+Management+System",
-                       clone_url = "http://firedepartmentsolutions.com/svn/fdms/",
-                       vcs = "svn",
-                       from_feed = False)
-fire_repo.save()
-fire = Project(title = "Fire Department Management System",
-               description = "By their very nature, fire departments must record and track a large variety of data. Clean and thorough record keeping is imperative to ensure safe and proper action in the conditions under which fire departments operate. This paperwork can quickly become unmanageable, time consuming, and stressful. Time that could be better spent in training is put into clerical work, and this is not acceptable.",
-               website = "http://firedepartmentsolutions.com/",
-               wiki = "http://firedepartmentsolutions.com/",
-               blog_id = fire_blog.id,
-               repository_id = fire_repo.id)
-fire.save()
+if with_svn:
+  fire_blog = Blog(url = "http://firedepartmentsolutions.com/",
+                   rss = "http://firedepartmentsolutions.com/?q=rss.xml",
+                   from_feed = True)
+  fire_blog.save()
+  fire_repo = Repository(web_url = "http://firedepartmentsolutions.com/websvn/listing.php?repname=Fire+Department+Management+System",
+                         clone_url = "http://firedepartmentsolutions.com/svn/fdms/",
+                         vcs = "svn",
+                         from_feed = False)
+  fire_repo.save()
+  fire = Project(title = "Fire Department Management System",
+                 description = "By their very nature, fire departments must record and track a large variety of data. Clean and thorough record keeping is imperative to ensure safe and proper action in the conditions under which fire departments operate. This paperwork can quickly become unmanageable, time consuming, and stressful. Time that could be better spent in training is put into clerical work, and this is not acceptable.",
+                 website = "http://firedepartmentsolutions.com/",
+                 wiki = "http://firedepartmentsolutions.com/",
+                 blog_id = fire_blog.id,
+                 repository_id = fire_repo.id)
+  fire.save()
 
 # add a bunch of dummy users to observatory to test multirow authors
 for i in range(1, 20):
