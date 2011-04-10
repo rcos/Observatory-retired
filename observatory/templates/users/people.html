@@ -11,7 +11,12 @@
 		<a href="{% url dashboard.views.users.profile person.id %}">
 			<img src="{{ person|gravatar:100 }}"
 			     alt="{{ author.get_full_name }}" />
-			<p>{{ person.get_full_name }}</p>
+			 <p>{{ person.get_full_name }}</p>
+			 {% if person.is_staff %}
+			 <div class="rcos-mentor">
+				 Mentor
+			 </div>
+			 {% endif %}
 		</a>
 	</li>
 	{% endfor %}
