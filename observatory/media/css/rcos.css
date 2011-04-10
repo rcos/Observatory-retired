@@ -232,3 +232,41 @@ ul.rcos-links a:hover {
 	list-style: none;
 }
 
+.rcos-mentor {
+	position: absolute;
+	right: -10px;
+	top: -5px;
+	
+	width: 35px;
+	height: 20px;
+	
+	line-height: 20px;
+	font-size: 10px;
+	text-align: center;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	
+	text-shadow: none;
+	
+	background: red;
+	
+	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.5);
+	
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0, rgb(125,28,15)),
+		color-stop(1, rgb(255,92,92))
+	);
+	background-image: -moz-linear-gradient(
+		center bottom,
+		rgb(125,28,15) 0%,
+		rgb(255,92,92) 100%
+	);
+	
+
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}

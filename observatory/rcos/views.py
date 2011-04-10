@@ -35,6 +35,11 @@ def students(request):
       'disable_content': True
     }, context_instance = RequestContext(request))
 
+def faq(request):
+  return render_to_response('rcos/faq.html', {
+      'disable_content': True
+    }, context_instance = RequestContext(request))
+
 def courses(request):
   return HttpResponseRedirect("http://public.kitware.com/"
                               "OpenSourceSoftwarePractice/index.php/"
