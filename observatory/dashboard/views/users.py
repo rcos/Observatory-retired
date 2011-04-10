@@ -43,7 +43,7 @@ ADJ_COUNT = len(PEOPLE_ADJECTIVES)
 
 # display the list of users
 def people(request):
-  people = User.objects.all()
+  people = User.objects.order_by("is_staff").reverse()
   return render_to_response("users/people.html", {
       "people": people,
       "adjective": PEOPLE_ADJECTIVES[random.randint(0, ADJ_COUNT - 1)]
