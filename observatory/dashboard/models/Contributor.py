@@ -50,5 +50,5 @@ class Contributor(models.Model):
       return self.name
     if self.email and not self.name:
       return self.email
-    return self.id
+    return str(self.id)
     
