@@ -301,7 +301,7 @@ def modify(request, project_url_path, tab_id = 1):
   screenshots = Screenshot.objects.filter(project = project)
   
   # if someone tries to edit a project they shouldn't be able to
-  if request.user not in project.authors.all():
+  if not (request.user in project.authors.all() or request.user.is_staff):
     return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
   
   # default forms
