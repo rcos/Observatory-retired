@@ -44,6 +44,8 @@ class Contributor(models.Model):
     super(Contributor, self).save(*args, **kwargs)
   
   def __unicode__(self):
+    if self.user:
+      return self.user.get_full_name()
     if self.name and self.email:
       return "{0} <{1}>".format(self.name, self.email)
     if self.name and not self.email:
