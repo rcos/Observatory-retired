@@ -197,6 +197,10 @@ ul.rcos-links a:hover {
 
 /* footer */
 .rcos-footer {
+	background: none repeat scroll 0 0 snow;
+	border: 2px solid darkRed;
+	border-radius: 5px 5px 5px 5px;
+	height: 80px;
 	padding: 20px;
 }
 
