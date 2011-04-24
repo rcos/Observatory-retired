@@ -30,13 +30,13 @@ ul.rcos-links a:hover {
 
 .rcos-content {
 	position: relative;
-	min-height: 350px;
+	min-height: 850px;
 }
 
 .rcos-left {
 	left: 0px;
 	width: 565px;
-	min-height: 350px;
+	min-height: 850px;
 	padding: 20px;
 	background: #fff;
 	
@@ -271,3 +271,4 @@ ul.rcos-links a:hover {
 
 	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
 }
+
