@@ -197,9 +197,6 @@ ul.rcos-links a:hover {
 
 /* footer */
 .rcos-footer {
-	background: none repeat scroll 0 0 snow;
-	border: 2px solid darkRed;
-	border-radius: 5px 5px 5px 5px;
 	height: 80px;
 	padding: 20px;
 }
@@ -214,7 +211,7 @@ ul.rcos-links a:hover {
 }
 
 .rcos-footer a {
-	color: #666;
+	color: #999;
 	text-shadow: 0px -1px 0px #000;
 	text-decoration: none;
 	font-size: 12px;
