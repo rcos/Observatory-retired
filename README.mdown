@@ -37,6 +37,12 @@ For OS X/Linux users, everything but Git can be installed using pip.
 	pip install django mercurial BeautifulSoup pil
 	sudo apt-get install git-core #Your native package manager here
 	
+If the above does not work for Linux users, the following can be used in place
+of pip to install PIL and Mercurial:
+
+sudo apt-get install mercurial
+sudo aptitude install python-imaging
+	
 For Windows users Git, Mercurial, and PIL are best installed through downloaded
 installers because there are several build issues when using python packaging. 
 You will also want to install `easy_install` or `pip` to to manage your python
@@ -104,5 +110,41 @@ recent commits and blog posts for the demo projects. Then, you can just run the
 server with `./manage.py runserver` in the `observatory` directory, and access
 it (typically) at `http://localhost:8000/projects`.
 
+If you want to provide external access to the server, this can be done by
+running the server with `./manage.py runserver 0.0.0.0:[port number]` where
+[port number] is any open port you want to bind to observatory.
+
 If you're looking for something to work on, check out the Issues page or ask
 me, via email or on `#rcos` on `irc.freenode.net`.
+
+## Page Descriptions
+Projects
+The front page of Observatory, gives a quick list of all projects listed in 
+Observatory with links to each project page, blog, and repository. A status 
+icon is next to each project title in the form of a emoticon used to denote how
+recently the project has been updated. At the top of the page, a graph breaks 
+down the overall status of all projects by displaying how many projects, 
+repositories, and blogs have been updated within the past week.
+
+Feed
+An aggregate feed of all blog posts and commits to any project listed in 
+Observatory. Contains the information of the commit or an excerpt of the blog 
+post as well as who published it to which project.
+
+Posts
+An aggregate feed of all full blog posts for the projects in Observatory.
+
+People
+A listing of all developers logged in the Obseratory system. Clicking on a 
+name will bring you to the user's page.
+
+User Page
+Contains contact email of the developer and a list of all projects started by 
+them under the project heading. Listed under Contributed to is all the 
+projects they committed changes to the project's repo. Only projects currently 
+in the Observatory system will be listed here.
+
+Project Page
+Provides a listing of all authors and contributors to the project. Only users 
+listed within the Observatory system will be added, not anyone who commits to 
+the repo. At the bottom there are also small feeds for commits and blog posts.
