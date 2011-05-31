@@ -80,6 +80,9 @@ BLOG_FETCH_PROCESS_COUNT = 10
 # The maximum number of concurrent processes to run when fetching repos
 REPO_FETCH_PROCESS_COUNT = 4
 
+# The address where emails should be sent from
+MAIL_SENDER = "no-reply@rpi.edu"
+
 # The number of minutes before a repository fetch should timeout.
 #
 # This doesn't apply to the time it takes the clone the repository, just to
