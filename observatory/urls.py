@@ -1,6 +1,7 @@
 from dashboard.feeds import *
 from dashboard.models import *
 from dashboard.views import *
+from django.contrib.auth import views as auth_views
 from django.conf.urls.defaults import *
 import settings
 
@@ -14,9 +15,8 @@ for model in (AuthorRequest,
               Contributor,
               Event,
               Project,
-              Repository,
-              Screenshot):
-  admin.site.register(model)
+              Repository,Screenshot):
+     admin.site.register(model)
 
 urlpatterns = patterns('',
     # Example:
@@ -83,6 +83,7 @@ urlpatterns = patterns('',
     (r'^projects/remove-user/$', projects.remove_user),
     (r'^projects/add/$', projects.add),
     (r'^projects/list/$', projects.list),
+    (r'^projects/archive_list/$', projects.archived_list),
     (r'^projects/([^\.]*)/delete-screenshot/(\d+)/$',
         projects.delete_screenshot),
     (r'^projects/([^\.]*)/modify/(\d+)/$', projects.modify),
@@ -103,3 +104,4 @@ urlpatterns = patterns('',
     (r'^site-media/(?P<path>.*)/$', 'django.views.static.serve',
         {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
 )
+

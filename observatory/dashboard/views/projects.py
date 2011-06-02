@@ -32,6 +32,8 @@ SHOW_BLOGPOST_COUNT = 3
 def list(request):
   projects = Project.objects.exclude(score = None).order_by('score')
   scoreless = Project.objects.filter(score = None)
+  projects = projects.exclude(active = False)
+
   
   # fetch repositories and blogs in single queries
   repositories = Repository.objects.exclude(project = None)
@@ -44,7 +46,9 @@ def list(request):
     repository_dict[repository.id] = repository
   for blog in blogs:
     blogs_dict[blog.id] = blog
-  
+
+
+
   # assign the repositories and blogs
   for project in projects:
     project.repository = repository_dict[project.repository_id]
@@ -108,6 +112,90 @@ def list(request):
       'nothing_fetched': projects.count() is 0
     }, context_instance = RequestContext(request))
 
+# "dashboard" view for archived projects without scoring
+def archived_list(request):
+  projects = Project.objects.exclude(score = None).order_by('score')
+  scoreless = Project.objects.filter(score = None)
+  projects = projects.exclude(active = True)
+
+  
+  # fetch repositories and blogs in single queries
+  repositories = Repository.objects.exclude(project = None)
+  blogs = Blog.objects.exclude(project = None)
+  
+  repository_dict = {}
+  blogs_dict = {}
+  
+  for repository in repositories:
+    repository_dict[repository.id] = repository
+  for blog in blogs:
+    blogs_dict[blog.id] = blog
+
+
+
+  # assign the repositories and blogs
+  for project in projects:
+    project.repository = repository_dict[project.repository_id]
+    project.blog = blogs_dict[project.blog_id]
+  
+  # find the number of updates for blog, repo and overall in the past week
+  repo_count, blog_count, overall_count = 0, 0, 0
+  now = datetime.utcnow()
+  for project in projects:
+    repo_days = (now - project.repository.most_recent_date).days
+    blog_days = (now - project.blog.most_recent_date).days
+    if repo_days < 7: repo_count += 1
+    if blog_days < 7: blog_count += 1
+    if repo_days < 7 or blog_days < 7: overall_count += 1
+  
+  # create CSS for the progress bars at the top
+  def css(count):
+    grad_top = hsv_to_rgb(0.3 * count / projects.count(), 0.9, 0.5)
+    grad_bottom = hsv_to_rgb(0.3 * count / projects.count(), 0.9, 0.9)
+    border = hsv_to_rgb(0.3 * count / projects.count(), 0.9, 0.7)
+    
+    return """
+      background:rgb({3},{4},{5});
+      background-image: -webkit-gradient(linear, left bottom, left top,
+        from(rgb({0},{1},{2})),
+        to(rgb({3},{4},{5})));
+      background-image: -moz-linear-gradient(100% 100% 90deg,
+        rgb({0},{1},{2}),
+        rgb({3},{4},{5})
+      );
+      border: 1px solid rgb({6},{7},{8});
+      width:{9}px;display: block;""".format(
+        int(grad_top[0] * 255),
+        int(grad_top[1] * 255),
+        int(grad_top[2] * 255),
+        int(grad_bottom[0] * 255),
+        int(grad_bottom[1] * 255),
+        int(grad_bottom[2] * 255),
+        int(border[0] * 255),
+        int(border[1] * 255),
+        int(border[2] * 255),
+        int(424 * (1.0 * count / projects.count()))
+      )
+      
+  if projects.count() is not 0:
+    repo_bar_css = css(repo_count)
+    blog_bar_css = css(blog_count)
+    overall_bar_css = css(overall_count)
+  else:
+    repo_bar_css, blog_bar_css, overall_bar_css = None, None, None
+  
+  return render_to_response('projects/archive_list.html', {
+      'projects': projects,
+      'scoreless': scoreless,
+      'blog_count': blog_count,
+      'repo_count': repo_count,
+      'overall_count': overall_count,
+      'repo_bar_css': repo_bar_css,
+      'blog_bar_css': blog_bar_css,
+      'overall_bar_css': overall_bar_css,
+      'nothing_fetched': projects.count() is 0
+    }, context_instance = RequestContext(request))
+
 # information about a specific project
 def show(request, project_url_path):
   # redirect if the url path is not in the correct format
@@ -116,6 +204,8 @@ def show(request, project_url_path):
   
   # get the project
   project = get_object_or_404(Project, url_path = project_url_path)
+
+
   
   # create a paginated list of the screenshots of the project
   paginator = None
@@ -133,7 +223,7 @@ def show(request, project_url_path):
   # exclude the current authors from the project
   for user in project.authors.all():
     contributors = contributors.exclude(user = user)
-  
+
   # if the user has already submitted an author request, hide add/remove author
   show_add_remove_author = True
   if request.user is not None:
@@ -146,7 +236,6 @@ def show(request, project_url_path):
   # get the most recent blog posts for the project
   blogposts = BlogPost.objects.filter(blog = project.blog)
   blogposts = blogposts.order_by('date').reverse()[:SHOW_BLOGPOST_COUNT]
-  
   return render_to_response('projects/show.html', {
       'project': project,
       'paginator': paginator,
@@ -287,6 +376,12 @@ def add(request):
     # save the project again
     project.save()
 
+    # Set the active flag as true
+    project.active = True
+
+    # Save the project again
+    project.save()
+
     # redirect to the show page for the new project
     return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
 
@@ -336,6 +431,7 @@ def modify(request, project_url_path, tab_id = 1):
         project.website = form.cleaned_data['website']
         project.wiki = form.cleaned_data['wiki']
         project.description = form.cleaned_data['description']
+        project.active = form.cleaned_data['active']
         project.save()
         project_form = ProjectForm(instance = project)
       
@@ -401,6 +497,9 @@ def modify(request, project_url_path, tab_id = 1):
     'repo': project.repository,
     'tab': int(tab_id)
   }, context_instance = RequestContext(request))
+
+
+	
 
 # adds a user as an author of a project
 def add_user(request):

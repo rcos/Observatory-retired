@@ -43,6 +43,12 @@
                 <li>
                     <a href="{% url dashboard.views.users.people %}">People</a>
                 </li>
+				<li class="navigation-bullet">•</li>
+                <li>
+                    <a href="{% url dashboard.views.projects.archived_list %}">
+                        Past Projects
+                    </a>
+                </li>
             </ul>
             <ul id="navigation-account">
                 {% if user.is_authenticated %}
