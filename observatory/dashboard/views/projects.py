@@ -32,7 +32,9 @@ SHOW_BLOGPOST_COUNT = 3
 def list(request):
   projects = Project.objects.exclude(score = None).order_by('score')
   scoreless = Project.objects.filter(score = None)
-  projects = projects.exclude(active = False)
+  projects = projects.exclude(active = True)
+  scoreless = Project.objects.exclude(active = True)
+
 
   
   # fetch repositories and blogs in single queries
@@ -117,6 +119,7 @@ def archived_list(request):
   projects = Project.objects.exclude(score = None).order_by('score')
   scoreless = Project.objects.filter(score = None)
   projects = projects.exclude(active = True)
+  scoreless = Project.objects.exclude(active = True)
 
   
   # fetch repositories and blogs in single queries
@@ -148,51 +151,12 @@ def archived_list(request):
     if blog_days < 7: blog_count += 1
     if repo_days < 7 or blog_days < 7: overall_count += 1
   
-  # create CSS for the progress bars at the top
-  def css(count):
-    grad_top = hsv_to_rgb(0.3 * count / projects.count(), 0.9, 0.5)
-    grad_bottom = hsv_to_rgb(0.3 * count / projects.count(), 0.9, 0.9)
-    border = hsv_to_rgb(0.3 * count / projects.count(), 0.9, 0.7)
-    
-    return """
-      background:rgb({3},{4},{5});
-      background-image: -webkit-gradient(linear, left bottom, left top,
-        from(rgb({0},{1},{2})),
-        to(rgb({3},{4},{5})));
-      background-image: -moz-linear-gradient(100% 100% 90deg,
-        rgb({0},{1},{2}),
-        rgb({3},{4},{5})
-      );
-      border: 1px solid rgb({6},{7},{8});
-      width:{9}px;display: block;""".format(
-        int(grad_top[0] * 255),
-        int(grad_top[1] * 255),
-        int(grad_top[2] * 255),
-        int(grad_bottom[0] * 255),
-        int(grad_bottom[1] * 255),
-        int(grad_bottom[2] * 255),
-        int(border[0] * 255),
-        int(border[1] * 255),
-        int(border[2] * 255),
-        int(424 * (1.0 * count / projects.count()))
-      )
-      
-  if projects.count() is not 0:
-    repo_bar_css = css(repo_count)
-    blog_bar_css = css(blog_count)
-    overall_bar_css = css(overall_count)
-  else:
-    repo_bar_css, blog_bar_css, overall_bar_css = None, None, None
   
   return render_to_response('projects/archive_list.html', {
       'projects': projects,
       'scoreless': scoreless,
       'blog_count': blog_count,
       'repo_count': repo_count,
-      'overall_count': overall_count,
-      'repo_bar_css': repo_bar_css,
-      'blog_bar_css': blog_bar_css,
-      'overall_bar_css': overall_bar_css,
       'nothing_fetched': projects.count() is 0
     }, context_instance = RequestContext(request))
 
