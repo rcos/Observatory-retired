@@ -32,8 +32,8 @@ SHOW_BLOGPOST_COUNT = 3
 def list(request):
   projects = Project.objects.exclude(score = None).order_by('score')
   scoreless = Project.objects.filter(score = None)
-  projects = projects.exclude(active = True)
-  scoreless = Project.objects.exclude(active = True)
+  projects = projects.exclude(active = False)
+  scoreless = Project.objects.exclude(active = False)
 
 
   
