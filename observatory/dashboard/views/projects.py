@@ -116,10 +116,9 @@ def list(request):
 
 # "dashboard" view for archived projects without scoring
 def archived_list(request):
-  projects = Project.objects.exclude(score = None).order_by('score')
-  scoreless = Project.objects.filter(score = None)
-  projects = projects.exclude(active = True)
-  scoreless = Project.objects.exclude(active = True)
+  projects = Project.objects.exclude(score = None).exclude(active = True).order_by('score')
+  scoreless = Project.objects.filter(score = None).exclude(active = True)
+
 
   
   # fetch repositories and blogs in single queries
