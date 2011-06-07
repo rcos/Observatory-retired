@@ -63,6 +63,7 @@ urlpatterns = patterns('',
     (r'^user/(\d+)/$', users.profile),
     (r'^people/$', users.people),
     (r'^forgot-password/$', users.forgot_password),
+    (r'^forgot_password_success/$', users.forgot_password_success),
     
     # commits
     (r'^projects/([^\.]*)/commit/([^\.]*)/$', commits.show),
