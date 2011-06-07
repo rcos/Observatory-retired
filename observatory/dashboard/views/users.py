@@ -26,6 +26,7 @@ from observatory.settings import RECAPTCHA_PUBLIC, RECAPTCHA_PRIVATE
 from observatory.lib.recaptcha.client import captcha
 from django.core.mail import send_mail
 from django.contrib.auth import *
+import random
 from random import choice
 from settings import MAIL_SENDER
 
@@ -244,12 +245,14 @@ def forgot_password(request):
 			return render_to_response('users/forgot_password.html', {
 			'forgot_password_form': forgot_password_form
 			}, context_instance = RequestContext(request))
-		new_pass = ''.join([choice('qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890') for i in range(8)])
+		random.seed()
+		new_pass = ''.join([choice('qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890') for i in range(8)]) 
 		user.set_password(new_pass)
 		user.save()
-		mailmsg = ("Hello " + user.first_name + ",\nAs requested, here is a new password for you to use to login to Observatory: \n" + new_pass + "\n\n")
-		send_mail('New Password for Observatory', mailmsg, MAIL_SENDER, [user.email], fail_silently=False)
-		return HttpResponseRedirect(reverse(projects.list)) 
+		mailmsg = ("Hello " + user.first_name + ",\n\nAs requested, here is a new  password for you to use to login to Observatory: \n" + new_pass + "\n\n")
+		send_mail('New Password for Observatory', mailmsg, MAIL_SENDER, 
+		[user.email], fail_silently=False)
+		return HttpResponseRedirect(reverse(forgot_password_success)) 
     else:
 		return render_to_response('users/forgot_password.html', {
 		'forgot_password_form': forgot_password_form
@@ -260,3 +263,6 @@ def forgot_password(request):
     return render_to_response('users/forgot_password.html', {
       'forgot_password_form': forgot_password_form
     }, context_instance = RequestContext(request))
+
+def forgot_password_success(request):
+    return render_to_response('users/forgot_password_success.html')
