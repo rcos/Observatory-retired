@@ -30,10 +30,8 @@ SHOW_BLOGPOST_COUNT = 3
 
 # the classic "dashboard" view, with rankings
 def list(request):
-  projects = Project.objects.exclude(score = None).order_by('score')
-  scoreless = Project.objects.filter(score = None)
-  projects = projects.exclude(active = False)
-  scoreless = Project.objects.exclude(active = False)
+  projects = Project.objects.exclude(active = False).exclude(score = None).order_by('score')
+  scoreless = Project.objects.filter(score = None).exclude(active = False)
 
 
   
