@@ -6,7 +6,7 @@ TEMPLATE_DEBUG = DEBUG
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+     ('Ben Shippee', 'ben.shippee@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -89,7 +89,7 @@ MAIL_SENDER = "no-reply@rpi.edu"
 # the amount of time it takes to read the logs and generate diffs.
 # "Some People" commit massive diffs, other than that this should never be
 # an issue unless your computer is very, very slow.
-REPO_FETCH_TIMEOUT = 1
+REPO_FETCH_TIMEOUT = 3
 
 # scoring thresholds
 GREEN_SCORE = 2880 # everything up to this score will be green
