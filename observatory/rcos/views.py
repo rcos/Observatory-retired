@@ -18,7 +18,18 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 
 def index(request):
-  projects = Project.objects.order_by("score")[0:3]
+  projects = Project.objects.filter(active = True)
+  i = 0
+  for project in projects:
+	if (project.random_main_page_screenshot() is not None):
+		i = i + 1
+	else:
+		ptitle = project.title
+		projects = projects.exclude(title = ptitle)
+	if (i == 3):
+	    projects = projects [:3]
+	    break
+
 
   return render_to_response('rcos/index.html', {
       'disable_content': True,

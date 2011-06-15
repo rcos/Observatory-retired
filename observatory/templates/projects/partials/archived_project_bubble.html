@@ -1,0 +1,30 @@
+<div class="extra-content" id="project-{{ project.id }}">
+    <h2 style="float:left; clear:both">
+        <a href="{% url dashboard.views.projects.show project.url_path %}">
+            {{ project.title }}
+        </a>
+    </h2>
+    {% include "projects/partials/info.html" %}
+    <div class="clear"></div>
+    {{ project.description|linebreaks }}
+    <div class="bottom-bar">
+        {% if project.score %}
+		<div class="bottom-bar-left">
+			<a href="{% url dashboard.views.commits.show_repository project.url_path %}">
+				{{ project.repository.when_updated }}
+			</a>
+		</div>
+		<div class="bottom-bar-right">
+			<a href="{% url dashboard.views.blogs.show_blog project.url_path %}">
+				{{ project.blog.when_updated }}
+			</a>
+		</div>
+		<div class="clear"></div>
+        {% else %}
+		<div class="bottom-bar-left">
+			This project has not been fetched yet. It will be fetched
+			in the next cycle.
+		</div>
+        {% endif %}
+    </div>
+</div>
