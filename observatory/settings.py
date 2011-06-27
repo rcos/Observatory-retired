@@ -6,7 +6,7 @@ TEMPLATE_DEBUG = DEBUG
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+     ('', ''),
 )
 
 MANAGERS = ADMINS
@@ -80,13 +80,16 @@ BLOG_FETCH_PROCESS_COUNT = 10
 # The maximum number of concurrent processes to run when fetching repos
 REPO_FETCH_PROCESS_COUNT = 4
 
+# The address where emails should be sent from
+MAIL_SENDER = "no-reply@rpi.edu"
+
 # The number of minutes before a repository fetch should timeout.
 #
 # This doesn't apply to the time it takes the clone the repository, just to
 # the amount of time it takes to read the logs and generate diffs.
 # "Some People" commit massive diffs, other than that this should never be
 # an issue unless your computer is very, very slow.
-REPO_FETCH_TIMEOUT = 1
+REPO_FETCH_TIMEOUT = 3
 
 # scoring thresholds
 GREEN_SCORE = 2880 # everything up to this score will be green
