@@ -30,8 +30,8 @@ SHOW_BLOGPOST_COUNT = 3
 
 # the classic "dashboard" view, with rankings
 def list(request):
-  projects = Project.objects.exclude(score = None).order_by('score')
-  scoreless = Project.objects.filter(score = None)
+  projects = Project.objects.exclude(active = False).exclude(score = None).order_by('score')
+  scoreless = Project.objects.filter(score = None).exclude(active = False)
   
   # fetch repositories and blogs in single queries
   repositories = Repository.objects.exclude(project = None)
@@ -108,6 +108,50 @@ def list(request):
       'nothing_fetched': projects.count() is 0
     }, context_instance = RequestContext(request))
 
+# "dashboard" view for archived projects without scoring
+def archived_list(request):
+  projects = Project.objects.exclude(score = None).exclude(active = True).order_by('score')
+  scoreless = Project.objects.filter(score = None).exclude(active = True)
+
+
+  
+  # fetch repositories and blogs in single queries
+  repositories = Repository.objects.exclude(project = None)
+  blogs = Blog.objects.exclude(project = None)
+  
+  repository_dict = {}
+  blogs_dict = {}
+  
+  for repository in repositories:
+    repository_dict[repository.id] = repository
+  for blog in blogs:
+    blogs_dict[blog.id] = blog
+
+
+
+  # assign the repositories and blogs
+  for project in projects:
+    project.repository = repository_dict[project.repository_id]
+    project.blog = blogs_dict[project.blog_id]
+  
+  # find the number of updates for blog, repo and overall in the past week
+  repo_count, blog_count, overall_count = 0, 0, 0
+  now = datetime.utcnow()
+  for project in projects:
+    repo_days = (now - project.repository.most_recent_date).days
+    blog_days = (now - project.blog.most_recent_date).days
+    if repo_days < 7: repo_count += 1
+    if blog_days < 7: blog_count += 1
+    if repo_days < 7 or blog_days < 7: overall_count += 1
+  
+  
+  return render_to_response('projects/archive_list.html', {
+      'projects': projects,
+      'scoreless': scoreless,
+      'blog_count': blog_count,
+      'repo_count': repo_count,
+      'nothing_fetched': projects.count() is 0
+    }, context_instance = RequestContext(request))
 # information about a specific project
 def show(request, project_url_path):
   # redirect if the url path is not in the correct format
@@ -287,6 +331,11 @@ def add(request):
     # save the project again
     project.save()
 
+    # Set the active flag as true
+    project.active = True
+
+    # Save the project again
+    project.save()
     # redirect to the show page for the new project
     return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
 
@@ -336,6 +385,7 @@ def modify(request, project_url_path, tab_id = 1):
         project.website = form.cleaned_data['website']
         project.wiki = form.cleaned_data['wiki']
         project.description = form.cleaned_data['description']
+        project.active = form.cleaned_data['active']
         project.save()
         project_form = ProjectForm(instance = project)
       
