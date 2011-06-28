@@ -54,7 +54,7 @@ class Project(URLPathedModel):
   authors = models.ManyToManyField(User)
   
   # if the project is currently active
-  active = models.BooleanField("Currently Active")
+  active = models.BooleanField(choices= ((True, "Active"),(False,"Inactive")))
   
   # the score of the project, computed after each fetch
   score = models.IntegerField(blank = True, null = True)
