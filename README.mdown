@@ -1,6 +1,11 @@
 # Observatory
 _A Python based dashboard for the Rensselaer Center for Open Source Software_
 
+## Licensing
+Observatory is licensed under the
+[ISC License](http://en.wikipedia.org/wiki/ISC_license), which is equivalent to
+the two-clause BSD license.
+
 ## Features
 Observatory is intended to track a group of open source projects across
 their source code repositories and blogs. It also includes links to the

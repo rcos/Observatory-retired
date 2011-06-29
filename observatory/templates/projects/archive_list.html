@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block extratitle %} • Past Projects{% endblock %}
+
+
+
+{% block content %}
+<h2 style='float:left'>Past Projects:</h2>
+{% if projects or scoreless %}
+{% else %}
+    <h2 style="float:left">No past projects found.</h2>
+{% endif %}
+<div class="clear"></div>
+
+
+{% endblock %}
+
+{% block extracontent %}
+<div id="projects-list">    
+    {% for project in projects %}
+        {% include "projects/partials/archived_project_bubble.html" %}
+    {% endfor %}
+    {% for project in scoreless %}
+        {% include "projects/partials/archived_project_bubble.html" %}
+    {% endfor %}
+</div>
+{% endblock %}
