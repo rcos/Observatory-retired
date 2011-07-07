@@ -18,7 +18,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 
 def index(request):
-  projects = Project.objects.filter(active = True)
+  projects = Project.objects.filter(active = True).order_by("score")
   i = 0
   for project in projects:
 	if (project.random_main_page_screenshot() is not None):
