@@ -226,6 +226,9 @@ def login(request):
         if user is None:
           error_header = "Invalid password."
           raise LoginError(True)
+        else:
+	  error_header = "Account is deactivated. Please contact a mentor."
+	  raise LoginError(True)
         
         # otherwise, log the user in
         if user.is_active:
