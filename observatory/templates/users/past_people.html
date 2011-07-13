@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load gravatar %}
+
+{% block content %}
+{% if people %}
+<h2>
+	We have {{ people|length }} {{ adjective }} past developer{{ people|length|pluralize}}.
+		        <ul class='project-info'>
+            <a href="{% url dashboard.views.users.people %}"
+               class="green button-small">
+                Current Developers
+            </a>
+			</ul>
+</h2>
+<ul class="project-authors dark">
+	{% for person in people %}
+	<li>
+		<a href="{% url dashboard.views.users.profile person.id %}">
+			<img src="{{ person|gravatar:100 }}"
+			     alt="{{ author.get_full_name }}" />
+			 <p>{{ person.get_full_name }}</p>
+			 {% if person.is_staff %}
+			 <div class="rcos-mentor">
+				 Mentor
+			 </div>
+			 {% endif %}
+		</a>
+	</li>
+	{% endfor %}
+	<div style="clear:both"></div>
+</ul>
+{% else %}
+<h2>
+	There are no past developers.
+</h2>
+{% endif %}
+{% endblock %}
