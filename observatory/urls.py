@@ -5,6 +5,7 @@ from django.conf.urls.defaults import *
 import settings
 
 from django.contrib import admin
+from django.contrib.auth.models import User
 
 # autodiscover doesn't work, do it manually
 for model in (AuthorRequest,
@@ -15,7 +16,8 @@ for model in (AuthorRequest,
               Event,
               Project,
               Repository,
-              Screenshot):
+              Screenshot,
+			  Users):
   admin.site.register(model)
 
 urlpatterns = patterns('',
