@@ -32,6 +32,12 @@
 {% else %}
 <h2>
 	There are no past developers.
+	 <ul class='project-info'>
+            <a href="{% url dashboard.views.users.people %}"
+               class="green button-small">
+                Current Developers
+            </a>
+			</ul>
 </h2>
 {% endif %}
 {% endblock %}
