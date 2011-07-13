@@ -17,7 +17,7 @@ for model in (AuthorRequest,
               Project,
               Repository,
               Screenshot,
-			  Users):
+			  User):
   admin.site.register(model)
 
 urlpatterns = patterns('',
