@@ -2,12 +2,13 @@
 {% load gravatar %}
 
 {% block content %}
+{% if people %}
 <h2>
-We have {{ people|length }} {{ adjective }} current developer{{ people|length|pluralize}}.
+We have {{ people|length }} {{ adjective }} past developer{{ people|length|pluralize}}.
 <ul class='project-info'>
-            <a href="{% url dashboard.views.users.past_people %}"
+            <a href="{% url dashboard.views.users.people %}"
                class="green button-small">
-                Past Developers
+                Current Developers
             </a>
 </ul>
 </h2>
@@ -28,5 +29,15 @@ Mentor
 {% endfor %}
 <div style="clear:both"></div>
 </ul>
+{% else %}
+<h2>
+There are no past developers.
+<ul class='project-info'>
+            <a href="{% url dashboard.views.users.people %}"
+               class="green button-small">
+                Current Developers
+            </a>
+</ul>
+</h2>
+{% endif %}
 {% endblock %}
-

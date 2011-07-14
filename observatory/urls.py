@@ -62,6 +62,7 @@ urlpatterns = patterns('',
     (r'^user/(\d+)/posts/$', blogs.show_user_blog),
     (r'^user/(\d+)/$', users.profile),
     (r'^people/$', users.people),
+	(r'^past_people/$', users.past_people),
     (r'^forgot-password/$', users.forgot_password),
     (r'^forgot_password_success/$', users.forgot_password_success),
     

@@ -32,8 +32,15 @@ from settings import MAIL_SENDER
 
 # display the list of users
 def people(request):
-  people = User.objects.all()
+  people = User.objects.all().exclude(is_active = False)
   return render_to_response("users/people.html", {
+      "people": people
+    }, context_instance = RequestContext(request))
+	
+# display the list of past users
+def past_people(request):
+  people = User.objects.all().exclude(is_active = True)
+  return render_to_response("users/past_people.html", {
       "people": people
     }, context_instance = RequestContext(request))
 
