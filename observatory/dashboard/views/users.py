@@ -132,6 +132,46 @@ def register(request):
       'RECAPTCHA_PRIVATE': RECAPTCHA_PRIVATE
     }, context_instance = RequestContext(request))
   
+# makes a user inactive and moves them to past users
+def deactivate(request, user_id):
+	user = get_object_or_404(User, id = user_id)
+	user.is_active = False
+	user.save()
+	try:
+		contributor = Contributor.objects.get(user = user)
+	except:
+		contributor = None
+	try:
+		is_self = user.id == request.user.id
+	except:
+		is_self = False
+	
+	return render_to_response('users/profile.html', {
+      'user_page': user,
+      'contributor': contributor,
+      'is_self': is_self
+    }, context_instance = RequestContext(request))
+	
+	# makes a user active and moves them to users
+def activate(request, user_id):
+	user = get_object_or_404(User, id = user_id)
+	user.is_active = True
+	user.save()
+	try:
+		contributor = Contributor.objects.get(user = user)
+	except:
+		contributor = None
+	try:
+		is_self = user.id == request.user.id
+	except:
+		is_self = False
+	
+	return render_to_response('users/profile.html', {
+      'user_page': user,
+      'contributor': contributor,
+      'is_self': is_self
+    }, context_instance = RequestContext(request))
+
 # creates a user, submitted from register
 def create_user(request, form):
   data = form.cleaned_data
