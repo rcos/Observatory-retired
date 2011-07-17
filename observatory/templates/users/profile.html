@@ -17,7 +17,19 @@
 	</div>
 	{% endif %}
 	<div class="clear"></div>
-
+	{% if user.is_staff and not is_self %}
+	<div style="float:right">
+		{% if user_page.is_active %}
+		<a href="{% url dashboard.views.users.deactivate user_page.id %}" class="green button-small">
+			Deactivate User
+		</a>
+		{% else %}
+		<a href="{% url dashboard.views.users.activate user_page.id %}" class="green button-small">
+			Activate User
+		</a>
+		{% endif %}
+	</div>
+	{% endif %}
 	<p>
 		{{ user_page.email }}
 	</p>
