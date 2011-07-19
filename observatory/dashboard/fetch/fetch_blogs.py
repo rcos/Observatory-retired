@@ -56,7 +56,7 @@ while True:
   for fetcher in fetchers:
     if fetcher.is_done():
       # if the blog is not a personal blog, update the project's score
-      if fetcher.blog.user is None:
+      if fetcher.blog.user is None and Project.objects.get(blog__id = fetcher.blog.id) is not None:
         project = Project.objects.get(blog__id = fetcher.blog.id)
         project.calculate_score()
       
