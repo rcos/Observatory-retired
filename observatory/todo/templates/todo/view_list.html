@@ -1,0 +1,164 @@
+{% extends "todo/base.html" %}
+
+{% block title %}Todo List: {{ list.name }}{% endblock %}
+
+{% block content %}
+
+
+
+    {% ifequal list_slug "mine" %}
+        <h1>Tasks assigned to {{ request.user }}</h1>    
+    {% else %}
+    {% ifequal auth_ok 1 %}
+       <h1>Tasks filed under "{{ list.name }}"</h1>
+       <p>This list belongs to group {{ list.group }}</p>
+    {% endifequal %}
+    {% endifequal %}
+
+ 
+   {% if messages %}
+   <ul class="messages">
+       {% for message in messages %}
+       <li>{{ message }}</li>
+       {% endfor %}
+   </ul>
+   {% endif %}   
+
+
+   {% ifequal auth_ok 1 %}
+   <form action="" method="POST">
+	{% csrf_token %}	
+   
+   {# Only show task adder if viewing a proper list #}
+   {% ifnotequal list_slug "mine" %}
+   <h2 style="margin-bottom:0px;" id="slideToggle" >Add a Task:</h2>
+   
+   <div id="AddTask">	    
+	    <table class="nocolor" border="0" cellspacing="5" cellpadding="5">
+	       <tr>
+	           <td>{{ form.title.errors }}</td>
+	           <td>{{ form.due_date.errors }}</td>
+	       </tr>
+	       <tr>
+	           <td><label for="id_title">Task:</label> {{ form.title }}</td>
+	           <td><label for="id_due_date">Due date:</label> {{ form.due_date }}</td>
+	           <td visibility: hidden><label for="id_assigned">Assign to:</label> {{ form.assigned_to }}</td>
+	           <!--<td ><label  for="id_notify">Notify*:</label> <input   type="checkbox" checked="checked" name="notify" value="1" id="notify"></td> -->
+ 	       </tr>
+	       <tr>
+	           <td colspan="5"><label for="id_note">Note:</label> {{ form.note }}
+	               <!--<p class="minor">*Email notifications will only be sent if task is assigned to someone besides yourself.</p>-->
+	           </td>
+ 	       </tr> 	       
+	    </table>
+	
+        <input type="hidden" name="priority" value="999" id="id_priority">
+        <input type="hidden" name="created_by" value="{{ request.user.id }}" id="id_created_by">
+        <input type="hidden" name="list" value="{{ listid }}" id="id_list">
+        <input type="hidden" name="created_date" value="{{ created_date }}" id="id_created_date">	        
+	    
+	    <p><input type="submit" name="add_task" value="Add task" class="todo-button"></p>
+    </div>	    
+	    
+        {% endifnotequal %}
+        
+        
+    {% ifequal view_completed 0  %}
+
+	<h3>Incomplete tasks</h3>
+	
+	<table border="0" id="tasktable">	
+        <tr>
+            <th>Complete  </th>             
+            <th>Task  </th> 
+			<th>  </th>
+            <th>Created  </th> 
+            <th>Due by  </th>
+			<th>   </th>			
+            <th>Owner  </th>
+			<th>  </th>
+            <th>Assigned  </th>
+			<th>  </th>
+            <th>Note  </th>   
+            <th>Comments  </th>                            
+ 
+            {% ifequal list_slug "mine" %}
+            <th>List</th>   
+             {% endifequal %}            
+                                 
+            <th>Delete</th>             
+        </tr>
+		{% for task in task_list %}
+	        <tr class="{% cycle 'row1' 'row2' %}" id="{{ task.id }}">
+	            <td><input type="checkbox" name="mark_done" value="{{ task.id }}" id="mark_done_{{ task.id }}">   </td> 
+	            <td><a href="{% url todo-task_detail task.id %}">{{ task.title|truncatewords:20 }}</a></td> 
+				<td>  </td>
+	            <td>{{ task.created_date|date:"m/d/Y" }}</td> 
+				<td>{{ task.due_date }}</td>
+				<td>  </td>
+	            <td>{{ task.created_by.get_full_name }}</td> 
+				<td>  </td>
+	            <td>{{ task.assigned_to.get_full_name}}</td>
+				<td>  </td>
+	            <td style="text-align:center;">{% if task.note %}&radic;{% endif %} </td>
+	            <td style="text-align:center;">{{ task.comment_set.all.count }}</td>
+                   
+	             
+	            {% ifequal list_slug "mine" %}
+                <td><a href="{% url todo-incomplete_tasks task.list.id task.list.slug %}">{{ task.list }}</a></td>   
+                {% endifequal %}
+                       
+	            <td><input type="checkbox" name="del_task" value="{{ task.id }}" id="del_task_{{ task.id }}">   </td> 	            
+            </tr>
+	    {% endfor %}
+	</table>   
+    <p><input type="submit" name="mark_tasks_done" value="Apply Changes"  class="todo-button"></p>
+    
+    <p><a  class="todo" href="{% url todo-completed_tasks list_id list_slug %}">View completed tasks</a></p>
+    {% endifequal %}    
+
+    {% ifequal view_completed 1 %}
+	<h3>Completed tasks</h3> 
+
+	<table border="0"  id="tasktable">	
+        <tr>
+            <th>Incomplete</th> 
+            <th>Task</th> 
+            <th>Created</th> 
+            <th>Completed</th>   
+            <th>Note</th>   
+            <th>Comments</th>            
+            {% ifequal list_slug "mine" %}
+            <th>List</th>   
+             {% endifequal %}                       
+            <th>Delete</th>                
+        </tr>
+
+        
+		{% for task in completed_list %}
+	        <tr class="{% cycle 'row1' 'row2' %}">     
+	            <td><input type="checkbox" name="undo_completed_task" value="{{ task.id }}" id="id_undo_completed_task{{ task.id }}">   </td> 	            	            	            
+	            <td><a href="{% url todo-task_detail task.id %}">{{ task.title|truncatewords:20 }}</a></td> 
+	            <td>{{ task.created_date|date:"m/d/Y" }}</td> 
+	            <td>{{ task.completed_date|date:"m/d/Y" }}</td>	     
+	            <td style="text-align:center;">{% if task.note %}&radic;{% endif %} </td>
+	            <td style="text-align:center;">{{ task.comment_set.all.count }}</td>
+	               
+	            <td><input type="checkbox" name="del_completed_task" value="{{ task.id }}" id="del_completed_task_{{ task.id }}">   </td> 	            	            
+            </tr>
+	    {% endfor %}
+
+	</table>
+	<p><input type="submit" name="deldonetasks" value="Apply Changes"  class="todo-button"></p>
+	</form> 
+    <p><a  class="todo" href="{% url todo-incomplete_tasks list_id list_slug %}">View incomplete tasks</a></p>
+    {% endifequal %}    
+	
+	{% ifequal can_del 1 %}
+	{% ifnotequal list_slug "mine" %}    
+	   <p><a class="todo" href="{% url todo-del_list list_id list_slug %}">Delete this list</a></p>
+	{% endifnotequal %}
+	{% endifequal %}
+	
+    {% endifequal %}
+{% endblock %}

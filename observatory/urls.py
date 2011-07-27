@@ -2,6 +2,7 @@ from dashboard.feeds import *
 from dashboard.models import *
 from dashboard.views import *
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.models import User, Group
 from django.conf.urls.defaults import *
 import settings
 
@@ -15,6 +16,8 @@ for model in (AuthorRequest,
               Contributor,
               Event,
               Project,
+			  User,
+			  Group,
               Repository,Screenshot):
      admin.site.register(model)
 
@@ -98,6 +101,9 @@ urlpatterns = patterns('',
     
     (r'^projects/$', projects.list),
     (r'^$', projects.list),
+	
+	#tasks
+	(r'^todo/', include('todo.urls')),
     
     # feed
     (r'^event/([^\.]*)/$', feed.event),
