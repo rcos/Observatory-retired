@@ -59,6 +59,6 @@ while True:
       fetchers.remove(fetcher)
 
 # Calculate scores all at once
-projects = Project.objects.exclude(active = false)
+projects = Project.objects.exclude(active = False)
 for project in projects:
     project.calculate_score()
