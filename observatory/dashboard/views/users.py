@@ -114,7 +114,6 @@ def profile(request, user_id):
     is_self = user.id == request.user.id
   except:
     is_self = False
-  
   return render_to_response('users/profile.html', {
       'user_page': user,
       'contributor': contributor,

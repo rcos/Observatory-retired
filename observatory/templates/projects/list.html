@@ -31,6 +31,14 @@
 {% else %}
     <h2 style="float:left">No projects found.</h2>
 {% endif %}
+    <ul class='project-info'>
+        <li>
+            <a href="{% url dashboard.views.projects.archived_list %}"
+               class="green button-small">
+                Past Projects
+            </a>
+        </li>
+    </ul>
 {% if user.is_authenticated %}
     <ul class='project-info'>
         <li>
@@ -41,6 +49,7 @@
         </li>
     </ul>
 {% endif %}
+
 <div class="clear"></div>
 
 {% if projects and not nothing_fetched %}

@@ -5,7 +5,7 @@ from django.conf.urls.defaults import *
 import settings
 
 from django.contrib import admin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 # autodiscover doesn't work, do it manually
 for model in (AuthorRequest,
@@ -17,6 +17,7 @@ for model in (AuthorRequest,
               Project,
               Repository,
               Screenshot,
+			  Group,
 			  User):
   admin.site.register(model)
 
@@ -99,6 +100,9 @@ urlpatterns = patterns('',
     (r'^projects/([^\.]*)\.rss', EventsFeed()),
     
     (r'^projects/$', projects.list),
+	
+	# tasks
+    (r'^todo/', include('todo.urls')),
     
     # feed
     (r'^event/([^\.]*)/$', feed.event),
