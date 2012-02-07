@@ -145,7 +145,13 @@ class Repository(EventSet):
       fresh_clone = False
 
     # clone the repository, or update our copy
-    clone_repo_function(self.vcs)(self.clone_url, dest_dir, fresh_clone)
+    try:
+        clone_repo_function(self.vcs)(self.clone_url, dest_dir, fresh_clone)
+    except Repository.CheckoutFailureException:
+        # if we couldn't update the repository, remove anything we got and try once more
+        remove_repo(dest_dir)
+        fresh_clone = True
+        clone_repo_function(self.vcs)(self.clone_url, dest_dir, fresh_clone)
   
   def clone_cmd(self):
     if not self.from_feed:
@@ -202,3 +208,7 @@ def clone_repo_function(vcs):
     return None
 
   return clone_repo_functions[vcs]
+
+def remove_repo(destination_dir):
+    #attempts to delete the entire directory tree, ignoring errors
+    shutil.rmtree(destination_dir, True)
