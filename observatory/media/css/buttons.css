@@ -24,10 +24,16 @@ a.button {
 	text-align: center;
 }
 
+.button-small:hover {
+	color: #f2f2f2;
+	text-shadow: 0 1px 0 #0d0d0d;
+}
+
 .button, .button-small, select {
 	border: 1px solid #ccc;
 	
-	padding: 0px 10px;
+	padding: 0px 10px 4px;
+	margin-top: -5px;
 	
 	color: #444;
 	text-decoration: none;
@@ -94,7 +100,7 @@ select:hover:not(:disabled), select:focus:not(:disabled) {
 
 .button:active:not(:disabled), .button-small:active:not(:disabled),
 select:active:not(:disabled) {
-	color: black;
+	color: #999;
 	border-color: black;
 	
 	background-image: url('/site-media/pixels/button-active.gif');
@@ -107,7 +113,7 @@ select:active:not(:disabled) {
 	
 	-moz-text-shadow: 0px 1px 1px #888;
 	-webkit-text-shadow: 0px 1px 1px #888;
-	text-shadow: 0px 1px 1px #888;
+	text-shadow: 0px 1px 0px #888;
 }
 
 
@@ -119,10 +125,21 @@ select:active:not(:disabled) {
 
 .pagination-previous {
 	float: left;
+	margin-left: -20px;
 }
 
 .pagination-next {
 	float: right;
+	margin-right: -20px;
+}
+
+.pagination-next, .pagination-previous {
+	padding-right: .618em;
+	padding-left: .618em;
+	padding-top: 1em;
+	padding-bottom: 0px;
+	line-height: 1px;
+	height: 1.1em;
 }
 
 .pagination-buttons a.button {
