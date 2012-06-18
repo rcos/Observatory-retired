@@ -49,6 +49,16 @@
         </li>
     </ul>
 {% endif %}
+{% if user.is_staff %}
+    <ul class='project-info'>
+        <li>
+            <a href="{% url dashboard.views.projects.pending_list %}"
+               class="green button-small">
+                Pending Projects
+            </a>
+        </li>
+    </ul>
+{% endif %}
 <div class="clear"></div>
 
 {% if projects and not nothing_fetched %}

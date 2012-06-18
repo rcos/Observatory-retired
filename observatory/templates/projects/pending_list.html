@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block extratitle %} • Pending Projects{% endblock %}
+
+
+
+{% block content %}
+<h2 style='float:left'>Pending Projects</h2>
+    <ul class='project-info'>
+        <li>
+            <a href="{% url dashboard.views.projects.list %}"
+               class="green button-small">
+                Current Projects
+            </a>
+        </li>
+    </ul>
+	    <ul class='project-info'>
+        <li>
+            <a href="{% url dashboard.views.projects.archived_list %}"
+               class="green button-small">
+                Past Projects
+            </a>
+        </li>
+    </ul>
+
+<div class="clear"></div>
+
+
+{% endblock %}
+
+{% block extracontent %}
+<div id="projects-list">    
+    {% for project in projects %}
+        {% include "projects/partials/pending_project_bubble.html" %}
+    {% endfor %}
+</div>
+{% endblock %}

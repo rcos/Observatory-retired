@@ -56,6 +56,8 @@ class Project(URLPathedModel):
   
   # if the project is currently active
   active = models.BooleanField(choices= ((True, "Active"),(False,"Inactive")))
+  # if the project is currently pending
+  pending = models.BooleanField(choices= ((True, "Pending"),(False,"Approved")))
   
   # the score of the project, computed after each fetch
   score = models.IntegerField(blank = True, null = True)

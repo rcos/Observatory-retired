@@ -30,8 +30,8 @@ SHOW_BLOGPOST_COUNT = 3
 
 # the classic "dashboard" view, with rankings
 def list(request):
-  projects = Project.objects.exclude(active = False).exclude(score = None).order_by('score')
-  scoreless = Project.objects.filter(score = None).exclude(active = False)
+  projects = Project.objects.exclude(active = False).exclude(score = None).exclude(pending= True).order_by('score')
+  scoreless = Project.objects.filter(score = None).exclude(active = False).exclude(pending= True)
 
 
   
@@ -114,8 +114,8 @@ def list(request):
 
 # "dashboard" view for archived projects without scoring
 def archived_list(request):
-  projects = Project.objects.exclude(score = None).exclude(active = True).order_by('score')
-  scoreless = Project.objects.filter(score = None).exclude(active = True)
+  projects = Project.objects.exclude(score = None).exclude(active = True).exclude(pending= True).order_by('score')
+  scoreless = Project.objects.filter(score = None).exclude(active = True).exclude(pending= True)
 
 
   
@@ -157,6 +157,27 @@ def archived_list(request):
       'nothing_fetched': projects.count() is 0
     }, context_instance = RequestContext(request))
 
+# "dashboard" view for archived projects without scoring
+def pending_list(request):
+  projects = Project.objects.filter(pending= True)
+  
+  return render_to_response('projects/pending_list.html', {
+      'projects': projects,
+      'nothing_fetched': projects.count() is 0
+    }, context_instance = RequestContext(request))
+
+def approve(request, project_url_path):
+  project = get_object_or_404(Project, url_path = project_url_path)
+  project.pending = False
+  project.save()
+  return pending_list(request)
+  
+def deny(request, project_url_path):
+  project = get_object_or_404(Project, url_path = project_url_path)
+  project.delete()
+  return pending_list(request)
+	
+	
 # information about a specific project
 def show(request, project_url_path):
   # redirect if the url path is not in the correct format
@@ -326,7 +347,8 @@ def add(request):
                       description = project_form.cleaned_data['description'],
                       active = True,
                       repository_id = repo.id,
-                      blog_id = blog.id)
+                      blog_id = blog.id,
+					  pending = True)
 
     # get the project a primary key
     project.save()

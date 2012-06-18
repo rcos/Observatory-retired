@@ -5,11 +5,11 @@
 {% block head %}
 {% endblock %}
 
-{% block title %}{{ project.title }}{% endblock %}
+{% block title %}{{ project.title }}{%if project.pending%} (Pending) {%endif%}{% endblock %}
 
 {% block content %}
 <div class="top-bar">
-    <h2 style='float:left'>{{ project.title }}</h2>
+    <h2 style='float:left'>{{ project.title }} {%if project.pending%} (Pending) {%endif%}</h2>
 
     {% include "projects/partials/info.html" %}
 </div>
@@ -66,7 +66,26 @@
 
 <div id="project-description">
     {{ project.description|linebreaks }}
+	
+	
 </div>
+
+{%if project.pending%} 
+{% if user.is_staff %}
+                 <div class="bottom-bar">
+		<div class="bottom-bar-left">
+		<a href="{% url dashboard.views.projects.approve project.url_path %}">
+				Approve this Project
+			</a>
+        </div>
+		<div class="bottom-bar-right">
+		<a href="{% url dashboard.views.projects.deny project.url_path %}">
+				Remove this Project
+			</a>
+        </div>
+    </div>
+            {% endif %}
+{%endif%}
 
 <div class="dark">
 {% if authors %}
