@@ -41,7 +41,7 @@ class Fetcher(object):
     self.process.poll()
     return self.process.returncode is not None
 
-blogs = list(Blog.objects.filter(from_feed = True))
+blogs = list(Blog.objects.filter(from_feed = True, project__active = True))
 fetchers = []
 
 while True:
