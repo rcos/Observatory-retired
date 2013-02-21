@@ -111,7 +111,7 @@ parse_script = os.path.join(this_dir, "parse_repository.py")
 fetch_script = os.path.join(this_dir, "clone_or_fetch_repository.py")
 
 # grab all repositories and put them in a list
-repositories = list(Repository.objects.all())
+repositories = list(Repository.objects.filter(project__active = True))
 
 # fetch the repositories (or time out if it's concert)
 fetchers = []
