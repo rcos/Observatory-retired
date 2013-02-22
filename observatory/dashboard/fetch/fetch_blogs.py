@@ -44,7 +44,7 @@ class Fetcher(object):
         return True
     #Only allow 5 minutes to fetch a blog
     else:
-        if (time() - self.start > 5 * 60):
+        if (time() - self.start > 30):
             self.process.terminate()
             sleep(0)
             self.process.kill()
