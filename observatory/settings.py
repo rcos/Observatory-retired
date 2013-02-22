@@ -81,7 +81,7 @@ MAIL_SENDER = "no-reply@rpi.edu"
 BLOG_FETCH_PROCESS_COUNT = 10
 
 # The maximum number of concurrent processes to run when fetching repos
-REPO_FETCH_PROCESS_COUNT = 4
+REPO_FETCH_PROCESS_COUNT = 1
 
 
 
