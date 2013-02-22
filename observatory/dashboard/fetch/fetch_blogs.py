@@ -41,13 +41,15 @@ class Fetcher(object):
   def is_done(self):
     self.process.poll()
     if self.process.returncode is not None:
-        return self.process.returncode
+        return True
     #Only allow 5 minutes to fetch a blog
     else:
         if (time() - self.start > 5 * 60):
             self.process.terminate()
             sleep(0)
             self.process.kill()
+            return True
+    return False
 
 
 blogs = list(Blog.objects.filter(from_feed = True, project__active = True))
