@@ -21,7 +21,7 @@ import os, subprocess
 from fetch_core import setup_environment, cprint
 from Queue import Queue
 from threading import Thread
-from time import sleep
+from time import sleep, time
 from sys import executable as python
 
 setup_environment()
@@ -36,10 +36,19 @@ class Fetcher(object):
   def __init__(self, blog):
     self.blog = blog
     self.process = subprocess.Popen([python, fetch_script, str(blog.id), "&"])
+    self.start = time()
   
   def is_done(self):
     self.process.poll()
-    return self.process.returncode is not None
+    if self.process.returncode is not None:
+        return self.process.returncode
+    #Only allow 5 minutes to fetch a blog
+    else:
+        if (time() - self.start > 5 * 60):
+            self.process.terminate()
+            sleep(0)
+            self.process.kill()
+
 
 blogs = list(Blog.objects.filter(from_feed = True, project__active = True))
 fetchers = []
