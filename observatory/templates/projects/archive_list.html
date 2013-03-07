@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block extratitle %} • Past Projects{% endblock %}
+
+
+
+{% block content %}
+<h2 style='float:left'>Past Projects</h2>
+    <ul class='project-info'>
+        <li>
+            <a href="{% url dashboard.views.projects.list %}"
+               class="green button-small">
+                Current Projects
+            </a>
+        </li>
+    </ul>
+{% if user.is_staff %}
+    <ul class='project-info'>
+        <li>
+            <a href="{% url dashboard.views.projects.pending_list %}"
+               class="green button-small">
+                Pending Projects
+            </a>
+        </li>
+    </ul>
+{% endif %}
+{% if projects or scoreless %}
+{% else %}
+    <h2 style="float:left">No past projects found.</h2>
+{% endif %}
+
+<div class="clear"></div>
+
+
+{% endblock %}
+
+{% block extracontent %}
+<div id="projects-list">    
+    {% for project in projects %}
+        {% include "projects/partials/archived_project_bubble.html" %}
+    {% endfor %}
+    {% for project in scoreless %}
+        {% include "projects/partials/archived_project_bubble.html" %}
+    {% endfor %}
+</div>
+{% endblock %}

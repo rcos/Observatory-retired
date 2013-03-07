@@ -26,7 +26,7 @@ class RequiredForm(forms.ModelForm):
 class ProjectForm(RequiredForm):
   class Meta:
     model = Project
-    fields = ('title', 'website', 'wiki', 'description')
+    fields = ('title', 'website', 'wiki', 'description', 'active')
 
 class RepositoryForm(RequiredForm):
   class Meta:

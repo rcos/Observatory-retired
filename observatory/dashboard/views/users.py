@@ -24,11 +24,23 @@ from hashlib import md5
 from observatory.dashboard.views import projects
 from observatory.settings import RECAPTCHA_PUBLIC, RECAPTCHA_PRIVATE
 from observatory.lib.recaptcha.client import captcha
+from django.core.mail import send_mail
+from django.contrib.auth import *
+import random
+from random import choice
+from settings import MAIL_SENDER
 
 # display the list of users
 def people(request):
-  people = User.objects.all()
+  people = User.objects.all().exclude(is_active = False)
   return render_to_response("users/people.html", {
+      "people": people
+    }, context_instance = RequestContext(request))
+	
+# display the list of past users
+def past_people(request):
+  people = User.objects.all().exclude(is_active = True)
+  return render_to_response("users/past_people.html", {
       "people": people
     }, context_instance = RequestContext(request))
 
@@ -44,7 +56,8 @@ def profile(request, user_id):
     is_self = user.id == request.user.id
   except:
     is_self = False
-  
+	
+
   return render_to_response('users/profile.html', {
       'user_page': user,
       'contributor': contributor,
@@ -119,6 +132,46 @@ def register(request):
       'RECAPTCHA_PRIVATE': RECAPTCHA_PRIVATE
     }, context_instance = RequestContext(request))
   
+# makes a user inactive and moves them to past users
+def deactivate(request, user_id):
+	user = get_object_or_404(User, id = user_id)
+	user.is_active = False
+	user.save()
+	try:
+		contributor = Contributor.objects.get(user = user)
+	except:
+		contributor = None
+	try:
+		is_self = user.id == request.user.id
+	except:
+		is_self = False
+	
+	return render_to_response('users/profile.html', {
+      'user_page': user,
+      'contributor': contributor,
+      'is_self': is_self
+    }, context_instance = RequestContext(request))
+	
+	# makes a user active and moves them to users
+def activate(request, user_id):
+	user = get_object_or_404(User, id = user_id)
+	user.is_active = True
+	user.save()
+	try:
+		contributor = Contributor.objects.get(user = user)
+	except:
+		contributor = None
+	try:
+		is_self = user.id == request.user.id
+	except:
+		is_self = False
+	
+	return render_to_response('users/profile.html', {
+      'user_page': user,
+      'contributor': contributor,
+      'is_self': is_self
+    }, context_instance = RequestContext(request))
+
 # creates a user, submitted from register
 def create_user(request, form):
   data = form.cleaned_data
@@ -205,6 +258,9 @@ def login(request):
         # otherwise, log the user in
         if user.is_active:
           auth.login(request, user)
+        else:
+          error_header = "Account is deactivated. Please contact a mentor."
+          raise LoginError(True)
         
         return HttpResponseRedirect(next)
       except LoginError as e:
@@ -230,20 +286,33 @@ def forgot_password(request):
   
   forgot_password_form = ForgotPasswordForm(request.POST, auto_id="id_%s")
   if request.method == 'POST':
-    if forgot_password_form.is_valid():
-      try:
-        data = login_form.cleaned_data
-        
-        # query for a user via email
-        user = User.objects.get(email = data['email'])
-        
-        return render_to_response('users/forgot_password_success.html', {
-        })
-      except:
-        raise Exception('An error occurred')
+    if forgot_password_form.is_valid():	
+		data = forgot_password_form.cleaned_data
+		try:
+			user = User.objects.get(email = data['email'])
+		except:
+			forgot_password_form = ForgotPasswordForm(auto_id="id_%s")
+			return render_to_response('users/forgot_password.html', {
+			'forgot_password_form': forgot_password_form
+			}, context_instance = RequestContext(request))
+		random.seed()
+		new_pass = ''.join([choice('qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890') for i in range(8)]) 
+		user.set_password(new_pass)
+		user.save()
+		mailmsg = ("Hello " + user.first_name + ",\n\nAs requested, here is a new  password for you to use to login to Observatory: \n" + new_pass + "\n\n")
+		send_mail('New Password for Observatory', mailmsg, MAIL_SENDER, 
+		[user.email], fail_silently=False)
+		return HttpResponseRedirect(reverse(forgot_password_success)) 
+    else:
+		return render_to_response('users/forgot_password.html', {
+		'forgot_password_form': forgot_password_form
+		}, context_instance = RequestContext(request))
   else:
     forgot_password_form = ForgotPasswordForm(auto_id="id_%s")
     
     return render_to_response('users/forgot_password.html', {
       'forgot_password_form': forgot_password_form
     }, context_instance = RequestContext(request))
+
+def forgot_password_success(request):
+    return render_to_response('users/forgot_password_success.html')

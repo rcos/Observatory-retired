@@ -1,6 +1,8 @@
 from dashboard.feeds import *
 from dashboard.models import *
 from dashboard.views import *
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.models import User, Group
 from django.conf.urls.defaults import *
 import settings
 
@@ -14,9 +16,10 @@ for model in (AuthorRequest,
               Contributor,
               Event,
               Project,
-              Repository,
-              Screenshot):
-  admin.site.register(model)
+			  User,
+			  Group,
+              Repository,Screenshot):
+     admin.site.register(model)
 
 urlpatterns = patterns('',
     # Example:
@@ -62,7 +65,11 @@ urlpatterns = patterns('',
     (r'^user/(\d+)/posts/$', blogs.show_user_blog),
     (r'^user/(\d+)/$', users.profile),
     (r'^people/$', users.people),
+	(r'^past_people/$', users.past_people),
+	(r'^user_deactivate/(\d+)/$', users.deactivate),
+	(r'^user_activate/(\d+)/$', users.activate),
     (r'^forgot-password/$', users.forgot_password),
+    (r'^forgot_password_success/$', users.forgot_password_success),
     
     # commits
     (r'^projects/([^\.]*)/commit/([^\.]*)/$', commits.show),
@@ -83,6 +90,10 @@ urlpatterns = patterns('',
     (r'^projects/remove-user/$', projects.remove_user),
     (r'^projects/add/$', projects.add),
     (r'^projects/list/$', projects.list),
+	(r'^projects/pending/$', projects.pending_list),
+	(r'^projects/pending/approve/([^\.]*)', projects.approve),
+	(r'^projects/pending/deny/([^\.]*)', projects.deny),
+    (r'^projects/archive_list/$', projects.archived_list),
     (r'^projects/([^\.]*)/delete-screenshot/(\d+)/$',
         projects.delete_screenshot),
     (r'^projects/([^\.]*)/modify/(\d+)/$', projects.modify),
@@ -93,6 +104,9 @@ urlpatterns = patterns('',
     
     (r'^projects/$', projects.list),
     (r'^$', projects.list),
+	
+	#tasks
+	(r'^todo/', include('todo.urls')),
     
     # feed
     (r'^event/([^\.]*)/$', feed.event),
@@ -103,3 +117,4 @@ urlpatterns = patterns('',
     (r'^site-media/(?P<path>.*)/$', 'django.views.static.serve',
         {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
 )
+

@@ -6,7 +6,7 @@ TEMPLATE_DEBUG = DEBUG
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+     ('', ''),
 )
 
 MANAGERS = ADMINS
@@ -33,6 +33,7 @@ LOGIN_URL='/login'
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
 TIME_ZONE = 'America/New_York'
+
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -78,7 +79,10 @@ SCREENSHOT_URL = "/site-media/screenshots/"
 BLOG_FETCH_PROCESS_COUNT = 10
 
 # The maximum number of concurrent processes to run when fetching repos
-REPO_FETCH_PROCESS_COUNT = 4
+REPO_FETCH_PROCESS_COUNT = 1
+
+# The address where emails should be sent from
+MAIL_SENDER = "no-reply@rpi.edu"
 
 # The number of minutes before a repository fetch should timeout.
 #
@@ -86,7 +90,7 @@ REPO_FETCH_PROCESS_COUNT = 4
 # the amount of time it takes to read the logs and generate diffs.
 # "Some People" commit massive diffs, other than that this should never be
 # an issue unless your computer is very, very slow.
-REPO_FETCH_TIMEOUT = 1
+REPO_FETCH_TIMEOUT = 3
 
 # scoring thresholds
 GREEN_SCORE = 2880 # everything up to this score will be green
@@ -145,6 +149,7 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     'devserver',
+    'todo',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

@@ -31,12 +31,30 @@
 {% else %}
     <h2 style="float:left">No projects found.</h2>
 {% endif %}
+    <ul class='project-info'>
+        <li>
+            <a href="{% url dashboard.views.projects.archived_list %}"
+               class="green button-small">
+                Past Projects
+            </a>
+        </li>
+    </ul>
 {% if user.is_authenticated %}
     <ul class='project-info'>
         <li>
             <a href="{% url dashboard.views.projects.add %}"
                class="green button-small">
                 Add a Project
+            </a>
+        </li>
+    </ul>
+{% endif %}
+{% if user.is_staff %}
+    <ul class='project-info'>
+        <li>
+            <a href="{% url dashboard.views.projects.pending_list %}"
+               class="green button-small">
+                Pending Projects
             </a>
         </li>
     </ul>

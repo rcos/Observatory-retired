@@ -29,6 +29,7 @@ random.seed()
 
 # an open source project tracked by observatory
 class Project(URLPathedModel):
+
   class Meta:
     app_label = 'dashboard'
   
@@ -54,7 +55,9 @@ class Project(URLPathedModel):
   authors = models.ManyToManyField(User)
   
   # if the project is currently active
-  active = models.BooleanField("Currently Active")
+  active = models.BooleanField(choices= ((True, "Active"),(False,"Inactive")))
+  # if the project is currently pending
+  pending = models.BooleanField(choices= ((True, "Pending"),(False,"Approved")))
   
   # the score of the project, computed after each fetch
   score = models.IntegerField(blank = True, null = True)
