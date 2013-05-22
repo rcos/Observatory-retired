@@ -143,9 +143,6 @@ class Project(URLPathedModel):
 
     return screens[random.randint(0, len(screens) - 1)].main_page_url()
 
-# Admin fixing
-from django.contrib import admin
-
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ('title', 'active')
 

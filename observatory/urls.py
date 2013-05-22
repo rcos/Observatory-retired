@@ -20,8 +20,8 @@ for model in (AuthorRequest,
 			  User):
   admin.site.register(model)
 
-for model, admin in [(Project, ProjectAdmin)]:
-  admin.site.register(model, admin)
+for model, modeladmin in [(Project, ProjectAdmin)]:
+  admin.site.register(model, modeladmin)
 
 urlpatterns = patterns('',
     # Example:
