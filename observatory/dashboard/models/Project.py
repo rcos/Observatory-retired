@@ -147,6 +147,5 @@ class Project(URLPathedModel):
 from django.contrib import admin
 
 class ProjectAdmin(admin.ModelAdmin):
-    fields = ('title', 'active')
+    list_display = ('title', 'active')
 
-admin.site.register(Project, ProjectAdmin)
