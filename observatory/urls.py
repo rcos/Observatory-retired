@@ -14,7 +14,7 @@ for model in (AuthorRequest,
               Commit,
               Contributor,
               Event,
-              Project,
+#              Project, Doing it in model for custom admin view
               Repository,
               Screenshot,
 			  Group,
