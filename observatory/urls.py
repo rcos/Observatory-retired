@@ -16,11 +16,13 @@ for model in (AuthorRequest,
               Event,
               Repository,
               Screenshot,
-			  Group,
-			  User):
+			  Group):
   admin.site.register(model)
 
-for model, modeladmin in [(Project, ProjectAdmin)]:
+for model, modeladmin in [
+                          (Project, ProjectAdmin),
+                          (User, UserAdmin)
+                         ]:
   admin.site.register(model, modeladmin)
 
 urlpatterns = patterns('',
