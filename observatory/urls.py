@@ -14,15 +14,14 @@ for model in (AuthorRequest,
               Commit,
               Contributor,
               Event,
-              Project
               Repository,
               Screenshot,
 			  Group,
 			  User):
   admin.site.register(model)
 
-for model, admin in ((Project, ProjectAdmin)):
-    admin.site.register(model, admin)
+for model, admin in [(Project, ProjectAdmin)]:
+  admin.site.register(model, admin)
 
 urlpatterns = patterns('',
     # Example:
