@@ -146,7 +146,12 @@ class Project(URLPathedModel):
 # Admin fixing
 from django.contrib import admin
 
+def make_inactive(modeladmin, request, queryset):
+    queryset.update(active=False)
+make_inactive.short_description = 'Make inactive'
+
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('title', 'active')
-    list_filter  = ('active',)
+    list_display =  ('title', 'active')
+    list_filter  =  ('active',)
+    actions      =  (make_inactive,)
 
