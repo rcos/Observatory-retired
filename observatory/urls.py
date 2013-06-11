@@ -20,6 +20,7 @@ for model in (AuthorRequest,
   admin.site.register(model)
 
 for model, modeladmin in [
+                          (Project, ProjectAdmin),
                           (User, UserAdmin)
                          ]:
   admin.site.register(model, modeladmin)
