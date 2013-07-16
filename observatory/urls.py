@@ -1,7 +1,7 @@
 from dashboard.feeds import *
 from dashboard.models import *
 from dashboard.views import *
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 import settings
 
 from django.contrib import admin
