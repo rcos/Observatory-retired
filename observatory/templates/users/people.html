@@ -5,7 +5,7 @@
 <h2>
 	We have {{ people|length }} {{ adjective }} current developer{{ people|length|pluralize}}.
 	        <ul class='project-info'>
-            <a href="{% url dashboard.views.users.past_people %}"
+            <a href="{% url "dashboard.views.users.past_people" %}"
                class="green button-small">
                 Past Developers
             </a>
@@ -14,7 +14,7 @@
 <ul class="project-authors dark">
 	{% for person in people %}
 	<li>
-		<a href="{% url dashboard.views.users.profile person.id %}">
+		<a href="{% url "dashboard.views.users.profile" person.id %}">
 			<img src="{{ person|gravatar:100 }}"
 			     alt="{{ author.get_full_name }}" />
 			 <p>{{ person.get_full_name }}</p>

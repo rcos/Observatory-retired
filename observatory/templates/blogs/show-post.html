@@ -7,7 +7,7 @@
     <h2 style="float:left">{{ post.title }}</h2>
     {% if user in post.project.authors.all %}
         <div style="float:right">
-            <a href="{% url dashboard.views.blogs.edit_post post.project.url_path post.url_path %}"
+            <a href="{% url "dashboard.views.blogs.edit_post" post.project.url_path post.url_path %}"
                class="green button-small">
                 Edit Post
             </a>

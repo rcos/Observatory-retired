@@ -7,7 +7,7 @@
         </div>
     {% endif %}
     <h2 style="float:left; clear:both">
-        <a href="{% url dashboard.views.projects.show project.url_path %}">
+        <a href="{% url "dashboard.views.projects.show" project.url_path %}">
             {{ project.title }}
         </a>
     </h2>
@@ -17,12 +17,12 @@
     <div class="bottom-bar">
         {% if project.score %}
 		<div class="bottom-bar-left">
-			<a href="{% url dashboard.views.commits.show_repository project.url_path %}">
+			<a href="{% url "dashboard.views.commits.show_repository" project.url_path %}">
 				{{ project.repository.when_updated }}
 			</a>
 		</div>
 		<div class="bottom-bar-right">
-			<a href="{% url dashboard.views.blogs.show_blog project.url_path %}">
+			<a href="{% url "dashboard.views.blogs.show_blog" project.url_path %}">
 				{{ project.blog.when_updated }}
 			</a>
 		</div>

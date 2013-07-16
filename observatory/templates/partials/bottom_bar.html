@@ -3,7 +3,7 @@
 <div class="bottom-bar">
     <div class="bottom-bar-left">
         {% if event.author %}
-            <a href="{% url dashboard.views.users.profile event.author.id %}">
+            <a href="{% url "dashboard.views.users.profile" event.author.id %}">
                 {{ event.author.get_full_name }}
             </a>
         {% else %}
@@ -17,7 +17,7 @@
             {{ event.type_name }} •
 		{% endif %}
 		{% if event.project %}	
-			<a href="{% url dashboard.views.projects.show event.project.url_path %}">
+			<a href="{% url "dashboard.views.projects.show" event.project.url_path %}">
 				{{ event.project.title }}
 			</a> •
 		{% endif %}

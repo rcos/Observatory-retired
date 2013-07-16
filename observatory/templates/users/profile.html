@@ -11,7 +11,7 @@
 	
 	{% if is_self %}
 	<div style="float:right">
-		<a href="{% url dashboard.views.blogs.edit_personal_blog user_page.id %}" class="green button-small">
+		<a href="{% url "dashboard.views.blogs.edit_personal_blog" user_page.id %}" class="green button-small">
 			Personal Blog Settings
 		</a>
 	</div>
@@ -20,11 +20,11 @@
 	{% if user.is_staff and not is_self %}
 	<div style="float:right">
 		{% if user_page.is_active %}
-		<a href="{% url dashboard.views.users.deactivate user_page.id %}" class="green button-small">
+		<a href="{% url "dashboard.views.users.deactivate" user_page.id %}" class="green button-small">
 			Deactivate User
 		</a>
 		{% else %}
-		<a href="{% url dashboard.views.users.activate user_page.id %}" class="green button-small">
+		<a href="{% url "dashboard.views.users.activate" user_page.id %}" class="green button-small">
 			Activate User
 		</a>
 		{% endif %}
@@ -39,7 +39,7 @@
 	<ul>
 		{% for project in user_page.project_set.all %}
 		<li>
-			<a href="{% url dashboard.views.projects.show project.url_path %}">
+			<a href="{% url "dashboard.views.projects.show" project.url_path %}">
 				{{ project.title }}
 			</a>
 		</li>
@@ -54,7 +54,7 @@
 	<ul>
 		{% for project in contributor.projects.all %}
 		<li>
-			<a href="{% url dashboard.views.projects.show project.url_path %}">
+			<a href="{% url "dashboard.views.projects.show" project.url_path %}">
 				{{ project.title }}
 			</a>
 		</li>

@@ -37,27 +37,27 @@
         <div id="navigation-right">
             <ul id="navigation-main">
                 <li>
-                    <a href="{% url dashboard.views.feed.feed %}">
+                    <a href="{% url "dashboard.views.feed.feed" %}">
                         Feed
                     </a>
                 </li>
                 <li class="navigation-bullet">•</li>
                 <li>
-                    <a href="{% url dashboard.views.projects.list %}">
+                    <a href="{% url "dashboard.views.projects.list" %}">
                         Projects
                     </a>
                 </li>
                 <li class="navigation-bullet">•</li>
                 <li>
-                    <a href="{% url dashboard.views.blogs.posts %}">Posts</a>
+                    <a href="{% url "dashboard.views.blogs.posts" %}">Posts</a>
                 </li>
                 <li class="navigation-bullet">•</li>
                 <li>
-                    <a href="{% url dashboard.views.users.people %}">People</a>
+                    <a href="{% url "dashboard.views.users.people" %}">People</a>
                 </li>
 				<li class="navigation-bullet">•</li>
                 <li>
-                    <a href="{% url todo.views.list_lists %}">
+                    <a href="{% url "todo.views.list_lists" %}">
                         Tasks
                     </a>
                 </li>
@@ -65,16 +65,16 @@
             <ul id="navigation-account">
                 {% if user.is_authenticated %}
                 <li>
-                    <a href="{% url dashboard.views.users.profile user.id%}">
+                    <a href="{% url "dashboard.views.users.profile" user.id%}">
                         {{ user.first_name }} {{ user.last_name }}
                     </a>
                 </li>
                 <li>
-                    <a href="{% url dashboard.views.users.logout %}">Logout</a>
+                    <a href="{% url "dashboard.views.users.logout" %}">Logout</a>
                 </li>
                 {% else %}
                 <li>
-                    <a href="{% url dashboard.views.users.login_or_reg %}">
+                    <a href="{% url "dashboard.views.users.login_or_reg" %}">
                         Register or Login
                     </a>
                 </li>
@@ -112,37 +112,37 @@
 		<img src="/site-media/rcos/logo-dark.png" alt="Rensselaer Center for Open Source Software" />
 		<div>
 			<ul>
-				<li><a href="{% url rcos.views.index %}">About</a></li>
-				<li><a href="{% url rcos.views.howtojoin %}">
+				<li><a href="{% url "rcos.views.index" %}">About</a></li>
+				<li><a href="{% url "rcos.views.howtojoin" %}">
 					How to Join
 				</a></li>
-				<li><a href="{% url rcos.views.calendar %}">Calendar</a></li>
-                <li><a href="{% url rcos.views.donor %}">Donor</a></li>
-				<li><a href="{% url rcos.views.students %}">Students</a></li>
+				<li><a href="{% url "rcos.views.calendar" %}">Calendar</a></li>
+                <li><a href="{% url "rcos.views.donor" %}">Donor</a></li>
+				<li><a href="{% url "rcos.views.students" %}">Students</a></li>
 			</ul>
 			<ul>
-				<li><a href="{% url rcos.views.courses %}">Courses</a></li>
-                <li><a href="{% url rcos.views.talks %}">Talks</a></li>
-				<li><a href="{% url rcos.views.past_projects %}">
+				<li><a href="{% url "rcos.views.courses" %}">Courses</a></li>
+                <li><a href="{% url "rcos.views.talks" %}">Talks</a></li>
+				<li><a href="{% url "rcos.views.past_projects" %}">
 					Past Projects
 				</a></li>
-				<li><a href="{% url rcos.views.progcomp %}">
+				<li><a href="{% url "rcos.views.progcomp" %}">
 					Programming Competition
 				</a></li>
-				<li><a href="{% url rcos.views.achievements %}">
+				<li><a href="{% url "rcos.views.achievements" %}">
 					Achievements
 				</a></li>
 			</ul>
 			<ul>
-				<li><a href="{% url rcos.views.urpapplication %}">
+				<li><a href="{% url "rcos.views.urpapplication" %}">
 					URP Application
 				</a></li>
-				<li><a href="{% url rcos.views.talksignup %}">
+				<li><a href="{% url "rcos.views.talksignup" %}">
 					Talk Sign-up
 				</a></li>
-				<li><a href="{% url rcos.views.linksandcontacts %}">
+				<li><a href="{% url "rcos.views.linksandcontacts" %}">
 					Links &amp; Contacts</a></li>
-				<li><a href="{% url rcos.views.irc %}">IRC Chat Channel</a></li>
+				<li><a href="{% url "rcos.views.irc" %}">IRC Chat Channel</a></li>
 			</ul>
 		</div>
 	</div>

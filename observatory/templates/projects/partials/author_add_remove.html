@@ -2,12 +2,12 @@
     <div class="project-info">
         {% if show_add_remove_author %}
             {% if user not in authors %}
-                <form action="{% url dashboard.views.projects.add_user %}"
+                <form action="{% url "dashboard.views.projects.add_user" %}"
                       method="post">
                     <input type="submit" value="I work on this!"
                            class="green button-small" />
             {% else %}
-                <form action="{% url dashboard.views.projects.remove_user %}"
+                <form action="{% url "dashboard.views.projects.remove_user" %}"
                       method="post">
                     <input type="submit"
                            value="I'm not working on this anymore"

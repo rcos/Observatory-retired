@@ -1,17 +1,17 @@
 <div class="author-request">
-    <a href="{% url dashboard.views.users.profile request.user.id %}">
+    <a href="{% url "dashboard.views.users.profile" request.user.id %}">
         {{ request.user.get_full_name }}</a>
     {% if request.autodetected %}
         was automatically detected as a contributor to
     {% else %}
         requests to be added as an author of
     {% endif %}
-    <a href="{% url dashboard.views.projects.show request.project.url_path %}">
+    <a href="{% url "dashboard.views.projects.show" request.project.url_path %}">
         {{ request.project.title }}</a>.
     <div class="author-request-button">
-        <a href="{% url dashboard.views.author_requests.approve request.id %}"
+        <a href="{% url "dashboard.views.author_requests.approve" request.id %}"
            class="author-request-approve">Make it so!</a>
-        <a href="{% url dashboard.views.author_requests.reject request.id %}"
+        <a href="{% url "dashboard.views.author_requests.reject" request.id %}"
            class="author-request-reject">Reject</a>
     </div>
 </div>

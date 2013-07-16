@@ -1,7 +1,7 @@
 import os
 import django
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
@@ -83,7 +83,8 @@ BLOG_FETCH_PROCESS_COUNT = 10
 # The maximum number of concurrent processes to run when fetching repos
 REPO_FETCH_PROCESS_COUNT = 1
 
-
+# Fake url to make serve static work for now
+STATIC_URL = '/static/'
 
 # The number of minutes before a repository fetch should timeout.
 #
@@ -156,6 +157,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
+    'django.contrib.staticfiles',
     'dashboard',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',

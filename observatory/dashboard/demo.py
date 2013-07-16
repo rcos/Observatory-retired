@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python2
 
 # Copyright (c) 2010, individual contributors (see AUTHORS file)
 #
@@ -27,7 +27,7 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 # remove the database and recreate it
 os.system("rm {0}/../db.sqlite".format(path))
-os.system("python {0}/../manage.py syncdb --noinput".format(path))
+os.system("python2 {0}/../manage.py syncdb --noinput".format(path))
 
 # django setup
 sys.path.insert(0, path)

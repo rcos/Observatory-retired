@@ -28,7 +28,7 @@
 <div class="rcos-stylish-thing">
 	{% for project in projects %}
 	<a class="rcos-stylish-project" id="stylish-{{ project.url_path }}"
-	   href="{% url dashboard.views.projects.show project.url_path %}"
+	   href="{% url "dashboard.views.projects.show" project.url_path %}"
 	   style="display:{% cycle "block" "none" "none" %};
 		       background-image:url('{{ project.random_main_page_screenshot }}');">
 		<div>
