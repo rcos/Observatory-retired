@@ -1,5 +1,6 @@
 from django.db.models.query import QuerySet
 from django.db.models.fields.related import SingleRelatedObjectDescriptor
+from django.core.exceptions import ObjectDoesNotExist
 
 class InheritanceQuerySet(QuerySet):
   def select_subclasses(self, *subclasses):
@@ -18,12 +19,22 @@ class InheritanceQuerySet(QuerySet):
       pass
     return super(InheritanceQuerySet, self)._clone(klass, setup, **kwargs)
 
+  def _get_subclasses(self, obj):
+    result = []
+    for s in getattr(self, 'subclassses', []):
+        try:
+            if getattr(obj, s):
+                result += getattr(obj, s)
+        except ObjectDoesNotExist:
+            continue
+    return result or [obj]
+
+
   def iterator(self):
     iter = super(InheritanceQuerySet, self).iterator()
     if getattr(self, 'subclasses', False):
       for obj in iter:
-        obj = [getattr(obj, s) for s in self.subclasses if getattr(obj, s)] or [obj]
-        yield obj[0]
+        yield self._get_subclasses(obj)[0]
     else:
       for obj in iter:
         yield obj
