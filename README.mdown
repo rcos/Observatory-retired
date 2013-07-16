@@ -24,7 +24,7 @@ setup that you would want for a production environment (resources on which are
 best found elsewhere, most of the dependencies) are packed in the
 `observatory/lib` directory.
 
-Observatory requires Python 2.6+ (not Python 3+) and is built on the Django web
+Observatory requires Python 2.7+ (not Python 3+) and is built on the Django web
 framework. It also depends on the several packages and version control systems:
 
 * Python Imaging Library (PIL)
