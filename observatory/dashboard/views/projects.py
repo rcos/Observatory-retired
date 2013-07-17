@@ -348,7 +348,7 @@ def add(request):
                       active = True,
                       repository_id = repo.id,
                       blog_id = blog.id,
-					  pending = True)
+					  pending = False)
 
     # get the project a primary key
     project.save()
