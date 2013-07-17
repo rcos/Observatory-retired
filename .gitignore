@@ -4,6 +4,7 @@
 *.psd
 *.swp
 *~
+*.lock
 
 observatory/settings_recaptcha.py
 observatory/media/screenshots/
@@ -14,3 +15,4 @@ observatory/clones/
 .tmp/
 .vagrant/
 modules/
+.librarian

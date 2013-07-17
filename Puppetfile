@@ -2,9 +2,11 @@ forge "http://forge.puppetlabs.com"
 
 # mod 'puppetlabs/stdlib'
 
-# mod 'ntp',
-#   :git => 'git://github.com/puppetlabs/puppetlabs-ntp.git'
+mod 'uwsgi',
+   :git => 'git@github.com:c00w/puppet-uwsgi.git'
 
-# mod 'apt',
-#   :git => 'https://github.com/puppetlabs/puppetlabs-apt.git',
-#   :ref => 'feature/master/dans_refactor'
+mod 'nginx',
+   :git => 'git@github.com:c00w/puppet-nginx.git'
+
+mod 'apt',
+   :git => 'git@github.com:camptocamp/puppet-apt.git'
