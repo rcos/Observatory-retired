@@ -6,8 +6,6 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "test.rcos.rpi.edu"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
-  config.vm.synced_folder "observatory", "/var/www/Observatory/observatory"
-
   config.vm.network :private_network, ip: "192.168.56.2"
   config.vm.network :forwarded_port, guest: 80, host: 8000
 
