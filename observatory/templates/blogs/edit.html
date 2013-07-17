@@ -3,11 +3,11 @@
 {% block content %}
     {% if post %}
         <h2>Editing "{{ post.title }}"</h2>
-        <form action="{% url dashboard.views.blogs.update_post post.project.url_path post.url_path %}"
+        <form action="{% url "dashboard.views.blogs.update_post" post.project.url_path post.url_path %}"
               method="post">
     {% else %}
         <h2>Write a post about {{ project.title }}</h2>
-        <form action="{% url dashboard.views.blogs.create_post project.id %}"
+        <form action="{% url "dashboard.views.blogs.create_post" project.id %}"
               method="post">
     {% endif %}
     

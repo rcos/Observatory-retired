@@ -19,8 +19,9 @@ from Commit import Commit
 from Contributor import Contributor
 from Event import Event
 from EventSet import EventSet
-from Project import Project
+from Project import Project, ProjectAdmin
 from Repository import Repository
 from Screenshot import Screenshot
 from URLPathedModel import URLPathedModel
+from UserAdmin import UserAdmin
 

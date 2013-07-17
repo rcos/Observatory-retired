@@ -168,6 +168,8 @@ def clone_git_repo(clone_url, destination_dir, fresh_clone = False):
     clone_cmdline = ["git", "clone", "--mirror", "--bare",
                      clone_url, destination_dir]
   else:
+    update_url_cmdline = ["git", "--git-dir", destination_dir, "remote", "set-url", "origin", clone_url]
+    subprocess.call(update_url_cmdline)
     clone_cmdline = ["git", "--git-dir", destination_dir, "fetch"]
   
   if subprocess.call(clone_cmdline) != 0:

@@ -4,7 +4,7 @@
 <div style="position:relative">
 	{% if event.author %}
 	<div class="event-author">
-		<a href="{% url dashboard.views.users.profile event.author.id %}">
+		<a href="{% url "dashboard.views.users.profile" event.author.id %}">
 			<img src="{{ event.author|gravatar:50 }}"
 				alt="{{ event.author.get_full_name }}"
 				class="event-gravatar" />
@@ -16,16 +16,16 @@
 		<div class="event-header">
 			{% if event.type_name == "Commit" %}
 			<h3>
-				<a href="{% url dashboard.views.commits.show event.project.url_path event.url_path %}">
+				<a href="{% url "dashboard.views.commits.show" event.project.url_path event.url_path %}">
 					{{ event.title }}
 				</a>
 			</h3>
 			{% else %}
 			<h3>
 				{% if not event.blog.user %}
-				<a href="{% url dashboard.views.blogs.show_post event.project.url_path event.url_path %}">
+				<a href="{% url "dashboard.views.blogs.show_post" event.project.url_path event.url_path %}">
 				{% else %}
-				<a href="{% url dashboard.views.blogs.show_user_post event.url_path %}">
+				<a href="{% url "dashboard.views.blogs.show_user_post" event.url_path %}">
 				{% endif %}
 					{{ event.title }}
 				</a>

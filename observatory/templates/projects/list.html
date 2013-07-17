@@ -33,7 +33,7 @@
 {% endif %}
     <ul class='project-info'>
         <li>
-            <a href="{% url dashboard.views.projects.archived_list %}"
+            <a href="{% url "dashboard.views.projects.archived_list" %}"
                class="green button-small">
                 Past Projects
             </a>
@@ -42,7 +42,7 @@
 {% if user.is_authenticated %}
     <ul class='project-info'>
         <li>
-            <a href="{% url dashboard.views.projects.add %}"
+            <a href="{% url "dashboard.views.projects.add" %}"
                class="green button-small">
                 Add a Project
             </a>
@@ -59,6 +59,7 @@
         </li>
     </ul>
 {% endif %}
+
 <div class="clear"></div>
 
 {% if projects and not nothing_fetched %}

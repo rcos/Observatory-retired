@@ -3,25 +3,29 @@
 
 {% block content %}
 <h2>
-We have {{ people|length }} {{ adjective }} current developer{{ people|length|pluralize}}.
-<ul class='project-info'>
-            <a href="{% url dashboard.views.users.past_people %}"
+	We have {{ people|length }} {{ adjective }} current developer{{ people|length|pluralize}}.
+	        <ul class='project-info'>
+            <a href="{% url "dashboard.views.users.past_people" %}"
                class="green button-small">
                 Past Developers
             </a>
-</ul>
+			</ul>
 </h2>
 <ul class="project-authors dark">
-{% for person in people %}
-<li>
-<a href="{% url dashboard.views.users.profile person.id %}">
-<img src="{{ person|gravatar:100 }}"
-alt="{{ author.get_full_name }}" />
-<p>{{ person.get_full_name }}</p>
-</a>
-</li>
-{% endfor %}
-<div style="clear:both"></div>
+	{% for person in people %}
+	<li>
+		<a href="{% url "dashboard.views.users.profile" person.id %}">
+			<img src="{{ person|gravatar:100 }}"
+			     alt="{{ author.get_full_name }}" />
+			 <p>{{ person.get_full_name }}</p>
+			 {% if person.is_staff %}
+			 <div class="rcos-mentor">
+				 Mentor
+			 </div>
+			 {% endif %}
+		</a>
+	</li>
+	{% endfor %}
+	<div style="clear:both"></div>
 </ul>
 {% endblock %}
-

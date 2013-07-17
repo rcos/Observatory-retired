@@ -7,7 +7,7 @@ Dashboard • Upload a screenshot for {{ project.title }}
 {% block content %}
 <h2>Upload a screenshot for {{ project.title }}</h2>
 <form method="post"
-    action="{% url dashboard.views.projects.upload_screenshot project.url_path %}"
+    action="{% url "dashboard.views.projects.upload_screenshot" project.url_path %}"
     enctype="multipart/form-data">
         {% csrf_token %}
         

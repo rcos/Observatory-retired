@@ -32,7 +32,7 @@ def list_lists(request):
     # Make sure user belongs to at least one group.
     group_count = request.user.groups.all().count()
     if group_count == 0:
-        messages.error(request, "You do not yet belong to any groups. Ask your administrator to add you to one.")                        
+        messages.error(request, "You do not yet belong to any groups. Ask a mentor to add you to one.")                        
         
 
     # Only show lists to the user that belong to groups they are members of.

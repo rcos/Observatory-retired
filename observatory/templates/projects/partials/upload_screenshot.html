@@ -1,4 +1,4 @@
-<form enctype="multipart/form-data" method="post" action="{% url dashboard.views.projects.modify project.url_path 4 %}">
+<form enctype="multipart/form-data" method="post" action="{% url "dashboard.views.projects.modify" project.url_path 4 %}">
 	<h3>Upload a Screenshot</h3>
 	{% csrf_token %}
 	<input type="hidden" name="screenshot_upload" value="yes" />

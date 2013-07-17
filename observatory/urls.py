@@ -1,12 +1,11 @@
 from dashboard.feeds import *
 from dashboard.models import *
 from dashboard.views import *
-from django.contrib.auth import views as auth_views
-from django.contrib.auth.models import User, Group
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 import settings
 
 from django.contrib import admin
+from django.contrib.auth.models import User, Group
 
 # autodiscover doesn't work, do it manually
 for model in (AuthorRequest,
@@ -15,11 +14,16 @@ for model in (AuthorRequest,
               Commit,
               Contributor,
               Event,
-              Project,
-			  User,
-			  Group,
-              Repository,Screenshot):
-     admin.site.register(model)
+              Repository,
+              Screenshot,
+			  Group):
+  admin.site.register(model)
+
+for model, modeladmin in [
+                          (Project, ProjectAdmin),
+                          (User, UserAdmin)
+                         ]:
+  admin.site.register(model, modeladmin)
 
 urlpatterns = patterns('',
     # Example:
@@ -65,9 +69,9 @@ urlpatterns = patterns('',
     (r'^user/(\d+)/posts/$', blogs.show_user_blog),
     (r'^user/(\d+)/$', users.profile),
     (r'^people/$', users.people),
-	(r'^past_people/$', users.past_people),
-	(r'^user_deactivate/(\d+)/$', users.deactivate),
-	(r'^user_activate/(\d+)/$', users.activate),
+    (r'^past_people/$', users.past_people),
+    (r'^user_deactivate/(\d+)/$', users.deactivate),
+    (r'^user_activate/(\d+)/$', users.activate),
     (r'^forgot-password/$', users.forgot_password),
     (r'^forgot_password_success/$', users.forgot_password_success),
     
@@ -103,7 +107,6 @@ urlpatterns = patterns('',
     (r'^projects/([^\.]*)\.rss', EventsFeed()),
     
     (r'^projects/$', projects.list),
-    (r'^$', projects.list),
 	
 	#tasks
 	(r'^todo/', include('todo.urls')),

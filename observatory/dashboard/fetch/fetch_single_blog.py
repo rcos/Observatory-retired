@@ -29,8 +29,12 @@ if blog.from_feed:
   try:
     title = blog.project.title
   except:
-    title = blog.user.get_full_name()
+    try:
+		title = blog.user.get_full_name()
+    except:
+		title = "Unknown"
   cprint("==> Fetching the blog for {0}".format(title), "magenta", attrs=["bold"])
   blog.fetch()
   cprint("==> Done fetching the blog for {0}".format(title), "green", attrs=["bold"])
+
 

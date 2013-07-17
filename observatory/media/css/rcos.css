@@ -1,0 +1,274 @@
+/* RCOS specific stuff, if this ever ends up in master, something went wrong */
+
+ul.rcos-links {
+	list-style: none;
+	padding: 0px 20px 0px 10px;
+	margin: 0px;
+}
+
+ul.rcos-links a {
+	text-align: left;
+	font-size: 12px;
+	font-weight: bold;
+	
+	padding: 10px 0px 0px 0px;
+	
+	text-decoration: none;
+	
+	color: #666;
+	
+	-moz-text-shadow: 0px 1px 0px #fff;
+	-webkit-text-shadow: 0px 1px 0px #fff;
+	text-shadow: 0px 1px 0px #fff;
+
+	display: block;
+}
+
+ul.rcos-links a:hover {
+	color: #444;
+}
+
+.rcos-content {
+	position: relative;
+	min-height: 850px;
+}
+
+.rcos-left {
+	left: 0px;
+	width: 565px;
+	min-height: 850px;
+	padding: 20px;
+	background: #fff;
+	
+	-webkit-border-top-left-radius: 15px;
+	-webkit-border-bottom-left-radius: 15px;
+	-moz-border-radius-topleft: 15px;
+	-moz-border-radius-bottomleft: 15px;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+	
+	-moz-box-shadow: 0px 5px 20px #000;
+	-webkit-box-shadow: 0px 5px 20px #000;
+	box-shadow: 0px 5px 20px #000;
+	
+	overflow: hidden;
+}
+
+.rcos-right {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	
+	background: #ddd;
+	border-left: 1px solid #ccc;
+	
+	-webkit-border-top-right-radius: 15px;
+	-webkit-border-bottom-right-radius: 15px;
+	-moz-border-radius-topright: 15px;
+	-moz-border-radius-bottomright: 15px;
+	border-top-right-radius: 15px;
+	border-bottom-right-radius: 15px;
+	
+	width: 184px;
+	height: 100%;
+}
+
+.rcos-left hr {
+	width: 555px;
+	margin: 7px -20px 7px 0px;
+	border: none;
+	border-bottom: 1px solid #ccc;
+}
+
+.rcos-left img {
+	margin: 5px -20px;
+	display: block;
+}
+
+.rcos-stylish-thing {
+	width: 605px;
+	margin: -20px -20px 20px -20px;
+	height: 300px;
+	position: relative;
+	background: #222 url('/site-media/pixels/dark-bar-tiled.gif');
+	-webkit-border-top-left-radius: 15px;
+	-moz-border-radius-topleft: 15px;
+	border-top-left-radius: 15px;
+}
+
+.rcos-stylish-project {
+	width: 605px;
+	height: 300px;
+	
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	color: white;
+	-webkit-border-top-left-radius: 12px;
+	-moz-border-radius-topleft: 12px;
+	border-top-left-radius: 12px;
+    font-family: "Kreon", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.rcos-stylish-project h2 {
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif !important;
+	position: absolute;
+	top: 2px;
+	line-height: 38px !important;
+	font-size: 38px !important;
+	width: 2000px;
+	height: 50px;
+	overflow: hidden;
+	padding: 0px 20px !important;
+	margin: 0px 0px 10px 0px;
+	font-weight: 100;
+}
+
+.rcos-stylish-project p {
+	position: absolute;
+	top: 45px;
+	padding: 0px 20px;
+	margin: 0px !important;
+}
+
+.rcos-stylish-project div {
+	position: absolute;
+	bottom: 0px;
+	background-color: #000;
+	background-color: rgba(0, 0, 0, 0.9);
+	width: 100%;
+	height: 70px;
+	border-top: 1px solid black;
+}
+
+.rcos-stylish-thing a.selected div {
+	border: 1px solid white !important;
+}
+
+.rcos-stylish-thing a.chooser {
+	display: block;
+	float: left;
+	position: absolute;
+	bottom: 0px;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	font-size: 14px;
+	
+	text-decoration: none;
+	
+	padding: 5px 5px 10px 5px;
+}
+
+
+.rcos-stylish-thing a.chooser div {
+	width: 20px;
+	height: 20px;
+		
+	font-weight: bold;
+	line-height: 20px;
+	color: #eee;
+	background: #222;
+	border: 1px solid #444;
+	
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	
+	text-shadow: 0px -1px 0px #000;
+	-webkit-text-shadow: 0px -1px 0px #000;
+	-moz-text-shadow: 0px -1px 0px #000;
+	
+	box-shadow: 0px 0px 10px #000;
+	-moz-box-shadow: 0px 0px 10px #000;
+	-webkit-box-shadow: 0px 0px 10px #000;
+
+	background-image: -webkit-gradient(linear, left bottom, left top,
+	                                   from(#111),
+	                                   to(#333));
+	background-image: -moz-linear-gradient(100% 100% 90deg,
+	                                       #111 0%,
+	                                       #333 100%);
+}
+
+.rcos-stylish-thing a {
+	text-decoration: none;
+}
+
+/* footer */
+.rcos-footer {
+	height: 80px;
+	padding: 20px;
+}
+
+.rcos-trailer {
+	clear: both;
+	height: 20px;
+}
+
+.rcos-footer img {
+	float: left;
+}
+
+.rcos-footer a {
+	color: #999;
+	text-shadow: 0px -1px 0px #000;
+	text-decoration: none;
+	font-size: 12px;
+}
+
+.rcos-footer a:hover {
+	color: #aaa;
+}
+
+.rcos-footer div {
+	margin: 0px 0px 0px 230px;
+}
+
+.rcos-footer ul {
+	float: left;
+	width: 166px;
+	padding: 0px;
+	margin: 0px;
+	list-style: none;
+}
+
+.rcos-mentor {
+	position: absolute;
+	right: -10px;
+	top: -5px;
+	
+	width: 35px;
+	height: 20px;
+	
+	line-height: 20px;
+	font-size: 10px;
+	text-align: center;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	
+	text-shadow: none;
+	
+	background: red;
+	
+	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.5);
+	
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0, rgb(125,28,15)),
+		color-stop(1, rgb(255,92,92))
+	);
+	background-image: -moz-linear-gradient(
+		center bottom,
+		rgb(125,28,15) 0%,
+		rgb(255,92,92) 100%
+	);
+	
+
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+

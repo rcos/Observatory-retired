@@ -13,10 +13,10 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'db.sqlite',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'observatory',                      # Or path to database file if using sqlite3.
+        'USER': 'postgres',                      # Not used with sqlite3.
+        'PASSWORD': 'zaq12wsxcde34rfv',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
@@ -64,7 +64,7 @@ MEDIA_URL = '/site-media/'
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+ADMIN_MEDIA_PREFIX = '/admin/media/'
 
 # append slashes to URLs
 APPEND_SLASH = True
@@ -75,6 +75,9 @@ SCREENSHOT_PATH = os.path.join(MEDIA_ROOT, 'screenshots')
 # Root URL for screenshots
 SCREENSHOT_URL = "/site-media/screenshots/"
 
+# The address where emails should be sent from
+MAIL_SENDER = "no-reply@rpi.edu"
+
 # The maximum number of threads to use when fetching blogs
 BLOG_FETCH_PROCESS_COUNT = 10
 
@@ -83,6 +86,9 @@ REPO_FETCH_PROCESS_COUNT = 1
 
 # The address where emails should be sent from
 MAIL_SENDER = "no-reply@rpi.edu"
+
+# Fake url to make serve static work for now
+STATIC_URL = '/static/'
 
 # The number of minutes before a repository fetch should timeout.
 #
@@ -93,20 +99,20 @@ MAIL_SENDER = "no-reply@rpi.edu"
 REPO_FETCH_TIMEOUT = 3
 
 # scoring thresholds
-GREEN_SCORE = 2880 # everything up to this score will be green
+GREEN_SCORE = 5000 # everything up to this score will be green
 RED_SCORE = 172800 # everything after this score will be red
 
-UNCERTAIN_SCORE = 10000 # everything after this score will be uncertain face
+UNCERTAIN_SCORE = 22000 # everything after this score will be uncertain face
 UNHAPPY_SCORE = 86400 # everything after this score will be unhappy face
 
 # the "worst" score allowed, in minutes
 MAX_SCORE_MINUTES = 3024000
 
 # The web address that observatory is hosted on
-DOMAIN_NAME = "http://localhost:8000"
+DOMAIN_NAME = "http://rcos.rpi.edu"
 
 # The title prepended to any RSS feeds
-FEED_TITLE = "Observatory"
+FEED_TITLE = "RCOS"
 
 # The number of items that should appear in dashboard-wide feeds
 FEED_COUNT = 30
@@ -141,7 +147,7 @@ MIDDLEWARE_CLASSES = (
     'observatory.middleware.CssSmasher'
 )
 
-ROOT_URLCONF = 'observatory.urls'
+ROOT_URLCONF = 'observatory.rcos.urls'
 
 TEMPLATE_DIRS = (
     os.path.join(SITE_ROOT, 'templates')
@@ -155,11 +161,13 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
+    'django.contrib.staticfiles',
     'dashboard',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    'rcos',
 )
 
 # import recaptcha keys
@@ -198,6 +206,7 @@ CSS_FILES=[
   "css/modify.css",
   "css/profiles.css",
   "css/projects.css",
+  "css/rcos.css"
 ]
 
 JS_FILES=[
@@ -221,7 +230,7 @@ JS_FILES=[
 ]
 
 ## Page header
-HEADER_TEMPLATE = 'header.html'
+HEADER_TEMPLATE = 'rcos/header.html'
 
 ## Favicon
 FAVICON_PATH = '/site-media/rcos/favicon.ico'

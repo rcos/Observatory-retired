@@ -1,4 +1,4 @@
-<form id="register_form" action="{% url dashboard.views.users.register %}" method="post">
+<form id="register_form" action="{% url "dashboard.views.users.register" %}" method="post">
 	{% csrf_token %}
 
 	<div style="display:none">

@@ -6,7 +6,7 @@
 {% block extracontent %}
     {% if user in project.authors.all %}
     <div style="width:80px; position:relative; right:-710px">
-        <a href="{% url dashboard.views.blogs.write_post project.id %}"
+        <a href="{% url "dashboard.views.blogs.write_post" project.id %}"
            class="green button-small">
             Write a post
         </a>

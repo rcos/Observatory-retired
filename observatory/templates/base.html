@@ -14,7 +14,7 @@
 
 <html>
 <head>
-    <title>{% block title %}Dashboard{% endblock %}{% block extratitle %}{% endblock %}</title>
+    <title>{% block title %}Rensselaer Center for Open Source Software{% endblock %}{% block extratitle %}{% endblock %}</title>
 	{% head_tags %}
 	{% block head %}{% endblock %}
 	
@@ -22,6 +22,18 @@
 	<link href='http://fonts.googleapis.com/css?family=Puritan:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
 
 	{% favicon %}
+
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-22302564-1']);
+	  _gaq.push(['_trackPageview']);
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+	
 </head>
 <body>
     <div id="top">
@@ -31,23 +43,29 @@
         <div id="navigation-right">
             <ul id="navigation-main">
                 <li>
-                    <a href="{% url dashboard.views.feed.feed %}">
+                    <a href="{% url "dashboard.views.feed.feed" %}">
                         Feed
                     </a>
                 </li>
                 <li class="navigation-bullet">•</li>
                 <li>
-                    <a href="{% url dashboard.views.projects.list %}">
+                    <a href="{% url "dashboard.views.projects.list" %}">
                         Projects
                     </a>
                 </li>
                 <li class="navigation-bullet">•</li>
                 <li>
-                    <a href="{% url dashboard.views.blogs.posts %}">Posts</a>
+                    <a href="{% url "dashboard.views.blogs.posts" %}">Posts</a>
                 </li>
                 <li class="navigation-bullet">•</li>
                 <li>
-                    <a href="{% url dashboard.views.users.people %}">People</a>
+                    <a href="{% url "dashboard.views.users.people" %}">People</a>
+                </li>
+				<li class="navigation-bullet">•</li>
+                <li>
+                    <a href="{% url "todo.views.list_lists" %}">
+                        Tasks
+                    </a>
                 </li>
 				<li class="navigation-bullet">•</li>
                 <li>
@@ -59,16 +77,16 @@
             <ul id="navigation-account">
                 {% if user.is_authenticated %}
                 <li>
-                    <a href="{% url dashboard.views.users.profile user.id%}">
+                    <a href="{% url "dashboard.views.users.profile" user.id%}">
                         {{ user.first_name }} {{ user.last_name }}
                     </a>
                 </li>
                 <li>
-                    <a href="{% url dashboard.views.users.logout %}">Logout</a>
+                    <a href="{% url "dashboard.views.users.logout" %}">Logout</a>
                 </li>
                 {% else %}
                 <li>
-                    <a href="{% url dashboard.views.users.login_or_reg %}">
+                    <a href="{% url "dashboard.views.users.login_or_reg" %}">
                         Register or Login
                     </a>
                 </li>
@@ -99,7 +117,48 @@
         <script>
             initialize_page('{{ js_page_id }}');
         </script>
-    {% endif %}
+		{% endif %}
+
+	{# RCOS-specific footer #}
+	<div class="rcos-footer">
+		<img src="/site-media/rcos/logo-dark.png" alt="Rensselaer Center for Open Source Software" />
+		<div>
+			<ul>
+				<li><a href="{% url "rcos.views.index" %}">About</a></li>
+				<li><a href="{% url "rcos.views.howtojoin" %}">
+					How to Join
+				</a></li>
+				<li><a href="{% url "rcos.views.calendar" %}">Calendar</a></li>
+                <li><a href="{% url "rcos.views.donor" %}">Donor</a></li>
+				<li><a href="{% url "rcos.views.students" %}">Students</a></li>
+			</ul>
+			<ul>
+				<li><a href="{% url "rcos.views.courses" %}">Courses</a></li>
+                <li><a href="{% url "rcos.views.talks" %}">Talks</a></li>
+				<li><a href="{% url "rcos.views.past_projects" %}">
+					Past Projects
+				</a></li>
+				<li><a href="{% url "rcos.views.progcomp" %}">
+					Programming Competition
+				</a></li>
+				<li><a href="{% url "rcos.views.achievements" %}">
+					Achievements
+				</a></li>
+			</ul>
+			<ul>
+				<li><a href="{% url "rcos.views.urpapplication" %}">
+					URP Application
+				</a></li>
+				<li><a href="{% url "rcos.views.talksignup" %}">
+					Talk Sign-up
+				</a></li>
+				<li><a href="{% url "rcos.views.linksandcontacts" %}">
+					Links &amp; Contacts</a></li>
+				<li><a href="{% url "rcos.views.irc" %}">IRC Chat Channel</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="rcos-trailer"></div>
 </body>
 </html>
 

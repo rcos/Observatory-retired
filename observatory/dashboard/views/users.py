@@ -12,6 +12,8 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+import random
+
 from dashboard.forms import LoginForm, RegistrationForm, ForgotPasswordForm
 from dashboard.models import Contributor, Event
 from django.contrib import auth
@@ -30,11 +32,74 @@ import random
 from random import choice
 from settings import MAIL_SENDER
 
+PEOPLE_ADJECTIVES = ["awesome",
+                     "stylish",
+                     "great",
+                     "excellent",
+                     "wonderful",
+                     "amazing",
+                     "impressive",
+                     "tremendous",
+                     "innovative",
+                     "inventive",
+                     "creative",
+                     "sensational"]
+ADJ_COUNT = len(PEOPLE_ADJECTIVES)
+
 # display the list of users
 def people(request):
-  people = User.objects.all().exclude(is_active = False)
+  people = User.objects.order_by("is_staff").reverse().exclude(is_active = False)
   return render_to_response("users/people.html", {
-      "people": people
+      "people": people,
+      "adjective": PEOPLE_ADJECTIVES[random.randint(0, ADJ_COUNT - 1)],
+    }, context_instance = RequestContext(request))
+	
+# display the list of past users
+def past_people(request):
+  people = User.objects.order_by("is_staff").reverse().exclude(is_active = True)
+  return render_to_response("users/past_people.html", {
+      "people": people,
+      "adjective": PEOPLE_ADJECTIVES[random.randint(0, ADJ_COUNT - 1)],
+    }, context_instance = RequestContext(request))
+
+# makes a user inactive and moves them to past users
+def deactivate(request, user_id):
+	user = get_object_or_404(User, id = user_id)
+	user.is_active = False
+	user.save()
+	try:
+		contributor = Contributor.objects.get(user = user)
+	except:
+		contributor = None
+	try:
+		is_self = user.id == request.user.id
+	except:
+		is_self = False
+	
+	return render_to_response('users/profile.html', {
+      'user_page': user,
+      'contributor': contributor,
+      'is_self': is_self
+    }, context_instance = RequestContext(request))
+	
+	# makes a user active and moves them to users
+def activate(request, user_id):
+	user = get_object_or_404(User, id = user_id)
+	user.is_active = True
+	user.save()
+	try:
+		contributor = Contributor.objects.get(user = user)
+	except:
+		contributor = None
+	try:
+		is_self = user.id == request.user.id
+	except:
+		is_self = False
+	
+	return render_to_response('users/profile.html', {
+      'user_page': user,
+      'contributor': contributor,
+      'is_self': is_self
     }, context_instance = RequestContext(request))
 	
 # display the list of past users
@@ -51,12 +116,12 @@ def profile(request, user_id):
     contributor = Contributor.objects.get(user = user)
   except:
     contributor = None
+
   
   try:
     is_self = user.id == request.user.id
   except:
     is_self = False
-	
 
   return render_to_response('users/profile.html', {
       'user_page': user,

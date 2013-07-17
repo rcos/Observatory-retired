@@ -23,12 +23,13 @@
 {% if blog_form.errors %}<p><strong>{{ blog_form.errors }}</strong></p>{% endif %}
 
 
-<form action="{% url dashboard.views.projects.add %}"
+<form action="{% url "dashboard.views.projects.add" %}"
  id="part-1" method="post">
     {% csrf_token %}
     <input type="hidden" name="current" value="{{ current }}" />
     
     <h2>Add a Project</h2>
+    <b> All fields are required. </b> <br/><br/>
     <div class="form-col-left">
         {% input_field 'Title' 'id_title' 'title' project_form 'required' 200 0 'text' %}
         
@@ -53,7 +54,7 @@
             and fetch the maximum amount of information about your
             repository, so this method should be used if possible.
         </p>
-        <form id="part-2-form-left" action="{% url dashboard.views.projects.add %}" method="post">
+        <form id="part-2-form-left" action="{% url "dashboard.views.projects.add" %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="current" value="{{ current }}" />
             {% for key, value in previous_data.items %}
@@ -84,7 +85,7 @@
             powerful, and doesn't allow us to automatically archive your
             project and your project's history.
         </p>
-        <form id="part-2-form-right" action="{% url dashboard.views.projects.add %}" method="post">
+        <form id="part-2-form-right" action="{% url "dashboard.views.projects.add" %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="current" value="{{ current }}">
             {% for key, value in previous_data.items %}
@@ -116,7 +117,7 @@
             If you have an existing blog for your project, Observatory will
             track and automatically mirror it.
         </p>
-        <form id="part-3-form-left" action="{% url dashboard.views.projects.add %}" method="post">
+        <form id="part-3-form-left" action="{% url "dashboard.views.projects.add" %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="current" value="{{ current }}" />
             {% for key, value in previous_data.items %}
@@ -143,7 +144,7 @@
             If you don't have an existing blog for your project, you can use
             Observatory's simple blog system.
         </p>
-        <form id="part-3-form-right" action="{% url dashboard.views.projects.add %}" method="post">
+        <form id="part-3-form-right" action="{% url "dashboard.views.projects.add" %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="current" value="{{ current }}" />
             {% for key, value in previous_data.items %}

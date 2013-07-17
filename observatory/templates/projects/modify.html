@@ -6,26 +6,26 @@
 {% block content %}
 
 <ul class="four-tab dark">
-	<a href="{% url dashboard.views.projects.modify project.url_path 1 %}"
+	<a href="{% url "dashboard.views.projects.modify" project.url_path 1 %}"
 		id="tab-link-1">
 		<li id="tab-1" {% if tab == 1 %} class="active" {% endif %}
 		 style="width:198px">
             Information
         </li>
     </a>
-	<a href="{% url dashboard.views.projects.modify project.url_path 2 %}"
+	<a href="{% url "dashboard.views.projects.modify" project.url_path 2 %}"
 		id="tab-link-2">
         <li id="tab-2" {% if tab == 2 %} class="active" {% endif %}>
             Blog
         </li>
     </a>
-	<a href="{% url dashboard.views.projects.modify project.url_path 3 %}"
+	<a href="{% url "dashboard.views.projects.modify" project.url_path 3 %}"
 		id="tab-link-3">
 		<li id="tab-3" {% if tab == 3 %} class="active" {% endif %}>
             Repository
         </li>
 	</a>
-	<a href="{% url dashboard.views.projects.modify project.url_path 4 %}"
+	<a href="{% url "dashboard.views.projects.modify" project.url_path 4 %}"
 		id="tab-link-4">
 		<li id="tab-4" {% if tab == 4 %} class="active" {% endif %}
 		 style="width:198px">
@@ -42,7 +42,7 @@
      {% if tab == 1 %} class="active-content tab-content"
      {% else %} style="display:none;opacity:0" class="tab-content" {% endif %}>
         <form method="post"
-         action="{% url dashboard.views.projects.modify project.url_path 1 %}">
+         action="{% url "dashboard.views.projects.modify" project.url_path 1 %}">
             {% csrf_token %}
             <div class="form-col-left">
                 <p>
@@ -89,7 +89,7 @@
                 track and automatically mirror it.
             </p>
             <form method="post"
-             action="{% url dashboard.views.projects.modify project.url_path 2 %}">
+             action="{% url "dashboard.views.projects.modify" project.url_path 2 %}">
                 {% csrf_token %}
                 {{ blog_form.as_p }}
                 <div class="submitbutton">
@@ -117,11 +117,11 @@
                         <li>
                             <div>{{ post.title }}</div>
                             <a class="green button-small"
-                               href="{% url dashboard.views.blogs.delete_post post.project.url_path post.url_path %}">
+                               href="{% url "dashboard.views.blogs.delete_post" post.project.url_path post.url_path %}">
                                 Delete
                             </a>
                             <a class="green button-small"
-                               href="{% url dashboard.views.blogs.edit_post post.project.url_path post.url_path %}">
+                               href="{% url "dashboard.views.blogs.edit_post" post.project.url_path post.url_path %}">
                                 Modify
                             </a>
                         </li>
@@ -132,7 +132,7 @@
             <div class="clear"></div>
             {% if project.blog.from_feed %}
             <form method="post"
-             action="{% url dashboard.views.projects.modify project.url_path 2 %}">
+             action="{% url "dashboard.views.projects.modify" project.url_path 2 %}">
                 {% csrf_token %}
                 <input type="hidden" name="switch-to-hosted" value="yes" />
                 <div class="submitbutton">
@@ -142,7 +142,7 @@
             </form>
             {% else %}
             <div style="margin: 0px auto">
-                <a href="{% url dashboard.views.blogs.write_post project.id %}"
+                <a href="{% url "dashboard.views.blogs.write_post" project.id %}"
 					class="green button" style="text-align:center"
 					id="write-post-button">
                     Write a Post
@@ -165,7 +165,7 @@
                 repository, so this method should be used if possible.
             </p>
             <form method="post"
-             action="{% url dashboard.views.projects.modify project.url_path 3 %}">
+             action="{% url "dashboard.views.projects.modify" project.url_path 3 %}">
                 {% csrf_token %}
                 {{ cloned_repo_form.as_p }}
                 <div class="submitbutton">
@@ -189,7 +189,7 @@
                 project and your project's history.
             </p>
             <form method="post"
-             action="{% url dashboard.views.projects.modify project.url_path 3 %}">
+             action="{% url "dashboard.views.projects.modify" project.url_path 3 %}">
                 {% csrf_token %}
                 {{ feed_repo_form.as_p }}
                 <div class="submitbutton">
@@ -221,7 +221,7 @@
 					<img src="{{ screenshot.thumb_url }}" alt="{{ project.title }}" />
 					<div class="screenshot-info">
 						<h3>{{ screenshot.title }}</h3>
-						<a class="green button-small" href="{% url dashboard.views.projects.delete_screenshot project.url_path screenshot.id %}">
+						<a class="green button-small" href="{% url "dashboard.views.projects.delete_screenshot" project.url_path screenshot.id %}">
 								Delete
 						</a>
 					</div>
@@ -249,7 +249,7 @@
 {# the overlay post writer, only visible is JS is enabled #}
 <div id="write-post-box-overlay"></div>
 <div id="write-post-box">
-	<form method="post" action="{% url dashboard.views.blogs.create_post project.id %}">
+	<form method="post" action="{% url "dashboard.views.blogs.create_post" project.id %}">
 		{% csrf_token %}
 
 		{{ post_form.title }}

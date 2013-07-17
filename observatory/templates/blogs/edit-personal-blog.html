@@ -4,7 +4,7 @@
 
 {% block content %}
 <h2>Personal Blog Settings</h2>
-<form method="post" action="{% url dashboard.views.blogs.edit_personal_blog user.id %}">
+<form method="post" action="{% url "dashboard.views.blogs.edit_personal_blog" user.id %}">
 	{% csrf_token %}
 	<div class="form-col-left">
 		{{ form.as_p }}
@@ -22,6 +22,6 @@
 </form>
 <br/>
 <div class="submitbutton">
-  <a href="{% url dashboard.views.blogs.remove_personal_blog user.id %}"><input type="submit" class="green button" value="Remove Personal Blog" /></a>
+  <a href="{% url "dashboard.views.blogs.remove_personal_blog" user.id %}"><input type="submit" class="green button" value="Remove Personal Blog" /></a>
 </div>
 {% endblock %}

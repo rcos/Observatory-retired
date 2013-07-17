@@ -55,7 +55,8 @@ class Project(URLPathedModel):
   authors = models.ManyToManyField(User)
   
   # if the project is currently active
-  active = models.BooleanField(choices= ((True, "Active"),(False,"Inactive")))
+  active = models.BooleanField(choices= ((True, "Active"),(False,"Inactive")), default=True)
+
   # if the project is currently pending
   pending = models.BooleanField(choices= ((True, "Pending"),(False,"Approved")))
   
@@ -145,3 +146,16 @@ class Project(URLPathedModel):
       return None
 
     return screens[random.randint(0, len(screens) - 1)].main_page_url()
+
+# Admin fixing
+from django.contrib import admin
+
+def make_inactive(modeladmin, request, queryset):
+    queryset.update(active=False)
+make_inactive.short_description = 'Make inactive'
+
+class ProjectAdmin(admin.ModelAdmin):
+    list_display =  ('title', 'active')
+    list_filter  =  ('active',)
+    actions      =  (make_inactive,)
+
