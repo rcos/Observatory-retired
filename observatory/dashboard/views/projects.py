@@ -154,7 +154,6 @@ def archived_list(request):
       'repo_count': repo_count,
       'nothing_fetched': projects.count() is 0
     }, context_instance = RequestContext(request))
-<<<<<<< HEAD
 
 # "dashboard" view for archived projects without scoring
 def pending_list(request):
