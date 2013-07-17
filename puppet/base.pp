@@ -8,7 +8,7 @@ node "test.rcos.rpi.edu" {
     class {"uwsgi":}
     class {"nginx":}
 
-    Class["apt"] -> Class["uwsgi"]
+    Class["apt"] -> Class["observatory"]
     Class["observatory"] -> Class["uwsgi"]
     Class["apt"] -> Class["nginx"]
 }

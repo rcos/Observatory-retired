@@ -9,6 +9,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "observatory", "/var/www/Observatory/observatory"
 
   config.vm.network :private_network, ip: "192.168.56.2"
+  config.vm.network :forwarded_port, guest: 80, host: 8000
 
   config.vm.provider :virtualbox do |vb|
       vb.customize [
