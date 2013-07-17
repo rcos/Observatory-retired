@@ -12,4 +12,5 @@ observatory/media/observatory.js
 observatory/clones/
 !observatory/media/screenshots/thisdirectoryexists.txt
 .tmp/
+.vagrant/
 modules/
