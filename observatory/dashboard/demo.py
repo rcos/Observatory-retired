@@ -44,7 +44,9 @@ for person in [('natesm@gmail.com', 'password', 'Nate', 'Stedman'),
                ('hortont424@gmail.com', 'password', 'Tim', 'Horton'),
                ('arsenm2@rpi.edu', 'password', 'Matt', 'Arsenault'),
                ('doughj3@rpi.edu', 'password', 'Joseph', 'Dougherty'),
-			   ('ben.shippee@gmail.com', 'password','Ben', 'Shippee')]:
+			   ('ben.shippee@gmail.com', 'password','Ben', 'Shippee'),
+			   ('colin@daedrum.net', 'password','Colin', 'Rice'),
+               ]:
   m = md5()
   m.update(person[0])
   user = User.objects.create_user(m.hexdigest()[0:30], person[0], person[1])
