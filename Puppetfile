@@ -14,3 +14,6 @@ mod 'apt',
 mod 'observatory',
     :git => 'git@github.com:c00w/puppet-observatory.git'
 
+mod 'cron',
+    :git => 'git@github.com:torrancew/puppet-cron.git'
+
