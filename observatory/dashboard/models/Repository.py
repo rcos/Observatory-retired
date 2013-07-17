@@ -15,6 +15,7 @@
 import os
 import re
 import settings
+import shutil
 import stat
 import subprocess
 from dashboard.util import format_diff
