@@ -2,9 +2,9 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "precise64"
+  config.vm.box = "precise32"
   config.vm.hostname = "test.rcos.rpi.edu"
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
   config.vm.network :private_network, ip: "192.168.56.2"
   config.vm.network :forwarded_port, guest: 80, host: 8000
