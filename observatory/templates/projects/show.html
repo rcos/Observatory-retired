@@ -72,12 +72,12 @@
 {% if user.is_staff %}
                  <div class="bottom-bar">
 		<div class="bottom-bar-left">
-		<a href="{% url dashboard.views.projects.approve project.url_path %}">
+		<a href="{% url "dashboard.views.projects.approve" project.url_path" %}">
 				Approve this Project
 			</a>
         </div>
 		<div class="bottom-bar-right">
-		<a href="{% url dashboard.views.projects.deny project.url_path %}">
+		<a href="{% url "dashboard.views.projects.deny" project.url_path %}">
 				Remove this Project
 			</a>
         </div>

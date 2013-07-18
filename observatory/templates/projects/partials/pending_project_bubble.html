@@ -1,6 +1,6 @@
 <div class="extra-content" id="project-{{ project.id }}">
     <h2 style="float:left; clear:both">
-        <a href="{% url dashboard.views.projects.show project.url_path %}">
+        <a href="{% url "dashboard.views.projects.show" project.url_path %}">
             {{ project.title }}
         </a>
     </h2>
@@ -9,12 +9,12 @@
     {{ project.description|linebreaks }}
     <div class="bottom-bar">
 		<div class="bottom-bar-left">
-		<a href="{% url dashboard.views.projects.approve project.url_path %}">
+		<a href="{% url "dashboard.views.projects.approve" project.url_path %}">
 				Approve this Project
 			</a>
         </div>
 		<div class="bottom-bar-right">
-		<a href="{% url dashboard.views.projects.deny project.url_path %}">
+		<a href="{% url "dashboard.views.projects.deny" project.url_path %}">
 				Remove this Project
 			</a>
         </div>

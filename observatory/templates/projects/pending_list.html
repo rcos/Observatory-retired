@@ -8,7 +8,7 @@
 <h2 style='float:left'>Pending Projects</h2>
     <ul class='project-info'>
         <li>
-            <a href="{% url dashboard.views.projects.list %}"
+            <a href="{% url "dashboard.views.projects.list" %}"
                class="green button-small">
                 Current Projects
             </a>
@@ -16,7 +16,7 @@
     </ul>
 	    <ul class='project-info'>
         <li>
-            <a href="{% url dashboard.views.projects.archived_list %}"
+            <a href="{% url "dashboard.views.projects.archived_list" %}"
                class="green button-small">
                 Past Projects
             </a>
