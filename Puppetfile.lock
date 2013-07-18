@@ -1,21 +1,21 @@
 GIT
   remote: git@github.com:c00w/puppet-nginx.git
   ref: master
-  sha: 96d5c51a604c73055660a833951c9e4fb9da6aea
+  sha: 7281637dceb64499f20784e9f834cf2731099879
   specs:
     nginx (0.0.1)
 
 GIT
   remote: git@github.com:c00w/puppet-observatory.git
   ref: master
-  sha: b3b1a6c2572002a417a0e0dafa8a8310ebe29466
+  sha: 1f9264d240c04368e4be3387aaf8f54ad52f3927
   specs:
     observatory (0.0.1)
 
 GIT
   remote: git@github.com:c00w/puppet-uwsgi.git
   ref: master
-  sha: 478741e561a0e1e4725aa9920b9ed3bdc47282c4
+  sha: 46df2134036278dc3657f5a0b530f5427118462e
   specs:
     uwsgi (0.0.1)
 
