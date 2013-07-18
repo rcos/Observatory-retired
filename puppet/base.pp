@@ -4,12 +4,13 @@ Exec {
 
 node "test.rcos.rpi.edu" {
     class {"apt":}
-    class {"observatory":}
-    class {"uwsgi":}
     class {"nginx":}
+    class {"uwsgi":}
+    class {"observatory::dir":}
+    class {"observatory":}
 
     Class["apt"] -> Class["nginx"]
-    Class["nginx"] -> Class["observatory"]
+    Class["apt"] -> Class["observatory"]
     Class["observatory"] -> Class["uwsgi"]
 }
 
