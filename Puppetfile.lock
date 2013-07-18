@@ -1,0 +1,42 @@
+GIT
+  remote: git@github.com:c00w/puppet-nginx.git
+  ref: master
+  sha: 96d5c51a604c73055660a833951c9e4fb9da6aea
+  specs:
+    nginx (0.0.1)
+
+GIT
+  remote: git@github.com:c00w/puppet-observatory.git
+  ref: master
+  sha: a2776acad26964f27896aaf3790af4fc8141a34b
+  specs:
+    observatory (0.0.1)
+
+GIT
+  remote: git@github.com:c00w/puppet-uwsgi.git
+  ref: master
+  sha: 478741e561a0e1e4725aa9920b9ed3bdc47282c4
+  specs:
+    uwsgi (0.0.1)
+
+GIT
+  remote: git@github.com:camptocamp/puppet-apt.git
+  ref: master
+  sha: e39fa58e386db1ef8432c48a2deb6edbca2babfc
+  specs:
+    apt (0.0.2)
+
+GIT
+  remote: git@github.com:torrancew/puppet-cron.git
+  ref: master
+  sha: ec491c76763abe754ae75b0e6ed4b591db0771dc
+  specs:
+    cron (0.0.3)
+
+DEPENDENCIES
+  apt (>= 0)
+  cron (>= 0)
+  nginx (>= 0)
+  observatory (>= 0)
+  uwsgi (>= 0)
+

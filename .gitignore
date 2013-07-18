@@ -4,7 +4,6 @@
 *.psd
 *.swp
 *~
-*.lock
 
 observatory/settings_recaptcha.py
 observatory/media/screenshots/
