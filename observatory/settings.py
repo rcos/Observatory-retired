@@ -155,6 +155,7 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     'devserver',
+    'south',
     'todo',
     'django.contrib.auth',
     'django.contrib.contenttypes',

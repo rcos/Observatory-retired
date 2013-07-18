@@ -3,3 +3,4 @@ BeautifulSoup==3.2.1
 PIL==1.1.7
 mercurial==2.6.3
 psycopg2==2.5.1
+South==0.8.1
