@@ -19,7 +19,6 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from dashboard.models import *
 from dashboard.util import force_url_paths, avoid_duplicate_queries
-from lib.InheritanceQuerySet import InheritanceQuerySet
 from observatory.dashboard.views import commits, blogs
 
 from django.db import connection
@@ -28,8 +27,7 @@ INDEX_EVENT_COUNT = 100
 
 # a feed showing recent Events
 def feed(request):
-  qs = InheritanceQuerySet(model = Event)
-  objs = qs.select_subclasses().order_by('date').reverse()[:INDEX_EVENT_COUNT]
+  objs = Event.objects.select_subclasses().order_by('date').reverse()[:INDEX_EVENT_COUNT]
   
   avoid_duplicate_queries(objs, "author", "project",
                           author = { request.user.id: request.user }

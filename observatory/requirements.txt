@@ -4,3 +4,4 @@ PIL==1.1.7
 mercurial==2.6.3
 psycopg2==2.5.1
 South==0.8.1
+django-model-utils==1.4.0

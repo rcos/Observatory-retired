@@ -19,12 +19,16 @@ from django.contrib.auth.models import User
 from django.utils.html import escape
 from Project import Project
 from URLPathedModel import URLPathedModel
+from model_utils.managers import InheritanceManager
 
 # an event is currently either a blog post or a commit
 class Event(URLPathedModel):
   class Meta:
     app_label = 'dashboard'
-  
+
+  # Overload objects to give us the select_subclasses option
+  objects = InheritanceManager()
+
   # title of the event
   title = models.CharField("Title", max_length = 128)
   
