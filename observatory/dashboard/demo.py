@@ -53,6 +53,7 @@ for person in [('natesm@gmail.com', 'password', 'Nate', 'Stedman'),
   user.first_name = person[2]
   user.last_name = person[3]
   user.is_staff = True
+  user.is_superuser = True
   user.save()
   print "Added {0}".format(user.get_full_name())
   
