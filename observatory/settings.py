@@ -96,7 +96,7 @@ STATIC_URL = '/static/'
 # the amount of time it takes to read the logs and generate diffs.
 # "Some People" commit massive diffs, other than that this should never be
 # an issue unless your computer is very, very slow.
-REPO_FETCH_TIMEOUT = 3
+REPO_FETCH_TIMEOUT = 10
 
 # scoring thresholds
 GREEN_SCORE = 5000 # everything up to this score will be green
