@@ -96,8 +96,8 @@ obsv_blog = Blog(from_feed = True,
                  url = "http://www.natestedman.com",
                  rss = "http://www.natestedman.com/feed")
 obsv_blog.save()
-obsv_repo = Repository(web_url = "https://github.com/natestedman/Observatory",
-                       clone_url = "git://github.com/NateStedman/Observatory.git",
+obsv_repo = Repository(web_url = "https://github.com/rcos/Observatory",
+                       clone_url = "git://github.com/rcos/Observatory.git",
                        cmd = "git clone",
                        from_feed = False)
 obsv_repo.save()
@@ -112,6 +112,7 @@ obsv.authors.add(User.objects.get(email = 'natesm@gmail.com'))
 obsv.authors.add(User.objects.get(email = 'hortont424@gmail.com'))
 obsv.authors.add(User.objects.get(email = 'peterhajas@gmail.com'))
 obsv.authors.add(User.objects.get(email = 'arsenm2@rpi.edu'))
+obsv.authors.add(User.objects.get(email = 'colin@daedrum.net'))
 obsv.save()
 
 note_blog = Blog(from_feed = True,
