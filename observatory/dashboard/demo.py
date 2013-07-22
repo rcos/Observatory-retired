@@ -28,6 +28,8 @@ path = os.path.dirname(os.path.abspath(__file__))
 # remove the database and recreate it
 os.system("rm {0}/../db.sqlite".format(path))
 os.system("python2 {0}/../manage.py syncdb --noinput".format(path))
+os.system("python2 {0}/../manage.py migrate dashboard --noinput".format(path))
+os.system("python2 {0}/../manage.py migrate dashboard --noinput".format(path))
 
 # django setup
 sys.path.insert(0, path)

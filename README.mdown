@@ -19,51 +19,16 @@ commits, and screenshots. Additionally, there is a "feed" view that shows all
 of the most recent actions.
 
 ## Setup
-Observatory is pretty easy to set up. Excluding the Apache and `mod_wsgi`
+Observatory is pretty easy to set up. Excluding the wsgi 
 setup that you would want for a production environment (resources on which are
 best found elsewhere, most of the dependencies) are packed in the
 `observatory/lib` directory.
 
 Observatory requires Python 2.7+ (not Python 3+) and is built on the Django web
-framework. It also depends on the several packages and version control systems:
+framework. It also depends on the several packages and version control systems described in the requirements.txt file in the observatory directory.
 
-* Python Imaging Library (PIL)
-* BeautifulSoup
-* Git
-* Mercurial
+If you want to get started quickly, then install [vagrant](http://www.vagrantup.com/) and [puppet librarian](http://librarian-puppet.com/) and invoke the `make test` command. This will produce a working demo site that is listening on [localhost:8000](http://localhost:8000). For more details on configuration consult the example puppet configuration in `puppet/base.pp`. Puppet modules will be installed in the modules directory.
 
-For OS X/Linux users, everything but Git can be installed using pip.
-
-	pip install django mercurial BeautifulSoup pil
-	sudo apt-get install git-core #Your native package manager here
-	
-If the above does not work for Linux users, the following can be used in place
-of pip to install PIL and Mercurial:
-
-	sudo apt-get install mercurial
-	sudo aptitude install python-imaging
-	
-For Windows users Git, Mercurial, and PIL are best installed through downloaded
-installers because there are several build issues when using python packaging. 
-You will also want to install `easy_install` or `pip` to to manage your python
-packages.
-
-	https://git.wiki.kernel.org/index.php/MSysGit:InstallMSysGit
-	http://mercurial.selenic.com/wiki/Download#Windows
-	http://www.pythonware.com/products/pil/
-	http://pypi.python.org/pypi/setuptools
-	
-You will likely need to edit the `/c/Program Files/Git/etc/profile` file to put
-both python and setuptools on your PATH for the GitBash shell.
-
-	PATH=$PATH:/c/Python27:/c/Python27/Scripts
-	
-You can then boot up a new bash terminal and grab the pip, BeautifulSoup and
-Django packages
-
-	easy_install pip
-	pip install BeautifulSoup django
-	
 ## Fetching
 Since it deals primarily with external data sources, Observatory uses a set of
 scripts to pull data down and store it in the local database. There scripts are
@@ -92,18 +57,21 @@ You can either use the fork + pull request feature of Github, or just send in
 patches (use Issues or email).
 
 To set up a development environment is very easy. Just follow the instructions
-in the "Setup" above, but skip the part about configuring a web server and
-database, since you can use the Django development server and SQLite.
+in the "Setup" above using vagrant. Note that you must run make test every time you make a change as we copy the source directory, rather than symlink it, for security reasons.
+
+If you don't want to use vagrant the following instructions will prove useful.
 
 There are two scripts that are useful:
-(Scripts need to be run from the Observatory directory.) 
+(Scripts need to be run from the Observatory directory.)
 
 * `observatory/dashboard/demo.py` loads up a demo set of projects and users.
 * `observatory/dashboard/fetch.py` runs the repository and blog fetch scripts.
 
 (Optional) If you don't want the demo set, you need to use syncdb manually:
 
-* `observatory/manage.py syncdb`  creates the necessary database tables.
+* `observatory/manage.py syncdb`  creates some of the necessary database tables.
+* `manage.py migrate dashboard` creates some of the necessary database tables.
+* `manage.py migrate todo` creates the rest of the tables.
 
 Once these have been run, the database will be populated with the most
 recent commits and blog posts for the demo projects. Then, you can just run the
