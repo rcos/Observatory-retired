@@ -1,7 +1,7 @@
 GIT
   remote: git@github.com:c00w/puppet-deploy.git
   ref: master
-  sha: 0bdc40542667714f9f283c6db558cba8c8738f2a
+  sha: 61c60806c798e5cc2d375ba9d6ecd480132e0cfa
   specs:
     deploy (0.0.1)
 
@@ -15,14 +15,14 @@ GIT
 GIT
   remote: git@github.com:c00w/puppet-observatory.git
   ref: master
-  sha: 2629b869ae73bb21ea3569630ddfc9a59933ab19
+  sha: e986f7ba4baeb4e9e1279b1a58bce35431f5d783
   specs:
     observatory (0.0.1)
 
 GIT
   remote: git@github.com:c00w/puppet-ssh.git
   ref: master
-  sha: 5ec7796adb37613f915231f034e32a699520e770
+  sha: 2c499f51e73bde5d1846cbd5d3d1b3a70a46e75a
   specs:
     ssh (0.0.1)
 
