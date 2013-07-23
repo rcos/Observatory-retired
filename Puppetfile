@@ -14,6 +14,14 @@ mod 'apt',
 mod 'observatory',
     :git => 'git@github.com:c00w/puppet-observatory.git'
 
+mod 'deploy',
+    :git => 'git@github.com:c00w/puppet-deploy.git'
+
+mod 'ssh',
+    :git => 'git@github.com:c00w/puppet-ssh.git'
+
 mod 'cron',
     :git => 'git@github.com:torrancew/puppet-cron.git'
 
+mod 'vcsrepo',
+    :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo.git'
