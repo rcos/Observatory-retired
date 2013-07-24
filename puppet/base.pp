@@ -3,6 +3,8 @@ Exec {
 }
 
 class {"apt":}
+class {"apt::unattended-upgrade::automatic":}
+class {"ntp":}
 class {"nginx":}
 class {"uwsgi":}
 

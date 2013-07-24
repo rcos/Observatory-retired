@@ -1,3 +1,8 @@
+FORGE
+  remote: http://forge.puppetlabs.com
+  specs:
+    puppetlabs/stdlib (4.1.0)
+
 GIT
   remote: https://github.com/c00w/puppet-deploy.git
   ref: master
@@ -41,6 +46,14 @@ GIT
     apt (0.0.2)
 
 GIT
+  remote: https://github.com/puppetlabs/puppetlabs-ntp.git
+  ref: master
+  sha: c5408ae4b17bc3b395b13d10c9473e15661d2d38
+  specs:
+    ntp (1.0.1)
+      puppetlabs/stdlib (>= 0.1.6)
+
+GIT
   remote: https://github.com/puppetlabs/puppetlabs-vcsrepo.git
   ref: master
   sha: 7e87ef1cf732641fa6390bf2c9011e4277b01aea
@@ -59,6 +72,7 @@ DEPENDENCIES
   cron (>= 0)
   deploy (>= 0)
   nginx (>= 0)
+  ntp (>= 0)
   observatory (>= 0)
   ssh (>= 0)
   uwsgi (>= 0)
