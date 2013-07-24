@@ -79,7 +79,7 @@ SCREENSHOT_URL = "/site-media/screenshots/"
 MAIL_SENDER = "no-reply@rpi.edu"
 
 # The maximum number of threads to use when fetching blogs
-BLOG_FETCH_PROCESS_COUNT = 10
+BLOG_FETCH_PROCESS_COUNT = 4
 
 # The maximum number of concurrent processes to run when fetching repos
 REPO_FETCH_PROCESS_COUNT = 1

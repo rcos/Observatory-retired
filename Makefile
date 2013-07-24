@@ -4,4 +4,7 @@ test:
 	vagrant up
 	vagrant provision
 
-.PHONY: test
+deploy:
+	production/update.sh rcos.rpi.edu
+
+.PHONY: test deploy
