@@ -15,7 +15,7 @@ GIT
 GIT
   remote: https://github.com/c00w/puppet-observatory.git
   ref: master
-  sha: 4673ed79a56c99a9f69a4f799412990ef50e65d1
+  sha: 856b0bc01c23231c678bc0e5dd8729b954618ce2
   specs:
     observatory (0.0.1)
 
