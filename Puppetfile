@@ -27,4 +27,4 @@ mod 'vcsrepo',
     :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo.git'
 
 mod 'ntp',
-    :git => 'https://github.com/puppetlabs/puppetlabs-ntp.git'
+    :git => 'https://github.com/c00w/puppetlabs-ntp.git'

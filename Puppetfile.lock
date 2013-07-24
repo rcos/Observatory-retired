@@ -39,19 +39,19 @@ GIT
     uwsgi (0.0.1)
 
 GIT
+  remote: https://github.com/c00w/puppetlabs-ntp.git
+  ref: master
+  sha: 30dc28311eb19c2036ec3c9adf878355718fcf23
+  specs:
+    ntp (0.3.0)
+      puppetlabs/stdlib (>= 0.1.6)
+
+GIT
   remote: https://github.com/camptocamp/puppet-apt.git
   ref: master
   sha: e39fa58e386db1ef8432c48a2deb6edbca2babfc
   specs:
     apt (0.0.2)
-
-GIT
-  remote: https://github.com/puppetlabs/puppetlabs-ntp.git
-  ref: master
-  sha: c5408ae4b17bc3b395b13d10c9473e15661d2d38
-  specs:
-    ntp (1.0.1)
-      puppetlabs/stdlib (>= 0.1.6)
 
 GIT
   remote: https://github.com/puppetlabs/puppetlabs-vcsrepo.git
