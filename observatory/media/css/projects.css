@@ -184,6 +184,11 @@ div.header h2 {
     float: left;
 }
 
+
+#project-recent-activity-left img {
+    max-width: 100%;
+}
+
 #project-recent-activity-right {
     float: right;
 }
