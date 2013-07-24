@@ -1,51 +1,44 @@
 GIT
-  remote: git@github.com:c00w/puppet-deploy.git
+  remote: https://github.com/c00w/puppet-deploy.git
   ref: master
   sha: 61c60806c798e5cc2d375ba9d6ecd480132e0cfa
   specs:
     deploy (0.0.1)
 
 GIT
-  remote: git@github.com:c00w/puppet-nginx.git
+  remote: https://github.com/c00w/puppet-nginx.git
   ref: master
   sha: 7281637dceb64499f20784e9f834cf2731099879
   specs:
     nginx (0.0.1)
 
 GIT
-  remote: git@github.com:c00w/puppet-observatory.git
+  remote: https://github.com/c00w/puppet-observatory.git
   ref: master
   sha: e986f7ba4baeb4e9e1279b1a58bce35431f5d783
   specs:
     observatory (0.0.1)
 
 GIT
-  remote: git@github.com:c00w/puppet-ssh.git
+  remote: https://github.com/c00w/puppet-ssh.git
   ref: master
   sha: 2c499f51e73bde5d1846cbd5d3d1b3a70a46e75a
   specs:
     ssh (0.0.1)
 
 GIT
-  remote: git@github.com:c00w/puppet-uwsgi.git
+  remote: https://github.com/c00w/puppet-uwsgi.git
   ref: master
   sha: 46df2134036278dc3657f5a0b530f5427118462e
   specs:
     uwsgi (0.0.1)
 
 GIT
-  remote: git@github.com:camptocamp/puppet-apt.git
+  remote: https://github.com/camptocamp/puppet-apt.git
   ref: master
   sha: e39fa58e386db1ef8432c48a2deb6edbca2babfc
   specs:
     apt (0.0.2)
-
-GIT
-  remote: git@github.com:torrancew/puppet-cron.git
-  ref: master
-  sha: ec491c76763abe754ae75b0e6ed4b591db0771dc
-  specs:
-    cron (0.0.3)
 
 GIT
   remote: https://github.com/puppetlabs/puppetlabs-vcsrepo.git
@@ -53,6 +46,13 @@ GIT
   sha: 7e87ef1cf732641fa6390bf2c9011e4277b01aea
   specs:
     vcsrepo (0.1.2)
+
+GIT
+  remote: https://github.com/torrancew/puppet-cron.git
+  ref: master
+  sha: ec491c76763abe754ae75b0e6ed4b591db0771dc
+  specs:
+    cron (0.0.3)
 
 DEPENDENCIES
   apt (>= 0)
