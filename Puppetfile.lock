@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/c00w/puppet-deploy.git
   ref: master
-  sha: 19482ee577eb23750b41631a2cdefded6bbc2c66
+  sha: 6b3ba798a0beb35189cdebe88c9af1f50cb9086c
   specs:
     deploy (0.0.1)
 
