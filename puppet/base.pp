@@ -11,7 +11,6 @@ Class["apt"] -> Class["nginx"]
 node "test.rcos.rpi.edu" {
     class {"observatory::dir":}
     class {"observatory::demo":}
-    class {"observatory":}
     Class["observatory"] -> Class["uwsgi"]
     Class["apt"] -> Class["observatory"]
 
