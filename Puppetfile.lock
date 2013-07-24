@@ -29,7 +29,7 @@ GIT
 GIT
   remote: https://github.com/c00w/puppet-uwsgi.git
   ref: master
-  sha: 46df2134036278dc3657f5a0b530f5427118462e
+  sha: 81d015738e41cbdd56ffd45068766b6938c8876b
   specs:
     uwsgi (0.0.1)
 
