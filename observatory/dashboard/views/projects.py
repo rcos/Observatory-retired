@@ -180,17 +180,24 @@ def add_mentor(request):
   return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
 
 def approve(request, project_url_path):
+  try:
+    mentor = request.user.info.mentor
+  except:
+    mentor = False
   project = get_object_or_404(Project, url_path = project_url_path)
-  if project.mentor:
-      project.pending = False
-      project.save()
-  else:
-      pass
+  if project.mentor and mentor:
+    project.pending = False
+    project.save()
   return pending_list(request)
-  
+
 def deny(request, project_url_path):
-  project = get_object_or_404(Project, url_path = project_url_path)
-  project.delete()
+  try:
+    mentor = request.user.info.mentor
+  except:
+    mentor = False
+  if mentor:
+    project = get_object_or_404(Project, url_path = project_url_path)
+    project.delete()
   return pending_list(request)
 
 # information about a specific project

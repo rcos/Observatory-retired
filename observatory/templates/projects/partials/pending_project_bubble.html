@@ -10,17 +10,21 @@
     <div class="bottom-bar">
 		<div class="bottom-bar-left">
         {% if project.mentor %}
-		<a href="{% url "dashboard.views.projects.approve" project.url_path %}">
+            {% if user.info.mentor %}
+            <a href="{% url "dashboard.views.projects.approve" project.url_path %}">
 				Approve this Project
 			</a>
+            {% endif %}
         {% else %}
             Mentor Needed
         {% endif %}
         </div>
 		<div class="bottom-bar-right">
+        {% if user.info.mentor %}
 		<a href="{% url "dashboard.views.projects.deny" project.url_path %}">
 				Remove this Project
 			</a>
+        {% endif %}
         </div>
     </div>
 </div>
