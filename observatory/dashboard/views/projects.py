@@ -166,7 +166,7 @@ def pending_list(request):
 
 def add_mentor(request):
   mentor = get_object_or_404(User, id = int(request.POST["user_id"]))
-  project = get_object_or_404(User, id = int(request.POST["project_id"]))
+  project = get_object_or_404(Project, id = int(request.POST["project_id"]))
 
   if not mentor.info.mentor:
     return HttpResponseRedirect(reverse(show, args=(project.url_path)))
