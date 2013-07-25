@@ -1,0 +1,16 @@
+{% if user.is_authenticated and user.info.mentor %}
+<div class="project-info">
+    <form action="{% url "dashboard.views.projects.add_mentor" %}"
+        method="post">
+
+        {% csrf_token %}
+        <input type="submit" value="I'll mentor this project!"
+            class="green button-small" />
+        <input type="hidden" value="{{ project.id }}"
+            name="project_id" />
+        <input type="hidden" value="{{ user.id }}"
+            name="user_id" />
+    </form>
+</div>
+{% endif %}
+

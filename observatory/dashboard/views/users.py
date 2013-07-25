@@ -15,7 +15,7 @@
 import random
 
 from dashboard.forms import LoginForm, RegistrationForm, ForgotPasswordForm
-from dashboard.models import Contributor, Event
+from dashboard.models import Contributor, Event, UserInfo
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -48,7 +48,7 @@ ADJ_COUNT = len(PEOPLE_ADJECTIVES)
 
 # display the list of users
 def people(request):
-  people = User.objects.order_by("is_staff").reverse().exclude(is_active = False)
+  people = User.objects.order_by("info__mentor").reverse().exclude(is_active = False)
   return render_to_response("users/people.html", {
       "people": people,
       "adjective": PEOPLE_ADJECTIVES[random.randint(0, ADJ_COUNT - 1)],
@@ -56,7 +56,7 @@ def people(request):
 	
 # display the list of past users
 def past_people(request):
-  people = User.objects.order_by("is_staff").reverse().exclude(is_active = True)
+  people = User.objects.order_by("info__mentor").reverse().exclude(is_active = True)
   return render_to_response("users/past_people.html", {
       "people": people,
       "adjective": PEOPLE_ADJECTIVES[random.randint(0, ADJ_COUNT - 1)],
@@ -253,6 +253,10 @@ def create_user(request, form):
   # set the user's first/last names
   user.first_name = data['first_name']
   user.last_name = data['last_name']
+
+  #Add additional info
+  user.info = UserInfo(user=user, mentor=False)
+  user.info.save()
   
   # save the user
   user.save()

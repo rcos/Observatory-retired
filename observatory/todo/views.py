@@ -61,7 +61,7 @@ def del_list(request,list_id,list_slug):
     Delete an entire list. Danger Will Robinson! Only staff members should be allowed to access this view.
     """
     
-    if request.user.is_staff:
+    if request.user.mentor:
         can_del = 1
 
     # Get this list's object (to derive list.name, list.id, etc.)
@@ -106,7 +106,7 @@ def view_list(request,list_id=0,list_slug=None,view_completed=0):
         listid = list.id    
         
         # Check whether current user is a member of the group this list belongs to.
-        if list.group in request.user.groups.all() or request.user.is_staff or list_slug == "mine" :
+        if list.group in request.user.groups.all() or request.user.mentor or list_slug == "mine" :
             auth_ok = 1   # User is authorized for this view
         else: # User does not belong to the group this list is attached to
             messages.error(request, "You do not have permission to view/edit this list.")                                    
@@ -213,7 +213,7 @@ def view_list(request,list_id=0,list_slug=None,view_completed=0):
                 'priority':999,
                 } )
 
-    if request.user.is_staff:
+    if request.user.mentor :
         can_del = 1
 
     return render_to_response('todo/view_list.html', locals(), context_instance=RequestContext(request))
@@ -233,7 +233,7 @@ def view_task(request,task_id):
     # Determine the group this task belongs to, and check whether current user is a member of that group.
     # Admins can edit all tasks.
 
-    if task.list.group in request.user.groups.all() or request.user.is_staff:
+    if task.list.group in request.user.groups.all() or request.user.mentor:
         
         auth_ok = 1
         if request.POST:

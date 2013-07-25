@@ -16,6 +16,7 @@ for model in (AuthorRequest,
               Event,
               Repository,
               Screenshot,
+              UserInfo,
 			  Group):
   admin.site.register(model)
 
@@ -90,6 +91,7 @@ urlpatterns = patterns('',
     (r'^projects/([^\.]*)/commits\.rss$', CommitsFeed()),
     
     # projects
+    (r'^projects/add-mentor/$', projects.add_mentor),
     (r'^projects/add-user/$', projects.add_user),
     (r'^projects/remove-user/$', projects.remove_user),
     (r'^projects/add/$', projects.add),

@@ -68,9 +68,9 @@
     {{ project.description|linebreaks }}
 </div>
 
-{%if project.pending%} 
-{% if user.is_staff %}
-                 <div class="bottom-bar">
+{%if project.pending%}
+    {% if user.info.mentor and project.mentor %}
+    <div class="bottom-bar">
 		<div class="bottom-bar-left">
 		<a href="{% url "dashboard.views.projects.approve" project.url_path %}">
 				Approve this Project
@@ -82,7 +82,7 @@
 			</a>
         </div>
     </div>
-            {% endif %}
+    {% endif %}
 {%endif%}
 
 <div class="dark">
@@ -150,6 +150,36 @@
         <div style="clear:both"></div>
     </ul>
 {% endif %}
+
+<hr />
+
+<div class="header">
+    <h2>Mentor</h2>
+    {% include "projects/partials/mentor_add.html" %}
+</div>
+
+{% if mentor %}
+<ul class="project-authors">
+        <li>
+                <a href="{% url "dashboard.views.users.profile" mentor.id %}">
+                    <img src="{{ mentor|gravatar:100 }}"
+                         alt="{{ mentor.get_full_name }}" />
+                    <p>{{ mentor.get_full_name }}</p>
+                </a>
+        </li>
+    <div style="clear:both"></div>
+</ul>
+{% else %}
+<div class="project-authors">
+    {% if not project.pending %}
+    <h2>This project got grandfathered in without a set mentor<h2>
+    {% else %}
+    <h2> No mentor yet </h2>
+    {% endif %}
+</div>
+
+{% endif %}
+
 </div>
     
 <div id="project-recent-activity">

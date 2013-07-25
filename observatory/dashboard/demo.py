@@ -55,6 +55,8 @@ for person in [('natesm@gmail.com', 'password', 'Nate', 'Stedman'),
   user.first_name = person[2]
   user.last_name = person[3]
   user.is_staff = True
+  user.info = UserInfo(user=user,mentor=True)
+  user.info.save()
   user.is_superuser = True
   user.save()
   print "Added {0}".format(user.get_full_name())
@@ -89,7 +91,8 @@ mnot = Project(title = "MobileNotifier",
                website = "http://www.peterhajas.com",
                wiki = "http://www.peterhajas.com",
                blog_id = mnot_blog.id,
-               repository_id = mnot_repo.id)
+               repository_id = mnot_repo.id,
+               pending = True)
 mnot.save()
 mnot.authors.add(User.objects.get(email = 'peterhajas@gmail.com'))
 mnot.save()
@@ -151,7 +154,8 @@ milk = Project(title = "milkyway@home",
                website = "http://whatmannerofburgeristhis.com",
                wiki = "http://whatmannerofburgeristhis.com",
                blog_id = milk_blog.id,
-               repository_id = milk_repo.id)
+               repository_id = milk_repo.id,
+               mentor = User.objects.filter(last_name = "Rice")[0])
 milk.save()
 milk.authors.add(User.objects.get(email = 'arsenm2@rpi.edu'))
 milk.save()
@@ -223,5 +227,7 @@ for i in range(1, 20):
                                   "password")
   user.first_name = "Test"
   user.last_name = "User{0}".format(i)
+  user.info = UserInfo(user=user, mentor=False)
+  user.info.save()
   user.save()
   obsv.authors.add(user)

@@ -9,9 +9,13 @@
     {{ project.description|linebreaks }}
     <div class="bottom-bar">
 		<div class="bottom-bar-left">
+        {% if project.mentor %}
 		<a href="{% url "dashboard.views.projects.approve" project.url_path %}">
 				Approve this Project
 			</a>
+        {% else %}
+            Mentor Needed
+        {% endif %}
         </div>
 		<div class="bottom-bar-right">
 		<a href="{% url "dashboard.views.projects.deny" project.url_path %}">

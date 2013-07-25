@@ -1,4 +1,7 @@
 
+clean:
+	find . -name "*.pyc" -delete
+
 test:
 	librarian-puppet install
 	vagrant up
@@ -7,4 +10,4 @@ test:
 deploy:
 	production/update.sh rcos.rpi.edu
 
-.PHONY: test deploy
+.PHONY: test deploy clean

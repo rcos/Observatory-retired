@@ -1,5 +1,5 @@
 <ul class="project-info">
-    {% if user in project.authors.all or user.is_staff %}
+    {% if user in project.authors.all or user.info.mentor %}
         <li>
             <a href="{% url "dashboard.views.projects.modify" project.url_path %}">
                 Modify

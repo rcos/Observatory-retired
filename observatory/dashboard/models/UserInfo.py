@@ -1,4 +1,4 @@
-# Copyright (c) 2010, individual contributors (see AUTHORS file)
+# Copyright (c) 2013, individual contributors (see AUTHORS file)
 #
 # Permission to use, copy, modify, and/or distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -12,17 +12,17 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-from AuthorRequest import AuthorRequest
-from Blog import Blog
-from BlogPost import BlogPost
-from Commit import Commit
-from Contributor import Contributor
-from Event import Event
-from EventSet import EventSet
-from Project import Project, ProjectAdmin
-from Repository import Repository
-from Screenshot import Screenshot
-from URLPathedModel import URLPathedModel
-from UserAdmin import UserAdmin
-from UserInfo import UserInfo
+from django.db import models
+from django.contrib.auth.models import User
 
+class UserInfo(models.Model):
+    class Meta:
+        app_label = 'dashboard'
+
+    user = models.OneToOneField(
+            User,
+            primary_key=True,
+            related_name="info"
+    )
+
+    mentor = models.BooleanField(default = False)

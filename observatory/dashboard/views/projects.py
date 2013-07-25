@@ -164,10 +164,26 @@ def pending_list(request):
       'nothing_fetched': projects.count() is 0
     }, context_instance = RequestContext(request))
 
+def add_mentor(request):
+  mentor = get_object_or_404(User, id = int(request.POST["user_id"]))
+  project = get_object_or_404(User, id = int(request.POST["project_id"]))
+
+  if not mentor.info.mentor:
+    return HttpResponseRedirect(reverse(show, args=(project.url_path)))
+
+  if int(request.user.id) is not mentor.id:
+    return HttpResponseRedirect(reverse(show, args=(project.url_path)))
+
+  project.mentor = mentor
+  project.save()
+
 def approve(request, project_url_path):
   project = get_object_or_404(Project, url_path = project_url_path)
-  project.pending = False
-  project.save()
+  if project.mentor:
+      project.pending = False
+      project.save()
+  else:
+      pass
   return pending_list(request)
   
 def deny(request, project_url_path):
@@ -226,7 +242,8 @@ def show(request, project_url_path):
       'blogposts': blogposts,
       'commits': commits,
       'contributors': contributors,
-      'show_add_remove_author': show_add_remove_author
+      'show_add_remove_author': show_add_remove_author,
+      'mentor': project.mentor,
     }, context_instance = RequestContext(request))
 
 # a view for adding a new project
@@ -345,7 +362,7 @@ def add(request):
                       active = True,
                       repository_id = repo.id,
                       blog_id = blog.id,
-					  pending = False)
+					  pending = True)
 
     # get the project a primary key
     project.save()
@@ -376,7 +393,7 @@ def modify(request, project_url_path, tab_id = 1):
   screenshots = Screenshot.objects.filter(project = project)
   
   # if someone tries to edit a project they shouldn't be able to
-  if not (request.user in project.authors.all() or request.user.is_staff):
+  if not (request.user in project.authors.all() or request.user.info.mentor):
     return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
   
   # default forms

@@ -53,7 +53,15 @@ class Project(URLPathedModel):
   
   # authors of the project
   authors = models.ManyToManyField(User)
-  
+
+  # project mentor
+  mentor = models.ForeignKey(
+            User,
+            limit_choices_to = {'info__mentor__eq': True},
+            related_name = "mentored",
+            null = True,
+  )
+
   # if the project is currently active
   active = models.BooleanField(choices= ((True, "Active"),(False,"Inactive")), default=True)
 

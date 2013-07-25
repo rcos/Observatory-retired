@@ -19,7 +19,7 @@
 			<img src="{{ person|gravatar:100 }}"
 			     alt="{{ author.get_full_name }}" />
 			 <p>{{ person.get_full_name }}</p>
-			 {% if person.is_staff %}
+			 {% if person.info.mentor %}
 			 <div class="rcos-mentor">
 				 Mentor
 			 </div>
