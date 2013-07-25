@@ -5,11 +5,11 @@
 {% block head %}
 {% endblock %}
 
-{% block title %}{{ project.title }}{%if project.pending%} (Pending) {%endif%}{% endblock %}
+{% block title %}{{ project.title }}{%if project.pending%} (Proposal) {%endif%}{% endblock %}
 
 {% block content %}
 <div class="top-bar">
-    <h2 style='float:left'>{{ project.title }} {%if project.pending%} (Pending) {%endif%}</h2>
+    <h2 style='float:left'>{{ project.title }} {%if project.pending%} (Proposal) {%endif%}</h2>
 
     {% include "projects/partials/info.html" %}
 </div>
