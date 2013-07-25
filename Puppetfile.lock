@@ -6,7 +6,7 @@ FORGE
 GIT
   remote: https://github.com/c00w/puppet-deploy.git
   ref: master
-  sha: 6b3ba798a0beb35189cdebe88c9af1f50cb9086c
+  sha: 19a43cb1b82737981c8adfda106fabc3fd66d8a4
   specs:
     deploy (0.0.1)
 
