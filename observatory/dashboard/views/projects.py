@@ -177,6 +177,8 @@ def add_mentor(request):
   project.mentor = mentor
   project.save()
 
+  return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
+
 def approve(request, project_url_path):
   project = get_object_or_404(Project, url_path = project_url_path)
   if project.mentor:
