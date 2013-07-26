@@ -18,11 +18,12 @@ import settings
 import shutil
 import stat
 import subprocess
+import dateutil
 from dashboard.util import format_diff
 from django.db import models
 from django.utils.html import escape
 from exceptions import Exception
-from lib import feedparser, dateutil, pyvcs
+from lib import feedparser, pyvcs
 from lib.markdown import markdown
 from lib.pyvcs.backends import get_backend
 from EventSet import EventSet
