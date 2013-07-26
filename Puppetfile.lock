@@ -49,14 +49,14 @@ GIT
 GIT
   remote: https://github.com/camptocamp/puppet-apt.git
   ref: master
-  sha: e39fa58e386db1ef8432c48a2deb6edbca2babfc
+  sha: 716781949308c959ac8ec9a16c89c27caf9d9823
   specs:
     apt (0.0.2)
 
 GIT
   remote: https://github.com/puppetlabs/puppetlabs-vcsrepo.git
   ref: master
-  sha: 7e87ef1cf732641fa6390bf2c9011e4277b01aea
+  sha: 45cb7c1319e79cbfb3ff2bcdadfc275260d557e0
   specs:
     vcsrepo (0.1.2)
 
