@@ -48,7 +48,7 @@ ADJ_COUNT = len(PEOPLE_ADJECTIVES)
 
 # display the list of users
 def people(request):
-  people = User.objects.order_by("info__mentor").reverse().exclude(is_active = False).exclude(project=None, "info__mentor"=False)
+  people = User.objects.order_by("info__mentor").reverse().exclude(is_active = False).exclude(project=None, info__mentor=False)
 
   return render_to_response("users/people.html", {
       "people": people,
@@ -57,7 +57,7 @@ def people(request):
 	
 # display the list of past users
 def past_people(request):
-  people = User.objects.order_by("info__mentor").reverse().exclude(is_active = True).exclude(project=None, "info__mentor"=False)
+  people = User.objects.order_by("info__mentor").reverse().exclude(is_active = True).exclude(project=None, info__mentor=False)
   return render_to_response("users/past_people.html", {
       "people": people,
       "adjective": PEOPLE_ADJECTIVES[random.randint(0, ADJ_COUNT - 1)],
