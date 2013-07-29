@@ -157,7 +157,6 @@ INSTALLED_APPS = (
     'devserver',
     'south',
     'todo',
-    'swingtime',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
