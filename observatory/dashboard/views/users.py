@@ -326,11 +326,7 @@ def login(request):
           raise LoginError(True)
         
         # otherwise, log the user in
-        if user.is_active:
-          auth.login(request, user)
-        else:
-          error_header = "Account is deactivated. Please contact a mentor."
-          raise LoginError(True)
+        auth.login(request, user)
         
         return HttpResponseRedirect(next)
       except LoginError as e:
