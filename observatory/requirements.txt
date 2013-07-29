@@ -6,3 +6,4 @@ psycopg2==2.5.1
 South==0.8.1
 django-model-utils==1.4.0
 python-dateutil==2.1
+feedparser==5.1.3
