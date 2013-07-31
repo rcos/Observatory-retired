@@ -6,8 +6,6 @@ import rcos.views
 import observatory.urls
 import settings
 
-from django.contrib import admin
-
 urlpatterns = patterns('',
     
     # RCOS views
