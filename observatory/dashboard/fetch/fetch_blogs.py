@@ -52,7 +52,7 @@ class Fetcher(object):
     return False
 
 
-blogs = list(Blog.objects.exclude(from_feed = False).exclude(project__active = False, user__isnull = True))
+blogs = list(Blog.objects.exclude(from_feed = False).exclude(project__active = False, user__isnull = True).exclude(user_isnull=False, user__isactive=False))
 fetchers = []
 
 while True:
