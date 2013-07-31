@@ -1,30 +1,10 @@
 from dashboard.feeds import *
-from dashboard.models import *
 from dashboard.views import *
 from django.conf.urls import *
-import settings
 
 from django.contrib import admin
-from django.contrib.auth.models import User, Group
 
-# autodiscover doesn't work, do it manually
-for model in (AuthorRequest,
-              Blog,
-              BlogPost,
-              Commit,
-              Contributor,
-              Event,
-              Repository,
-              Screenshot,
-              UserInfo,
-			  Group):
-  admin.site.register(model)
-
-for model, modeladmin in [
-                          (Project, ProjectAdmin),
-                          (User, UserAdmin)
-                         ]:
-  admin.site.register(model, modeladmin)
+admin.autodiscover()
 
 urlpatterns = patterns('',
     # Example:
@@ -118,8 +98,5 @@ urlpatterns = patterns('',
     (r'^feed/$', feed.feed),
     (r'^feed\.rss$', EventsFeed()),
     
-    # serve media (for now)
-    (r'^site-media/(?P<path>.*)/$', 'django.views.static.serve',
-        {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
 )
 

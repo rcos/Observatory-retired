@@ -57,7 +57,7 @@ class Project(URLPathedModel):
   # project mentor
   mentor = models.ForeignKey(
             User,
-            limit_choices_to = {'info__mentor__eq': True},
+            limit_choices_to = {'info__mentor': True},
             related_name = "mentored",
             null = True,
   )
