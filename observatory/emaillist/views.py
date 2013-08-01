@@ -7,7 +7,7 @@ def remove_email(request, email):
 
     #Only exclude an email once
     if EmailExclusion.excluded(email):
-        return
+        return render_to_response('emaillist/email_removed.html')
 
     #Exclude the email
     exclude = EmailExclusion(email=email)
