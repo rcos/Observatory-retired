@@ -92,7 +92,10 @@ urlpatterns = patterns('',
 	
 	#tasks
 	(r'^todo/', include('todo.urls')),
-    
+    	
+	#email
+	(r'^email/', include('emaillist.urls')),
+
     # feed
     (r'^event/([^\.]*)/$', feed.event),
     (r'^feed/$', feed.feed),
