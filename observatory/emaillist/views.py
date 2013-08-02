@@ -1,19 +1,24 @@
-from emaillist.models import EmailExclusion
+from emaillist.models import EmailAddress
 from django.shortcuts import render_to_response
+from django.core.exceptions import ObjectDoesNotExist
 
 def remove_email(request, email):
     if email[-1] == '/':
         email = email[:-1]
 
-    #Only exclude an email once
-    if EmailExclusion.excluded(email):
+    try:
+        addr = EmailAddress.objects.filter(address=email).get()
+    except EmailAddress.DoesNotExist:
+        return render_to_response('emaillist/email_removed.html')
+
+    if addr.excluded:
         return render_to_response('emaillist/email_removed.html')
 
     #Exclude the email
-    exclude = EmailExclusion(email=email)
-    exclude.save()
+    addr.excluded = True
+    addr.save()
 
     #Find the user who pressed the exclude button
-    user = None
+    user = addr.user
 
     return render_to_response('emaillist/email_removed.html')

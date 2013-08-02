@@ -1,9 +1,9 @@
 from django.core.mail import EmailMessage
-from emaillist.models import EmailExclusion
+from emaillist.models import EmailAddress
 from django.core.urlresolvers import reverse
 
 def send_mail(subject, body, from_email, recipient_list, fail_silently=False):
-    to = [addr for addr in recipient_list if not EmailExclusion.excluded(addr)]
+    to = [addr for addr in recipient_list if not EmailAddress.excluded(addr)]
 
     #Doing a separate email for each person so we can allow unsubscription links
     for addr in to:
