@@ -10,7 +10,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from django.template.loader import render_to_string
-from django.core.mail import send_mail
+from emaillist.methods import send_mail
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.db.models import Q
@@ -19,7 +19,7 @@ from django.contrib import messages
 import datetime
 
 # Need for links in email templates
-current_site = Site.objects.get_current() 
+current_site = Site.objects.get_current()
 
 
 @login_required

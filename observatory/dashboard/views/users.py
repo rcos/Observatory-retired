@@ -26,7 +26,7 @@ from hashlib import md5
 from observatory.dashboard.views import projects
 from observatory.settings import RECAPTCHA_PUBLIC, RECAPTCHA_PRIVATE
 from observatory.lib.recaptcha.client import captcha
-from django.core.mail import send_mail
+from emaillist.methods import send_mail
 from django.contrib.auth import *
 import random
 from random import choice
