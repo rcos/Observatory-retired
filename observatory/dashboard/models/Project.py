@@ -70,7 +70,12 @@ class Project(URLPathedModel):
   
   # the score of the project, computed after each fetch
   score = models.IntegerField(blank = True, null = True)
-  
+ 
+  # The warning levels of the project, 1 means just authors have been emailed
+  # 2 means the mentors have been emailed
+  blog_warn_level = models.IntegerField(default=0)
+  repo_warn_level = models.IntegerField(default=0)
+
   # the number of presentations the group has made this semester
   presentations = models.IntegerField(default = 0)
   
@@ -155,9 +160,82 @@ class Project(URLPathedModel):
 
     return screens[random.randint(0, len(screens) - 1)].main_page_url()
 
+  def do_warnings(self):
+      """
+      Send warning emails if either the blog or the repository haven't
+      been updated in a week, send warning emails to the mentors if it hasn't 
+      been updated in two weeks.
+      """
+      def days_ago(eventset):
+          return (datetime.datetime.utcnow() - eventset.most_recent_date).days
+
+      #If they haven't set up their blog yet, ping them and their mentor
+      if self.blog.most_recent_date == datetime.datetime(1,1,1):
+          blog_days_ago = 14
+          self.blog_warn_level = 1
+      else:
+          blog_days_ago = days_ago(self.blog)
+
+      if self.repository.most_recent_date == datetime.datetime(1,1,1):
+          repo_days_ago = 14
+          self.repo_warn_level = 1
+      else:
+          repo_days_ago = days_ago(self.repository)
+
+      warning_msg = """You haven't updated <a href="%s"> your projects's </a> %s in the last %s days. If you're having problems please contact the mentors."""
+      warning_subj = "%s %s Stagnation"
+
+      if (blog_days_ago >= 7 and self.blog_warn_level < 1) or (blog_days_ago >= 14 and self.blog_warn_level < 2):
+
+          blog_msg = warning_msg % (reverse('dashboard.views.show', self.url_path), "Blog")
+          blog_subj = warning_subj % (self.title, "Blog")
+
+          blog_to = []
+          for author in self.authors:
+              blog_to.extend([a.address for a in author.emails])
+
+          if blog_days_ago >= 14 and self.blog_warn_level == 1:
+              blog_to.extend([a.address for a in self.mentor.emails])
+
+          try:
+              send_mail(blog_subj, blog_msg, "no-reply@rcos.rpi.edu", blog_to)
+              self.blog_warn_level += 1
+          except:
+              import traceback
+              traceback.print_exc()
+
+      if blog_days_ago < 7:
+          self.blog_warn_level = 0
+
+      if (repo_days_ago >= 7 and self.repo_warn_level < 1) or (blog_days_ago >= 14 and self.repo_warn_level < 2):
+
+          rep_msg = warning_msg % (reverse('dashboard.views.show', self.url_path), "Repository")
+          repo_subj = warning_subj % (self.title, "Repository")
+
+          repo_to = []
+          for author in self.authors:
+              repo_to.extend([a.address for a in author.emails])
+
+          if repo_days_ago >= 14 and self.repo_warn_level == 1:
+              repo_to.extend([a.address for a in self.mentor.emails])
+
+          try:
+              send_mail(repo_subj, repo_msg, "no-reply@rcos.rpi.edu", repo_to)
+              self.repo_warn_level += 1
+          except:
+              import traceback
+              traceback.print_exc()
+
+      if repo_days_ago < 7:
+          self.repo_warn_level = 0
+
+      self.save()
+
 # Admin fixing
 from django.contrib import admin
 
+def days_ago(eventset):
+    return datetime.datetime.utcnow() - eventset.most_recen
 def make_inactive(modeladmin, request, queryset):
     queryset.update(active=False)
 make_inactive.short_description = 'Make inactive'
