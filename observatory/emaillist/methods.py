@@ -9,7 +9,7 @@ def send_mail(subject, body, from_email, recipient_list, fail_silently=False):
     for addr in to:
 
         #For now use default email body with an unsubscribe link
-        html_content = '%s <br><a href="%s"> Unsubscribe From RCOS Emails</a>' % (body, reverse('emaillist.views.remove', args=[addr]), addr)
+        html_content = '%s <br><a href="%s"> Unsubscribe From RCOS Emails</a>' % (body, reverse('emaillist.views.remove_email', args=[addr]))
 
         msg = EmailMessage(subject, html_content, from_email, [addr])
         msg.content_subtype = "html"  # Main content is now text/html

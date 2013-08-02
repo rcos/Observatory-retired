@@ -13,6 +13,6 @@ class EmailAddress(models.Model):
     @staticmethod
     def excluded(email):
         try:
-            return EmailAddress.object.get(address=email).excluded
-        except Emailaddress.DoesNotExist:
+            return EmailAddress.objects.get(address=email).excluded
+        except EmailAddress.DoesNotExist:
             return False
