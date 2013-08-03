@@ -24,6 +24,7 @@ from dashboard.util import url_pathify_safe
 from Repository import Repository
 from Blog import Blog
 from URLPathedModel import URLPathedModel
+from emaillist.methods import send_mail
 
 random.seed()
 
