@@ -256,16 +256,16 @@ def create_user(request, form):
   user.first_name = data['first_name']
   user.last_name = data['last_name']
 
+  # save the user
+  user.save()
+
   #Add additional info
-  user.info = UserInfo(user=user, mentor=False)
-  user.info.save()
+  info = UserInfo(user=user, mentor=False)
+  info.save()
 
   #Add email information
   m = EmailAddress(address=data['email'], user=user)
   m.save()
-
-  # save the user
-  user.save()
 
   # search past events for the user's email
   for event in Event.objects.filter(author_email__iexact = user.email,
