@@ -18,6 +18,7 @@ import random
 from colorsys import hsv_to_rgb
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from settings import GREEN_SCORE, RED_SCORE, UNCERTAIN_SCORE, UNHAPPY_SCORE
 from settings import MEDIA_URL, MAX_SCORE_MINUTES
 from dashboard.util import url_pathify_safe
