@@ -4,7 +4,7 @@ from emaillist.models import EmailAddress
 from django.contrib.auth.models import User
 
 @pytest.mark.django_db
-def test_fetch_warning(client):
+def test_fetch_warning():
 
     user = User.objects.create_user('a', 'vagrant@test.rcos.rpi.edu', 'bob')
     user.first_name = "testf"
