@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 
-# Copyright (c) 2010, individual contributors (see AUTHORS file)
+# Copyright (c) 2013, individual contributors (see AUTHORS file)
 #
 # Permission to use, copy, modify, and/or distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -23,7 +23,7 @@ setup_environment()
 
 from dashboard.models import Project
 
-projects = list(Projects.objects.exclude(active=False).exclude(pending=True))
+projects = list(Project.objects.exclude(active=False).exclude(pending=True))
 
 for project in projects:
     project.do_warnings()
