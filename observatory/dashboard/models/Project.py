@@ -168,6 +168,9 @@ class Project(URLPathedModel):
       been updated in a week, send warning emails to the mentors if it hasn't 
       been updated in two weeks.
       """
+
+      from observatory.dashboard.views.projects import show
+
       def days_ago(eventset):
           return (datetime.datetime.utcnow() - eventset.most_recent_date).days
 
@@ -189,15 +192,15 @@ class Project(URLPathedModel):
 
       if (blog_days_ago >= 7 and self.blog_warn_level < 1) or (blog_days_ago >= 14 and self.blog_warn_level < 2):
 
-          blog_msg = warning_msg % (reverse('dashboard.views.show', self.url_path), "Blog")
+          blog_msg = warning_msg % (reverse(show, args=(self.url_path,)), "Blog", blog_days_ago)
           blog_subj = warning_subj % (self.title, "Blog")
 
           blog_to = []
-          for author in self.authors:
-              blog_to.extend([a.address for a in author.emails])
+          for author in self.authors.all():
+              blog_to.extend([a.address for a in author.emails.all()])
 
-          if blog_days_ago >= 14 and self.blog_warn_level == 1:
-              blog_to.extend([a.address for a in self.mentor.emails])
+          if self.mentor and blog_days_ago >= 14 and self.blog_warn_level == 1:
+              blog_to.extend([a.address for a in self.mentor.emails.all()])
 
           try:
               send_mail(blog_subj, blog_msg, "no-reply@rcos.rpi.edu", blog_to)
@@ -209,17 +212,17 @@ class Project(URLPathedModel):
       if blog_days_ago < 7:
           self.blog_warn_level = 0
 
-      if (repo_days_ago >= 7 and self.repo_warn_level < 1) or (blog_days_ago >= 14 and self.repo_warn_level < 2):
+      if (repo_days_ago >= 7 and self.repo_warn_level < 1) or (repo_days_ago >= 14 and self.repo_warn_level < 2):
 
-          rep_msg = warning_msg % (reverse('dashboard.views.show', self.url_path), "Repository")
+          repo_msg = warning_msg % (reverse(show, args=(self.url_path,)), "Repository", repo_days_ago)
           repo_subj = warning_subj % (self.title, "Repository")
 
           repo_to = []
-          for author in self.authors:
-              repo_to.extend([a.address for a in author.emails])
+          for author in self.authors.all():
+              repo_to.extend([a.address for a in author.emails.all()])
 
-          if repo_days_ago >= 14 and self.repo_warn_level == 1:
-              repo_to.extend([a.address for a in self.mentor.emails])
+          if self.mentor and repo_days_ago >= 14 and self.repo_warn_level == 1:
+              repo_to.extend([a.address for a in self.mentor.emails.all()])
 
           try:
               send_mail(repo_subj, repo_msg, "no-reply@rcos.rpi.edu", repo_to)

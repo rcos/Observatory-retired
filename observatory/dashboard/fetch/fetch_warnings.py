@@ -26,4 +26,6 @@ from dashboard.models import Project
 projects = list(Project.objects.exclude(active=False).exclude(pending=True))
 
 for project in projects:
+    cprint("==> Calculating Warnings for {0}".format(project.title), "magenta", attrs=["bold"])
     project.do_warnings()
+    cprint("==> Done Calculating Warnings for {0}".format(project.title), "magenta", attrs=["bold"])
