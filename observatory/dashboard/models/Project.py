@@ -196,7 +196,7 @@ class Project(URLPathedModel):
           blog_subj = warning_subj % (self.title, "Blog")
 
           blog_to = []
-          for author in self.authors.all():
+          for author in self.authors.filter(is_active = True):
               blog_to.extend([a.address for a in author.emails.all()])
 
           if self.mentor and blog_days_ago >= 14 and self.blog_warn_level == 1:
@@ -218,7 +218,7 @@ class Project(URLPathedModel):
           repo_subj = warning_subj % (self.title, "Repository")
 
           repo_to = []
-          for author in self.authors.all():
+          for author in self.authors.filter(is_active=True):
               repo_to.extend([a.address for a in author.emails.all()])
 
           if self.mentor and repo_days_ago >= 14 and self.repo_warn_level == 1:
