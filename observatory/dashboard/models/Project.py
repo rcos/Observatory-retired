@@ -169,7 +169,7 @@ class Project(URLPathedModel):
       been updated in two weeks.
       """
 
-      from observatory.dashboard.views.projects import show
+      from dashboard.views.projects import show
 
       def days_ago(eventset):
           return (datetime.datetime.utcnow() - eventset.most_recent_date).days
