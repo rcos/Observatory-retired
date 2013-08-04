@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 def test_homepage(client):
 
     for url in (
+            "/",
             "/donor",
             "/students",
             "/courses",
