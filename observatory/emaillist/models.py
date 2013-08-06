@@ -11,7 +11,7 @@ class EmailAddress(models.Model):
     user = models.ForeignKey(User, related_name="emails", null=True)
 
     @staticmethod
-    def excluded(email):
+    def is_excluded(email):
         try:
             return EmailAddress.objects.get(address=email).excluded
         except EmailAddress.DoesNotExist:
