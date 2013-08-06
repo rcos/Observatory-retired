@@ -26,3 +26,6 @@ class UserInfo(models.Model):
     )
 
     mentor = models.BooleanField(default = False)
+
+    #This if for professors and people who should know everything
+    ubermentor = models.BooleanField(default = False)

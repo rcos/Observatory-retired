@@ -201,6 +201,8 @@ class Project(URLPathedModel):
 
           if self.mentor and blog_days_ago >= 14 and self.blog_warn_level == 1:
               blog_to.extend([a.address for a in self.mentor.emails.all()])
+              for uber in User.objects.filter(info__ubermentor = True):
+                  blog_to.extend([a.address for a in uber.emails.all()])
 
           try:
               send_mail(blog_subj, blog_msg, "no-reply@rcos.rpi.edu", blog_to)
@@ -223,6 +225,8 @@ class Project(URLPathedModel):
 
           if self.mentor and repo_days_ago >= 14 and self.repo_warn_level == 1:
               repo_to.extend([a.address for a in self.mentor.emails.all()])
+              for uber in User.objects.filter(info__ubermentor = True):
+                  repo_to.extend([a.address for a in uber.emails.all()])
 
           try:
               send_mail(repo_subj, repo_msg, "no-reply@rcos.rpi.edu", repo_to)
