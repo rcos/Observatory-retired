@@ -20,7 +20,7 @@ GIT
 GIT
   remote: https://github.com/c00w/puppet-observatory.git
   ref: master
-  sha: f63629b397941a6c3ef2e39feb98dc61192c090c
+  sha: f10f35ba738eb6f58cef256ec229961b1b1c1fb8
   specs:
     observatory (0.0.1)
 
@@ -56,7 +56,7 @@ GIT
 GIT
   remote: https://github.com/puppetlabs/puppetlabs-vcsrepo.git
   ref: master
-  sha: 45cb7c1319e79cbfb3ff2bcdadfc275260d557e0
+  sha: 6f7507a2a48ff0a58c7db026760a2eb84e382a77
   specs:
     vcsrepo (0.1.2)
 

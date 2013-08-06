@@ -39,6 +39,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'observatory.settings'
 
 from dashboard.models import *
 from django.contrib.auth.models import User
+from emaillist.models import EmailAddress
 
 # make some users
 for person in [('natesm@gmail.com', 'password', 'Nate', 'Stedman'),
@@ -59,6 +60,8 @@ for person in [('natesm@gmail.com', 'password', 'Nate', 'Stedman'),
   user.info.save()
   user.is_superuser = True
   user.save()
+  email = EmailAddress(address=person[0], user=user)
+  email.save()
   print "Added {0}".format(user.get_full_name())
   
 # make some projects

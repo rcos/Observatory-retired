@@ -26,7 +26,8 @@ from hashlib import md5
 from observatory.dashboard.views import projects
 from observatory.settings import RECAPTCHA_PUBLIC, RECAPTCHA_PRIVATE
 from observatory.lib.recaptcha.client import captcha
-from django.core.mail import send_mail
+from emaillist.methods import send_mail
+from emaillist.models import EmailAddress
 from django.contrib.auth import *
 import random
 from random import choice
@@ -250,36 +251,40 @@ def create_user(request, form):
   user = User.objects.create_user(m.hexdigest()[0:30],
                                   data['email'],
                                   data['password'])
-  
+
   # set the user's first/last names
   user.first_name = data['first_name']
   user.last_name = data['last_name']
 
-  #Add additional info
-  user.info = UserInfo(user=user, mentor=False)
-  user.info.save()
-  
   # save the user
   user.save()
-  
+
+  #Add additional info
+  info = UserInfo(user=user, mentor=False)
+  info.save()
+
+  #Add email information
+  m = EmailAddress(address=data['email'], user=user)
+  m.save()
+
   # search past events for the user's email
   for event in Event.objects.filter(author_email__iexact = user.email,
                                     author = None):
     event.author = user
     event.save()
-  
+
   # search past events for the user's first and last name
   name = user.get_full_name()
   for event in Event.objects.filter(author_name__iexact = name, author = None):
     event.author = user
     event.save()
-  
+
   # search contributors for the user's name and email
   for contrib in Contributor.objects.filter(email__iexact = user.email,
                                             user = None):
     contrib.user = user
     contrib.save()
-  
+
   for contrib in Contributor.objects.filter(name__iexact = name, user = None):
     contrib.user = user
     contrib.save()

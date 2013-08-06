@@ -157,6 +157,7 @@ INSTALLED_APPS = (
     'devserver',
     'south',
     'todo',
+    'emaillist',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

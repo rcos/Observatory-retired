@@ -25,9 +25,12 @@ from sys import executable as python
 this_dir = os.path.abspath(os.path.dirname(__file__))
 blogs_script = os.path.join(this_dir, "fetch", "fetch_blogs.py")
 repos_script = os.path.join(this_dir, "fetch", "fetch_repositories.py")
+warning_script = os.path.join(this_dir, "fetch", "fetch_warnings.py")
 
 blogs = subprocess.Popen([python, blogs_script])
 repos = subprocess.Popen([python, repos_script])
+warnings= subprocess.Popen([python, warning_script])
 
 blogs.wait()
 repos.wait()
+warnings.wait()

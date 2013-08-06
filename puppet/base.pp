@@ -2,6 +2,10 @@ Exec {
     path => "/usr/bin"
 }
 
+package{"upstart":
+    ensure  => latest
+}
+
 class {"apt":}
 class {"apt::unattended-upgrade::automatic":}
 class {"ntp":}
@@ -10,7 +14,7 @@ class {"uwsgi":}
 
 Class["apt"] -> Class["nginx"]
 
-node "test.rcos.rpi.edu" {
+node default, "test.rcos.rpi.edu" {
     class {"observatory::dir":}
     class {"observatory::demo":}
     Class["observatory"] -> Class["uwsgi"]
