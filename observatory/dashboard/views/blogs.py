@@ -17,7 +17,7 @@ from dashboard.forms import BlogPostForm, BlogForm
 from dashboard.models import BlogPost, Blog, Project
 from dashboard.util import url_pathify, force_url_paths
 from dashboard.util import avoid_duplicate_queries
-from observatory.dashboard.views import projects
+from dashboard.views import projects
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
@@ -220,7 +220,7 @@ def remove_personal_blog(request, user_id):
   except Blog.DoesNotExist:
     pass #No need to delete anything
 
-  from observatory.dashboard.views import users
+  from dashboard.views import users
   return HttpResponseRedirect(reverse(users.profile,
                                       args = (request.user.id,)))
 
@@ -246,7 +246,7 @@ def edit_personal_blog(request, user_id):
       blog.save()
     
     # prevent form resubmission on refresh by redirecting
-    from observatory.dashboard.views import users
+    from dashboard.views import users
     return HttpResponseRedirect(reverse(users.profile,
                                         args = (request.user.id,)))
   

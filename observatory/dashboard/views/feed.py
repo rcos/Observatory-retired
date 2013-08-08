@@ -19,7 +19,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from dashboard.models import *
 from dashboard.util import force_url_paths, avoid_duplicate_queries
-from observatory.dashboard.views import commits, blogs
+from dashboard.views import commits, blogs
 
 from django.db import connection
 

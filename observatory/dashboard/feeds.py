@@ -21,7 +21,7 @@ from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.utils.feedgenerator import Atom1Feed, Rss201rev2Feed
-from observatory.dashboard import views
+from dashboard import views
 from observatory.settings import DOMAIN_NAME, FEED_TITLE
 from observatory.settings import FEED_COUNT, PROJECT_FEED_COUNT
 from urlparse import urljoin as join

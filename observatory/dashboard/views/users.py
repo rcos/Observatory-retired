@@ -23,7 +23,7 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from hashlib import md5
-from observatory.dashboard.views import projects
+from dashboard.views import projects
 from observatory.settings import RECAPTCHA_PUBLIC, RECAPTCHA_PRIVATE
 from observatory.lib.recaptcha.client import captcha
 from emaillist.methods import send_mail

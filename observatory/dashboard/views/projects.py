@@ -424,7 +424,7 @@ def modify(request, project_url_path, tab_id = 1):
 
     # wrote a post with the js overlay
     if 'title' in request.POST and 'markdown' in request.POST:
-      from observatory.dashboard.views.blogs import create_post_real
+      from dashboard.views.blogs import create_post_real
       return create_post_real(request.POST)
 
     # editing the project's information
