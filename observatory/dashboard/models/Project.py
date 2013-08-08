@@ -177,13 +177,11 @@ class Project(URLPathedModel):
       #If they haven't set up their blog yet, ping them and their mentor
       if self.blog.most_recent_date == datetime.datetime(1,1,1):
           blog_days_ago = 14
-          self.blog_warn_level = 1
       else:
           blog_days_ago = days_ago(self.blog)
 
       if self.repository.most_recent_date == datetime.datetime(1,1,1):
           repo_days_ago = 14
-          self.repo_warn_level = 1
       else:
           repo_days_ago = days_ago(self.repository)
 
