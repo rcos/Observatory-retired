@@ -1,6 +1,7 @@
 FROM ubuntu:12.04
 MAINTAINER Colin Rice
-ADD docker/sources.list /etc/apt/sources.list
+RUN echo 'deb http://archive.ubuntu.com/ubuntu precise main universe' > /etc/apt/sources.list
+RUN apt-get update
 ADD http://apt.puppetlabs.com/puppetlabs-release-precise.deb /puppetlabs-release-precise.deb 
 RUN dpkg -i /puppetlabs-release-precise.deb
 RUN rm /puppetlabs-release-precise.deb

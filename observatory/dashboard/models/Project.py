@@ -206,10 +206,10 @@ class Project(URLPathedModel):
 
           try:
               send_mail(blog_subj, blog_msg, "no-reply@rcos.rpi.edu", blog_to)
-              self.blog_warn_level += 1
           except:
               import traceback
               traceback.print_exc()
+          self.blog_warn_level += 1
 
       if blog_days_ago < 7:
           self.blog_warn_level = 0
@@ -230,10 +230,10 @@ class Project(URLPathedModel):
 
           try:
               send_mail(repo_subj, repo_msg, "no-reply@rcos.rpi.edu", repo_to)
-              self.repo_warn_level += 1
           except:
               import traceback
               traceback.print_exc()
+          self.repo_warn_level += 1
 
       if repo_days_ago < 7:
           self.repo_warn_level = 0
