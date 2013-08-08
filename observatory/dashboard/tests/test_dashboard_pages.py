@@ -1,7 +1,8 @@
 import pytest
 
 @pytest.mark.django_db
-def test_dashboard_pages(client):
+def test_dashboard_pages(client, settings):
+    settings.DEBUG = False
 
     for url in (
             "/posts",

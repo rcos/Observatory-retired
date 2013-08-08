@@ -2,7 +2,9 @@ import pytest
 from django.core.urlresolvers import reverse
 
 @pytest.mark.django_db
-def test_homepage(client):
+def test_homepage(client, settings):
+
+    settings.DEBUG = False
 
     for url in (
             "/",
