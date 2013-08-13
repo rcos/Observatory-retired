@@ -5,6 +5,9 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
+# Address for the website
+SITE_ADDRESS = "http://rcos.rpi.edu"
+
 ADMINS = (
      ('', ''),
 )
