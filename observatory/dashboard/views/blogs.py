@@ -25,7 +25,7 @@ from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
-from lib.markdown import markdown
+from markdown import markdown
 
 # the number of posts per page
 POSTS_PER_PAGE = 5

@@ -25,7 +25,7 @@ from django.utils.html import escape
 from exceptions import Exception
 from lib import pyvcs
 import feedparser
-from lib.markdown import markdown
+from markdown import markdown
 from lib.pyvcs.backends import get_backend
 from EventSet import EventSet
 
