@@ -123,8 +123,8 @@ def url_pathify_safe(model, string, invalid_paths = INVALID_URL_PATHS,
   return final_url_path
 
 def url_pathify(string):
-  # replace space with dash, lowercase, drop nonalphabeticals
-  string = re.sub(r"[^a-z-]", "", string.lower().replace(" ", "-"))
+  # replace space with dash, lowercase, drop nonalphabeticals or numbers
+  string = re.sub(r"[^1-9a-z-]", "", string.lower().replace(" ", "-"))
   
   # remove dashes from the start or the end
   #string = re.sub(r"^-|-$", "", string)
