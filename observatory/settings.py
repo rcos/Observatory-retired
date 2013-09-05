@@ -7,6 +7,9 @@ SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 # Address for the website
 SITE_ADDRESS = "http://rcos.rpi.edu"
+ALLOWED_HOSTS = [
+    "rcos.rpi.edu"
+]
 
 ADMINS = (
      ('', ''),
@@ -133,6 +136,38 @@ SECRET_KEY = 'j+e*h2ket2cf2w##m2fzjp392%68!a^xcjo+_lr_-(^d8c3ea5'
 # if True, attempts to use the devserver replacement for runserver in debug
 # https://github.com/dcramer/django-devserver
 TRY_DEVSERVER = False
+
+# Log to syslog
+from logging.handlers import SysLogHandler
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'syslog':{
+            'level':'DEBUG',
+            'class':'logging.handlers.SysLogHandler',
+            'formatter': 'verbose',
+            'facility': 'local1',
+            'address': '/dev/log',
+        },
+
+    },
+    'loggers': {
+        'django': {
+            'handlers':['syslog'],
+            'propagate': True,
+            'level':'INFO',
+        },
+    },
+}
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
