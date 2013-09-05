@@ -171,7 +171,7 @@ def add_mentor(request):
   if not mentor.info.mentor:
     return HttpResponseRedirect(reverse(show, args=(project.url_path)))
 
-  if int(request.user.id) is not mentor.id:
+  if int(request.user.id) != mentor.id:
     return HttpResponseRedirect(reverse(show, args=(project.url_path)))
 
   project.mentor = mentor
@@ -514,10 +514,10 @@ def add_user(request):
   project = get_object_or_404(Project, id = int(request.POST["project_id"]))
   
   # don't let people add other users
-  if int(request.user.id) is not user.id:
+  if int(request.user.id) != user.id:
     import logging
     logger = logging.getLogger('django.debug')
-    logger.warning('%s is not %s for request %s' % (request.user.id, user.id, request))
+    logger.warning('%s != %s for request %s' % (request.user.id, user.id, request))
     return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
   
   # find the current authors of the project
