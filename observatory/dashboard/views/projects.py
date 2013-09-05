@@ -515,6 +515,9 @@ def add_user(request):
   
   # don't let people add other users
   if int(request.user.id) is not user.id:
+    import logging
+    logger = logging.getLogger('django.debug')
+    logger.warning('%s is not %s for request %s', (request.user.id, user.id, request))
     return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
   
   # find the current authors of the project
