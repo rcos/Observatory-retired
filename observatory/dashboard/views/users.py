@@ -163,7 +163,7 @@ def register(request):
         error_header = "That's not quite right."
         raise RegisterError()
       
-      if len(User.objects.filter(email = form.cleaned_data["email"])) is not 0:
+      if len(User.objects.filter(email = form.cleaned_data["email"])) > 0:
         error_header = "That email is already registered."
         raise RegisterError()
       

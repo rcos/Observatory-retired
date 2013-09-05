@@ -91,7 +91,7 @@ def list(request):
         int(424 * (1.0 * count / projects.count()))
       )
       
-  if projects.count() is not 0:
+  if projects.count() != 0:
     repo_bar_css = css(repo_count)
     blog_bar_css = css(blog_count)
     overall_bar_css = css(overall_count)
@@ -545,7 +545,7 @@ def remove_user(request):
   project = get_object_or_404(Project, id = int(request.POST["project_id"]))
   
   # don't let people delete other users
-  if int(request.user.id) is not int(user.id):
+  if request.user.id != user.id:
     return HttpResponseRedirect(reverse(show, args = (project.url_path,)))
   
   # removes the user from the project
