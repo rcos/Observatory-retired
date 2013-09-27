@@ -6,7 +6,7 @@ FORGE
 GIT
   remote: https://github.com/c00w/puppet-deploy.git
   ref: master
-  sha: 1ac5e2395d5ae2e8cb337a10557ab249fda3e87b
+  sha: 08081819ad5e9765a4c39188148f5fa23d194bf3
   specs:
     deploy (0.0.1)
 
@@ -49,23 +49,23 @@ GIT
 GIT
   remote: https://github.com/camptocamp/puppet-apt.git
   ref: master
-  sha: 716781949308c959ac8ec9a16c89c27caf9d9823
+  sha: f5f110ca358309dea01c403b9e2ee6c8e97104ba
   specs:
     apt (0.0.2)
 
 GIT
   remote: https://github.com/puppetlabs/puppetlabs-vcsrepo.git
   ref: master
-  sha: 6f7507a2a48ff0a58c7db026760a2eb84e382a77
+  sha: 0eeb6501b1b2ea84c38b0d4464ac42c12c4e9fa7
   specs:
     vcsrepo (0.1.2)
 
 GIT
   remote: https://github.com/torrancew/puppet-cron.git
   ref: master
-  sha: ec491c76763abe754ae75b0e6ed4b591db0771dc
+  sha: ca2c3832c9d3d709a0f416e716c77634cb774955
   specs:
-    cron (0.0.3)
+    cron (0.1.0)
 
 DEPENDENCIES
   apt (>= 0)
