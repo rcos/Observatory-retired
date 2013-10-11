@@ -190,7 +190,7 @@ class Project(URLPathedModel):
 
       if (blog_days_ago >= 7 and self.blog_warn_level < 1) or (blog_days_ago >= 14 and self.blog_warn_level < 2):
 
-          blog_msg = warning_msg % (reverse(show, args=(self.url_path,)), "Blog", blog_days_ago)
+          blog_msg = warning_msg % (SITE_ADDRESS + reverse(show, args=(self.url_path,)), "Blog", blog_days_ago)
           blog_subj = warning_subj % (self.title, "Blog")
 
           blog_to = []
@@ -214,7 +214,7 @@ class Project(URLPathedModel):
 
       if (repo_days_ago >= 7 and self.repo_warn_level < 1) or (repo_days_ago >= 14 and self.repo_warn_level < 2):
 
-          repo_msg = warning_msg % (reverse(show, args=(self.url_path,)), "Repository", repo_days_ago)
+          repo_msg = warning_msg % (SITE_ADDRESS + reverse(show, args=(self.url_path,)), "Repository", repo_days_ago)
           repo_subj = warning_subj % (self.title, "Repository")
 
           repo_to = []
