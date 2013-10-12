@@ -15,6 +15,7 @@
 import datetime
 import os
 import random
+from settings import SITE_ADDRESS
 from colorsys import hsv_to_rgb
 from django.db import models
 from django.contrib.auth.models import User
