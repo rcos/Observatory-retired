@@ -56,9 +56,12 @@ class Blog(EventSet):
     entries = feedparser.parse(self.rss).entries
     for post in entries:
       try:
-        date = dateutil.parser.parse(post.date).replace(tzinfo=None)
+        date = dateutil.parser.parse(post.published).replace(tzinfo=None)
       except:
-        date = datetime.datetime.utcnow()
+        try:
+            date = dateutil.parser.parse(post.created).replace(tzinfo=None)
+        except:
+            return
       
       # don't re-add old posts
       if self.most_recent_date >= date:
