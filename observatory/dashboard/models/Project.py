@@ -189,7 +189,7 @@ class Project(URLPathedModel):
       warning_msg = """You haven't updated <a href="%s"> your projects's </a> %s in the last %s days. If you're having problems please contact the mentors."""
       warning_subj = "%s %s Stagnation"
 
-      if (blog_days_ago >= 7 and self.blog_warn_level < 1) or (blog_days_ago >= 14 and self.blog_warn_level < 2):
+      if (blog_days_ago >= 8 and self.blog_warn_level < 1) or (blog_days_ago >= 14 and self.blog_warn_level < 2):
 
           blog_msg = warning_msg % (SITE_ADDRESS + reverse(show, args=(self.url_path,)), "Blog", blog_days_ago)
           blog_subj = warning_subj % (self.title, "Blog")
@@ -210,10 +210,10 @@ class Project(URLPathedModel):
               traceback.print_exc()
           self.blog_warn_level += 1
 
-      if blog_days_ago < 7:
+      if blog_days_ago < 8:
           self.blog_warn_level = 0
 
-      if (repo_days_ago >= 7 and self.repo_warn_level < 1) or (repo_days_ago >= 14 and self.repo_warn_level < 2):
+      if (repo_days_ago >= 8 and self.repo_warn_level < 1) or (repo_days_ago >= 14 and self.repo_warn_level < 2):
 
           repo_msg = warning_msg % (SITE_ADDRESS + reverse(show, args=(self.url_path,)), "Repository", repo_days_ago)
           repo_subj = warning_subj % (self.title, "Repository")
@@ -234,7 +234,7 @@ class Project(URLPathedModel):
               traceback.print_exc()
           self.repo_warn_level += 1
 
-      if repo_days_ago < 7:
+      if repo_days_ago < 8:
           self.repo_warn_level = 0
 
       self.save()
