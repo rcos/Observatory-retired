@@ -10,6 +10,12 @@ observatory/media/screenshots/
 observatory/media/style.css
 observatory/media/observatory.js
 observatory/clones/
+
+observatory/dashboard/migrations/
+observatory/todo/migrations/
+observatory/emaillist/migrations/
+
+
 !observatory/media/screenshots/thisdirectoryexists.txt
 .tmp/
 .vagrant/
