@@ -1,0 +1,76 @@
+{% extends "foundry/base.html" %}
+
+{% block head %}
+<script>
+	current = "#stylish-{{ projects.0.url_path }}"
+	locked = false
+	function showStylish(id) {
+		if (locked || id == current) return;
+		locked = true;
+
+		outgoing = $(current)
+		incoming = $(id)
+
+		$(current + "-chooser").removeClass("selected")
+		$(id + "-chooser").addClass("selected")
+
+		incoming.css("display", "block")
+		incoming.css("opacity", 0);
+		outgoing.animate({ "opacity": 0 }, 400,
+			function(){ outgoing.css("display", "none"); locked = false })
+		incoming.animate({ "opacity": 1 }, 400)
+		current = id
+	}
+</script>
+{% endblock %}
+
+
+{% block rcoscontent %}
+<div class="rcos-stylish-thing">
+	{% for project in projects %}
+	<a class="rcos-stylish-project" id="stylish-{{ project.url_path }}"
+	   href="{% url "dashboard.views.projects.show" project.url_path %}"
+	   style="display:{% cycle "block" "none" "none" %};
+		       background-image:url('{{ project.random_main_page_screenshot }}');">
+		<div>
+			<h2>{{ project.title }}</h2>
+			<p>
+				{{ project.description|striptags|truncatewords:10 }}
+			</p>
+		</div>
+	</a>
+	{% endfor %}
+	{% for project in projects %}
+	<a href="#" onClick='showStylish("#stylish-{{ project.url_path }}")'
+		style="right:{% cycle "65px" "35px" "5px" %};"
+		id="stylish-{{ project.url_path }}-chooser"
+		class="chooser {% cycle "selected" "" "" %}">
+		<div>
+			{% cycle 1 2 3 %}
+		</div>
+	</a>
+	{% endfor %}
+</div>
+
+<h2>Mission Statement</h2>
+<p>
+	Foundry Mission Statement
+</p>
+
+<h2>Description</h2>
+<p>
+	Foundry Descript
+</p>
+
+<h2>Benefits of being an Foundry member</h2>
+<ul>
+	<li>Benefit 1</li>
+	
+</ul>
+
+<h2>Details</h2>
+<p>
+	Some Details
+</p>
+{% endblock %}
+

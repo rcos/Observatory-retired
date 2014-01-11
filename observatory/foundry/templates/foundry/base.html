@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}RPI Foundry{% endblock %}{% block extratitle %}{% endblock %}
+
+{% block extracontent %}
+    <div class="rcos-content">
+        <div class="rcos-left">
+            {% block rcoscontent %}{% endblock %}
+        </div>
+        <div class="rcos-right">
+            <ul class="rcos-links">
+				<li><a href="{% url "foundry.views.index" %}">About</a></li>
+				<li><a href="#">Sign Up</a></li>
+			</ul>
+
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block footer %}
+{# RCOS-specific footer #}
+    <div class="rcos-footer">
+        <!--<img src="/site-media/rcos/logo-dark.png" alt="Rensselaer Center for Open Source Software" />-->
+        <div>
+            <ul>
+               
+            </ul>
+        </div>
+    </div>
+    <div class="rcos-trailer"></div>
+{% endblock %}

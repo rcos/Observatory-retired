@@ -150,7 +150,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'observatory.foundry.urls'
 
 TEMPLATE_DIRS = (
-    os.path.join(SITE_ROOT, 'templates')
+    os.path.join(SITE_ROOT, 'templates'),
+    os.path.join(SITE_ROOT, 'foundry/templates')
 )
 
 INSTALLED_APPS = (
