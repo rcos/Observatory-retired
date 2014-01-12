@@ -10,6 +10,7 @@ urlpatterns = patterns('',
 
     # Foundry URLs
     (r'^$', foundry.views.index),
+    (r'^foundry/mokr$', foundry.views.mokr),
     
     (r'^', include(observatory.urls)),
 )

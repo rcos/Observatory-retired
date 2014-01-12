@@ -35,3 +35,17 @@ def index(request):
       'disable_content': True,
       'projects': projects
     }, context_instance = RequestContext(request))
+
+
+def mokr(request):
+  return render_to_response('foundry/mokr_resources.html', {
+      'disable_content': True
+    }, context_instance = RequestContext(request))
+
+
+
+
+
+
+
+
