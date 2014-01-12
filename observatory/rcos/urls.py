@@ -27,3 +27,9 @@ urlpatterns = patterns('',
     
     (r'^', include(observatory.urls)),
 )
+
+if observatory.settings.DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += patterns('',
+        (r'^site-media/(?P<path>.*)$', 'django.views.static.serve', {
+        'document_root': observatory.settings.MEDIA_ROOT}))

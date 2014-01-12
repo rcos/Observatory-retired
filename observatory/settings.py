@@ -1,7 +1,7 @@
 # To use site specific settings, simply import *
 # e.g. from rcos.settings import *
 
-from foundry.settings import *
+from rcos.settings import *
 
 import os
 import django
@@ -147,7 +147,7 @@ MIDDLEWARE_CLASSES = (
     'observatory.middleware.CssSmasher'
 )
 
-ROOT_URLCONF = 'observatory.foundry.urls'
+
 
 TEMPLATE_DIRS = (
     os.path.join(SITE_ROOT, 'templates'),

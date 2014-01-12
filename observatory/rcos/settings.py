@@ -6,6 +6,8 @@ ALLOWED_HOSTS = [
     "rcos.rpi.edu"
 ]
 
+# Location of the url configuration file
+ROOT_URLCONF = 'observatory.rcos.urls'
 
 # The address where emails should be sent from
 MAIL_SENDER = "no-reply@rpi.edu"
@@ -22,3 +24,6 @@ FAVICON_PATH = '/site-media/rcos/favicon.ico'
 
 # The title prepended to any RSS feeds
 FEED_TITLE = "RCOS"
+
+# Location of the footer template partial
+FOOTER = "rcos/partials/footer.html"
