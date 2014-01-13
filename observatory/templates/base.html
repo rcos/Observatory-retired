@@ -4,12 +4,13 @@
 {% load author_requests %}
 {% load page_customizations %}
 {% load footer %}
+{% load title %}
 
 {% spaceless %}
 
 <html>
 <head>
-    <title>{% block title %}Observatory{% endblock %}</title>
+    {% title %}
 	{% head_tags %}
 	{% block head %}{% endblock %}
 	

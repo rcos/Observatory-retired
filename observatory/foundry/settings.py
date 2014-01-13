@@ -6,6 +6,7 @@ ALLOWED_HOSTS = [
     "edustartup.org"
 ]
 
+SITE_TITLE = 'RPI Foundry'
 # Location of the url configuration file
 ROOT_URLCONF = 'observatory.foundry.urls'
 

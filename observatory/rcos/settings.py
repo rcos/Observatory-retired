@@ -1,5 +1,7 @@
 # RCOS Specific Settings
 
+SITE_TITLE = "Rensselaer Center for Open Source Software"
+
 # Address for the website
 SITE_ADDRESS = "http://rcos.rpi.edu"
 ALLOWED_HOSTS = [
