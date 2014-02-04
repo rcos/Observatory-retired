@@ -1,7 +1,7 @@
 # To use site specific settings, simply import *
 # e.g. from rcos.settings import *
 
-from foundry.settings import *
+from rcos.settings import *
 
 import os
 import django
