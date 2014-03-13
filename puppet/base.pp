@@ -7,7 +7,7 @@ package{"upstart":
 }
 
 class {"apt":}
-class {"apt::unattended-upgrades":}
+class {"apt::unattended_upgrades":}
 class {"ntp":}
 class {"nginx":}
 class {"uwsgi":}
