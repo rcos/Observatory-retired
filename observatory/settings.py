@@ -1,8 +1,6 @@
 # To use site specific settings, simply import *
 # e.g. from rcos.settings import *
 
-from rcos.settings import *
-
 import os
 import django
 
@@ -234,3 +232,4 @@ JS_FILES=[
 ]
 
 
+from rcos.settings import *

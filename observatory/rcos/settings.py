@@ -29,3 +29,16 @@ FEED_TITLE = "RCOS"
 
 # Location of the footer template partial
 FOOTER = "rcos/partials/footer.html"
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql'
+        'NAME': 'observatory',                      # Or path to database file if using sqlite3.
+        'USER': 'postgres',                      # Not used with sqlite3.
+        'PASSWORD': 'zaq12wsxcde34rfv',                  # Not used with sqlite3.
+        'HOST': 'localhost',                      # Set to empty string for localhost. Not used with 
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+    }
+}
+
+
