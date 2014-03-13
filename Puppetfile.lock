@@ -20,7 +20,7 @@ GIT
 GIT
   remote: https://github.com/c00w/puppet-observatory.git
   ref: master
-  sha: f10f35ba738eb6f58cef256ec229961b1b1c1fb8
+  sha: e203a224e076bf98353aaf0f3754610ae9a0c4bd
   specs:
     observatory (0.0.1)
 
@@ -34,7 +34,7 @@ GIT
 GIT
   remote: https://github.com/c00w/puppet-uwsgi.git
   ref: master
-  sha: 81d015738e41cbdd56ffd45068766b6938c8876b
+  sha: ade7115349baecaeb4081227d4884794cc29f7fc
   specs:
     uwsgi (0.0.1)
 
@@ -49,16 +49,17 @@ GIT
 GIT
   remote: https://github.com/camptocamp/puppet-apt.git
   ref: master
-  sha: f5f110ca358309dea01c403b9e2ee6c8e97104ba
+  sha: 6691c2faded01d273672b4db36f5a8651d3a934f
   specs:
-    apt (0.0.2)
+    apt (1.4.1)
+      puppetlabs/stdlib (>= 2.2.1)
 
 GIT
   remote: https://github.com/puppetlabs/puppetlabs-vcsrepo.git
   ref: master
-  sha: 0eeb6501b1b2ea84c38b0d4464ac42c12c4e9fa7
+  sha: 50079b58192ed7a2af1ba6756f75084bc74d33e8
   specs:
-    vcsrepo (0.1.2)
+    vcsrepo (0.2.0)
 
 GIT
   remote: https://github.com/torrancew/puppet-cron.git
