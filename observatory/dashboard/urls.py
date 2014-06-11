@@ -41,6 +41,8 @@ urlpatterns = patterns('',
     (r'^past_people/$', users.past_people),
     (r'^user_deactivate/(\d+)/$', users.deactivate),
     (r'^user_activate/(\d+)/$', users.activate),
+    (r'^user_mentorize/(\d+)/$', users.mentorize),
+    (r'^user_dementorize/(\d+)/$', users.dementorize),        
     (r'^forgot-password/$', users.forgot_password),
     (r'^forgot_password_success/$', users.forgot_password_success),
 

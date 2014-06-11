@@ -21,7 +21,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from hashlib import md5
 from dashboard.views import projects
 from observatory.settings import RECAPTCHA_PUBLIC, RECAPTCHA_PRIVATE
@@ -110,10 +110,30 @@ def past_people(request):
   return render_to_response("users/past_people.html", {
       "people": people
     }, context_instance = RequestContext(request))
+    
+# gives user mentor status
+def mentorize(request, user_id):
+    user = get_object_or_404(User, id = user_id)
+    user_info = get_object_or_404(UserInfo, user = user)
+    user_info.mentor = True
+    user_info.save()
+    return redirect('/user/'+str(user_id))
 
+# Takes mentor status away
+def dementorize(request, user_id):
+    user = get_object_or_404(User, id = user_id)
+    user_info = get_object_or_404(UserInfo, user = user)
+    user_info.mentor = False
+    user_info.save()
+
+    return redirect('/user/'+str(user_id))
+    
 # display's the user's profile
 def profile(request, user_id):
   user = get_object_or_404(User, id = user_id)
+  user_info = get_object_or_404(UserInfo, user = user)
+  is_mentor = user_info.mentor
+  
   try:
     contributor = Contributor.objects.get(user = user)
   except:
@@ -128,7 +148,8 @@ def profile(request, user_id):
   return render_to_response('users/profile.html', {
       'user_page': user,
       'contributor': contributor,
-      'is_self': is_self
+      'is_self': is_self,
+      'is_mentor': is_mentor
     }, context_instance = RequestContext(request))
 
 # displays both the login and registration forms. If there is an error with the

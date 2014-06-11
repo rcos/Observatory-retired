@@ -23,6 +23,17 @@
 		<a href="{% url "dashboard.views.users.deactivate" user_page.id %}" class="green button-small">
 			Deactivate User
 		</a>
+			{% if user.info.mentor %}
+				{% if not is_mentor %}
+				<a href="{% url "dashboard.views.users.mentorize" user_page.id %}" class="green button-small">
+					Add as Mentor
+				</a>
+				{% else %}
+				<a href="{% url "dashboard.views.users.dementorize" user_page.id %}" class="green button-small">
+					Remove as Mentor
+				</a>
+				{% endif %}
+			{% endif %}
 		{% else %}
 		<a href="{% url "dashboard.views.users.activate" user_page.id %}" class="green button-small">
 			Activate User
