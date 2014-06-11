@@ -2,29 +2,29 @@ forge "http://forge.puppetlabs.com"
 
 # mod 'puppetlabs/stdlib'
 
-mod 'uwsgi',
+mod 'c00w/uwsgi',
     :git => 'https://github.com/c00w/puppet-uwsgi.git'
 
-mod 'nginx',
+mod 'c00w/nginx',
     :git => 'https://github.com/c00w/puppet-nginx.git'
 
-mod 'apt',
+mod 'camptocamp/apt',
     :git => 'https://github.com/camptocamp/puppet-apt.git'
 
-mod 'observatory',
+mod 'c00w/observatory',
     :git => 'https://github.com/c00w/puppet-observatory.git'
 
-mod 'deploy',
+mod 'c00w/deploy',
     :git => 'https://github.com/c00w/puppet-deploy.git'
 
-mod 'ssh',
+mod 'c00w/ssh',
     :git => 'https://github.com/c00w/puppet-ssh.git'
 
-mod 'cron',
+mod 'torrancew/cron',
     :git => 'https://github.com/torrancew/puppet-cron.git'
 
-mod 'vcsrepo',
+mod 'puppetlabs/vcsrepo',
     :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo.git'
 
-mod 'ntp',
+mod 'c00w/ntp',
     :git => 'https://github.com/c00w/puppetlabs-ntp.git'

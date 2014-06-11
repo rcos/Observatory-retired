@@ -1,49 +1,49 @@
 FORGE
   remote: http://forge.puppetlabs.com
   specs:
-    puppetlabs/stdlib (4.1.0)
+    puppetlabs/stdlib (4.2.2)
 
 GIT
   remote: https://github.com/c00w/puppet-deploy.git
   ref: master
   sha: a66c9dd4c1b5f43c97a15d13cf27997b2143d485
   specs:
-    deploy (0.0.1)
+    c00w/deploy (0.0.1)
 
 GIT
   remote: https://github.com/c00w/puppet-nginx.git
   ref: master
   sha: 7281637dceb64499f20784e9f834cf2731099879
   specs:
-    nginx (0.0.1)
+    c00w/nginx (0.0.1)
 
 GIT
   remote: https://github.com/c00w/puppet-observatory.git
   ref: master
   sha: e203a224e076bf98353aaf0f3754610ae9a0c4bd
   specs:
-    observatory (0.0.1)
+    c00w/observatory (0.0.1)
 
 GIT
   remote: https://github.com/c00w/puppet-ssh.git
   ref: master
   sha: 2c499f51e73bde5d1846cbd5d3d1b3a70a46e75a
   specs:
-    ssh (0.0.1)
+    c00w/ssh (0.0.1)
 
 GIT
   remote: https://github.com/c00w/puppet-uwsgi.git
   ref: master
   sha: ade7115349baecaeb4081227d4884794cc29f7fc
   specs:
-    uwsgi (0.0.1)
+    c00w/uwsgi (0.0.1)
 
 GIT
   remote: https://github.com/c00w/puppetlabs-ntp.git
   ref: master
   sha: 30dc28311eb19c2036ec3c9adf878355718fcf23
   specs:
-    ntp (0.3.0)
+    c00w/ntp (0.3.0)
       puppetlabs/stdlib (>= 0.1.6)
 
 GIT
@@ -51,7 +51,7 @@ GIT
   ref: master
   sha: 6691c2faded01d273672b4db36f5a8651d3a934f
   specs:
-    apt (1.4.1)
+    camptocamp/apt (1.4.1)
       puppetlabs/stdlib (>= 2.2.1)
 
 GIT
@@ -59,23 +59,23 @@ GIT
   ref: master
   sha: 50079b58192ed7a2af1ba6756f75084bc74d33e8
   specs:
-    vcsrepo (0.2.0)
+    puppetlabs/vcsrepo (0.2.0)
 
 GIT
   remote: https://github.com/torrancew/puppet-cron.git
   ref: master
   sha: ca2c3832c9d3d709a0f416e716c77634cb774955
   specs:
-    cron (0.1.0)
+    torrancew/cron (0.1.0)
 
 DEPENDENCIES
-  apt (>= 0)
-  cron (>= 0)
-  deploy (>= 0)
-  nginx (>= 0)
-  ntp (>= 0)
-  observatory (>= 0)
-  ssh (>= 0)
-  uwsgi (>= 0)
-  vcsrepo (>= 0)
+  c00w/deploy (>= 0)
+  c00w/nginx (>= 0)
+  c00w/ntp (>= 0)
+  c00w/observatory (>= 0)
+  c00w/ssh (>= 0)
+  c00w/uwsgi (>= 0)
+  camptocamp/apt (>= 0)
+  puppetlabs/vcsrepo (>= 0)
+  torrancew/cron (>= 0)
 
