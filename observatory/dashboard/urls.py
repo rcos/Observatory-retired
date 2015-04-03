@@ -85,5 +85,6 @@ urlpatterns = patterns('',
     (r'^feed/$', feed.feed),
     (r'^feed\.rss$', EventsFeed()),
 
+    (r'beta/', beta.beta),
 )
 
